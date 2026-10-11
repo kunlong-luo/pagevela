@@ -22,7 +22,7 @@ async function openGuide(page: import('@playwright/test').Page) {
 
 test.describe('task-oriented user guide', () => {
   test('shows the streamlined five-step workflow and current version', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
     const guide = await openGuide(page);
 
     await expect(guide.getByText('A simple path to a finished resume')).toBeVisible();
@@ -39,7 +39,7 @@ test.describe('task-oriented user guide', () => {
   });
 
   test('keeps a permanent replay entry for onboarding', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
     const guide = await openGuide(page);
     const replay = guide.getByRole('button', { name: 'Replay the interface tour' });
     await expect(replay).toBeVisible();
