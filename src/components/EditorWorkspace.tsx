@@ -368,7 +368,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-200">
       <div className="flex-1 flex flex-col h-full w-full overflow-hidden">
-        <div className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shrink-0 shadow-2xs">
+        <div className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 md:backdrop-blur-md shrink-0 shadow-2xs">
           <Header 
             handleExportPDF={handleExportPDF}
             handleExportDirectPDF={handleExportDirectPDF}
