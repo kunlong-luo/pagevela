@@ -480,10 +480,10 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                 <div className="w-full max-w-[340px] bg-white text-slate-900 rounded-sm shadow-xl p-5 text-[10px] leading-snug border border-slate-300/80">
                   {/* Resume Header */}
                   <div className="border-b border-indigo-600 pb-2 mb-2.5">
-                    <h3 className="text-base font-black text-slate-900 tracking-tight">钟晨杰</h3>
-                    <p className="text-[11px] font-bold text-indigo-600 mt-0.5">AI后端开发工程师 ｜ 智能体网关架构</p>
+                    <h3 className="text-base font-black text-slate-900 tracking-tight">{isEn ? 'Alex Morgan' : '钟晨杰'}</h3>
+                    <p className="text-[11px] font-bold text-indigo-600 mt-0.5">{isEn ? 'Backend Engineer | Distributed Systems' : 'AI后端开发工程师 ｜ 智能体网关架构'}</p>
                     <p className="text-[9px] text-slate-500 mt-0.5">
-                      +86 100 0000 0000 · chenjie.zhong@example.com · 杭州 · 随时到岗
+                      {isEn ? 'alex.morgan@example.com · Remote / US' : '+86 100 0000 0000 · chenjie.zhong@example.com · 杭州 · 随时到岗'}
                     </p>
                   </div>
 
@@ -491,10 +491,10 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                   <div className="mb-2.5">
                     <h4 className="text-[10px] font-extrabold uppercase text-indigo-700 tracking-wider mb-1 flex items-center gap-1">
                       <span className="w-1.5 h-1.5 bg-indigo-600 rounded-xs inline-block" />
-                      个人优势
+                      {isEn ? 'Summary' : '个人优势'}
                     </h4>
                     <p className="text-[9px] text-slate-700 leading-normal">
-                      7年高并发后端与 AI 大模型应用工程化实战经验。精通 Spring AI, MCP 协议与多智能体路由网关架构搭建。
+                      {isEn ? 'Backend engineer experienced in API platforms, AI integrations, and distributed systems.' : '7年高并发后端与 AI 大模型应用工程化实战经验。精通 Spring AI, MCP 协议与多智能体路由网关架构搭建。'}
                     </p>
                   </div>
 
@@ -502,24 +502,24 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                   <div className="mb-2">
                     <h4 className="text-[10px] font-extrabold uppercase text-indigo-700 tracking-wider mb-1 flex items-center gap-1">
                       <span className="w-1.5 h-1.5 bg-indigo-600 rounded-xs inline-block" />
-                      工作经历
+                      {isEn ? 'Experience' : '工作经历'}
                     </h4>
                     <div className="flex justify-between items-baseline font-bold text-[9.5px]">
-                      <span>北京星河智联科技有限公司</span>
-                      <span className="text-[8.5px] text-slate-500">2024.03 - 至今</span>
+                      <span>{isEn ? 'Example Labs' : '北京星河智联科技有限公司'}</span>
+                      <span className="text-[8.5px] text-slate-500">{isEn ? '2024–Present' : '2024.03 - 至今'}</span>
                     </div>
-                    <div className="text-[9px] text-indigo-600 font-semibold mb-1">资深 AI 架构师</div>
+                    <div className="text-[9px] text-indigo-600 font-semibold mb-1">{isEn ? 'Senior Backend Engineer' : '资深 AI 架构师'}</div>
                     <ul className="list-disc list-inside text-[8.5px] text-slate-700 space-y-0.5">
-                      <li>主导新一代 AI 智能路由网关系统架构设计，承载日均千万级调用。</li>
-                      <li>研发 MCP 工具调度中心，工具调用时延下降 40%，准确率 94%。</li>
-                      <li>优化 pgvector 向量检索系统，召回耗时低于 80ms。</li>
+                      <li>{isEn ? 'Designed a scalable API gateway for distributed applications.' : '主导新一代 AI 智能路由网关系统架构设计，承载日均千万级调用。'}</li>
+                      <li>{isEn ? 'Built MCP-enabled integrations to streamline internal workflows.' : '研发 MCP 工具调度中心，工具调用时延下降 40%，准确率 94%。'}</li>
+                      <li>{isEn ? 'Improved semantic retrieval using pgvector and HNSW.' : '优化 pgvector 向量检索系统，召回耗时低于 80ms。'}</li>
                     </ul>
                   </div>
 
                   {/* Badges / Export proof */}
                   <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[8px] text-slate-400">
                     <span>A4 Standard (210 × 297 mm)</span>
-                    <span className="text-emerald-600 font-bold">ATS Checks Available · Example</span>
+                    <span className="text-emerald-600 font-bold">{isEn ? 'Illustrative Resume' : '虚构简历示例'}</span>
                   </div>
                 </div>
               </div>
@@ -597,12 +597,12 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                 <Download className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-base text-slate-900 dark:text-white mb-2">
-                {isEn ? 'Pixel-Perfect Vector PDF' : '真矢量无锯齿 PDF 导出'}
+                {isEn ? 'Selectable-Text PDF Print Option' : '真矢量无锯齿 PDF 导出'}
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 {isEn
-                  ? 'Exports high-fidelity PDFs with selectable, searchable text, intact hyperlinks, and standard A4 or US Letter dimensions. Zero pixelation.'
-                  : '导出文字原生可选、可搜索的矢量 PDF，杜绝低质截图式位图渲染，保留超链接，HR 放大十倍依旧锋利清晰。'}
+                  ? 'The browser print path preserves selectable text and A4/US Letter sizing. A separate quick-download option is also available.'
+                  : 'ATS 打印路径支持导出可选择、可搜索的文本 PDF；同时提供快速 PDF 选项。'}
               </p>
             </div>
 
@@ -665,15 +665,15 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               <ul className="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                 <li className="flex items-start gap-2">
                   <span className="text-rose-500 font-bold">✕</span>
-                  <span>强制手机号/微信注册登录，索取过多无关权限</span>
+                  <span>{isEn ? 'Some services require account creation before editing' : '部分服务要求注册或登录后才能编辑'}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-rose-500 font-bold">✕</span>
-                  <span>简历信息上传至中心化服务器，存在数据泄露与被售卖风险</span>
+                  <span>{isEn ? 'Cloud-hosted drafts can require trusting a third-party storage provider' : '云端保存的草稿需要信任第三方存储服务'}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-rose-500 font-bold">✕</span>
-                  <span>导出加水印、按月扣费或锁死下载格式</span>
+                  <span>{isEn ? 'Some services restrict formats or charge for exports' : '部分服务限制导出格式或额外收取费用'}</span>
                 </li>
               </ul>
             </div>
@@ -686,15 +686,15 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               <ul className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 font-bold">✓</span>
-                  <span><strong>零注册免登录</strong>：即开即用，关闭页面自动保存在浏览器 IndexedDB</span>
+                  <span>{isEn ? 'No sign-up required; resume drafts are stored in browser IndexedDB' : '无需注册，简历草稿保存在浏览器 IndexedDB'}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 font-bold">✓</span>
-                  <span><strong>零服务器数据库</strong>：无任何中心化个人数据存储，代码完全开源可审计</span>
+                  <span>{isEn ? 'No cloud resume database; source code is openly available' : '不设简历云端数据库，源码开源可查'}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 font-bold">✓</span>
-                  <span><strong>永久免费开源</strong>：无导出限制，无水印，自由导出 JSON 备份</span>
+                  <span>{isEn ? 'Free, open source, watermark-free export and JSON backup' : '免费开源、无水印导出，支持 JSON 备份'}</span>
                 </li>
               </ul>
             </div>
@@ -714,7 +714,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
             </h2>
             <p className="mt-2.5 text-slate-600 dark:text-slate-400 text-sm">
               {isEn
-                ? 'Select any template to immediately load it into your editor and customize with your own story.'
+                ? 'Choose a template to customize in the editor. Replacing an existing draft requires your confirmation.'
                 : '涵盖国内校招、社招技术骨干、运营增长及欧美外企标准简历，点击即可直接载入编辑。'}
             </p>
           </div>
