@@ -89,7 +89,7 @@ const getInitialMarkdown = (): string => {
   const hasSavedMarkdown = saved !== null;
   const isFirstVisit = !hasSavedMarkdown && (!savedProfiles || savedProfiles.length === 0);
 
-  if (isFirstVisit) {
+  if (isFirstVisit || storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1') {
     storage.set(STORAGE_KEYS.ONBOARDING_FIRST_VISIT, '1');
   } else {
     storage.remove(STORAGE_KEYS.ONBOARDING_FIRST_VISIT);
