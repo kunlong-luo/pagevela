@@ -10,7 +10,7 @@ test.describe('landing-to-editor navigation', () => {
     await expect(page.locator('#showcase')).toBeVisible();
     await expect(page.locator('#features')).toBeVisible();
 
-    await page.getByRole('button', { name: /^(Open Editor|进入编辑器)$/ }).click();
+    await page.locator('header').getByRole('button', { name: /^(Open Editor|进入编辑器)$/ }).click();
     await expect(page).toHaveURL(/\?page=editor/);
     await expect(page.locator('#editor-pane')).toBeVisible();
 
