@@ -24,6 +24,10 @@ export function LandingShowcase({ isEn, onOpenEditor }: LandingShowcaseProps) {
               : '左右分栏所见即所得，表单与 Markdown 无缝双向协同，即时呈现专业排版效果。'}
           </p>
 
+          <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+            {isEn ? 'Illustrative preview with fictional resume content; scores and page measurements are examples.' : '以下为虚构简历的演示预览，评分与页数数值均为示例。'}
+          </p>
+
           {/* Interactive Mode Tabs */}
           <div className="mt-6 inline-flex p-1 rounded-xl bg-slate-200/70 dark:bg-slate-800 border border-slate-300/50 dark:border-slate-700 max-w-full overflow-x-auto">
             <button
@@ -156,11 +160,11 @@ export function LandingShowcase({ isEn, onOpenEditor }: LandingShowcaseProps) {
                   <div className="p-3.5 bg-indigo-50/80 dark:bg-indigo-950/40 rounded-xl border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200">
                     <div className="flex items-center gap-2 font-bold mb-1">
                       <Minimize2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                      <span>{isEn ? 'Auto Fit: Single-Page Guarantee' : 'Auto Fit 智能单页排版'}</span>
+                      <span>{isEn ? 'Auto Fit layout adjustment (example)' : 'Auto Fit 智能单页排版'}</span>
                     </div>
                     <p className="text-[11px] text-indigo-700 dark:text-indigo-300">
                       {isEn
-                        ? 'Dynamically balances line-height, padding, and paragraph gaps to lock onto a single page.'
+                        ? 'Example: adjust line height and spacing to help content fit, without guaranteeing one page for every resume.'
                         : '动态精细调整段落边距与行高，消除多出两行挤出空白页的排版难题。'}
                     </p>
                   </div>
@@ -183,14 +187,14 @@ export function LandingShowcase({ isEn, onOpenEditor }: LandingShowcaseProps) {
                     <div className="flex items-center justify-between font-bold mb-1">
                       <span className="flex items-center gap-1.5">
                         <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                        {isEn ? 'ATS Inspection Score' : 'ATS 规范体检'}
+                        {isEn ? 'ATS rule check (example)' : 'ATS 规则检查（示例）'}
                       </span>
                       <span className="text-xs bg-emerald-600 text-white px-2 py-0.5 rounded font-mono font-bold">100 / 100</span>
                     </div>
                     <p className="text-[11px] text-emerald-700 dark:text-emerald-300">
                       {isEn
-                        ? 'Passed: standard character encoding, date syntax, and header hierarchy.'
-                        : '已通过：规范字符编码、有效起止年月与无歧义标题层级结构。'}
+                        ? 'Illustrative checks for formatting, dates, and heading hierarchy; not an ATS compatibility guarantee.'
+                        : '示例：检查字符、日期和标题层级，不保证所有招聘系统的解析结果。'}
                     </p>
                   </div>
                   <div className="space-y-1.5 text-[11px] text-slate-600 dark:text-slate-300">
