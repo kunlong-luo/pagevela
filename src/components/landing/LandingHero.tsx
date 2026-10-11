@@ -53,46 +53,22 @@ export function LandingHero({
 
         {/* Primary Call-to-actions */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-          {hasExistingResume ? (
-            <>
-              {/* Returning User: Prioritize continuing existing draft as primary button */}
-              <button
-                type="button"
-                onClick={onOpenEditor}
-                className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer group"
-              >
-                <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-                <span>{isEn ? 'Continue Saved Draft' : '继续编辑现有草稿'}</span>
-                {lastSaved && (
-                  <span className="text-xs font-normal text-indigo-200">
-                    ({lastSaved})
-                  </span>
-                )}
-                <ArrowRight className="w-4 h-4 ml-0.5 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-
-              <button
-                type="button"
-                onClick={onOpenEditor}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-bold text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <Zap className="w-4 h-4 text-indigo-500" />
-                <span>{isEn ? 'Open Editor' : '进入编辑器'}</span>
-              </button>
-            </>
-          ) : (
-            <>
-              {/* First-time User: Primary start button */}
-              <button
-                type="button"
-                onClick={onOpenEditor}
-                className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer group"
-              >
-                <Zap className="w-4 h-4" />
-                <span>{isEn ? 'Start Building (Free)' : '立即制作简历 (完全免费)'}</span>
-                <ArrowRight className="w-4 h-4 ml-0.5 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-            </>
+          <button
+            type="button"
+            data-testid="landing-hero-cta"
+            onClick={onOpenEditor}
+            className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer group"
+          >
+            {hasExistingResume ? <CheckCircle2 className="w-4 h-4 text-emerald-300" /> : <Zap className="w-4 h-4" />}
+            <span>{hasExistingResume
+              ? (isEn ? 'Continue Editing' : '继续编辑简历')
+              : (isEn ? 'Start Building (Free)' : '免费开始制作')}</span>
+            <ArrowRight className="w-4 h-4 ml-0.5 group-hover:translate-x-0.5 transition-transform" />
+          </button>
+          {hasExistingResume && lastSaved && (
+            <span className="text-xs text-slate-500 dark:text-slate-400 sm:self-center">
+              {isEn ? `Last saved: ${lastSaved}` : `上次保存：${lastSaved}`}
+            </span>
           )}
 
           <a
