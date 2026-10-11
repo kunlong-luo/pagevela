@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FileText,
   Sparkles,
@@ -26,6 +26,9 @@ import {
 import { useResumeStore } from '../../store/useResumeStore';
 import { TEMPLATES } from '../../data';
 import { ThemeMode } from '../../types';
+import { getTemplatePresentation } from '../../lib/template-presentation';
+import { storage, STORAGE_KEYS } from '../../lib/storage';
+import { useConfirm } from '../../context/ConfirmContext';
 
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -43,6 +46,11 @@ interface LandingPageProps {
 export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps) {
   const { uiLanguage, setUiLanguage, themeMode, setThemeMode, lastSaved, markdown } = useResumeStore();
   const isEn = uiLanguage === 'en';
+  const { confirm } = useConfirm();
+
+  useEffect(() => {
+    document.documentElement.lang = uiLanguage === 'zh' ? 'zh-CN' : 'en';
+  }, [uiLanguage]);
 
   const [interactiveTab, setInteractiveTab] = useState<'markdown' | 'form' | 'autofit' | 'ats'>('markdown');
 
@@ -56,9 +64,27 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
   };
 
   // Check if there is already customized resume content saved
-  const hasExistingResume = Boolean(lastSaved || (markdown && markdown.length > 50));
+  // Starter Markdown and lastSaved exist even on a fresh first visit.
+  const hasExistingResume = storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) === '1' && Boolean(markdown.trim());
 
-  const templatesToShow = TEMPLATES.slice(0, 4);
+  const templatesToShow = TEMPLATES.filter((template) => template.suggestedLang === uiLanguage).slice(0, 4);
+
+  const handleSelectTemplate = async (templateId: string) => {
+    if (hasExistingResume) {
+      const approved = await confirm({
+        title: isEn ? 'Replace the current resume?' : '替换当前简历？',
+        message: isEn
+          ? 'Using this template replaces the content of your active resume. Export a backup first if you want to keep your current draft.'
+          : '使用此模板会替换当前简历内容。如需保留现有草稿，请先导出备份。',
+        confirmText: isEn ? 'Replace and continue' : '确认替换并继续',
+        cancelText: isEn ? 'Cancel' : '取消',
+        type: 'warning',
+      });
+      if (!approved) return;
+    }
+    if (onSelectTemplate) onSelectTemplate(templateId);
+    else onOpenEditor();
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#070a13] text-slate-900 dark:text-slate-100 transition-colors duration-200 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
@@ -187,7 +213,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
           {/* Subtitle */}
           <p className="mt-6 text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
             {isEn
-              ? 'Bi-directional Markdown & form editing, one-click Auto Fit single-page pagination, strict ATS rule audits, and vector PDF export. All data stays strictly in your browser.'
+              ? 'Switch between Markdown and forms, preview every change, adjust layout with Auto Fit, check common resume rules, and export PDFs. Resume drafts are stored in your browser.'
               : 'Markdown 与表单双向编辑，实时预览、Auto Fit、ATS 规则辅助检查与 PDF 导出。简历主要保存在浏览器本地，分享链接由用户主动生成。'}
           </p>
 
@@ -262,10 +288,15 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                 : '左右分栏所见即所得，支持纯 Markdown 快速录入或可视化表单微调，实时诊断排版与 ATS 评分。'}
             </p>
 
+            <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+              {isEn ? 'Illustrative preview using fictional resume data — try the editor for actual results.' : '以下为虚构简历的示意预览，实际操作与结果请进入编辑器体验。'}
+            </p>
+
             {/* Feature tab selector for the interactive frame */}
             <div className="mt-6 inline-flex p-1 rounded-xl bg-slate-200/70 dark:bg-slate-800 border border-slate-300/50 dark:border-slate-700 max-w-full overflow-x-auto">
               <button
                 type="button"
+                aria-pressed={interactiveTab === 'markdown'}
                 onClick={() => setInteractiveTab('markdown')}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   interactiveTab === 'markdown'
@@ -277,6 +308,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               </button>
               <button
                 type="button"
+                aria-pressed={interactiveTab === 'form'}
                 onClick={() => setInteractiveTab('form')}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   interactiveTab === 'form'
@@ -288,6 +320,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               </button>
               <button
                 type="button"
+                aria-pressed={interactiveTab === 'autofit'}
                 onClick={() => setInteractiveTab('autofit')}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   interactiveTab === 'autofit'
@@ -299,6 +332,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               </button>
               <button
                 type="button"
+                aria-pressed={interactiveTab === 'ats'}
                 onClick={() => setInteractiveTab('ats')}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   interactiveTab === 'ats'
@@ -618,7 +652,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
             <p className="mt-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-400">
               {isEn
                 ? 'Resume content is stored in your browser. No account is needed; privacy-conscious aggregate usage analytics help us improve the app. Sharing a link is optional.'
-                : '我们坚持纯客户端运行模式。所有手机号、住址、经历和薪酬预期仅留在您的本地设备中。'}
+                : '简历正文保存在当前浏览器，无需注册。我们使用尊重隐私的汇总使用统计；仅在您主动生成分享链接时才会分享内容。'}
             </p>
           </div>
 
@@ -690,6 +724,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               const isTech = tmpl.id.includes('swe') || tmpl.id === 'backend' || tmpl.id === 'custom';
               const isCampus = tmpl.id === 'campus' || tmpl.id === 'us_new_grad';
               const Icon = isCampus ? GraduationCap : isTech ? Cpu : tmpl.id === 'operations' ? TrendingUp : Briefcase;
+              const presentation = getTemplatePresentation(tmpl, uiLanguage);
 
               return (
                 <div
@@ -701,13 +736,13 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                       <Icon className="w-5 h-5" />
                     </div>
                     <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                      {tmpl.category}
+                      {presentation.category}
                     </span>
                     <h3 className="font-bold text-sm text-slate-900 dark:text-white mt-1 mb-2 line-clamp-1">
-                      {tmpl.name}
+                      {presentation.name}
                     </h3>
                     <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed mb-4">
-                      {tmpl.content.split('\n\n')[1] || tmpl.content.slice(0, 100)}
+                      {presentation.description}
                     </p>
                   </div>
 
@@ -717,13 +752,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                     </span>
                     <button
                       type="button"
-                      onClick={() => {
-                        if (onSelectTemplate) {
-                          onSelectTemplate(tmpl.id);
-                        } else {
-                          onOpenEditor();
-                        }
-                      }}
+                      onClick={() => { void handleSelectTemplate(tmpl.id); }}
                       className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 flex items-center gap-1 cursor-pointer"
                     >
                       <span>{isEn ? 'Use Template' : '使用该模板'}</span>
@@ -768,7 +797,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 {isEn
                   ? 'Edits are normally saved to IndexedDB in this browser, while lightweight preferences use localStorage. Browser data can be cleared, so export a JSON backup for important work.'
-                  : '不会。系统在您键入的每一瞬间都会实时同步保存至浏览器的 IndexedDB 数据库中。同时我们提供 JSON 完整备份与草稿箱历史功能，安全双重保障。'}
+                  : '通常会自动保存至当前浏览器的 IndexedDB，但浏览器数据可能被清理。重要简历建议额外导出 JSON 备份。'}
               </p>
             </div>
 
@@ -805,8 +834,8 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
           </h2>
           <p className="text-sm sm:text-base text-indigo-200/90 max-w-xl mx-auto mb-8">
             {isEn
-              ? 'Join developers, product managers, and graduates who craft clean, ATS-compliant resumes in minutes.'
-              : '无需注册，无需等待，立即进入编辑器，用极简 Markdown 锻造高通过率专业简历。'}
+              ? 'Create and export a clear, professional resume with flexible Markdown and form editing.'
+              : '无需注册，直接进入编辑器，使用 Markdown 或表单打造清晰、专业的简历。'}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
