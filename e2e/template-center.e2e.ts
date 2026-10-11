@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('template center', () => {
   test('exposes one template library entry and removes the legacy template selector', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const toolbar = page.locator('#resume-main-toolbar');
     await expect(
@@ -34,7 +34,7 @@ test.describe('template center', () => {
   });
 
   test('keeps resume management separate from template selection', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.locator('button[aria-controls="resume-profile-panel"]:visible').first().click();
 
@@ -53,7 +53,7 @@ test.describe('template center', () => {
   });
 
   test('filters templates by job-seeking scenario', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page
       .getByRole('button', { name: /Browse resume templates|浏览与切换简历模板/ })
@@ -81,7 +81,7 @@ test.describe('template center', () => {
   });
 
   test('shows all China-market templates under CN Standard', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page
       .getByRole('button', { name: /Browse resume templates|浏览与切换简历模板/ })
@@ -111,7 +111,7 @@ test.describe('template center', () => {
     await page.addInitScript(() => {
       window.localStorage.setItem('resume_ui_language', 'en');
     });
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page
       .getByRole('button', { name: /Browse resume templates|浏览与切换简历模板/ })
@@ -134,7 +134,7 @@ test.describe('template center', () => {
   });
 
   test('previews a template without changing the active resume', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
     const originalMarkdown = await readActiveMarkdown(page);
@@ -164,7 +164,7 @@ test.describe('template center', () => {
   });
 
   test('applies a selected template only after confirmation', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page
       .getByRole('button', { name: /Browse resume templates|浏览与切换简历模板/ })
@@ -204,7 +204,7 @@ test.describe('template center', () => {
     // This flow crosses several dialogs and state re-checks; WebKit is
     // consistently slower than the default 20-second per-test budget.
     test.slow();
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const toolbar = page.locator('#resume-main-toolbar');
 
@@ -254,7 +254,7 @@ test.describe('template center', () => {
   });
 
   test('restores toolbar focus when closed with Escape', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const trigger = page.getByRole('button', {
       name: /Browse resume templates|浏览与切换简历模板/,
