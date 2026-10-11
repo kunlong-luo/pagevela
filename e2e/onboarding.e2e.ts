@@ -5,7 +5,7 @@ test.describe('first-run onboarding', () => {
   test('guides a first-time user through three steps and loads the example only by choice', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const tour = page.getByRole('dialog', {
       name: /Getting started tour|新手引导/,
@@ -62,7 +62,7 @@ test.describe('first-run onboarding', () => {
   });
 
   test('offers quick-start choices immediately without forcing the tour', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const tour = page.getByRole('dialog', {
       name: /Getting started tour|新手引导/,
@@ -91,7 +91,7 @@ test.describe('first-run onboarding', () => {
     await page.addInitScript(() => {
       window.localStorage.setItem('resume-onboarding-v1-complete', '1');
     });
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /More actions|更多操作/ }).click();
     await page
@@ -118,7 +118,7 @@ test.describe('first-run onboarding', () => {
   test('can open the existing import flow from the final onboarding step', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /Next|下一步/ }).click();
     await page.getByRole('button', { name: /Next|下一步/ }).click();
@@ -136,7 +136,7 @@ test.describe('first-run onboarding', () => {
 
   test('supports keyboard escape and mobile onboarding layout', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const tour = page.getByRole('dialog', {
       name: /Getting started tour|新手引导/,
@@ -173,7 +173,7 @@ test.describe('first-run onboarding', () => {
       window.localStorage.setItem('resume-onboarding-v1-complete', '1');
       window.localStorage.setItem('resume-markdown', '# Existing Resume\n\nKeep this content.');
     });
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /More actions|更多操作/ }).click();
     await page
@@ -218,7 +218,7 @@ test.describe('first-run onboarding', () => {
   test('can start completely blank and preserve the blank resume across reload', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /Next|下一步/ }).click();
     await page.getByRole('button', { name: /Next|下一步/ }).click();
