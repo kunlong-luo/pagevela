@@ -1,4 +1,4 @@
-# Resume Craft v2.3.0 Promotion Playbook
+# Resume Craft v2.5.0 Promotion Playbook
 
 This document keeps promotion practical, measurable, and non-spammy. Automation prepares material and previews posts; a human reviews and publishes anything that reaches an external community.
 
@@ -33,11 +33,11 @@ The first promotion cycle is for learning, not maximizing raw impressions.
 - Public share links are readable by link holders; password-protected links are encrypted locally before link creation.
 - Open-source repository and reproducible release assets.
 
-## Two-week v2.3 validation sequence
+## Two-week v2.5 validation sequence
 
 ### Days 1-2 — Release verification
 
-- Verify the live demo, v2.3.0 release link, social preview card, README, migration behavior, and mobile layout.
+- Verify the live demo, v2.5.0 release link, social preview card, README, migration behavior, and mobile layout.
 - Confirm an existing v2.2 browser profile opens with its resume data intact after the automatic IndexedDB migration.
 - Capture one clean desktop screenshot and one mobile screenshot.
 - Prepare one short demo GIF/video showing: edit -> preview -> Target Market -> ATS check -> PDF.
@@ -49,7 +49,7 @@ Use channels where the product itself is directly relevant.
 
 **GitHub**
 - Keep README and social preview current.
-- Pin a concise v2.3.0 discussion/update focused on the local-data architecture upgrade and zero-account workflow.
+- Pin a concise v2.5.0 discussion/update focused on the new landing page, first-run onboarding, and zero-account workflow.
 - Ask for bug reports and workflow feedback, not stars.
 
 **Show HN**
