@@ -107,19 +107,23 @@ export default function App() {
 
   if (currentRoute === 'landing') {
     return (
-      <LandingPage
-        onOpenEditor={() => navigateTo('editor')}
-        onSelectTemplate={(templateId) => navigateTo('editor', { templateId })}
-      />
+      <div className="animate-fadeIn transition-opacity duration-300">
+        <LandingPage
+          onOpenEditor={() => navigateTo('editor')}
+          onSelectTemplate={(templateId) => navigateTo('editor', { templateId })}
+        />
+      </div>
     );
   }
 
   const isFirstTimeOnboarding = storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1';
 
   return (
-    <EditorWorkspace
-      onNavigateToLanding={() => navigateTo('landing')}
-      initialOpenOnboarding={isFirstTimeOnboarding}
-    />
+    <div className="animate-fadeIn transition-opacity duration-300">
+      <EditorWorkspace
+        onNavigateToLanding={() => navigateTo('landing')}
+        initialOpenOnboarding={isFirstTimeOnboarding}
+      />
+    </div>
   );
 }
