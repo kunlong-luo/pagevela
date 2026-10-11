@@ -25,8 +25,8 @@ export function LandingHero({
           <ShieldCheck className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
           <span>
             {isEn
-              ? 'No Sign-Up · 100% Local & Private · Watermark-Free Vector PDF'
-              : '免注册开箱即用 · 纯本地私密安全 · 原生矢量无水印'}
+              ? 'No sign-up · Local-first editing · Watermark-free PDF'
+              : '无需注册 · 本地优先编辑 · PDF 无水印'}
           </span>
         </div>
 
@@ -108,11 +108,11 @@ export function LandingHero({
         <div className="mt-10 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-wrap items-center justify-center gap-x-8 gap-y-2.5 text-xs font-semibold text-slate-500 dark:text-slate-400">
           <span className="flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-            {isEn ? '100% Local & Private Storage' : '数据全量保留本地 · 安全不上传'}
+            {isEn ? 'Browser-local resume storage' : '简历正文保存在浏览器本地'}
           </span>
           <span className="flex items-center gap-1.5">
             <Lock className="w-4 h-4 text-indigo-500 shrink-0" />
-            {isEn ? '100% Free & Open Source · No Watermark' : '永久免费开源 · 无任何平台水印'}
+            {isEn ? 'Free & Open Source · No Watermark' : '永久免费开源 · 无任何平台水印'}
           </span>
           <span className="flex items-center gap-1.5">
             <Download className="w-4 h-4 text-blue-500 shrink-0" />
