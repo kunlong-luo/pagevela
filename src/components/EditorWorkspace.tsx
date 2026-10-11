@@ -342,28 +342,28 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
 
       if (isCmdOrCtrl && !e.shiftKey && (e.key === 'p' || e.key === 'P')) {
         e.preventDefault();
-        handleExportPDF();
+        handleExportVectorPrint();
       }
 
       if (isCmdOrCtrl && e.shiftKey && (e.key === 'f' || e.key === 'F')) {
         e.preventDefault();
-        const res = smartAutoFit();
-        if (res.success) {
-          showToast?.({
-            title: uiLanguage === 'en' ? 'Auto Fit complete' : '智能单页自适应完成',
-            message: uiLanguage === 'en'
-              ? 'Page height tuned to fit exactly one page.'
-              : '已自动微调间距与字体，完美适配一页。',
-            type: 'success',
-            duration: 2500,
-          });
-        }
+        const currentState = useResumeStore.getState();
+        smartAutoFit(currentState.settings, currentState.updateSetting);
+        trackAnalyticsEvent('auto_fit_used');
+        showToast?.({
+          title: uiLanguage === 'en' ? 'Auto Fit applied' : '已触发一键贴合控页',
+          message: uiLanguage === 'en'
+            ? 'Adjusted line height and margins to better fit the resume on one page.'
+            : '微调行高与边距以压缩适应单页',
+          type: 'info',
+          duration: 2500,
+        });
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleExportPDF, setLastSaved, setStorageHealth, showToast, uiLanguage]);
+  }, [handleExportVectorPrint, setLastSaved, setStorageHealth, showToast, uiLanguage]);
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-200">
