@@ -17,7 +17,7 @@ test.beforeEach(async ({ page }) => {
 test('imports a text-based PDF locally and shows machine-readability feedback', async ({
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('/?page=editor');
 
   await page.getByRole('button', { name: /More actions|更多操作/ }).click();
   await page
