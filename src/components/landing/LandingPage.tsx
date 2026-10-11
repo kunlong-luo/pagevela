@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FileText,
   Sparkles,
@@ -26,6 +26,9 @@ import {
 import { useResumeStore } from '../../store/useResumeStore';
 import { TEMPLATES } from '../../data';
 import { ThemeMode } from '../../types';
+import { getTemplatePresentation } from '../../lib/template-presentation';
+import { storage, STORAGE_KEYS } from '../../lib/storage';
+import { useConfirm } from '../../context/ConfirmContext';
 
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -43,6 +46,11 @@ interface LandingPageProps {
 export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps) {
   const { uiLanguage, setUiLanguage, themeMode, setThemeMode, lastSaved, markdown } = useResumeStore();
   const isEn = uiLanguage === 'en';
+  const { confirm } = useConfirm();
+
+  useEffect(() => {
+    document.documentElement.lang = uiLanguage === 'zh' ? 'zh-CN' : 'en';
+  }, [uiLanguage]);
 
   const [interactiveTab, setInteractiveTab] = useState<'markdown' | 'form' | 'autofit' | 'ats'>('markdown');
 
@@ -56,9 +64,27 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
   };
 
   // Check if there is already customized resume content saved
-  const hasExistingResume = Boolean(lastSaved || (markdown && markdown.length > 50));
+  // Starter Markdown and lastSaved exist even on a fresh first visit.
+  const hasExistingResume = storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) === '1' && Boolean(markdown.trim());
 
-  const templatesToShow = TEMPLATES.slice(0, 4);
+  const templatesToShow = TEMPLATES.filter((template) => template.suggestedLang === uiLanguage).slice(0, 4);
+
+  const handleSelectTemplate = async (templateId: string) => {
+    if (hasExistingResume) {
+      const approved = await confirm({
+        title: isEn ? 'Replace the current resume?' : '替换当前简历？',
+        message: isEn
+          ? 'Using this template replaces the content of your active resume. Export a backup first if you want to keep your current draft.'
+          : '使用此模板会替换当前简历内容。如需保留现有草稿，请先导出备份。',
+        confirmText: isEn ? 'Replace and continue' : '确认替换并继续',
+        cancelText: isEn ? 'Cancel' : '取消',
+        type: 'warning',
+      });
+      if (!approved) return;
+    }
+    if (onSelectTemplate) onSelectTemplate(templateId);
+    else onOpenEditor();
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#070a13] text-slate-900 dark:text-slate-100 transition-colors duration-200 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
@@ -187,7 +213,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
           {/* Subtitle */}
           <p className="mt-6 text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
             {isEn
-              ? 'Bi-directional Markdown & form editing, one-click Auto Fit single-page pagination, strict ATS rule audits, and vector PDF export. All data stays strictly in your browser.'
+              ? 'Switch between Markdown and forms, preview every change, adjust layout with Auto Fit, check common resume rules, and export PDFs. Resume drafts are stored in your browser.'
               : 'Markdown 与表单双向编辑，实时预览、Auto Fit、ATS 规则辅助检查与 PDF 导出。简历主要保存在浏览器本地，分享链接由用户主动生成。'}
           </p>
 
@@ -262,10 +288,15 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                 : '左右分栏所见即所得，支持纯 Markdown 快速录入或可视化表单微调，实时诊断排版与 ATS 评分。'}
             </p>
 
+            <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+              {isEn ? 'Illustrative preview using fictional resume data — try the editor for actual results.' : '以下为虚构简历的示意预览，实际操作与结果请进入编辑器体验。'}
+            </p>
+
             {/* Feature tab selector for the interactive frame */}
             <div className="mt-6 inline-flex p-1 rounded-xl bg-slate-200/70 dark:bg-slate-800 border border-slate-300/50 dark:border-slate-700 max-w-full overflow-x-auto">
               <button
                 type="button"
+                aria-pressed={interactiveTab === 'markdown'}
                 onClick={() => setInteractiveTab('markdown')}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   interactiveTab === 'markdown'
@@ -277,6 +308,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               </button>
               <button
                 type="button"
+                aria-pressed={interactiveTab === 'form'}
                 onClick={() => setInteractiveTab('form')}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   interactiveTab === 'form'
@@ -288,6 +320,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               </button>
               <button
                 type="button"
+                aria-pressed={interactiveTab === 'autofit'}
                 onClick={() => setInteractiveTab('autofit')}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   interactiveTab === 'autofit'
@@ -299,6 +332,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               </button>
               <button
                 type="button"
+                aria-pressed={interactiveTab === 'ats'}
                 onClick={() => setInteractiveTab('ats')}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   interactiveTab === 'ats'
@@ -339,35 +373,35 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               <div className="p-5 font-mono text-xs bg-slate-50/70 dark:bg-slate-900/60 flex flex-col justify-between overflow-hidden">
                 {interactiveTab === 'markdown' && (
                   <div className="space-y-2 text-slate-700 dark:text-slate-300 leading-relaxed overflow-hidden">
-                    <p className="text-indigo-600 dark:text-indigo-400 font-bold"># 钟晨杰</p>
-                    <p className="text-slate-500 dark:text-slate-400 text-[11px]">AI后端开发工程师 ｜ 智能体网关架构 ｜ 分布式系统</p>
-                    <p className="text-slate-500 dark:text-slate-400 text-[11px]">+86 100 0000 0000 · chenjie.zhong@example.com · GitHub: chenjie-ai</p>
-                    <div className="pt-2 text-indigo-600 dark:text-indigo-400 font-bold">## 个人优势</div>
-                    <p>- 7年高并发 Java/Go 后端开发与 AI 大模型应用工程化实战经验。</p>
-                    <p>- 深度掌握大模型工程化体系，精通 Spring AI, Model Context Protocol (MCP)。</p>
-                    <div className="pt-2 text-indigo-600 dark:text-indigo-400 font-bold">## 工作经历</div>
-                    <p className="text-slate-900 dark:text-slate-100 font-bold">### 北京星河智联科技有限公司　资深AI架构师　*2024.03 — 至今*</p>
-                    <p>- 主导新一代 AI 智能路由网关系统的架构设计，支撑日均千万级调用。</p>
-                    <p>- 采用 HNSW 多路召回，语义检索平均耗时低于 80ms。</p>
+                    <p className="text-indigo-600 dark:text-indigo-400 font-bold">{isEn ? '# Alex Morgan' : '# 钟晨杰'}</p>
+                    <p className="text-slate-500 dark:text-slate-400 text-[11px]">{isEn ? 'Backend Engineer | API Architecture | Distributed Systems' : 'AI后端开发工程师 ｜ 智能体网关架构 ｜ 分布式系统'}</p>
+                    <p className="text-slate-500 dark:text-slate-400 text-[11px]">{isEn ? 'alex.morgan@example.com · GitHub: alex-demo' : '+86 100 0000 0000 · chenjie.zhong@example.com · GitHub: chenjie-ai'}</p>
+                    <div className="pt-2 text-indigo-600 dark:text-indigo-400 font-bold">{isEn ? '## Professional Summary' : '## 个人优势'}</div>
+                    <p>{isEn ? '- Built reliable backend services and AI integrations.' : '- 7年高并发 Java/Go 后端开发与 AI 大模型应用工程化实战经验。'}</p>
+                    <p>{isEn ? '- Experienced with APIs, distributed systems, and MCP.' : '- 深度掌握大模型工程化体系，精通 Spring AI, Model Context Protocol (MCP)。'}</p>
+                    <div className="pt-2 text-indigo-600 dark:text-indigo-400 font-bold">{isEn ? '## Work Experience' : '## 工作经历'}</div>
+                    <p className="text-slate-900 dark:text-slate-100 font-bold">{isEn ? '### Example Labs — Senior Backend Engineer — 2024–Present' : '### 北京星河智联科技有限公司　资深AI架构师　*2024.03 — 至今*'}</p>
+                    <p>{isEn ? '- Led an API gateway redesign for scalable services.' : '- 主导新一代 AI 智能路由网关系统的架构设计，支撑日均千万级调用。'}</p>
+                    <p>{isEn ? '- Improved semantic search with HNSW indexing.' : '- 采用 HNSW 多路召回，语义检索平均耗时低于 80ms。'}</p>
                   </div>
                 )}
 
                 {interactiveTab === 'form' && (
                   <div className="space-y-3 font-sans text-xs">
                     <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">基本信息 (Basic Info)</span>
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{isEn ? 'Basic Information' : '基本信息'}</span>
                       <div className="mt-2 grid grid-cols-2 gap-2">
-                        <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-800 font-semibold text-slate-800 dark:text-slate-200">钟晨杰</div>
-                        <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">AI后端开发工程师</div>
+                        <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-800 font-semibold text-slate-800 dark:text-slate-200">{isEn ? 'Alex Morgan' : '钟晨杰'}</div>
+                        <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">{isEn ? 'Backend Engineer' : 'AI后端开发工程师'}</div>
                       </div>
                     </div>
                     <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
                       <div className="flex justify-between items-center mb-1">
-                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">工作经历 (Work Experience)</span>
-                        <span className="text-[10px] text-emerald-600 font-bold">STAR 法则模板可用</span>
+                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{isEn ? 'Work Experience' : '工作经历'}</span>
+                        <span className="text-[10px] text-emerald-600 font-bold">{isEn ? 'STAR-style examples' : 'STAR 法则模板可用'}</span>
                       </div>
                       <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-800 text-[11px] text-slate-700 dark:text-slate-300">
-                        北京星河智联 · 资深AI架构师 · 2024.03 - 至今
+                        {isEn ? 'Example Labs · Senior Backend Engineer · 2024–Present' : '北京星河智联 · 资深AI架构师 · 2024.03 - 至今'}
                       </div>
                     </div>
                   </div>
@@ -378,20 +412,20 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                     <div className="p-3.5 bg-indigo-50/80 dark:bg-indigo-950/40 rounded-xl border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200">
                       <div className="flex items-center gap-2 font-bold mb-1">
                         <Sparkles className="w-4 h-4 text-indigo-600" />
-                        <span>Auto Fit 智能单页排版计算中</span>
+                        <span>{isEn ? 'Auto Fit example: single-page layout' : 'Auto Fit 单页排版示例'}</span>
                       </div>
                       <p className="text-[11px] text-indigo-700 dark:text-indigo-300">
-                        检测到原有内容溢出第 1 页共 4 行。已自动微调段落间距（-1.5px）、行高（1.45）与字体比例，完美锁定单页。
+                        {isEn ? 'Illustrative example: spacing and line height can be adjusted to help avoid an extra page.' : '示例效果：自动微调段落间距和行高，尽量避免内容溢出第二页。'}
                       </p>
                     </div>
                     <div className="grid grid-cols-2 gap-2 text-[11px]">
                       <div className="p-2.5 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <span className="text-slate-400 block text-[10px]">优化前页面高度</span>
-                        <span className="font-bold text-rose-500">108% (超出一页)</span>
+                        <span className="text-slate-400 block text-[10px]">{isEn ? 'Before Auto Fit (example)' : '优化前页面高度（示例）'}</span>
+                        <span className="font-bold text-rose-500">{isEn ? '108% (over one page)' : '108% (超出一页)'}</span>
                       </div>
                       <div className="p-2.5 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <span className="text-slate-400 block text-[10px]">Auto Fit 优化后</span>
-                        <span className="font-bold text-emerald-500">99.2% (黄金单页)</span>
+                        <span className="text-slate-400 block text-[10px]">{isEn ? 'After Auto Fit (example)' : 'Auto Fit 优化后（示例）'}</span>
+                        <span className="font-bold text-emerald-500">{isEn ? '99.2% (example)' : '99.2% (示例)'}</span>
                       </div>
                     </div>
                   </div>
@@ -403,26 +437,26 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                       <div className="flex items-center justify-between font-bold mb-1">
                         <span className="flex items-center gap-1.5">
                           <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                          ATS 机器解析评分: 98 / 100
+                          {isEn ? 'ATS rule check (example)' : 'ATS 规则检查（示例）'}
                         </span>
-                        <span className="text-xs bg-emerald-600 text-white px-2 py-0.5 rounded">优秀</span>
+                        <span className="text-xs bg-emerald-600 text-white px-2 py-0.5 rounded">{isEn ? 'Sample' : '示例'}</span>
                       </div>
                       <p className="text-[11px] text-emerald-700 dark:text-emerald-300">
-                        未包含非标准特殊字符或图形表格；时间段格式符合标准规范；标题层级清晰。
+                        {isEn ? 'Example checks: standard characters, consistent dates, and clear section headings.' : '示例检查：标准字符、时间段格式一致、标题层级清晰。'}
                       </p>
                     </div>
                     <div className="space-y-1.5 text-[11px] text-slate-600 dark:text-slate-300">
                       <div className="flex items-center gap-1.5">
                         <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span>联系方式 (电话、邮箱、GitHub) 解析正常</span>
+                        <span>{isEn ? 'Contact fields are clearly formatted' : '联系方式（电话、邮箱、GitHub）格式清晰'}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span>多段经历时间范围均包含有效年月</span>
+                        <span>{isEn ? 'Experience dates are consistently formatted' : '多段经历时间范围均包含有效年月'}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span>高频技术关键字（Java, Spring AI, MCP）清晰突出</span>
+                        <span>{isEn ? 'Technical skills are easy to find' : '高频技术关键字（Java, Spring AI, MCP）清晰突出'}</span>
                       </div>
                     </div>
                   </div>
@@ -446,10 +480,10 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                 <div className="w-full max-w-[340px] bg-white text-slate-900 rounded-sm shadow-xl p-5 text-[10px] leading-snug border border-slate-300/80">
                   {/* Resume Header */}
                   <div className="border-b border-indigo-600 pb-2 mb-2.5">
-                    <h3 className="text-base font-black text-slate-900 tracking-tight">钟晨杰</h3>
-                    <p className="text-[11px] font-bold text-indigo-600 mt-0.5">AI后端开发工程师 ｜ 智能体网关架构</p>
+                    <h3 className="text-base font-black text-slate-900 tracking-tight">{isEn ? 'Alex Morgan' : '钟晨杰'}</h3>
+                    <p className="text-[11px] font-bold text-indigo-600 mt-0.5">{isEn ? 'Backend Engineer | Distributed Systems' : 'AI后端开发工程师 ｜ 智能体网关架构'}</p>
                     <p className="text-[9px] text-slate-500 mt-0.5">
-                      +86 100 0000 0000 · chenjie.zhong@example.com · 杭州 · 随时到岗
+                      {isEn ? 'alex.morgan@example.com · Remote / US' : '+86 100 0000 0000 · chenjie.zhong@example.com · 杭州 · 随时到岗'}
                     </p>
                   </div>
 
@@ -457,10 +491,10 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                   <div className="mb-2.5">
                     <h4 className="text-[10px] font-extrabold uppercase text-indigo-700 tracking-wider mb-1 flex items-center gap-1">
                       <span className="w-1.5 h-1.5 bg-indigo-600 rounded-xs inline-block" />
-                      个人优势
+                      {isEn ? 'Summary' : '个人优势'}
                     </h4>
                     <p className="text-[9px] text-slate-700 leading-normal">
-                      7年高并发后端与 AI 大模型应用工程化实战经验。精通 Spring AI, MCP 协议与多智能体路由网关架构搭建。
+                      {isEn ? 'Backend engineer experienced in API platforms, AI integrations, and distributed systems.' : '7年高并发后端与 AI 大模型应用工程化实战经验。精通 Spring AI, MCP 协议与多智能体路由网关架构搭建。'}
                     </p>
                   </div>
 
@@ -468,24 +502,24 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                   <div className="mb-2">
                     <h4 className="text-[10px] font-extrabold uppercase text-indigo-700 tracking-wider mb-1 flex items-center gap-1">
                       <span className="w-1.5 h-1.5 bg-indigo-600 rounded-xs inline-block" />
-                      工作经历
+                      {isEn ? 'Experience' : '工作经历'}
                     </h4>
                     <div className="flex justify-between items-baseline font-bold text-[9.5px]">
-                      <span>北京星河智联科技有限公司</span>
-                      <span className="text-[8.5px] text-slate-500">2024.03 - 至今</span>
+                      <span>{isEn ? 'Example Labs' : '北京星河智联科技有限公司'}</span>
+                      <span className="text-[8.5px] text-slate-500">{isEn ? '2024–Present' : '2024.03 - 至今'}</span>
                     </div>
-                    <div className="text-[9px] text-indigo-600 font-semibold mb-1">资深 AI 架构师</div>
+                    <div className="text-[9px] text-indigo-600 font-semibold mb-1">{isEn ? 'Senior Backend Engineer' : '资深 AI 架构师'}</div>
                     <ul className="list-disc list-inside text-[8.5px] text-slate-700 space-y-0.5">
-                      <li>主导新一代 AI 智能路由网关系统架构设计，承载日均千万级调用。</li>
-                      <li>研发 MCP 工具调度中心，工具调用时延下降 40%，准确率 94%。</li>
-                      <li>优化 pgvector 向量检索系统，召回耗时低于 80ms。</li>
+                      <li>{isEn ? 'Designed a scalable API gateway for distributed applications.' : '主导新一代 AI 智能路由网关系统架构设计，承载日均千万级调用。'}</li>
+                      <li>{isEn ? 'Built MCP-enabled integrations to streamline internal workflows.' : '研发 MCP 工具调度中心，工具调用时延下降 40%，准确率 94%。'}</li>
+                      <li>{isEn ? 'Improved semantic retrieval using pgvector and HNSW.' : '优化 pgvector 向量检索系统，召回耗时低于 80ms。'}</li>
                     </ul>
                   </div>
 
                   {/* Badges / Export proof */}
                   <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[8px] text-slate-400">
                     <span>A4 Standard (210 × 297 mm)</span>
-                    <span className="text-emerald-600 font-bold">ATS Checks Available · Example</span>
+                    <span className="text-emerald-600 font-bold">{isEn ? 'Illustrative Resume' : '虚构简历示例'}</span>
                   </div>
                 </div>
               </div>
@@ -563,12 +597,12 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                 <Download className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-base text-slate-900 dark:text-white mb-2">
-                {isEn ? 'Pixel-Perfect Vector PDF' : '真矢量无锯齿 PDF 导出'}
+                {isEn ? 'Selectable-Text PDF Print Option' : '真矢量无锯齿 PDF 导出'}
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 {isEn
-                  ? 'Exports high-fidelity PDFs with selectable, searchable text, intact hyperlinks, and standard A4 or US Letter dimensions. Zero pixelation.'
-                  : '导出文字原生可选、可搜索的矢量 PDF，杜绝低质截图式位图渲染，保留超链接，HR 放大十倍依旧锋利清晰。'}
+                  ? 'The browser print path preserves selectable text and A4/US Letter sizing. A separate quick-download option is also available.'
+                  : 'ATS 打印路径支持导出可选择、可搜索的文本 PDF；同时提供快速 PDF 选项。'}
               </p>
             </div>
 
@@ -618,7 +652,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
             <p className="mt-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-400">
               {isEn
                 ? 'Resume content is stored in your browser. No account is needed; privacy-conscious aggregate usage analytics help us improve the app. Sharing a link is optional.'
-                : '我们坚持纯客户端运行模式。所有手机号、住址、经历和薪酬预期仅留在您的本地设备中。'}
+                : '简历正文保存在当前浏览器，无需注册。我们使用尊重隐私的汇总使用统计；仅在您主动生成分享链接时才会分享内容。'}
             </p>
           </div>
 
@@ -631,15 +665,15 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               <ul className="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                 <li className="flex items-start gap-2">
                   <span className="text-rose-500 font-bold">✕</span>
-                  <span>强制手机号/微信注册登录，索取过多无关权限</span>
+                  <span>{isEn ? 'Some services require account creation before editing' : '部分服务要求注册或登录后才能编辑'}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-rose-500 font-bold">✕</span>
-                  <span>简历信息上传至中心化服务器，存在数据泄露与被售卖风险</span>
+                  <span>{isEn ? 'Cloud-hosted drafts can require trusting a third-party storage provider' : '云端保存的草稿需要信任第三方存储服务'}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-rose-500 font-bold">✕</span>
-                  <span>导出加水印、按月扣费或锁死下载格式</span>
+                  <span>{isEn ? 'Some services restrict formats or charge for exports' : '部分服务限制导出格式或额外收取费用'}</span>
                 </li>
               </ul>
             </div>
@@ -652,15 +686,15 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               <ul className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 font-bold">✓</span>
-                  <span><strong>零注册免登录</strong>：即开即用，关闭页面自动保存在浏览器 IndexedDB</span>
+                  <span>{isEn ? 'No sign-up required; resume drafts are stored in browser IndexedDB' : '无需注册，简历草稿保存在浏览器 IndexedDB'}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 font-bold">✓</span>
-                  <span><strong>零服务器数据库</strong>：无任何中心化个人数据存储，代码完全开源可审计</span>
+                  <span>{isEn ? 'No cloud resume database; source code is openly available' : '不设简历云端数据库，源码开源可查'}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-emerald-500 font-bold">✓</span>
-                  <span><strong>永久免费开源</strong>：无导出限制，无水印，自由导出 JSON 备份</span>
+                  <span>{isEn ? 'Free, open source, watermark-free export and JSON backup' : '免费开源、无水印导出，支持 JSON 备份'}</span>
                 </li>
               </ul>
             </div>
@@ -680,7 +714,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
             </h2>
             <p className="mt-2.5 text-slate-600 dark:text-slate-400 text-sm">
               {isEn
-                ? 'Select any template to immediately load it into your editor and customize with your own story.'
+                ? 'Choose a template to customize in the editor. Replacing an existing draft requires your confirmation.'
                 : '涵盖国内校招、社招技术骨干、运营增长及欧美外企标准简历，点击即可直接载入编辑。'}
             </p>
           </div>
@@ -690,6 +724,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               const isTech = tmpl.id.includes('swe') || tmpl.id === 'backend' || tmpl.id === 'custom';
               const isCampus = tmpl.id === 'campus' || tmpl.id === 'us_new_grad';
               const Icon = isCampus ? GraduationCap : isTech ? Cpu : tmpl.id === 'operations' ? TrendingUp : Briefcase;
+              const presentation = getTemplatePresentation(tmpl, uiLanguage);
 
               return (
                 <div
@@ -701,13 +736,13 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                       <Icon className="w-5 h-5" />
                     </div>
                     <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                      {tmpl.category}
+                      {presentation.category}
                     </span>
                     <h3 className="font-bold text-sm text-slate-900 dark:text-white mt-1 mb-2 line-clamp-1">
-                      {tmpl.name}
+                      {presentation.name}
                     </h3>
                     <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed mb-4">
-                      {tmpl.content.split('\n\n')[1] || tmpl.content.slice(0, 100)}
+                      {presentation.description}
                     </p>
                   </div>
 
@@ -717,13 +752,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                     </span>
                     <button
                       type="button"
-                      onClick={() => {
-                        if (onSelectTemplate) {
-                          onSelectTemplate(tmpl.id);
-                        } else {
-                          onOpenEditor();
-                        }
-                      }}
+                      onClick={() => { void handleSelectTemplate(tmpl.id); }}
                       className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 flex items-center gap-1 cursor-pointer"
                     >
                       <span>{isEn ? 'Use Template' : '使用该模板'}</span>
@@ -768,7 +797,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 {isEn
                   ? 'Edits are normally saved to IndexedDB in this browser, while lightweight preferences use localStorage. Browser data can be cleared, so export a JSON backup for important work.'
-                  : '不会。系统在您键入的每一瞬间都会实时同步保存至浏览器的 IndexedDB 数据库中。同时我们提供 JSON 完整备份与草稿箱历史功能，安全双重保障。'}
+                  : '通常会自动保存至当前浏览器的 IndexedDB，但浏览器数据可能被清理。重要简历建议额外导出 JSON 备份。'}
               </p>
             </div>
 
@@ -805,8 +834,8 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
           </h2>
           <p className="text-sm sm:text-base text-indigo-200/90 max-w-xl mx-auto mb-8">
             {isEn
-              ? 'Join developers, product managers, and graduates who craft clean, ATS-compliant resumes in minutes.'
-              : '无需注册，无需等待，立即进入编辑器，用极简 Markdown 锻造高通过率专业简历。'}
+              ? 'Create and export a clear, professional resume with flexible Markdown and form editing.'
+              : '无需注册，直接进入编辑器，使用 Markdown 或表单打造清晰、专业的简历。'}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
