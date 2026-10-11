@@ -318,7 +318,7 @@ export const Editor = React.memo(function Editor() {
           <button
             type="button"
             onClick={() => setActiveMode('form')}
-            aria-label={isUiEn ? 'Form mode' : '表单模式'}
+            aria-label={isUiEn ? 'Form editor' : '表单编辑模式'}
             className={`relative flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               activeMode === 'form'
                 ? 'text-indigo-700 dark:text-indigo-300 font-extrabold'
@@ -339,7 +339,7 @@ export const Editor = React.memo(function Editor() {
           <button
             type="button"
             onClick={() => setActiveMode('markdown')}
-            aria-label={isUiEn ? 'Markdown mode' : 'Markdown 模式'}
+            aria-label={isUiEn ? 'Markdown source editor' : 'Markdown 源码编辑模式'}
             className={`relative flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               activeMode === 'markdown'
                 ? 'text-indigo-700 dark:text-indigo-300 font-extrabold'
@@ -480,7 +480,7 @@ export const Editor = React.memo(function Editor() {
             <button 
               type="button"
               onClick={handleCopy}
-              aria-label={isUiEn ? 'Copy resume text' : '复制简历文本'}
+              aria-label={isUiEn ? 'Copy Markdown source' : '复制 Markdown 源码'}
               className="p-1.5 rounded-lg border border-slate-200/80 dark:border-slate-700/80 bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" aria-hidden="true" /> : <Copy className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />}
