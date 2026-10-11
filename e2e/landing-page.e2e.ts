@@ -32,7 +32,7 @@ test.describe('landing-to-editor navigation', () => {
   test('fresh visitors are not told they already have a saved resume', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('button', { name: 'Resume where you left off' })).toHaveCount(0);
-    await expect(page.getByRole('button', { name: 'Start Building Your Resume' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Start Building (Free)' })).toBeVisible();
   });
 
   test('English marketing copy uses English demo and template descriptions', async ({ page }) => {
@@ -40,12 +40,13 @@ test.describe('landing-to-editor navigation', () => {
       window.localStorage.setItem('resume_ui_language', 'en');
     });
     await page.goto('/');
+    await page.getByRole('button', { name: 'Markdown', exact: true }).click();
     await expect(page.getByText('# Alex Morgan')).toBeVisible();
     await expect(page.getByText('US Software Engineer (Resume)', { exact: true })).toBeVisible();
     await expect(page.getByText('Chinese General Demo', { exact: true })).toHaveCount(0);
-    await page.getByRole('button', { name: 'Structured Form' }).click();
-    await expect(page.getByText('Basic Information', { exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'ATS Rule Audit' }).click();
+    await page.getByRole('button', { name: 'Form', exact: true }).click();
+    await expect(page.getByText('Basic Info', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'ATS Audit' }).click();
     await expect(page.getByText('ATS rule check (example)')).toBeVisible();
   });
 
@@ -56,7 +57,7 @@ test.describe('landing-to-editor navigation', () => {
     });
     await page.goto('/');
     await page.getByRole('button', { name: 'Use Template' }).first().click();
-    const confirmation = page.getByRole('dialog', { name: 'Replace the current resume?' });
+    const confirmation = page.getByRole('dialog', { name: 'Replace active resume?' });
     await expect(confirmation).toBeVisible();
     await confirmation.getByRole('button', { name: 'Cancel' }).last().click();
     await expect(page.locator('#showcase')).toBeVisible();
