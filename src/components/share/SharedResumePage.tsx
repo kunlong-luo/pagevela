@@ -233,7 +233,7 @@ export function SharedResumePage({ sharePayload }: SharedResumePageProps) {
           <button
             onClick={triggerPrint}
             className="flex items-center gap-1.5 px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold rounded-lg shadow-sm shadow-indigo-600/10 transition-all cursor-pointer"
-            title={
+            aria-label={
               settings.lang === 'en'
                 ? 'Print or Save PDF'
                 : '保存本地 / 打印 PDF'

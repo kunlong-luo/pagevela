@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DownloadCloud, HelpCircle, Home, MoreHorizontal, Upload } from 'lucide-react';
+import { DownloadCloud, HelpCircle, MoreHorizontal, Upload } from 'lucide-react';
 
 interface MoreActionsMenuProps {
   isEn: boolean;
@@ -7,7 +7,6 @@ interface MoreActionsMenuProps {
   onImport: () => void;
   onOpenGuide: () => void;
   onInstall: () => void;
-  onNavigateToLanding?: () => void;
 }
 
 export function MoreActionsMenu({
@@ -16,7 +15,6 @@ export function MoreActionsMenu({
   onImport,
   onOpenGuide,
   onInstall,
-  onNavigateToLanding,
 }: MoreActionsMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -60,12 +58,7 @@ export function MoreActionsMenu({
 
       {isOpen && (
         <div className="absolute right-0 top-full z-[100] mt-2 min-w-[140px] whitespace-nowrap rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl dark:border-slate-700 dark:bg-slate-900">
-          {onNavigateToLanding && (
-            <button type="button" onClick={action(onNavigateToLanding)} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800">
-              <Home className="h-4 w-4 text-indigo-500" />
-              {isEn ? 'Welcome page' : '产品欢迎页'}
-            </button>
-          )}
+
           <button type="button" onClick={action(onImport)} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800">
             <Upload className="h-4 w-4 text-indigo-500" />
             {isEn ? 'Import' : '导入'}

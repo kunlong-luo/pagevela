@@ -66,16 +66,16 @@ export const ZoomControls: React.FC<ZoomControlsProps> = React.memo(({
       <AnimatePresence mode="wait">
         {!isHovered ? (
           /* Collapsed Floating Pill */
-          <motion.div
-            key="zoom-pill"
-            initial={{ opacity: 0, scale: 0.9, y: 8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 8 }}
-            transition={{ type: 'spring', stiffness: 450, damping: 30 }}
-            onClick={() => setIsHovered(true)}
-            className="flex items-center gap-2 h-10 px-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-[0_8px_24px_rgba(15,23,42,0.1)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.4)] rounded-2xl cursor-pointer hover:shadow-[0_12px_32px_rgba(15,23,42,0.15)] hover:border-indigo-300 dark:hover:border-indigo-700 transition-all group"
-            title={t.zoomPillTip}
-          >
+          <Tooltip content={t.zoomPillTip} side="top">
+            <motion.div
+              key="zoom-pill"
+              initial={{ opacity: 0, scale: 0.9, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 8 }}
+              transition={{ type: 'spring', stiffness: 450, damping: 30 }}
+              onClick={() => setIsHovered(true)}
+              className="flex items-center gap-2 h-10 px-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-[0_8px_24px_rgba(15,23,42,0.1)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.4)] rounded-2xl cursor-pointer hover:shadow-[0_12px_32px_rgba(15,23,42,0.15)] hover:border-indigo-300 dark:hover:border-indigo-700 transition-all group"
+            >
             <div className="flex items-center gap-1.5">
               <Search className="w-3.5 h-3.5 text-indigo-500 group-hover:scale-110 transition-transform" />
               <span className="text-xs font-mono font-extrabold text-slate-700 dark:text-slate-200">
@@ -91,6 +91,7 @@ export const ZoomControls: React.FC<ZoomControlsProps> = React.memo(({
               <Scissors className="w-3 h-3 text-rose-500 opacity-80" />
             )}
           </motion.div>
+        </Tooltip>
         ) : (
           /* Expanded Full Controls Bar */
           <motion.div

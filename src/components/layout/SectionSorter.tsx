@@ -171,7 +171,7 @@ export function SectionSorter({ markdown, onChange, lang = 'zh', contentLang = '
                       {/* 只保留图标，移除图标后重复的文本 */}
                       <span 
                         className={`inline-flex items-center justify-center w-5 h-5 rounded-md border ${theme.badgeBg} shrink-0`}
-                        title={theme.badge}
+                        aria-label={theme.badge}
                       >
                         <Icon className="w-3 h-3 shrink-0" />
                       </span>
