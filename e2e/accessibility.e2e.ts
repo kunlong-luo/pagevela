@@ -10,7 +10,7 @@ test.describe('keyboard accessibility', () => {
   test('share dialog traps focus context and restores trigger focus on Escape', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const shareButton = page.getByRole('button', { name: /分享简历|Share resume/ });
     await expect(shareButton).toBeVisible();
@@ -35,7 +35,7 @@ test.describe('keyboard accessibility', () => {
   });
 
   test('import dialog restores keyboard focus after Escape', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const moreButton = page.getByRole('button', {
       name: /More actions|更多操作/,
@@ -61,7 +61,7 @@ test.describe('keyboard accessibility', () => {
     await expect(moreButton).toBeFocused();
   });
   test('help dialog restores trigger focus after Escape', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const moreButton = page.getByRole('button', {
       name: /More actions|更多操作/,
@@ -88,7 +88,7 @@ test.describe('keyboard accessibility', () => {
   });
 
   test('confirmation dialog traps focus and restores the reset button', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const resetButton = page.getByRole('button', { name: /^(Reset current template|重置当前模板)$/ });
     await expect(resetButton).toBeVisible();
@@ -111,7 +111,7 @@ test.describe('keyboard accessibility', () => {
   });
 
   test('resume check behaves as a keyboard-managed dialog', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const diagnosticButton = page.getByRole('button', {
       name: /^(Check|检查)$/,
