@@ -58,7 +58,7 @@ test.describe('landing-to-editor navigation', () => {
     await page.getByRole('button', { name: 'Use Template' }).first().click();
     const confirmation = page.getByRole('dialog', { name: 'Replace the current resume?' });
     await expect(confirmation).toBeVisible();
-    await confirmation.getByRole('button', { name: 'Cancel' }).click();
+    await confirmation.getByRole('button', { name: 'Cancel' }).last().click();
     await expect(page.locator('#showcase')).toBeVisible();
     await expect(page).not.toHaveURL(/page=editor/);
   });
