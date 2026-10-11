@@ -52,7 +52,7 @@ export function SectionPresets({ onAddPreset, sections = [], lang = 'zh' }: Sect
               <button
                 key={item.type}
                 onClick={() => onAddPreset(item.type)}
-                aria-label={isAdded ? (isUiEn ? 'Already in resume (Click to locate)' : '已添加（点击滚动定位）') : (isUiEn ? `Add ${item.label}` : `添加 ${item.label}`)}
+                title={isAdded ? (isUiEn ? 'Already in resume (Click to locate)' : '已添加（点击滚动定位）') : ''}
                 className={`flex flex-col items-center justify-center gap-1.5 p-3 relative bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-850 dark:to-slate-900 border rounded-xl text-center transition-all cursor-pointer shadow-[0_1.5px_3px_rgba(15,23,42,0.01),inset_0_1.5px_2px_rgba(255,255,255,0.95)] dark:shadow-none active:translate-y-px group ${
                   isAdded
                     ? 'border-emerald-500/40 dark:border-emerald-500/30 bg-emerald-50/30 dark:bg-emerald-950/20'
