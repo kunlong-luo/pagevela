@@ -188,7 +188,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
           <p className="mt-6 text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
             {isEn
               ? 'Bi-directional Markdown & form editing, one-click Auto Fit single-page pagination, strict ATS rule audits, and vector PDF export. All data stays strictly in your browser.'
-              : '双向同步的 Markdown 与表单可视化编辑，单页智能 Auto Fit，严谨 ATS 规范自检，高保真矢量 PDF 导出。简历数据仅存浏览器本地，隐私零泄露。'}
+              : 'Markdown 与表单双向编辑，实时预览、Auto Fit、ATS 规则辅助检查与 PDF 导出。简历主要保存在浏览器本地，分享链接由用户主动生成。'}
           </p>
 
           {/* CTA Group */}
@@ -231,11 +231,11 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
           <div className="mt-10 pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-semibold text-slate-500 dark:text-slate-400">
             <span className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-500" />
-              {isEn ? '100% Local Storage (IndexedDB)' : '100% 浏览器本地存储 (IndexedDB)'}
+              {isEn ? 'Browser-local resume storage (IndexedDB)' : '简历正文主要保存在 IndexedDB'}
             </span>
             <span className="flex items-center gap-1.5">
               <Lock className="w-4 h-4 text-indigo-500" />
-              {isEn ? 'Zero Tracking & No Sign-up' : '零注册 · 零追踪 · 免登录'}
+              {isEn ? 'No account required · Privacy-conscious analytics' : '无需注册 · 仅收集匿名汇总使用数据'}
             </span>
             <span className="flex items-center gap-1.5">
               <FileCheck className="w-4 h-4 text-purple-500" />
@@ -311,7 +311,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
             </div>
           </div>
 
-          {/* Simulated High-Fidelity Workspace Window */}
+          {/* Illustrative mock workspace: fictional sample content, not a real product screenshot */}
           <div className="rounded-2xl border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-2xl overflow-hidden">
             {/* Top Window Bar */}
             <div className="h-10 px-4 bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
@@ -485,7 +485,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                   {/* Badges / Export proof */}
                   <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[8px] text-slate-400">
                     <span>A4 Standard (210 × 297 mm)</span>
-                    <span className="text-emerald-600 font-bold">100% ATS Ready</span>
+                    <span className="text-emerald-600 font-bold">ATS Checks Available · Example</span>
                   </div>
                 </div>
               </div>
@@ -548,11 +548,11 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                 <FileCheck className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-base text-slate-900 dark:text-white mb-2">
-                {isEn ? 'Strict ATS Parsing Verification' : '严格 ATS 筛选自检与合规规范'}
+                {isEn ? 'Strict ATS Parsing Verification' : 'ATS 格式与规范辅助检查'}
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 {isEn
-                  ? 'Audits structure, date consistency, and clean text streams to ensure your resume sails cleanly through corporate Applicant Tracking Systems.'
+                  ? 'Reviews structure, dates, contact details, and common formatting issues. This is guidance, not a guarantee of compatibility or success with a particular ATS.'
                   : '内置求职系统规则检测，自动排查非法字符、缺失日期与不规范标题，支持针对国内及海外欧美市场的隐私无头像合规。'}
               </p>
             </div>
@@ -597,7 +597,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 {isEn
-                  ? 'Share your resume safely using AES-GCM password encryption right in the URL. Install as a native desktop or mobile PWA that works without internet.'
+                  ? 'Create optional public or password-protected share links. Password-protected links encrypt content locally; public links are readable by recipients. Offline PWA use is supported after installation.'
                   : '支持 AES-GCM 密码加密分享链接，只有知晓密码者可解密查看。支持离线作为桌面或手机 App 安装，断网亦可安心写简历。'}
               </p>
             </div>
@@ -613,11 +613,11 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               <ShieldCheck className="w-6 h-6" />
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              {isEn ? 'Your Resume Data Belongs Exclusively to You' : '隐私第一：简历属于你，不属于任何云端平台'}
+              {isEn ? 'Your Resume Data Belongs Exclusively to You' : '本地优先：简历由你管理'}
             </h2>
             <p className="mt-2.5 text-sm sm:text-base text-slate-600 dark:text-slate-400">
               {isEn
-                ? 'We built Resume Craft on the Local-First philosophy. No tracking, no user accounts, no cloud leakage.'
+                ? 'Resume content is stored in your browser. No account is needed; privacy-conscious aggregate usage analytics help us improve the app. Sharing a link is optional.'
                 : '我们坚持纯客户端运行模式。所有手机号、住址、经历和薪酬预期仅留在您的本地设备中。'}
             </p>
           </div>
@@ -767,7 +767,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 {isEn
-                  ? 'No. All edits are automatically persisted to your browser IndexedDB and LocalStorage in real time. We also provide full JSON backup and restore features.'
+                  ? 'Edits are normally saved to IndexedDB in this browser, while lightweight preferences use localStorage. Browser data can be cleared, so export a JSON backup for important work.'
                   : '不会。系统在您键入的每一瞬间都会实时同步保存至浏览器的 IndexedDB 数据库中。同时我们提供 JSON 完整备份与草稿箱历史功能，安全双重保障。'}
               </p>
             </div>
@@ -779,7 +779,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 {isEn
                   ? 'It scans for common formatting pitfalls that break corporate applicant parsing: invalid date notations, inconsistent headers, missing contact info, and overseas privacy risks (e.g. photos on US resumes).'
-                  : '它基于各大招聘系统（ATS）的解析规则，自动检查经历时间范围的规范性、敏感信息泄漏（如欧美简历不应包含照片与年龄）、联系方式有效性以及段落标题层级，确保 HR 的系统能 100% 准确读取你的所有关键成果。'}
+                  : '基于常见简历规范检查时间范围、联系方式、标题层级与市场适配提示，但不保证任何特定 ATS 系统的解析或筛选结果。'}
               </p>
             </div>
 
