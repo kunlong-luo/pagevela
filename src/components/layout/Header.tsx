@@ -11,7 +11,8 @@ import {
   DownloadCloud,
   Menu,
   X,
-  Share2
+  Share2,
+  Home
 } from 'lucide-react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { useShallow } from 'zustand/react/shallow';
@@ -30,12 +31,14 @@ interface HeaderProps {
   handleExportPDF: () => void;
   handleExportDirectPDF?: () => void;
   handleExportVectorPrint?: () => void;
+  onNavigateToLanding?: () => void;
 }
 
 export function Header({
   handleExportPDF,
   handleExportDirectPDF,
   handleExportVectorPrint,
+  onNavigateToLanding,
 }: HeaderProps) {
   const {
     lastSaved,
@@ -228,13 +231,21 @@ export function Header({
       {/* Mobile Top Bar (< md) */}
       <div className="flex md:hidden items-center justify-between px-2.5 min-[390px]:px-3.5 h-12 w-full gap-2">
         <div className="flex min-w-0 items-center gap-1.5 min-[390px]:gap-2 shrink-0">
-          <div className="w-7 h-7 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 rounded-lg text-white flex items-center justify-center shadow-xs font-black text-xs tracking-tighter">
-            RC
-          </div>
-          <div className="flex items-baseline gap-1">
-            <span className="font-black text-xs text-slate-900 dark:text-white tracking-tight">
-              {isEn ? 'Resume Craft' : '简匠'}
-            </span>
+          <div 
+            onClick={onNavigateToLanding}
+            className={`flex items-center gap-1.5 ${onNavigateToLanding ? 'cursor-pointer active:scale-95 transition-transform' : ''}`}
+            role={onNavigateToLanding ? 'button' : undefined}
+            tabIndex={onNavigateToLanding ? 0 : undefined}
+            title={onNavigateToLanding ? (isEn ? 'Return to Home' : '返回产品主页') : undefined}
+          >
+            <div className="w-7 h-7 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 rounded-lg text-white flex items-center justify-center shadow-xs font-black text-xs tracking-tighter">
+              RC
+            </div>
+            <div className="flex items-baseline gap-1">
+              <span className="font-black text-xs text-slate-900 dark:text-white tracking-tight">
+                {isEn ? 'Resume Craft' : '简匠'}
+              </span>
+            </div>
           </div>
           <ProfileDropdown lang={uiLanguage} />
         </div>
@@ -264,14 +275,25 @@ export function Header({
       {/* Desktop Top Bar (>= md) */}
       <div className="hidden md:flex items-center justify-between px-6 py-2 w-full">
         <div className="flex items-center gap-3.5 shrink-0">
-          <div className="flex items-center gap-2.5 shrink-0">
-            <div className="w-8 h-8 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 rounded-xl shadow-md shadow-indigo-500/20 text-white flex items-center justify-center font-black text-xs tracking-tighter">
+          <div 
+            onClick={onNavigateToLanding}
+            className={`flex items-center gap-2.5 shrink-0 ${onNavigateToLanding ? 'cursor-pointer group select-none' : ''}`}
+            role={onNavigateToLanding ? 'button' : undefined}
+            tabIndex={onNavigateToLanding ? 0 : undefined}
+            title={onNavigateToLanding ? (isEn ? 'Return to Home / Welcome Page' : '返回产品首页 / 欢迎页') : undefined}
+          >
+            <div className="w-8 h-8 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 rounded-xl shadow-md shadow-indigo-500/20 text-white flex items-center justify-center font-black text-xs tracking-tighter group-hover:scale-105 transition-transform">
               RC
             </div>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-[15px] font-black text-slate-900 dark:text-white tracking-tight">
+              <span className="text-[15px] font-black text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 {isEn ? 'Resume Craft' : '简匠'}
               </span>
+              {onNavigateToLanding && (
+                <span className="text-[10px] font-bold text-slate-400 group-hover:text-indigo-500 transition-colors">
+                  {isEn ? 'Home' : '首页'}
+                </span>
+              )}
             </div>
           </div>
 
@@ -405,6 +427,7 @@ export function Header({
             onInstall={() => {
               void handleInstallApp();
             }}
+            onNavigateToLanding={onNavigateToLanding}
           />
         </div>
       </div>
@@ -433,6 +456,15 @@ export function Header({
             </div>
 
             <div className="grid grid-cols-2 gap-2">
+              {onNavigateToLanding && (
+                <button
+                  onClick={() => { onNavigateToLanding(); setIsMobileMenuOpen(false); }}
+                  className="col-span-2 min-h-11 flex items-center justify-center gap-2 p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-bold transition-all active:scale-95"
+                >
+                  <Home className="w-4 h-4 text-indigo-500" />
+                  <span>{isEn ? 'Return to Welcome Page' : '返回产品欢迎页'}</span>
+                </button>
+              )}
               <button
                 onClick={(e) => { toggleThemeMode(e); setIsMobileMenuOpen(false); }}
                 className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
