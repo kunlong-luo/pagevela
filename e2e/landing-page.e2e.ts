@@ -79,7 +79,7 @@ test.describe('landing-to-editor navigation', () => {
     await expect(page.locator('footer').getByRole('button', { name: 'Editor', exact: true })).toHaveCount(0);
 
     await heroCta.click();
-    await expect(page).toHaveURL(/\\?page=editor/);
+    await expect(page).toHaveURL(/\?page=editor/);
     await expect(page.locator('#editor-pane')).toBeVisible();
   });
 
@@ -107,7 +107,7 @@ test.describe('landing-to-editor navigation', () => {
     expect(box!.x).toBeGreaterThanOrEqual(0);
     expect(box!.x + box!.width).toBeLessThanOrEqual(375);
     await navCta.click();
-    await expect(page).toHaveURL(/\\?page=editor/);
+    await expect(page).toHaveURL(/\?page=editor/);
   });
 
   test('Chinese CTAs use localized copy and the same editor route', async ({ page }) => {
@@ -116,7 +116,7 @@ test.describe('landing-to-editor navigation', () => {
     await expect(page.getByTestId('landing-nav-cta')).toHaveText('开始制作');
     await expect(page.getByTestId('landing-hero-cta')).toContainText('免费开始制作');
     await page.getByTestId('landing-hero-cta').click();
-    await expect(page).toHaveURL(/\\?page=editor/);
+    await expect(page).toHaveURL(/\?page=editor/);
   });
 
 });
