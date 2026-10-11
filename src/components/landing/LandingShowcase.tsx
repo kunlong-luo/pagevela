@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Minimize2, CheckCircle2, Check, ChevronRight } from 'lucide-react';
+import { Minimize2, CheckCircle2, Check } from 'lucide-react';
 import { SHOWCASE_DATA } from './showcaseData';
 
 interface LandingShowcaseProps {
   isEn: boolean;
-  onOpenEditor: () => void;
 }
 
-export function LandingShowcase({ isEn, onOpenEditor }: LandingShowcaseProps) {
+export function LandingShowcase({ isEn }: LandingShowcaseProps) {
   const [tab, setTab] = useState<'markdown' | 'form' | 'autofit' | 'ats'>('form');
   const sample = isEn ? SHOWCASE_DATA.en : SHOWCASE_DATA.zh;
 
@@ -214,18 +213,10 @@ export function LandingShowcase({ isEn, onOpenEditor }: LandingShowcaseProps) {
                 </div>
               )}
 
-              {/* Bottom quick transition to full editor */}
-              <div className="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500 font-sans">
-                <span>{isEn ? 'Bi-directional live rendering' : '双向即时流转 · 所见即所得'}</span>
-                <button
-                  type="button"
-                  onClick={onOpenEditor}
-                  className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline flex items-center gap-1 cursor-pointer"
-                >
-                  {isEn ? 'Open in editor' : '在完整编辑器中体验'}
-                  <ChevronRight className="w-3 h-3" />
-                </button>
-              </div>
+              {/* The interactive preview stays focused on the demo; the sticky nav has the editor CTA. */}
+              <p className="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 text-[11px] text-slate-500 font-sans">
+                {isEn ? 'Preview: Markdown and forms stay in sync' : '演示：Markdown 与表单双向同步'}
+              </p>
             </div>
 
             {/* Right Pane: A4 Preview Sheet */}
