@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('product state flows', () => {
   test('imports a Markdown file through the real import UI', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /More actions|更多操作/ }).click();
     await page
@@ -55,7 +55,7 @@ test.describe('product state flows', () => {
       );
     });
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /更多操作|More actions/ }).click();
     await page.getByRole('button', { name: /^(导入|Import)$/ }).click();
@@ -100,7 +100,7 @@ test.describe('product state flows', () => {
       );
     });
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /More actions|更多操作/ }).click();
     await page.getByRole('button', { name: /^(Import|导入)$/ }).click();
@@ -151,7 +151,7 @@ test.describe('product state flows', () => {
   });
 
   test('restores a full Resume Craft backup exactly through the regular import UI', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /More actions|更多操作/ }).click();
     await page.getByRole('button', { name: /^(Import|导入)$/ }).click();
@@ -222,7 +222,7 @@ test.describe('product state flows', () => {
   });
 
   test('rejects malformed and unsupported JSON instead of importing raw JSON text', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /More actions|更多操作/ }).click();
     await page.getByRole('button', { name: /^(Import|导入)$/ }).click();
@@ -271,7 +271,7 @@ test.describe('product state flows', () => {
       );
     });
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: 'Open resume switcher' }).click();
     const switcher = page.getByRole('dialog', { name: 'Resume switcher' });
@@ -302,7 +302,7 @@ test.describe('product state flows', () => {
 
   test('restores uppercase backup JSON and rejects oversized backup files before reading', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', {
       name: /Open quick actions menu|打开快捷功能菜单/,
@@ -375,7 +375,7 @@ test.describe('product state flows', () => {
   });
 
   test('persists dark theme across reloads', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const themeButton = page.getByRole('button', {
       name: /Theme: Light|主题: 浅色/,
@@ -400,7 +400,7 @@ test.describe('product state flows', () => {
   test('duplicates and renames a resume profile and restores it after reload', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const profileTrigger = page
       .locator('button:visible')
