@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('simplified workspace actions', () => {
   test('separates layout controls from visual style controls', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const toolbar = page.locator('#resume-main-toolbar');
 
@@ -61,7 +61,7 @@ test.describe('simplified workspace actions', () => {
   });
 
   test('switches the live preview between A4 and US Letter dimensions', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const toolbar = page.locator('#resume-main-toolbar');
     await toolbar.getByRole('button', { name: /Open layout settings|打开排版设置/ }).click();
@@ -81,7 +81,7 @@ test.describe('simplified workspace actions', () => {
   });
 
   test('A4 height guard can collapse, stay collapsed, and expand again', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const collapse = page.getByRole('button', { name: 'Collapse A4 Height Guard' });
     await expect(collapse).toBeVisible();
@@ -104,7 +104,7 @@ test.describe('simplified workspace actions', () => {
   });
 
   test('keeps page break guide with view controls', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const pageGuide = page.getByRole('button', {
       name: 'Toggle page break guide',
@@ -122,7 +122,7 @@ test.describe('simplified workspace actions', () => {
   });
 
   test('uses one PDF download action with ATS and Quick choices', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const download = page.getByRole('button', { name: 'Download' }).first();
     await expect(download).toBeVisible();
@@ -148,7 +148,7 @@ test.describe('simplified workspace actions', () => {
   });
 
   test('moves lower-frequency actions into More', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await expect(page.getByRole('button', { name: 'Share resume' })).toBeVisible();
     const resumeCheck = page.getByRole('button', { name: 'Check' });
