@@ -10,7 +10,6 @@ import { LandingFeatures } from './LandingFeatures';
 import { LandingPrivacy } from './LandingPrivacy';
 import { LandingTemplates } from './LandingTemplates';
 import { LandingFaq } from './LandingFaq';
-import { LandingBottomCta } from './LandingBottomCta';
 import { LandingFooter } from './LandingFooter';
 
 interface LandingPageProps {
@@ -63,6 +62,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
       {/* 1. Header / Top Navigation */}
       <LandingNavbar
         isEn={isEn}
+        hasExistingResume={hasExistingResume}
         themeMode={themeMode}
         onToggleLanguage={toggleLanguage}
         onToggleTheme={toggleTheme}
@@ -80,7 +80,6 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
       {/* 3. Interactive Split Showcase */}
       <LandingShowcase
         isEn={isEn}
-        onOpenEditor={onOpenEditor}
       />
 
       {/* 4. Core Features Grid */}
@@ -105,16 +104,9 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
         isEn={isEn}
       />
 
-      {/* 8. Bottom CTA Banner */}
-      <LandingBottomCta
-        isEn={isEn}
-        onOpenEditor={onOpenEditor}
-      />
-
-      {/* 9. Footer */}
+      {/* 8. Footer */}
       <LandingFooter
         isEn={isEn}
-        onOpenEditor={onOpenEditor}
       />
     </div>
   );
