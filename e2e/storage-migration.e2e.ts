@@ -92,7 +92,7 @@ test.describe('v2.3 local data migration', () => {
       await page.addInitScript((value) => {
         window.localStorage.setItem('resume_ui_language', value);
       }, locale);
-      await page.goto('/');
+      await page.goto('/?page=editor');
       await page.getByRole('button', { name: menu }).click();
       await page.getByRole('button', { name: help, exact: true }).click();
       const dialog = page.getByRole('dialog', { name: dialogTitle });
@@ -121,7 +121,7 @@ test.describe('v2.3 local data migration', () => {
       window.localStorage.setItem('resume-settings', JSON.stringify(profile.settings));
     }, legacyProfile);
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /^(Markdown source editor|Markdown 源码编辑模式)$/ }).click();
     await expect(page.locator('#markdown-textarea')).toHaveValue(legacyProfile.markdown);
@@ -148,7 +148,7 @@ test.describe('v2.3 local data migration', () => {
   });
 
   test('clear local data removes IndexedDB records while preserving unrelated origin data', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.evaluate(() => new Promise<void>((resolve, reject) => {
       localStorage.setItem('another-app:key', 'keep-me');
