@@ -1,0 +1,517 @@
+import React, { useRef, useEffect, useState, useCallback, Suspense, lazy } from 'react';
+import { Editor } from './Editor';
+import { Preview } from './preview/Preview';
+import { Header } from './layout/Header';
+import { Toolbar } from './layout/Toolbar';
+import { useResumeStore } from '../store/useResumeStore';
+import { useShallow } from 'zustand/react/shallow';
+import { useResumeActions } from '../hooks/useResumeActions';
+import { useToast } from './ui/Toast';
+import { smartAutoFit } from '../lib/preview-utils';
+import { Edit3, Eye, Printer } from 'lucide-react';
+import { Tooltip } from './ui/Tooltip';
+import { markSupportPrompt, recordCompletedPdfExportFlowAndShouldPrompt } from '../lib/support-prompt';
+import { trackAnalyticsEvent } from '../lib/analytics';
+import { storage, STORAGE_HEALTH_EVENT, STORAGE_KEYS, type StorageHealthDetail } from '../lib/storage';
+import { resumeRepository } from '../lib/resume-repository';
+
+const ResumeChecker = lazy(() => import('./resume-checker/ResumeChecker').then(m => ({ default: m.ResumeChecker })));
+const IframeWarningModal = lazy(() => import('./IframeWarningModal').then(m => ({ default: m.IframeWarningModal })));
+const BackupDraftModal = lazy(() => import('./backup/BackupDraftModal').then(m => ({ default: m.BackupDraftModal })));
+const HelpLegalModal = lazy(() => import('./layout/HelpLegalModal').then(m => ({ default: m.HelpLegalModal })));
+const SupportProjectModal = lazy(() => import('./modals/SupportProjectModal').then(m => ({ default: m.SupportProjectModal })));
+const OnboardingTour = lazy(() => import('./onboarding/OnboardingTour').then(m => ({ default: m.OnboardingTour })));
+
+interface EditorWorkspaceProps {
+  onNavigateToLanding?: () => void;
+  initialOpenOnboarding?: boolean;
+}
+
+export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: EditorWorkspaceProps) {
+  const [mobileTab, setMobileTab] = useState<'editor' | 'preview'>('editor');
+
+  const {
+    uiLanguage,
+    layoutMode,
+    paperSize,
+    setLastSaved,
+    isHelpLegalOpen,
+    setIsHelpLegalOpen,
+    setStorageHealth,
+  } = useResumeStore(
+    useShallow((state) => ({
+      uiLanguage: state.uiLanguage,
+      layoutMode: state.settings.layoutMode,
+      paperSize: state.settings.paperSize,
+      setLastSaved: state.setLastSaved,
+      isHelpLegalOpen: state.isHelpLegalOpen,
+      setIsHelpLegalOpen: state.setIsHelpLegalOpen,
+      setStorageHealth: state.setStorageHealth,
+    })),
+  );
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
+  const [isSupportProjectOpen, setIsSupportProjectOpen] = useState(false);
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(() => {
+    if (initialOpenOnboarding !== undefined) return initialOpenOnboarding;
+    return storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1';
+  });
+
+  useEffect(() => {
+    if (initialOpenOnboarding) {
+      setIsOnboardingOpen(true);
+    }
+  }, [initialOpenOnboarding]);
+
+  useEffect(() => {
+    const startOnboarding = () => setIsOnboardingOpen(true);
+    window.addEventListener('resume-craft:start-onboarding', startOnboarding);
+    return () => window.removeEventListener('resume-craft:start-onboarding', startOnboarding);
+  }, []);
+
+  const hasTrackedEditingRef = useRef(false);
+
+  useEffect(() => {
+    const initialMarkdown = useResumeStore.getState().markdown;
+    return useResumeStore.subscribe((state) => {
+      if (hasTrackedEditingRef.current || state.markdown === initialMarkdown) return;
+      hasTrackedEditingRef.current = true;
+      trackAnalyticsEvent('editing_started');
+    });
+  }, []);
+
+  // Resizable split ratio (percentage for editor width)
+  const [splitRatio, setSplitRatio] = useState<number>(() => {
+    try {
+      const saved = storage.getString('resume-split-ratio');
+      if (saved) {
+        const parsed = parseFloat(saved);
+        if (parsed >= 25 && parsed <= 75) return parsed;
+      }
+    } catch (e) {}
+    return 50;
+  });
+
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  }, []);
+
+  const handleTouchStart = useCallback(() => {
+    setIsDragging(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isDragging) return;
+
+    let rafId: number | null = null;
+
+    const handleMove = (clientX: number) => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const newRatio = ((clientX - rect.left) / rect.width) * 100;
+        const clamped = Math.min(Math.max(newRatio, 28), 72);
+        const finalRatio = Math.abs(clamped - 50) < 1.5 ? 50 : clamped;
+        setSplitRatio(finalRatio);
+      });
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      handleMove(e.clientX);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches[0]) {
+        handleMove(e.touches[0].clientX);
+      }
+    };
+
+    const handleEnd = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      setIsDragging(false);
+      storage.set('resume-split-ratio', String(splitRatio));
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleEnd);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleEnd);
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleEnd);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleEnd);
+    };
+  }, [isDragging, splitRatio]);
+
+  const handlePdfExportComplete = useCallback(() => {
+    if (recordCompletedPdfExportFlowAndShouldPrompt()) {
+      setIsSupportProjectOpen(true);
+    }
+  }, []);
+
+  const {
+    handleExportPDF,
+    handleExportDirectPDF,
+    handleExportVectorPrint,
+  } = useResumeActions({
+    contentRef,
+    onPdfExportComplete: handlePdfExportComplete,
+  });
+
+  const handleSupportProject = useCallback(() => {
+    markSupportPrompt('supported');
+    setIsSupportProjectOpen(false);
+  }, []);
+
+  const handleDismissSupportPrompt = useCallback(() => {
+    markSupportPrompt('dismissed');
+    setIsSupportProjectOpen(false);
+  }, []);
+
+  // Automated periodic autosave (every 3 minutes)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      void (async () => {
+        try {
+          const currentDrafts = await resumeRepository.getDrafts();
+          const {
+            markdown: currentMarkdown,
+            settings: currentSettings,
+            currentTemplateId: currentTemplate,
+            uiLanguage: currentUiLanguage,
+          } = useResumeStore.getState();
+          const hasDuplicate = currentDrafts.some((draft) => draft.markdown === currentMarkdown);
+          if (hasDuplicate) return;
+
+          const isEn = currentUiLanguage === 'en';
+          const newAutoDraft = {
+            id: `draft_auto_${Date.now()}`,
+            title: new Date().toLocaleTimeString(isEn ? 'en-US' : 'zh-CN', { hour12: false }),
+            markdown: currentMarkdown,
+            settings: currentSettings,
+            templateId: currentTemplate,
+            timestamp: new Date().toLocaleString(isEn ? 'en-US' : 'zh-CN', { hour12: false }),
+            isAutoSave: true,
+          };
+
+          const otherDrafts = currentDrafts.filter((draft) => !draft.isAutoSave);
+          const autoDrafts = currentDrafts.filter((draft) => draft.isAutoSave);
+          const updatedAutoDrafts = [newAutoDraft, ...autoDrafts].slice(0, 5);
+          await resumeRepository.replaceDrafts([...updatedAutoDrafts, ...otherDrafts]);
+        } catch (error) {
+          console.error('[autosave] Failed to save draft to IndexedDB:', error);
+        }
+      })();
+    }, 180000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const { showToast } = useToast() || {};
+
+  useEffect(() => {
+    if (typeof BroadcastChannel === 'undefined') return;
+
+    const sourceId =
+      typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? crypto.randomUUID()
+        : `tab_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const channel = new BroadcastChannel('resume-craft:tabs:v1');
+    let warned = false;
+
+    const warnAboutAnotherTab = () => {
+      if (warned) return;
+      warned = true;
+      showToast?.({
+        title: uiLanguage === 'en' ? 'Resume Craft is open in another tab' : '检测到另一个 Resume Craft 标签页',
+        message: uiLanguage === 'en'
+          ? 'Avoid editing the same resume in multiple tabs at once. Local writes are serialized, but the latest edit can still replace older state.'
+          : '请避免在多个标签页同时编辑同一份简历。写入会串行处理，但较新的编辑仍可能覆盖较旧状态。',
+        type: 'info',
+        duration: 7000,
+      });
+    };
+
+    channel.onmessage = (event) => {
+      const message = event.data as { type?: string; sourceId?: string } | null;
+      if (!message || message.sourceId === sourceId) return;
+
+      if (message.type === 'hello') {
+        warnAboutAnotherTab();
+        channel.postMessage({ type: 'presence', sourceId });
+      } else if (message.type === 'presence') {
+        warnAboutAnotherTab();
+      }
+    };
+
+    channel.postMessage({ type: 'hello', sourceId });
+    return () => channel.close();
+  }, [uiLanguage, showToast]);
+
+  useEffect(() => {
+    const handleStorageHealth = (event: Event) => {
+      const detail = (event as CustomEvent<StorageHealthDetail>).detail;
+      if (!detail) return;
+
+      if (detail.status === 'recovered') {
+        setStorageHealth('ok');
+        showToast?.({
+          title: uiLanguage === 'en' ? 'Local saving restored' : '本地保存已恢复',
+          message: uiLanguage === 'en'
+            ? 'Resume changes can be saved to this browser again.'
+            : '浏览器本地存储已恢复，可以继续自动保存简历修改。',
+          type: 'success',
+          duration: 3500,
+        });
+        return;
+      }
+
+      setStorageHealth('error', detail.quotaExceeded === true);
+      showToast?.({
+        title: uiLanguage === 'en' ? 'Local save failed' : '本地保存失败',
+        message: detail.quotaExceeded
+          ? (uiLanguage === 'en'
+            ? 'Browser storage is full. Export a JSON backup before closing this page, then free storage space.'
+            : '浏览器本地存储空间不足。关闭页面前请先导出 JSON 备份，再清理存储空间。')
+          : (uiLanguage === 'en'
+            ? 'The browser rejected a local storage write. Export a JSON backup before closing this page.'
+            : '浏览器拒绝写入本地存储。关闭页面前请先导出 JSON 备份。'),
+        type: 'error',
+        duration: 8000,
+      });
+    };
+
+    window.addEventListener(STORAGE_HEALTH_EVENT, handleStorageHealth);
+    return () => window.removeEventListener(STORAGE_HEALTH_EVENT, handleStorageHealth);
+  }, [setStorageHealth, uiLanguage, showToast]);
+
+  // Global Keyboard Shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const isCmdOrCtrl = e.metaKey || e.ctrlKey;
+
+      if (isCmdOrCtrl && (e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+        const currentState = useResumeStore.getState();
+        void resumeRepository.saveSnapshot({
+          markdown: currentState.markdown,
+          profiles: currentState.profiles,
+          jdText: currentState.jdText,
+        }).then(() => {
+          const now = new Date();
+          const pad = (num: number) => String(num).padStart(2, '0');
+          setLastSaved(`${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`);
+          showToast?.({
+            title: uiLanguage === 'en' ? 'Resume saved locally' : '简历草稿已手动保存',
+            message: uiLanguage === 'en'
+              ? 'The current resume content was saved to local browser storage.'
+              : '核心简历数据已保存到浏览器本地。',
+            type: 'success',
+            duration: 2505,
+          });
+        }).catch((error) => {
+          console.error('[manual-save] Failed to save resume to IndexedDB:', error);
+          setStorageHealth('error');
+          showToast?.({
+            title: uiLanguage === 'en' ? 'Local save failed' : '本地保存失败',
+            message: uiLanguage === 'en'
+              ? 'The browser rejected the local save. Export a backup before closing this page.'
+              : '浏览器拒绝本地保存。关闭页面前请先导出备份。',
+            type: 'error',
+            duration: 8000,
+          });
+        });
+      }
+
+      if (isCmdOrCtrl && !e.shiftKey && (e.key === 'p' || e.key === 'P')) {
+        e.preventDefault();
+        handleExportPDF();
+      }
+
+      if (isCmdOrCtrl && e.shiftKey && (e.key === 'f' || e.key === 'F')) {
+        e.preventDefault();
+        const res = smartAutoFit();
+        if (res.success) {
+          showToast?.({
+            title: uiLanguage === 'en' ? 'Auto Fit complete' : '智能单页自适应完成',
+            message: uiLanguage === 'en'
+              ? 'Page height tuned to fit exactly one page.'
+              : '已自动微调间距与字体，完美适配一页。',
+            type: 'success',
+            duration: 2500,
+          });
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleExportPDF, setLastSaved, setStorageHealth, showToast, uiLanguage]);
+
+  return (
+    <div className="flex flex-col h-screen w-screen overflow-hidden bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-200">
+      <div className="flex-1 flex flex-col h-full w-full overflow-hidden">
+        <div className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shrink-0 shadow-2xs">
+          <Header 
+            handleExportPDF={handleExportPDF}
+            handleExportDirectPDF={handleExportDirectPDF}
+            handleExportVectorPrint={handleExportVectorPrint}
+            onNavigateToLanding={onNavigateToLanding}
+          />
+          <Toolbar />
+        </div>
+
+        <main 
+          ref={containerRef}
+          className="flex-1 flex flex-col md:flex-row overflow-hidden relative pb-[calc(4.75rem+env(safe-area-inset-bottom))] md:pb-0"
+        >
+          {(!isMobile || mobileTab === 'editor') && (
+            <section 
+              id="editor-pane" 
+              style={{
+                width: !isMobile ? (layoutMode === 'split' ? `${splitRatio}%` : layoutMode === 'editor' ? '100%' : '0%') : '100%'
+              }}
+              className={`z-10 relative h-full ${
+                isDragging ? 'transition-none' : 'transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]'
+              } ${
+                !isMobile && layoutMode === 'preview' ? 'hidden' : 'w-full'
+              } border-r border-slate-200/90 dark:border-slate-800`}
+            >
+              <Editor />
+            </section>
+          )}
+
+          {!isMobile && layoutMode === 'split' && (
+            <Tooltip
+              content={uiLanguage === 'en' ? 'Drag to resize (Double click to reset 50%)' : '拖拽调节左右宽度（双击复位 50%）'}
+              side="top"
+              delay={400}
+              disabled={isDragging}
+              wrapperClassName="hidden md:flex h-full items-center justify-center z-30"
+            >
+              <div 
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
+                className="flex items-center justify-center w-3 h-full -mx-1.5 cursor-col-resize group hover:w-3.5 transition-all select-none relative"
+                onDoubleClick={() => setSplitRatio(50)}
+              >
+                <div className={`w-1 h-8 rounded-full transition-all duration-200 ${isDragging ? 'bg-indigo-600 scale-y-125' : 'bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-400 dark:group-hover:bg-indigo-400 group-hover:scale-y-110'}`} />
+                {isDragging && (
+                  <div className="absolute top-3 left-1/2 -translate-x-1/2 bg-slate-900/90 dark:bg-slate-800/95 text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded-full shadow-lg border border-slate-700/80 whitespace-nowrap pointer-events-none animate-in fade-in duration-150 flex items-center gap-1 z-50">
+                    <span>{Math.round(splitRatio)}%</span>
+                    <span className="text-slate-400">:</span>
+                    <span>{Math.round(100 - splitRatio)}%</span>
+                  </div>
+                )}
+              </div>
+            </Tooltip>
+          )}
+
+          {(!isMobile || mobileTab === 'preview') && (
+            <section 
+              id="preview-pane" 
+              style={{
+                width: !isMobile ? (layoutMode === 'split' ? `${100 - splitRatio}%` : layoutMode === 'preview' ? '100%' : '0%') : '100%'
+              }}
+              className={`h-full flex-1 min-w-0 ${
+                !isMobile && layoutMode === 'editor' ? 'hidden' : 'flex'
+              } flex-col bg-slate-100/70 dark:bg-slate-950/70 relative z-0`}
+            >
+              <Preview 
+                ref={contentRef} 
+              />
+            </section>
+          )}
+
+          <Suspense fallback={null}>
+            <ResumeChecker />
+          </Suspense>
+        </main>
+
+        {isMobile && (
+          <nav
+            aria-label={uiLanguage === 'en' ? 'Mobile workspace actions' : '移动端工作区操作'}
+            className="md:hidden fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100vw-1rem)] max-w-md bg-slate-950/92 dark:bg-slate-800/95 border border-white/10 backdrop-blur-xl shadow-2xl rounded-2xl p-1.5 grid grid-cols-3 gap-1.5 text-xs font-bold text-white animate-in fade-in slide-in-from-bottom-3 duration-200"
+            style={{ bottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}
+          >
+            <button
+              type="button"
+              onClick={() => setMobileTab('editor')}
+              aria-pressed={mobileTab === 'editor'}
+              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-all cursor-pointer active:scale-[0.98] ${
+                mobileTab === 'editor'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Edit3 className="w-4 h-4 shrink-0" />
+              <span>{uiLanguage === 'en' ? 'Edit' : '编辑'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setMobileTab('preview')}
+              aria-pressed={mobileTab === 'preview'}
+              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-all cursor-pointer active:scale-[0.98] ${
+                mobileTab === 'preview'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Eye className="w-4 h-4 shrink-0" />
+              <span className="flex min-w-0 flex-col items-start leading-none">
+                <span>{uiLanguage === 'en' ? 'Preview' : '预览'}</span>
+                <span className="mt-1 text-[9px] font-semibold opacity-70">
+                  {paperSize === 'letter' ? 'Letter' : 'A4'}
+                </span>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent('resume-craft:open-pdf-menu'))}
+              aria-label={uiLanguage === 'en' ? 'Open mobile download options' : '打开移动端下载选项'}
+              className="min-h-11 flex items-center justify-center gap-1.5 px-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-all cursor-pointer active:scale-[0.98] shadow-md shadow-emerald-950/20"
+            >
+              <Printer className="w-4 h-4 shrink-0" />
+              <span>{uiLanguage === 'en' ? 'Download' : '下载'}</span>
+            </button>
+          </nav>
+        )}
+
+        <Suspense fallback={null}>
+          <IframeWarningModal />
+          <BackupDraftModal />
+          <HelpLegalModal isOpen={isHelpLegalOpen} onClose={() => setIsHelpLegalOpen(false)} />
+          <SupportProjectModal
+            isOpen={isSupportProjectOpen}
+            lang={uiLanguage}
+            onClose={handleDismissSupportPrompt}
+            onSupportClick={handleSupportProject}
+          />
+          <OnboardingTour
+            isOpen={isOnboardingOpen}
+            onClose={() => setIsOnboardingOpen(false)}
+          />
+        </Suspense>
+      </div>
+    </div>
+  );
+}
