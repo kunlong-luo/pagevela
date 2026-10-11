@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo, useDeferredValue } from 'r
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Copy, RotateCcw, Check, Bold, Italic, Link, List, ListOrdered, Table, Minus, Heading1, Heading2, Code, Scissors, Undo, Redo,
-  Layers, GraduationCap, ChevronDown, Briefcase, ChevronsUp, ChevronsDown, Wand2, FolderKanban, User, ArrowUpDown
+  Layers, GraduationCap, Briefcase, ChevronsUp, ChevronsDown, Wand2, FolderKanban, User, ArrowUpDown
 } from 'lucide-react';
 import { FormEditor } from './form/FormEditor';
 import { SectionSorter } from './layout/SectionSorter';
@@ -271,6 +271,8 @@ export const Editor = React.memo(function Editor() {
 
   const [cleanFeedback, setCleanFeedback] = useState<string | null>(null);
   const [isSnippetsDropdownOpen, setIsSnippetsDropdownOpen] = useState(false);
+  const [snippetsCoords, setSnippetsCoords] = useState<{ top: number; left: number } | null>(null);
+  const snippetsBtnRef = useRef<HTMLButtonElement>(null);
 
   // Auto detect format issues and 1-click clean
   const autoCleanResult = useMemo(() => {
@@ -311,12 +313,12 @@ export const Editor = React.memo(function Editor() {
       <div className="mobile-editor-header flex items-center justify-between px-2.5 sm:px-6 py-1.5 sm:py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 gap-1.5 sm:gap-3 relative overflow-x-auto scrollbar-none flex-nowrap">
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-indigo-600 dark:bg-indigo-500 rounded-r"></div>
         
-        {/* Toggle Mode Segmented Control: Form | Markdown */}
+        {/* Toggle Mode Segmented Control: 表单 | Markdown */}
         <div className="relative flex bg-slate-100 dark:bg-slate-800/90 p-0.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner shrink-0">
           <button
             type="button"
             onClick={() => setActiveMode('form')}
-            aria-label={isUiEn ? 'Form editor' : '表单编辑模式'}
+            aria-label={isUiEn ? 'Form mode' : '表单模式'}
             className={`relative flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               activeMode === 'form'
                 ? 'text-indigo-700 dark:text-indigo-300 font-extrabold'
@@ -337,7 +339,7 @@ export const Editor = React.memo(function Editor() {
           <button
             type="button"
             onClick={() => setActiveMode('markdown')}
-            aria-label={isUiEn ? 'Markdown source editor' : 'Markdown 源码编辑模式'}
+            aria-label={isUiEn ? 'Markdown mode' : 'Markdown 模式'}
             className={`relative flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               activeMode === 'markdown'
                 ? 'text-indigo-700 dark:text-indigo-300 font-extrabold'
@@ -352,7 +354,7 @@ export const Editor = React.memo(function Editor() {
               />
             )}
             <Code className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-            <span>{isUiEn ? 'Markdown' : '源码'}</span>
+            <span>Markdown</span>
           </button>
         </div>
 
@@ -473,12 +475,12 @@ export const Editor = React.memo(function Editor() {
 
           <div className="w-px h-4 bg-slate-200 dark:bg-slate-700 mx-0.5 shrink-0" />
 
-          {/* 复制 Markdown 源码 */}
-          <Tooltip content={isUiEn ? 'Copy Markdown source' : '复制 Markdown 源码'}>
+          {/* 复制简历文本 */}
+          <Tooltip content={isUiEn ? 'Copy resume text' : '复制简历文本'}>
             <button 
               type="button"
               onClick={handleCopy}
-              aria-label={isUiEn ? 'Copy Markdown source' : '复制 Markdown 源码'}
+              aria-label={isUiEn ? 'Copy resume text' : '复制简历文本'}
               className="p-1.5 rounded-lg border border-slate-200/80 dark:border-slate-700/80 bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors cursor-pointer shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" aria-hidden="true" /> : <Copy className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />}
@@ -617,28 +619,48 @@ export const Editor = React.memo(function Editor() {
 
             <div className="w-px h-3.5 bg-gray-200 dark:bg-slate-700 mx-1.5"></div>
 
-            {/* Quick Snippets Inserter Dropdown */}
-            <div className="relative">
-              <Tooltip content={isUiEn ? 'Insert ready-made resume sections' : '快速插入常用结构化简历模块'}>
-                <button
-                  onClick={() => setIsSnippetsDropdownOpen(!isSnippetsDropdownOpen)}
-                  className="flex items-center gap-1 px-2.5 py-1 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-indigo-950/60 dark:to-blue-950/60 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-indigo-900/70 dark:hover:to-blue-900/70 text-blue-700 dark:text-blue-300 hover:text-indigo-800 dark:hover:text-white rounded border border-blue-200/50 dark:border-indigo-800 text-[11px] font-semibold transition-all shadow-sm cursor-pointer ml-1 active:scale-95"
-                >
-                  <Layers className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
-                  <span>{isUiEn ? 'Insert Snippets' : '插入常用模块'}</span>
-                  <ChevronDown className={`w-3 h-3 text-blue-500 dark:text-blue-400 transition-transform shrink-0 ${isSnippetsDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-              </Tooltip>
+            {/* Quick Snippets Inserter - Icon only with Tooltip and unclipped fixed menu */}
+            <Tooltip content={isUiEn ? 'Insert ready-made sections' : '插入常用模块'} side="bottom">
+              <button
+                ref={snippetsBtnRef}
+                type="button"
+                onClick={() => {
+                  if (!isSnippetsDropdownOpen && snippetsBtnRef.current) {
+                    const rect = snippetsBtnRef.current.getBoundingClientRect();
+                    setSnippetsCoords({
+                      top: rect.bottom + 6,
+                      left: Math.max(8, Math.min(rect.left, window.innerWidth - 240)),
+                    });
+                  }
+                  setIsSnippetsDropdownOpen((prev) => !prev);
+                }}
+                aria-label={isUiEn ? 'Insert ready-made sections' : '插入常用模块'}
+                aria-expanded={isSnippetsDropdownOpen}
+                className={`p-1.5 hover:bg-gray-200/60 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white rounded transition-colors cursor-pointer flex items-center justify-center shrink-0 ${
+                  isSnippetsDropdownOpen ? 'bg-gray-200/60 dark:bg-slate-700 text-gray-900 dark:text-white' : ''
+                }`}
+              >
+                <Layers className="w-3.5 h-3.5" />
+              </button>
+            </Tooltip>
 
               {isSnippetsDropdownOpen && (
                 <>
                   {/* Overlay background to dismiss */}
                   <div 
-                    className="fixed inset-0 z-40" 
+                    className="fixed inset-0 z-[9998]" 
                     onClick={() => setIsSnippetsDropdownOpen(false)}
                   />
-                  {/* Dropdown Items list */}
-                  <div className="absolute left-1 mt-1 w-56 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-xl rounded-lg py-1.5 z-50 flex flex-col animate-in fade-in slide-in-from-top-1 duration-150">
+                  {/* Dropdown Items list - fixed coordinates prevent toolbar clipping */}
+                  <div 
+                    style={{
+                      position: 'fixed',
+                      top: snippetsCoords?.top ?? 80,
+                      left: snippetsCoords?.left ?? 16,
+                      zIndex: 9999,
+                    }}
+                    className="w-56 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-2xl rounded-xl py-1.5 flex flex-col animate-in fade-in slide-in-from-top-1 duration-150"
+                  >
                     <div className="px-2.5 py-1 text-[10px] font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest border-b border-gray-100 dark:border-slate-700 mb-1">
                       {isUiEn ? 'Select Snippet to Insert' : '选择常用模块插入'}
                     </div>
@@ -735,33 +757,6 @@ export const Editor = React.memo(function Editor() {
                   </div>
                 </>
               )}
-            </div>
-
-            {/* Auto Spacing & Clean button */}
-            <Tooltip
-              content={isUiEn ? 'Magic Formatter: Auto Clean & Format' : '魔法排版：中英空格与格式一键规整'}
-              shortcut="Ctrl+Shift+F"
-            >
-              <button
-                onClick={handleAutoClean}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded border text-[11px] font-semibold transition-all shadow-sm cursor-pointer ml-1 active:scale-95 ${
-                  cleanFeedback
-                    ? 'bg-emerald-500 text-white border-emerald-500'
-                    : autoCleanResult.hasChanges
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800'
-                      : 'bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 border-slate-200/60 dark:border-slate-700/60'
-                }`}
-              >
-                <Wand2 className="w-3 h-3 shrink-0" />
-                <span>
-                  {cleanFeedback 
-                    ? cleanFeedback 
-                    : autoCleanResult.hasChanges 
-                      ? (isUiEn ? `Clean (${autoCleanResult.fixesCount})` : `规整 (${autoCleanResult.fixesCount})`) 
-                      : (isUiEn ? 'Formatted' : '格式正常')}
-                </span>
-              </button>
-            </Tooltip>
           </div>
 
           {/* Main Textarea with Highlighted Overlay */}
