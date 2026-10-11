@@ -69,8 +69,8 @@ export const CORE_FEATURES: FeatureItem[] = [
     icon: 'Minimize2',
     titleZh: 'Auto Fit 智能单页自适应',
     titleEn: 'Smart Auto Fit Single-Page',
-    descZh: '告别多出几行溢出到下一页的尴尬，一键微调间距字号，锁死黄金单页。',
-    descEn: 'Eliminate awkward multi-page spillovers by dynamically locking content to one page.'
+    descZh: '微调行高、边距与字号，帮助减少简历内容溢页。',
+    descEn: 'Adjust spacing and typography to help reduce page overflow.'
   },
   {
     id: 'ats',
@@ -116,21 +116,21 @@ export interface PrivacyComparisonItem {
 export const PRIVACY_COMPARISONS: PrivacyComparisonItem[] = [
   {
     zhTraditional: '强制注册账号，个人简历保存在第三方云端服务器',
-    enTraditional: 'Requires user accounts and stores personal data on third-party servers',
+    enTraditional: 'Some services require an account or store drafts on remote servers',
     zhCraft: '无需注册，简历全量安全保存在您的本地设备中',
-    enCraft: 'No account needed; resume drafts are kept safely on your local device'
+    enCraft: 'No account needed; resume drafts are stored in this browser'
   },
   {
     zhTraditional: '部分功能收费，免费导出通常附带平台水印或画质压缩',
-    enTraditional: 'Freemium model with watermarked exports or paid download paywalls',
+    enTraditional: 'Some services charge for exports or apply watermarks',
     zhCraft: '100% 免费开源（MIT），永久无水印，支持完整 JSON 备份',
-    enCraft: '100% free & open-source (MIT), zero watermarks, lossless JSON backup'
+    enCraft: 'Free and open source (MIT), watermark-free exports and JSON backup'
   },
   {
     zhTraditional: '数据存在泄露、转售或被抓取用于 AI 训练的模型风险',
-    enTraditional: 'Data is subject to cloud breaches, vendor lock-in, and training scraping',
-    zhCraft: '纯前端运行，无中心化数据库，仅在用户主动分享时生成端到端密文',
-    enCraft: 'Client-side execution, zero central resume DB, end-to-end encryption on share'
+    enTraditional: 'Cloud-hosted drafts require trusting a third-party data provider',
+    zhCraft: '主要使用浏览器本地存储；可选择公开或密码加密分享链接',
+    enCraft: 'Browser-first storage; optional password-protected share links are encrypted locally'
   }
 ];
 
@@ -152,13 +152,13 @@ export const FAQS: FaqItem[] = [
     qZh: '刷新或关闭浏览器后，已编写的简历会丢失吗？',
     qEn: 'Will my resume be preserved after refreshing or closing the browser?',
     aZh: '所有修改会自动实时保存在您的本机设备上。为防浏览器缓存被意外清理，建议在关键节点使用顶部“备份”导出 JSON 格式文件。',
-    aEn: 'All edits are auto-saved directly on your device. We also provide one-click JSON backup/export for extra safety.'
+    aEn: 'Edits are normally saved in this browser. Clearing browser data can remove them, so export a JSON backup for important work.'
   },
   {
     qZh: 'ATS 规范体检如何辅助提升简历通过率？',
     qEn: 'How does the ATS rule check improve resume pass rates?',
-    aZh: '它对标主流招聘系统的解析规则，主动识别非法特殊字符、格式不规范的起止日期、标题层级及欧美投递的无头像隐私规范。',
-    aEn: 'It validates against common ATS parser constraints: date standard formats, heading hierarchies, contact syntax, and privacy rules.'
+    aZh: '辅助检查常见格式问题、日期、联系方式和标题结构，但不能保证特定 ATS 的解析或筛选结果。',
+    aEn: 'It flags common formatting, date, contact, and heading issues. This does not guarantee outcomes with any particular ATS.'
   },
   {
     qZh: '支持在手机或平板设备上使用吗？',
