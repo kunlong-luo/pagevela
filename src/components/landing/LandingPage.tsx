@@ -373,35 +373,35 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
               <div className="p-5 font-mono text-xs bg-slate-50/70 dark:bg-slate-900/60 flex flex-col justify-between overflow-hidden">
                 {interactiveTab === 'markdown' && (
                   <div className="space-y-2 text-slate-700 dark:text-slate-300 leading-relaxed overflow-hidden">
-                    <p className="text-indigo-600 dark:text-indigo-400 font-bold"># 钟晨杰</p>
-                    <p className="text-slate-500 dark:text-slate-400 text-[11px]">AI后端开发工程师 ｜ 智能体网关架构 ｜ 分布式系统</p>
-                    <p className="text-slate-500 dark:text-slate-400 text-[11px]">+86 100 0000 0000 · chenjie.zhong@example.com · GitHub: chenjie-ai</p>
-                    <div className="pt-2 text-indigo-600 dark:text-indigo-400 font-bold">## 个人优势</div>
-                    <p>- 7年高并发 Java/Go 后端开发与 AI 大模型应用工程化实战经验。</p>
-                    <p>- 深度掌握大模型工程化体系，精通 Spring AI, Model Context Protocol (MCP)。</p>
-                    <div className="pt-2 text-indigo-600 dark:text-indigo-400 font-bold">## 工作经历</div>
-                    <p className="text-slate-900 dark:text-slate-100 font-bold">### 北京星河智联科技有限公司　资深AI架构师　*2024.03 — 至今*</p>
-                    <p>- 主导新一代 AI 智能路由网关系统的架构设计，支撑日均千万级调用。</p>
-                    <p>- 采用 HNSW 多路召回，语义检索平均耗时低于 80ms。</p>
+                    <p className="text-indigo-600 dark:text-indigo-400 font-bold">{isEn ? '# Alex Morgan' : '# 钟晨杰'}</p>
+                    <p className="text-slate-500 dark:text-slate-400 text-[11px]">{isEn ? 'Backend Engineer | API Architecture | Distributed Systems' : 'AI后端开发工程师 ｜ 智能体网关架构 ｜ 分布式系统'}</p>
+                    <p className="text-slate-500 dark:text-slate-400 text-[11px]">{isEn ? 'alex.morgan@example.com · GitHub: alex-demo' : '+86 100 0000 0000 · chenjie.zhong@example.com · GitHub: chenjie-ai'}</p>
+                    <div className="pt-2 text-indigo-600 dark:text-indigo-400 font-bold">{isEn ? '## Professional Summary' : '## 个人优势'}</div>
+                    <p>{isEn ? '- Built reliable backend services and AI integrations.' : '- 7年高并发 Java/Go 后端开发与 AI 大模型应用工程化实战经验。'}</p>
+                    <p>{isEn ? '- Experienced with APIs, distributed systems, and MCP.' : '- 深度掌握大模型工程化体系，精通 Spring AI, Model Context Protocol (MCP)。'}</p>
+                    <div className="pt-2 text-indigo-600 dark:text-indigo-400 font-bold">{isEn ? '## Work Experience' : '## 工作经历'}</div>
+                    <p className="text-slate-900 dark:text-slate-100 font-bold">{isEn ? '### Example Labs — Senior Backend Engineer — 2024–Present' : '### 北京星河智联科技有限公司　资深AI架构师　*2024.03 — 至今*'}</p>
+                    <p>{isEn ? '- Led an API gateway redesign for scalable services.' : '- 主导新一代 AI 智能路由网关系统的架构设计，支撑日均千万级调用。'}</p>
+                    <p>{isEn ? '- Improved semantic search with HNSW indexing.' : '- 采用 HNSW 多路召回，语义检索平均耗时低于 80ms。'}</p>
                   </div>
                 )}
 
                 {interactiveTab === 'form' && (
                   <div className="space-y-3 font-sans text-xs">
                     <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">基本信息 (Basic Info)</span>
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{isEn ? 'Basic Information' : '基本信息'}</span>
                       <div className="mt-2 grid grid-cols-2 gap-2">
-                        <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-800 font-semibold text-slate-800 dark:text-slate-200">钟晨杰</div>
-                        <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">AI后端开发工程师</div>
+                        <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-800 font-semibold text-slate-800 dark:text-slate-200">{isEn ? 'Alex Morgan' : '钟晨杰'}</div>
+                        <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">{isEn ? 'Backend Engineer' : 'AI后端开发工程师'}</div>
                       </div>
                     </div>
                     <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
                       <div className="flex justify-between items-center mb-1">
-                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">工作经历 (Work Experience)</span>
-                        <span className="text-[10px] text-emerald-600 font-bold">STAR 法则模板可用</span>
+                        <span className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{isEn ? 'Work Experience' : '工作经历'}</span>
+                        <span className="text-[10px] text-emerald-600 font-bold">{isEn ? 'STAR-style examples' : 'STAR 法则模板可用'}</span>
                       </div>
                       <div className="bg-slate-50 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-800 text-[11px] text-slate-700 dark:text-slate-300">
-                        北京星河智联 · 资深AI架构师 · 2024.03 - 至今
+                        {isEn ? 'Example Labs · Senior Backend Engineer · 2024–Present' : '北京星河智联 · 资深AI架构师 · 2024.03 - 至今'}
                       </div>
                     </div>
                   </div>
@@ -412,20 +412,20 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                     <div className="p-3.5 bg-indigo-50/80 dark:bg-indigo-950/40 rounded-xl border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200">
                       <div className="flex items-center gap-2 font-bold mb-1">
                         <Sparkles className="w-4 h-4 text-indigo-600" />
-                        <span>Auto Fit 智能单页排版计算中</span>
+                        <span>{isEn ? 'Auto Fit example: single-page layout' : 'Auto Fit 单页排版示例'}</span>
                       </div>
                       <p className="text-[11px] text-indigo-700 dark:text-indigo-300">
-                        检测到原有内容溢出第 1 页共 4 行。已自动微调段落间距（-1.5px）、行高（1.45）与字体比例，完美锁定单页。
+                        {isEn ? 'Illustrative example: spacing and line height can be adjusted to help avoid an extra page.' : '示例效果：自动微调段落间距和行高，尽量避免内容溢出第二页。'}
                       </p>
                     </div>
                     <div className="grid grid-cols-2 gap-2 text-[11px]">
                       <div className="p-2.5 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <span className="text-slate-400 block text-[10px]">优化前页面高度</span>
-                        <span className="font-bold text-rose-500">108% (超出一页)</span>
+                        <span className="text-slate-400 block text-[10px]">{isEn ? 'Before Auto Fit (example)' : '优化前页面高度（示例）'}</span>
+                        <span className="font-bold text-rose-500">{isEn ? '108% (over one page)' : '108% (超出一页)'}</span>
                       </div>
                       <div className="p-2.5 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <span className="text-slate-400 block text-[10px]">Auto Fit 优化后</span>
-                        <span className="font-bold text-emerald-500">99.2% (黄金单页)</span>
+                        <span className="text-slate-400 block text-[10px]">{isEn ? 'After Auto Fit (example)' : 'Auto Fit 优化后（示例）'}</span>
+                        <span className="font-bold text-emerald-500">{isEn ? '99.2% (example)' : '99.2% (示例)'}</span>
                       </div>
                     </div>
                   </div>
@@ -437,26 +437,26 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
                       <div className="flex items-center justify-between font-bold mb-1">
                         <span className="flex items-center gap-1.5">
                           <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                          ATS 机器解析评分: 98 / 100
+                          {isEn ? 'ATS rule check (example)' : 'ATS 规则检查（示例）'}
                         </span>
-                        <span className="text-xs bg-emerald-600 text-white px-2 py-0.5 rounded">优秀</span>
+                        <span className="text-xs bg-emerald-600 text-white px-2 py-0.5 rounded">{isEn ? 'Sample' : '示例'}</span>
                       </div>
                       <p className="text-[11px] text-emerald-700 dark:text-emerald-300">
-                        未包含非标准特殊字符或图形表格；时间段格式符合标准规范；标题层级清晰。
+                        {isEn ? 'Example checks: standard characters, consistent dates, and clear section headings.' : '示例检查：标准字符、时间段格式一致、标题层级清晰。'}
                       </p>
                     </div>
                     <div className="space-y-1.5 text-[11px] text-slate-600 dark:text-slate-300">
                       <div className="flex items-center gap-1.5">
                         <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span>联系方式 (电话、邮箱、GitHub) 解析正常</span>
+                        <span>{isEn ? 'Contact fields are clearly formatted' : '联系方式（电话、邮箱、GitHub）格式清晰'}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span>多段经历时间范围均包含有效年月</span>
+                        <span>{isEn ? 'Experience dates are consistently formatted' : '多段经历时间范围均包含有效年月'}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span>高频技术关键字（Java, Spring AI, MCP）清晰突出</span>
+                        <span>{isEn ? 'Technical skills are easy to find' : '高频技术关键字（Java, Spring AI, MCP）清晰突出'}</span>
                       </div>
                     </div>
                   </div>
