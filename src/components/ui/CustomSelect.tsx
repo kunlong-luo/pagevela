@@ -177,7 +177,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
         onClick={handleToggle}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        title={selectedOption?.label || placeholder}
+        aria-label={selectedOption?.label || placeholder}
         className={`
           ${sizeClasses[size]}
           ${defaultTriggerStyles}

@@ -32,7 +32,7 @@ export function LayoutModeToggle() {
   return (
     <div
       role="radiogroup"
-      aria-label={isEn ? 'Workspace layout mode' : '工作区排版视图切换'}
+      aria-label={isEn ? 'View layout mode' : '视图分栏切换'}
       className="relative bg-slate-100 dark:bg-slate-800/90 p-0.5 rounded-lg flex items-center text-xs shrink-0 border border-slate-200/60 dark:border-slate-700/60 shadow-2xs"
     >
       {modes.map((m) => {

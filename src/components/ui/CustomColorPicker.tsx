@@ -187,7 +187,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
                       border border-black/10
                     `}
                     style={{ backgroundColor: color }}
-                    title={color}
+                    aria-label={color}
                   >
                     {isSelected && <Check className="w-3.5 h-3.5 text-white drop-shadow-md stroke-[3]" />}
                   </button>
@@ -213,7 +213,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
               <button
                 type="button"
                 onClick={() => nativeColorInputRef.current?.click()}
-                title="Spectrum color picker"
+                aria-label="Spectrum color picker"
                 className="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-md transition-colors shrink-0 cursor-pointer"
               >
                 <Pipette className="w-4 h-4" />
