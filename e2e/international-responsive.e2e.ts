@@ -42,7 +42,7 @@ test.describe('international responsive UX', () => {
   for (const viewport of VIEWPORTS) {
     test(`${viewport.label}: template center and layout stay within the viewport`, async ({ page }) => {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await page.goto('/');
+      await page.goto('/?page=editor');
 
       const templateTrigger = page.getByRole('button', {
         name: /Browse resume templates|浏览与切换简历模板/,
@@ -79,7 +79,7 @@ test.describe('international responsive UX', () => {
 
   test('compact mobile keeps import and resume-management dialogs operable', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 568 });
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await expect.poll(() =>
       page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
@@ -136,7 +136,7 @@ test.describe('international responsive UX', () => {
 
   test('mobile: primary workspace, resume switcher, and download sheet stay usable', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const dock = page.getByRole('navigation', {
       name: /Mobile workspace actions|移动端工作区操作/,
@@ -200,7 +200,7 @@ test.describe('international responsive UX', () => {
       );
     });
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const formButton = page.getByRole('button', { name: /Form editor|表单编辑/ });
     if (await formButton.count()) {
@@ -243,7 +243,7 @@ test.describe('international responsive UX', () => {
 
   test('mobile: month picker fits the viewport and exposes older experience years', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: 'Form editor' }).click();
 
