@@ -105,7 +105,6 @@ export const HeightGuard = React.memo(function HeightGuard({
             transition={{ type: 'spring', stiffness: 450, damping: 30 }}
             onClick={toggleCollapse}
             aria-label={lang === 'en' ? `Expand ${paperLabel} Height Guard` : `展开 ${paperLabel} 高度提醒`}
-            title={lang === 'en' ? `Expand ${paperLabel} Height Guard` : `展开 ${paperLabel} 高度提醒`}
             className="flex items-center gap-2.5 h-10 px-3.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 shadow-[0_8px_24px_rgba(15,23,42,0.1)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.4)] rounded-2xl cursor-pointer hover:shadow-[0_12px_32px_rgba(15,23,42,0.16)] transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-600 group"
           >
             <div className="flex items-center gap-1.5">
@@ -165,7 +164,6 @@ export const HeightGuard = React.memo(function HeightGuard({
             onClick={toggleCollapse}
             aria-label={lang === 'en' ? `Collapse ${paperLabel} Height Guard` : `收起 ${paperLabel} 高度提醒`}
             className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-750 rounded-lg transition-colors cursor-pointer"
-            title={lang === 'en' ? `Collapse ${paperLabel} Height Guard` : `收起 ${paperLabel} 高度提醒`}
           >
             <Minimize2 className="w-3.5 h-3.5" />
           </button>

@@ -485,9 +485,8 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
               </div>
               <button
                 onClick={onClose}
-                aria-label={isEn ? 'Close import dialog' : '关闭导入弹窗'}
+                aria-label={isEn ? 'Close import dialog (Esc)' : '关闭导入弹窗 (Esc)'}
                 className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
-                title={isEn ? 'Close (Esc)' : '关闭 (Esc)'}
               >
                 <X className="w-4.5 h-4.5" />
               </button>
@@ -588,7 +587,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
                           type="button"
                           onClick={() => setSelectedFile(null)}
                           className="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-lg transition-colors cursor-pointer"
-                          title={isEn ? 'Remove file' : '移除重新选择'}
+                          aria-label={isEn ? 'Remove file' : '移除重新选择'}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
