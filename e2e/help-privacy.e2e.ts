@@ -21,14 +21,14 @@ async function openHelp(page: import('@playwright/test').Page) {
 }
 
 test('help shows the package version and replay entry', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/?page=editor');
   const dialog = await openHelp(page);
   await expect(dialog).toContainText(`v${packageVersion}`);
   await expect(dialog.getByRole('button', { name: 'Replay the interface tour' })).toBeVisible();
 });
 
 test('clear local data is scoped and requires confirmation', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/?page=editor');
   await page.evaluate(() => {
     localStorage.setItem('resume-markdown', '# Sensitive resume');
     localStorage.setItem('resume-craft.support-prompt.v1', '{"nextPromptAt":1,"exportCount":2}');

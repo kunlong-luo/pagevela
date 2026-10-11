@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('critical resume flows', () => {
   test('persists Markdown edits locally across reloads', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /^(Markdown source editor|Markdown 源码编辑模式)$/ }).click();
     const editor = page.locator('#markdown-textarea');
@@ -64,7 +64,7 @@ test.describe('critical resume flows', () => {
       };
     });
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.evaluate(() => {
       (window as Window & { __e2ePrintCalled?: boolean }).__e2ePrintCalled = false;
@@ -98,7 +98,7 @@ test.describe('critical resume flows', () => {
   test('generates an encrypted share in the UI, rejects a wrong password, and decrypts with the correct one', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /分享简历|Share resume/ }).click();
     const shareDialog = page.getByRole('dialog', { name: /分享简历|Share resume/ });

@@ -49,7 +49,7 @@ async function applyTemplate(
 
 test.describe('international market flows', () => {
   test('interface language and resume language stay independent in the UI', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const preview = page.locator('#resume-print-content');
     await expect(preview).toBeVisible();
@@ -104,7 +104,7 @@ test.describe('international market flows', () => {
       );
     });
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
     await page.getByRole('button', { name: /Form editor|表单编辑/ }).click();
 
     await expect(page.getByRole('group', { name: 'Interface language' })).toBeVisible();
@@ -134,7 +134,7 @@ test.describe('international market flows', () => {
       );
     });
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
     await page.getByRole('button', { name: /Form editor|表单编辑/ }).click();
 
     await expect(page.getByRole('group', { name: '界面语言' })).toBeVisible();
@@ -166,7 +166,7 @@ test.describe('international market flows', () => {
       window.localStorage.setItem('resume_ui_language', 'en');
       window.localStorage.setItem('resume-markdown', content);
     }, markdown);
-    await page.goto('/');
+    await page.goto('/?page=editor');
     await page.getByRole('button', { name: /Form editor|表单编辑/ }).click();
 
     const headingInputs = page.getByTestId('resume-section-title');
@@ -225,7 +225,7 @@ test.describe('international market flows', () => {
       );
     });
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page
       .getByRole('group', { name: 'Interface language' })
@@ -258,7 +258,7 @@ test.describe('international market flows', () => {
       );
     });
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
     const exportModeButton = page.getByRole('button', {
       name: /Choose PDF export mode|选择 PDF 下载方式/,
     });
@@ -275,7 +275,7 @@ test.describe('international market flows', () => {
   });
 
   test('reset current template restores its market metadata and download label', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
     await applyTemplate(page, 'Canadian Cloud & Data Engineer');
 
     let layout = await openLayout(page);
@@ -326,7 +326,7 @@ test.describe('international market flows', () => {
       );
     });
 
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: '重置当前模板' }).click();
     const confirm = page.getByRole('dialog', { name: '重置当前模板' });
@@ -346,7 +346,7 @@ test.describe('international market flows', () => {
   });
 
   test('US template synchronizes Letter market settings and survives reload', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
     await applyTemplate(page, 'US Software Engineer (Resume)');
 
     await expect(page.locator('#resume-print-content')).toHaveAttribute(
@@ -375,7 +375,7 @@ test.describe('international market flows', () => {
   });
 
   test('UK template synchronizes A4 and long-month dates', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
     await applyTemplate(page, 'UK Tech Lead & Full-Stack (CV)');
 
     await expect(page.locator('#resume-print-content')).toHaveAttribute(
@@ -398,7 +398,7 @@ test.describe('international market flows', () => {
   });
 
   test('China market remains A4 and market switching preserves manual overrides', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     let layout = await openLayout(page);
     await layout.getByRole('button', { name: 'China', exact: true }).click();
@@ -435,7 +435,7 @@ test.describe('international market flows', () => {
   });
 
   test('US New Grad template uses Letter and education-first content', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
     await applyTemplate(page, 'US New Grad Software Engineer');
 
     await expect(page.locator('#resume-print-content')).toHaveAttribute(
@@ -454,7 +454,7 @@ test.describe('international market flows', () => {
   });
 
   test('international optional fields prioritize global contact details', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const optional = page.getByRole('button', { name: '+ Optional Fields' });
     const globalContactLabel = page.getByText('LinkedIn / GitHub / Portfolio', { exact: true });
@@ -480,7 +480,7 @@ test.describe('international market flows', () => {
   });
 
   test('manual date style override survives target market changes', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const layout = await openLayout(page);
     await layout.getByRole('button', { name: 'March 2024', exact: true }).click();
@@ -498,7 +498,7 @@ test.describe('international market flows', () => {
   });
 
   test('resume checker uses guidance wording instead of ATS or legal guarantees', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
     await page.getByRole('button', { name: 'Check' }).click();
 
     const checker = page.getByRole('dialog', { name: 'Resume Check' });

@@ -150,7 +150,6 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
   };
 
   const isFirstRun =
-    storage.getString(STORAGE_KEYS.ONBOARDING_FIRST_VISIT) === '1' &&
     storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1';
 
   const applyExample = () => {

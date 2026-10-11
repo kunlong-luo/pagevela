@@ -33,15 +33,14 @@
 
 ---
 
-## 🆕 What's New in v2.4.1
+## 🆕 What's New in v2.5.0
 
-- **Safer built-in demo contacts**: replaces realistic-looking GitHub, LinkedIn, email, WeChat, and phone examples with explicit demo placeholders so templates do not accidentally point at real third-party identities.
-- **Template regression protection**: adds tests that prevent realistic third-party contact identities from reappearing and verifies the US demo contact line parses without orphan punctuation.
-- **Language responsibilities stay unchanged**: the top 中 / EN control still changes interface language only, while Layout → Resume language controls translated resume section headings such as Summary, Skills, and Work Experience.
+- **Independent Product Landing Page**: Adds a full-fledged, responsive, accessible welcome page featuring Hero brand storytelling, live interactive workspace demonstration, six core feature highlights, local-first privacy manifesto, curated industry templates, and FAQ.
+- **Universal Dual-Route Navigation**: Seamless switching between the Landing Page (`/`, `?page=landing`, `#/landing`) and Editor Workspace (`/editor`, `?page=editor`, `#/editor`) with full browser history (back/forward) and bookmarking support. Direct return-to-home navigation available right in the editor header.
+- **First-Time User Onboarding Guarantee**: When entering the editor from the landing page for the first time, automatically launches the 3-step interactive onboarding tour (editor overview, toolbar layout, starter choices). Returning users jump directly into their workspace.
+- **Zero-Risk Local-First Continuity**: Existing resume drafts in IndexedDB, multi-profile archives, and encrypted share links remain fully protected and 100% private.
 
-v2.4.1 is a patch on top of v2.4.0 and includes all v2.4.0 multi-market, import/restore, JSON Resume, mobile, A4 / US Letter, export, and sharing improvements.
-
-See the full [v2.4.1 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.4.1).
+See the full [v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0).
 ---
 
 ## 💡 Why Choose Resume Craft?

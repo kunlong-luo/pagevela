@@ -18,12 +18,13 @@
 - [x] Keep the existing resume-overwrite confirmation when reopening onboarding and avoid changing IndexedDB data until an action is explicitly chosen.
 - [x] Add E2E coverage for first-visit shortcut; existing E2E covers skip, focus, mobile layout, and replay protection.
 
-## Stage 3 — conditional marketing landing (NOT IN THIS PR)
+## Stage 3 — conditional marketing landing (Landing Page Phase 1 implemented)
 
-- [ ] First establish a 7–14 day privacy-safe baseline: visits → `editing_started` → `pdf_export_success`; log qualitative feedback in issue #115.
-- [ ] Only if users bounce without editing, consider an optional marketing route with an immediate **Open editor** path.
-- [ ] Keep the default URL opening the editor until an experiment shows a new homepage helps.
-- [ ] Measure before/after changes; do not add extra analytics identifiers or collect resume content.
+- [x] Provide an independent, accessible, responsive React product landing page (`LandingPage.tsx`) with bilingual support (zh / en) and dark/light themes.
+- [x] Unify URL routing between Landing Page (`/`, `?page=landing`, `#/landing`) and Editor (`/editor`, `?page=editor`, `#/editor`), preserving browser history (back/forward) and bookmarks.
+- [x] Protect existing user data, IndexedDB / LocalStorage persistence, PWA offline operation, and encrypted share links (`getSharePayloadFromLocation`).
+- [x] Add prominent entry points to open the editor directly, resume existing drafts, choose templates, or return to the landing page from the editor header.
+- [x] Maintain zero-tracking privacy: local-first architecture without external databases or mandatory sign-ups.
 
 ## Deliverables & verification
 
