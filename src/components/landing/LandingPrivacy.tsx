@@ -15,12 +15,12 @@ export function LandingPrivacy({ isEn }: LandingPrivacyProps) {
             <ShieldCheck className="w-6 h-6" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-            {isEn ? 'Your Resume Data Belongs Exclusively to You' : '本地优先：数据绝对属于你'}
+            {isEn ? 'Your Resume Data Belongs Exclusively to You' : '本地优先：简历由你管理'}
           </h2>
           <p className="mt-2 text-sm sm:text-base text-slate-600 dark:text-slate-400">
             {isEn
-              ? 'Stored solely in your browser. Zero cloud tracking, zero accounts, and zero vendor lock-in.'
-              : '简历全量安全保留在您的本地浏览器中，不设云端数据库，源码完全开源透明。'}
+              ? 'Resume drafts are stored in this browser. No account required; privacy-conscious aggregate analytics help us improve the app.'
+              : '简历草稿主要保存在当前浏览器，无需注册。我们使用尊重隐私的汇总使用统计；可自行导出备份。'}
           </p>
         </div>
 
