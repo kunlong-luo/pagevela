@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('international contact phone', () => {
   test('does not guess a country from language or target market', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const country = page.getByLabel('Country or region');
     await expect(country).toBeVisible();
@@ -34,7 +34,7 @@ test.describe('international contact phone', () => {
   test('normalizes a local UK number and resume check recognizes it', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const country = page.getByLabel('Country or region');
     const phone = page.getByLabel('Phone Number');
@@ -64,7 +64,7 @@ test.describe('international contact phone', () => {
   test('remembers the selected region before a phone number is complete', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const country = page.getByLabel('Country or region');
     await country.selectOption('AU');
@@ -83,7 +83,7 @@ test.describe('international contact phone', () => {
   test('detects the region when a full international number is pasted', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/?page=editor');
 
     const country = page.getByLabel('Country or region');
     const phone = page.getByLabel('Phone Number');
