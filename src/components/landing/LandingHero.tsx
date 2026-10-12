@@ -1,4 +1,5 @@
 import React from 'react';
+import { trackAnalyticsEvent } from '../../lib/analytics';
 import { Zap, ArrowRight, CheckCircle2, Layout, ShieldCheck, Lock, Download } from 'lucide-react';
 
 interface LandingHeroProps {
@@ -34,7 +35,7 @@ export function LandingHero({
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-[1.18] text-balance">
           {isEn ? (
             <>
-              Craft ATS-Ready Resumes with <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-500 bg-clip-text text-transparent">Effortless Structure & Speed</span>.
+              Build Resumes with <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-500 bg-clip-text text-transparent">Flexible Editing & Live Preview</span>.
             </>
           ) : (
             <>
@@ -47,7 +48,7 @@ export function LandingHero({
         {/* Crisp, focused subtitle */}
         <p className="mt-5 text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed text-balance">
           {isEn
-            ? 'Intuitive form filling & Markdown speed, real-time A4 preview, smart single-page Auto Fit, and crystal-clear vector PDF export.'
+            ? 'Edit with forms or Markdown, preview A4 / US Letter pages, reduce overflow with Auto Fit, and save a text-selectable PDF through browser printing when supported.'
             : '表单直观填写与 Markdown 自由录入双模协同，内置 Auto Fit 智能单页排版与 ATS 规范体检，一键导出清晰无损的矢量 PDF。'}
         </p>
 
@@ -56,7 +57,10 @@ export function LandingHero({
           <button
             type="button"
             data-testid="landing-hero-cta"
-            onClick={onOpenEditor}
+            onClick={() => {
+              if (!hasExistingResume) trackAnalyticsEvent('start_building_clicked');
+              onOpenEditor();
+            }}
             className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer group"
           >
             {hasExistingResume ? <CheckCircle2 className="w-4 h-4 text-emerald-300" /> : <Zap className="w-4 h-4" />}
@@ -92,7 +96,7 @@ export function LandingHero({
           </span>
           <span className="flex items-center gap-1.5">
             <Download className="w-4 h-4 text-blue-500 shrink-0" />
-            {isEn ? 'Selectable Text Vector PDF Export' : '原生矢量清晰度 · 文字可划选复制'}
+            {isEn ? 'Text-selectable PDF via browser print' : '浏览器打印可保留可选择文字的 PDF'}
           </span>
         </div>
       </div>
