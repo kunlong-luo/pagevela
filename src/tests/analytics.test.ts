@@ -48,6 +48,7 @@ describe('privacy-friendly analytics', () => {
 
   it('uses a fixed event allowlist with no user-derived event names', () => {
     expect(ANALYTICS_EVENTS).toEqual([
+      'site_opened',
       'start_building_clicked',
       'editor_opened',
       'editing_started',
@@ -62,6 +63,7 @@ describe('privacy-friendly analytics', () => {
       'runtime_error',
     ]);
 
+    expect(isAllowedAnalyticsEvent('site_opened')).toBe(true);
     expect(isAllowedAnalyticsEvent('start_building_clicked')).toBe(true);
     expect(isAllowedAnalyticsEvent('editor_opened')).toBe(true);
     expect(isAllowedAnalyticsEvent('share_created')).toBe(true);

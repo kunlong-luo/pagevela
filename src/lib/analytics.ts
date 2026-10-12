@@ -1,4 +1,5 @@
 export const ANALYTICS_EVENTS = [
+  'site_opened',
   'start_building_clicked',
   'editor_opened',
   'editing_started',
@@ -118,6 +119,10 @@ export function initAnalyticsPageview() {
 
   void ensureAnalyticsScript()
     .then(() => {
+      // Emergency page-open signal while Pageviews are missing from reports.
+      // This counts page loads (including refreshes), not unique visitors.
+      // Reuse the existing allowlist, DNT gate, and per-page deduplication.
+      trackAnalyticsEvent('site_opened');
       window.sa_pageview?.(
         getSafeAnalyticsPath(
           window.location.pathname,
