@@ -76,17 +76,17 @@ export const CORE_FEATURES: FeatureItem[] = [
     id: 'ats',
     icon: 'FileCheck',
     titleZh: 'ATS 规范与格式体检',
-    titleEn: 'Strict ATS Rule Audit',
-    descZh: '精准排查特殊符号、时间断层与层级缺陷，规避求职机选解析风险。',
-    descEn: 'Scans for formatting pitfalls, broken date formats, and overseas privacy risks.'
+    titleEn: 'ATS-Oriented Format Checks',
+    descZh: '辅助检查常见格式、日期和联系方式问题，不保证通过特定 ATS。',
+    descEn: 'Checks common formatting, dates, and contact details; not an ATS acceptance guarantee.'
   },
   {
     id: 'vector-pdf',
     icon: 'Download',
     titleZh: '真矢量无锯齿 PDF 导出',
-    titleEn: 'Selectable Vector Text PDF',
-    descZh: '原生浏览器打印引擎输出，文字可划选复制，无任何平台水印。',
-    descEn: 'Crystal-clear vector PDF export with selectable text and zero watermarks.'
+    titleEn: 'Browser Print PDF with Selectable Text',
+    descZh: '优先使用浏览器打印保存可选择文字的 PDF（取决于浏览器）；快速导出为图片型 PDF。',
+    descEn: 'Use browser print / Save as PDF for selectable text when supported; quick PDF export is image-based.'
   },
   {
     id: 'archive',
@@ -145,8 +145,8 @@ export const FAQS: FaqItem[] = [
   {
     qZh: 'Resume Craft 真的完全免费且没有水印吗？',
     qEn: 'Is Resume Craft genuinely free with no watermarks?',
-    aZh: '是的。Resume Craft 基于 MIT 协议开源，所有排版和矢量 PDF 导出功能全量免费开放，绝无任何隐藏付费或平台水印。',
-    aEn: 'Yes. Resume Craft is open-source under the MIT license. All layout engines and vector PDF exports are free with zero watermarks.'
+    aZh: '是的，Resume Craft 基于 MIT 协议开源，两种 PDF 导出方式均免费且无水印；浏览器打印通常可保留可选择文字，快速导出为图片型 PDF。',
+    aEn: 'Yes. Both PDF export paths are free and watermark-free. Browser print can preserve selectable text; the quick export is image-based.'
   },
   {
     qZh: '刷新或关闭浏览器后，已编写的简历会丢失吗？',
