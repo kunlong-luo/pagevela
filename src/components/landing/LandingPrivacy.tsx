@@ -8,7 +8,7 @@ interface LandingPrivacyProps {
 
 export function LandingPrivacy({ isEn }: LandingPrivacyProps) {
   return (
-    <section id="privacy" className="py-16 sm:py-20 bg-slate-100/70 dark:bg-slate-900/60 border-y border-slate-200/80 dark:border-slate-800/80">
+    <section id="privacy" className="scroll-mt-20 py-16 sm:py-20 bg-slate-100/70 dark:bg-slate-900/60 border-y border-slate-200/80 dark:border-slate-800/80">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex p-2 rounded-2xl bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 mb-3">

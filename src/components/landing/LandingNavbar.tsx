@@ -1,5 +1,5 @@
 import React from 'react';
-import { Globe2, Sun, Moon, ArrowRight } from 'lucide-react';
+import { Globe2, Sun, Moon } from 'lucide-react';
 import { ThemeMode } from '../../types';
 import { Tooltip } from '../ui/Tooltip';
 
@@ -17,20 +17,16 @@ export function GithubIcon({ className = 'w-4 h-4' }: { className?: string }) {
 
 interface LandingNavbarProps {
   isEn: boolean;
-  hasExistingResume: boolean;
   themeMode: ThemeMode;
   onToggleLanguage: () => void;
   onToggleTheme: () => void;
-  onOpenEditor: () => void;
 }
 
 export function LandingNavbar({
   isEn,
-  hasExistingResume,
   themeMode,
   onToggleLanguage,
-  onToggleTheme,
-  onOpenEditor
+  onToggleTheme
 }: LandingNavbarProps) {
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-[#070a13]/90 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
@@ -50,19 +46,19 @@ export function LandingNavbar({
           </div>
         </div>
 
-        {/* Zone 2: Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600 dark:text-slate-300">
-          <a href="#features" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap">
-            {isEn ? 'Features' : '核心功能'}
-          </a>
+        {/* Navigation follows the landing sections from top to bottom. */}
+        <nav aria-label={isEn ? 'Page sections' : '页面章节'} className="hidden md:flex items-center gap-4 lg:gap-6 text-sm font-semibold text-slate-600 dark:text-slate-300">
           <a href="#showcase" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap">
             {isEn ? 'Interactive Demo' : '界面预览'}
           </a>
-          <a href="#templates" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap">
-            {isEn ? 'Templates' : '精选模板'}
+          <a href="#features" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap">
+            {isEn ? 'Features' : '核心功能'}
           </a>
           <a href="#privacy" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap">
             {isEn ? 'Privacy' : '隐私与安全'}
+          </a>
+          <a href="#templates" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap">
+            {isEn ? 'Templates' : '精选模板'}
           </a>
           <a href="#faq" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap">
             {isEn ? 'FAQ' : '常见问题'}
@@ -109,18 +105,7 @@ export function LandingNavbar({
             </a>
           </Tooltip>
 
-          {/* Enter Editor CTA */}
-          <button
-            type="button"
-            data-testid="landing-nav-cta"
-            onClick={onOpenEditor}
-            className="flex items-center gap-1.5 px-2.5 sm:px-4 py-2 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/20 active:scale-95 transition-all cursor-pointer whitespace-nowrap"
-          >
-            <span>{hasExistingResume
-              ? (isEn ? 'Continue Editing' : '继续编辑')
-              : (isEn ? 'Start Building' : '开始制作')}</span>
-            <ArrowRight className="hidden sm:block w-3.5 h-3.5" aria-hidden="true" />
-          </button>
+
         </div>
       </div>
     </header>

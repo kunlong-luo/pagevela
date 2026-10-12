@@ -24,7 +24,7 @@ interface LandingFeaturesProps {
 
 export function LandingFeatures({ isEn }: LandingFeaturesProps) {
   return (
-    <section id="features" className="py-16 sm:py-24">
+    <section id="features" className="scroll-mt-20 py-16 sm:py-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
