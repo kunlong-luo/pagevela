@@ -62,11 +62,9 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
       {/* 1. Header / Top Navigation */}
       <LandingNavbar
         isEn={isEn}
-        hasExistingResume={hasExistingResume}
         themeMode={themeMode}
         onToggleLanguage={toggleLanguage}
         onToggleTheme={toggleTheme}
-        onOpenEditor={onOpenEditor}
       />
 
       {/* 2. Hero Section */}
