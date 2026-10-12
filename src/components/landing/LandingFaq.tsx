@@ -7,7 +7,7 @@ interface LandingFaqProps {
 
 export function LandingFaq({ isEn }: LandingFaqProps) {
   return (
-    <section id="faq" className="py-16 sm:py-20 bg-white/60 dark:bg-slate-900/40 border-t border-slate-200/80 dark:border-slate-800/80">
+    <section id="faq" className="scroll-mt-20 py-16 sm:py-20 bg-white/60 dark:bg-slate-900/40 border-t border-slate-200/80 dark:border-slate-800/80">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
