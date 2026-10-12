@@ -46,6 +46,18 @@ Resume Craft adds stricter application-side rules on top:
 - product events are deduplicated in memory per page load; no persistent analytics identifier is stored
 - events carry only a fixed event name and never include metadata, scores, filenames, resume/JD content, or other free-form values
 
+### Pageview troubleshooting before external launches
+
+If the dashboard shows events but **0 pageviews / visitors**, do not treat the figures as a user conversion funnel.
+
+1. Confirm the Simple Analytics site hostname is `kunlong-luo.github.io`, the 30-day range is correct, and no page/path/source filters are active.
+2. On an official-domain browser where Do Not Track is off and analytics is not blocked, check that `latest.js` loads and exposes `window.sa_pageview`. In manual mode (`data-auto-collect="false"`), one initial sanitized pageview should be sent.
+3. Inspect the browser Network panel for the analytics script and pageview request. Blocking can be intentional; **do not bypass browser privacy settings or silently switch to another tracking endpoint**.
+4. If the script and request work, inspect dashboard site settings and aggregation before changing implementation. Script-level `ignore-metrics=session` removes ephemeral page-load identifiers; it does not by itself disable pageview counts.
+5. Repeat one non-sensitive smoke check after deployment. Existing events without pageviews do not establish a reliable historical conversion rate.
+
+Resume Craft starts the pageview request before asynchronous IndexedDB migration/bootstrap to reduce missing visits from short-lived page loads. It still honors the official-host and Do Not Track gates and strips share payloads from reported paths.
+
 GitHub Discussions remains the qualitative feedback channel. A richer tool such as Umami can be reconsidered later only if aggregate evidence shows a genuine need for deeper funnels.
 
 ### Qualitative feedback: GitHub Discussions

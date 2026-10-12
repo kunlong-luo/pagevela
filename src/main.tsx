@@ -87,8 +87,6 @@ async function bootstrap() {
   };
   window.addEventListener('pagehide', flushBeforeExit);
 
-  initAnalyticsPageview();
-
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <ErrorBoundary>
@@ -107,5 +105,9 @@ async function bootstrap() {
     flushBeforeExit();
   }, { once: true });
 }
+
+// Record the first page view before IndexedDB migration and lazy UI imports.
+// Analytics remains DNT-gated, official-host-only, and query/hash sanitized.
+initAnalyticsPageview();
 
 void bootstrap();
