@@ -77,6 +77,8 @@ describe('analytics pageview boot contract', () => {
 
     await vi.waitFor(() => expect(browser.pageview).toHaveBeenCalledTimes(1));
     expect(browser.pageview).toHaveBeenCalledWith('/resume-craft/');
+    await vi.waitFor(() => expect(browser.event).toHaveBeenCalledWith('site_opened'));
+    expect(browser.event).toHaveBeenCalledTimes(1);
     expect(browser.script.dataset.autoCollect).toBe('false');
     expect(browser.script.dataset.collectDnt).toBe('false');
     expect(browser.appendChild).toHaveBeenCalledTimes(1);
@@ -93,7 +95,9 @@ describe('analytics pageview boot contract', () => {
       initAnalyticsPageview();
       await vi.waitFor(() => expect(browser.pageview).toHaveBeenCalledTimes(1));
       expect(browser.pageview).toHaveBeenCalledWith('/resume-craft/shared');
+      await vi.waitFor(() => expect(browser.event).toHaveBeenCalledWith('site_opened'));
       expect(JSON.stringify(browser.pageview.mock.calls)).not.toContain('private-resume-data');
+      expect(JSON.stringify(browser.event.mock.calls)).not.toContain('private-resume-data');
     }
   });
 
@@ -109,6 +113,7 @@ describe('analytics pageview boot contract', () => {
       await Promise.resolve();
       expect(browser.appendChild).not.toHaveBeenCalled();
       expect(browser.pageview).not.toHaveBeenCalled();
+      expect(browser.event).not.toHaveBeenCalled();
     }
   });
 
@@ -119,5 +124,17 @@ describe('analytics pageview boot contract', () => {
     await vi.waitFor(() => expect(browser.appendChild).toHaveBeenCalledTimes(1));
     await Promise.resolve();
     expect(browser.pageview).not.toHaveBeenCalled();
+    expect(browser.event).not.toHaveBeenCalled();
+  });
+
+  it('counts a page load only once if analytics initialization repeats', async () => {
+    const browser = installAnalyticsBrowser();
+    const { initAnalyticsPageview } = await import('../lib/analytics');
+    initAnalyticsPageview();
+    initAnalyticsPageview();
+
+    await vi.waitFor(() => expect(browser.event).toHaveBeenCalledWith('site_opened'));
+    expect(browser.event).toHaveBeenCalledTimes(1);
+    expect(browser.appendChild).toHaveBeenCalledTimes(1);
   });
 });
