@@ -5,6 +5,8 @@ import { getRouteFromLocation, buildRouteUrl, type AppRoute } from './lib/router
 import { LandingPage } from './components/landing/LandingPage';
 import { EditorWorkspace } from './components/EditorWorkspace';
 import { storage, STORAGE_KEYS } from './lib/storage';
+import { trackAnalyticsEvent } from './lib/analytics';
+import { updateSiteSeo } from './lib/seo';
 
 const SharedResumePage = lazy(() => import('./components/share/SharedResumePage').then(m => ({ default: m.SharedResumePage })));
 
@@ -26,6 +28,17 @@ export default function App() {
 
   const [currentRoute, setCurrentRoute] = useState<AppRoute>(() => getRouteFromLocation());
   const themeMode = useResumeStore((state) => state.themeMode);
+  const uiLanguage = useResumeStore((state) => state.uiLanguage);
+
+  // Update only fixed product metadata, never any resume or shared-link content.
+  useEffect(() => {
+    if (!sharePayload) updateSiteSeo(uiLanguage === 'zh' ? 'zh' : 'en');
+  }, [uiLanguage, sharePayload]);
+
+  // Includes deep links and reloads; analytics de-duplicates within a page load.
+  useEffect(() => {
+    if (!sharePayload && currentRoute === 'editor') trackAnalyticsEvent('editor_opened');
+  }, [currentRoute, sharePayload]);
 
   // Sync theme (Light / Dark / System)
   useEffect(() => {
