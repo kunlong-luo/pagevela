@@ -4,6 +4,7 @@
  * No external accounts, analytics IDs, user resumes, or private URLs are used.
  *
  * Outputs are downloadable through the GitHub Actions artifact:
+ *   resume-craft-latest-landing.png (actual current landing page)
  *   resume-craft-product-screenshot.png (real Chromium screenshot)
  *   resume-craft-markdown-preview.png (real Chromium screenshot)
  *   resume-craft-download-options.png (real Chromium screenshot)
@@ -99,7 +100,6 @@ async function run() {
 
   try {
     await page.addInitScript((markdown) => {
-      localStorage.setItem('resume-onboarding-v1-complete', '1');
       localStorage.setItem('resume_ui_language', 'en');
       // Collapse the real page-height widget instead of concealing it via CSS.
       localStorage.setItem('height-guard-collapsed', 'true');
@@ -113,7 +113,37 @@ async function run() {
       }));
     }, initialMarkdown);
 
+    // Record the current landing page before entering the editor.
     await page.goto(BASE_URL, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    const heroCta = page.getByTestId('landing-hero-cta');
+    await heroCta.waitFor({ state: 'visible', timeout: 15000 });
+    const sectionLinks = page.getByRole('navigation', { name: 'Page sections' }).locator('a');
+    const expectedLabels = ['Interactive Demo', 'Features', 'Privacy', 'Templates', 'FAQ'];
+    const actualLabels = await sectionLinks.allTextContents();
+    if (JSON.stringify(actualLabels.map((label) => label.trim())) !== JSON.stringify(expectedLabels)) {
+      throw new Error('Landing navbar is not in latest-section order: ' + JSON.stringify(actualLabels));
+    }
+    if (await page.getByTestId('landing-nav-cta').count()) {
+      throw new Error('Outdated landing detected: header editor CTA should be absent');
+    }
+    if ((await heroCta.innerText()).trim() !== 'Start Building (Free)') {
+      throw new Error('Fresh-visitor Hero CTA does not match current UX');
+    }
+    await pause(page, 1000);
+    await page.screenshot({
+      path: resolve(MEDIA_DIR, 'resume-craft-latest-landing.png'),
+      animations: 'disabled',
+    });
+    await setEditorialCaption(page, '01 / LANDING', 'One clear starting point', 'Navigation now follows the page section order.');
+    await pause(page, 1600);
+    await hideEditorialCaption(page);
+
+    // Set the demo-only onboarding flag before clicking the real Hero button.
+    // This preserves the "Start Building (Free)" fresh-visitor capture.
+    await page.evaluate(() => localStorage.setItem('resume-onboarding-v1-complete', '1'));
+    await heroCta.click();
+    await page.waitForURL(/[?&]page=editor/, { timeout: 15000 });
+
     const preview = page.locator('#resume-print-content');
     await preview.waitFor({ state: 'visible', timeout: 20000 });
     await page.getByRole('group', { name: 'Interface language' }).waitFor({ state: 'visible' });
@@ -185,6 +215,7 @@ async function run() {
     resolve(MEDIA_DIR, 'resume-craft-social-cover.png'));
 
   for (const file of [
+    'resume-craft-latest-landing.png',
     'resume-craft-product-screenshot.png',
     'resume-craft-markdown-preview.png',
     'resume-craft-download-options.png',
