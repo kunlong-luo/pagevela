@@ -1,4 +1,6 @@
 export const ANALYTICS_EVENTS = [
+  'start_building_clicked',
+  'editor_opened',
   'editing_started',
   'pdf_export_success',
   'browser_print_started',

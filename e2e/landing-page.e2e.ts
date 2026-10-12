@@ -35,6 +35,25 @@ test.describe('landing-to-editor navigation', () => {
     await expect(page.getByRole('button', { name: 'Start Building (Free)' })).toBeVisible();
   });
 
+  test('SEO metadata is English-first and follows UI language without resume data', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('resume_ui_language', 'en');
+    });
+    await page.goto('/');
+    await expect(page).toHaveTitle('Resume Craft — Free Markdown Resume Builder | Local-First');
+    await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'en_US');
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /local-first/);
+
+    await page.getByRole('button', { name: 'Toggle language' }).click();
+    await expect(page).toHaveTitle('Resume Craft 简匠 — 免费开源 Markdown 简历编辑器');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
+    await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'zh_CN');
+
+    await page.getByRole('button', { name: 'Toggle language' }).click();
+    await expect(page).toHaveTitle('Resume Craft — Free Markdown Resume Builder | Local-First');
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', 'Resume Craft — Free Markdown Resume Builder | Local-First');
+  });
+
   test('English marketing copy uses English demo and template descriptions', async ({ page }) => {
     await page.addInitScript(() => {
       window.localStorage.setItem('resume_ui_language', 'en');

@@ -12,7 +12,7 @@ For the first validation cycle, measure only:
 2. Do they reach a successful PDF export or browser print flow?
 3. Which core tools are actually used: Import, ATS Check, Auto Fit, Profiles, Share?
 4. Where should qualitative feedback be collected?
-5. Which acquisition channels bring users who actually export a resume?
+5. Which acquisition channels bring users who actually export a resume? (Source attribution needs separate validation; the app intentionally strips query/hash from analytics pageviews.)
 
 Do **not** optimize for detailed behavioral surveillance, session replay, heatmaps, keystrokes, or per-user profiles.
 
@@ -65,6 +65,8 @@ Pageviews are enough for visits. Track only these product events:
 
 | Event | Meaning | Allowed data |
 | --- | --- | --- |
+| `start_building_clicked` | New visitor clicks the landing page's Start Building CTA (not Continue Editing) | none |
+| `editor_opened` | Editor route is mounted, including direct visits and reloads | none |
 | `editing_started` | User makes the first meaningful edit in a visit | none |
 | `pdf_export_success` | Direct PDF generation finishes successfully | none |
 | `browser_print_started` | Browser print / Save as PDF workflow is opened | none |
@@ -83,24 +85,34 @@ Do not track every click, every edit, editor focus, character counts, ATS score,
 Primary activation funnel:
 
 ```text
-Visit
+Visit (pathname-only pageview)
+  ↓
+start_building_clicked (new-visitor Hero CTA only)
+  ↓
+editor_opened (also counts direct editor links and reloads)
   ↓
 editing_started
   ↓
-pdf_export_success OR browser_print_started
+pdf_export_success (confirmed generation)
+
+browser_print_started is reported separately; opening a print dialog is not proof of export.
 ```
 
 Primary activation metric:
 
 ```text
-Successful export rate =
-unique visits with a successful export
+Export event ratio (aggregate approximation) =
+pdf_export_success event count
 ÷
-unique visits that started editing
+editing_started event count
+
+Events are deduplicated in memory per loaded page, not linked across visits; this is not a user-level or session-level conversion rate.
 ```
 
 Secondary signals:
 
+- Landing CTA intent = `start_building_clicked` (only new visitors; not all editor entries)
+- Editor arrival = `editor_opened` (includes direct links and reloads)
 - ATS adoption = `ats_check_completed / editing_started`
 - Auto Fit adoption = `auto_fit_used / editing_started`
 - Share adoption = `share_created / successful export`
@@ -129,6 +141,8 @@ Review only a compact scorecard:
 | Metric | Why it matters |
 | --- | --- |
 | Visits | acquisition baseline |
+| `start_building_clicked` | first-time Hero CTA intent |
+| `editor_opened` | editor arrivals, including direct visits and reloads |
 | `editing_started` | users understood the product enough to begin |
 | `pdf_export_success` | strongest activation signal |
 | `browser_print_started` | alternate export path usage |

@@ -48,6 +48,8 @@ describe('privacy-friendly analytics', () => {
 
   it('uses a fixed event allowlist with no user-derived event names', () => {
     expect(ANALYTICS_EVENTS).toEqual([
+      'start_building_clicked',
+      'editor_opened',
       'editing_started',
       'pdf_export_success',
       'browser_print_started',
@@ -60,6 +62,8 @@ describe('privacy-friendly analytics', () => {
       'runtime_error',
     ]);
 
+    expect(isAllowedAnalyticsEvent('start_building_clicked')).toBe(true);
+    expect(isAllowedAnalyticsEvent('editor_opened')).toBe(true);
     expect(isAllowedAnalyticsEvent('share_created')).toBe(true);
     expect(isAllowedAnalyticsEvent('local_data_cleared')).toBe(true);
     expect(isAllowedAnalyticsEvent('runtime_error')).toBe(true);

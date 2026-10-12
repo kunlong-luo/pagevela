@@ -19,7 +19,7 @@ export function LandingShowcase({ isEn }: LandingShowcaseProps) {
           </h2>
           <p className="mt-2 text-sm sm:text-base text-slate-600 dark:text-slate-400">
             {isEn
-              ? 'Split workspace with real-time bidirectional sync, layout auto-fit, and instant ATS audit.'
+              ? 'Split workspace with real-time form/Markdown sync, layout Auto Fit, and basic ATS-oriented checks.'
               : '左右分栏所见即所得，表单与 Markdown 无缝双向协同，即时呈现专业排版效果。'}
           </p>
 

@@ -28,7 +28,7 @@ export function LandingFeatures({ isEn }: LandingFeaturesProps) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-            {isEn ? 'Engineered for Perfection' : '专为求职者量身打造'}
+            {isEn ? 'Designed for Clarity' : '专为求职者量身打造'}
           </span>
           <h2 className="mt-2 text-3xl font-black text-slate-900 dark:text-white tracking-tight">
             {isEn ? 'Six Core Pillars of Resume Craft' : '六大核心特色，告别排版焦虑'}
