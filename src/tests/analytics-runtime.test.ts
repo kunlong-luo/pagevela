@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 type ScriptHandler = () => void;
@@ -54,6 +55,15 @@ function installAnalyticsBrowser(options: {
 }
 
 describe('analytics pageview boot contract', () => {
+  it('starts the pageview before storage migration and app initialization', () => {
+    const main = readFileSync(new URL('../main.tsx', import.meta.url), 'utf8');
+    const calls = main.match(/^initAnalyticsPageview\(\);$/gm) ?? [];
+    expect(calls).toHaveLength(1);
+    expect(main.indexOf('initAnalyticsPageview();')).toBeLessThan(
+      main.indexOf('void bootstrap();'),
+    );
+  });
+
   beforeEach(() => vi.resetModules());
   afterEach(() => vi.unstubAllGlobals());
 
