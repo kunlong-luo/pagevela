@@ -11,7 +11,7 @@ export function LandingShowcase({ isEn }: LandingShowcaseProps) {
   const sample = isEn ? SHOWCASE_DATA.en : SHOWCASE_DATA.zh;
 
   return (
-    <section id="showcase" className="py-12 sm:py-16 bg-white/50 dark:bg-slate-900/40 border-y border-slate-200/70 dark:border-slate-800/70">
+    <section id="showcase" className="scroll-mt-20 py-12 sm:py-16 bg-white/50 dark:bg-slate-900/40 border-y border-slate-200/70 dark:border-slate-800/70">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-8">
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
