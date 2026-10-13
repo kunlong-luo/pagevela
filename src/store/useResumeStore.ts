@@ -8,7 +8,7 @@ import { getMarketProfile, isMarketRegion, resolveDefaultPaperSize } from '../li
 import { isPaperSize } from '../lib/paper';
 import { isSafeResumePhotoDataUrl } from '../lib/resume-photo';
 import { getResumeBootstrapSnapshot } from '../lib/resume-bootstrap-state';
-import { stageProfileSettings, recoverProfileSettings, discardPendingProfileSettings } from '../lib/pending-profile-settings';
+import { stageProfileSettings, recoverPendingProfile, discardPendingProfileSettings } from '../lib/pending-profile-settings';
 
 interface ResumeState {
   // States
@@ -314,11 +314,12 @@ const getInitialProfiles = (
   if (savedProfiles && Array.isArray(savedProfiles) && savedProfiles.length > 0) {
     // Apply only deterministic, content-preserving migrations.
     let shouldPersistMigration = false;
-    const migratedProfiles = savedProfiles.map(p => {
+    const migratedProfiles = savedProfiles.map(source => {
+      const p = recoverPendingProfile(source);
       const markdown = typeof p.markdown === 'string'
         ? migrateStoredMarkdown(p.markdown)
         : defaultMd;
-      const settings = sanitizeSettings(recoverProfileSettings(p), defaultSettings);
+      const settings = sanitizeSettings(p.settings, defaultSettings);
       const templateId =
         typeof p.templateId === 'string' && (p.templateId === 'custom' || TEMPLATES.some(t => t.id === p.templateId))
           ? p.templateId
