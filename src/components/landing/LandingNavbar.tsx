@@ -92,16 +92,17 @@ export function LandingNavbar({
             )}
           </button>
 
-          {/* GitHub link (Icon only with custom Tooltip, no native title) */}
-          <Tooltip content="GitHub" side="bottom">
+          {/* Low-friction GitHub Star link, also accessible on mobile. */}
+          <Tooltip content={isEn ? 'Star Resume Craft on GitHub' : '在 GitHub 上为简匠点 Star'} side="bottom">
             <a
               href="https://github.com/kunlong-luo/resume-craft"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="View source on GitHub"
-              className="hidden sm:flex p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-all items-center justify-center cursor-pointer"
+              aria-label={isEn ? 'Star Resume Craft on GitHub' : '在 GitHub 上为简匠点 Star'}
+              className="flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-all cursor-pointer"
             >
               <GithubIcon className="w-4 h-4" />
+              <span className="hidden lg:inline text-xs font-semibold">Star</span>
             </a>
           </Tooltip>
 
