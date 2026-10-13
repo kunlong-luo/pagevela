@@ -6,6 +6,7 @@ import { translateMarkdownContent } from '../lib/section-translator';
 import { migrateStoredMarkdown } from '../lib/markdown-migrations';
 import { getMarketProfile, isMarketRegion, resolveDefaultPaperSize } from '../lib/market-profile';
 import { isPaperSize } from '../lib/paper';
+import { isSafeResumePhotoDataUrl } from '../lib/resume-photo';
 import { getResumeBootstrapSnapshot } from '../lib/resume-bootstrap-state';
 
 interface ResumeState {
@@ -64,6 +65,7 @@ interface ResumeState {
   duplicateProfile: (profileId: string) => ResumeProfile;
   renameProfile: (profileId: string, name: string, targetRole?: string) => void;
   deleteProfile: (profileId: string) => boolean;
+  setActiveProfilePhoto: (photoDataUrl: string | null) => void;
   importProfiles: (profiles: ResumeProfile[]) => void;
   replaceDocument: (markdown: string, settings?: ResumeSettings, templateId?: string) => void;
   applyTemplate: (templateId: string) => boolean;
@@ -471,6 +473,17 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
         : p
     );
     set({ markdown, profiles: updatedProfiles, measuredPageCount: null });
+  },
+  setActiveProfilePhoto: (photoDataUrl) => {
+    if (photoDataUrl !== null && !isSafeResumePhotoDataUrl(photoDataUrl)) return;
+    const { profiles, activeProfileId } = get();
+    const updatedProfiles = profiles.map(profile =>
+      profile.id === activeProfileId
+        ? { ...profile, photoDataUrl: photoDataUrl ?? undefined, updatedAt: new Date().toISOString() }
+        : profile
+    );
+    // main.tsx observes profile reference changes and persists them in IndexedDB.
+    set({ profiles: updatedProfiles, measuredPageCount: null });
   },
   setSettings: (settings) => {
     const { profiles, activeProfileId } = get();
