@@ -58,7 +58,7 @@ export function normalizePortableWorkspaceBackup(
       value.activeProfileId.length > MAX_SHORT_TEXT) return null;
   if (typeof value.jdText !== 'string' || value.jdText.length > MAX_TEXT) return null;
 
-  const normalizedProfiles = normalizeImportedProfiles(value.profiles, fallbackSettings);
+  const normalizedProfiles = normalizeImportedProfiles(value.profiles, fallbackSettings, { allowEmptyMarkdown: true });
   if (!normalizedProfiles || !Array.isArray(value.profiles)) return null;
   const sourceProfiles = value.profiles as unknown[];
   const profiles = normalizedProfiles.map((profile, index) => {
@@ -89,8 +89,7 @@ export function normalizePortableWorkspaceBackup(
         draftIds.has(item.id) ||
         typeof item.title !== 'string' || item.title.length < 1 || item.title.length > MAX_SHORT_TEXT ||
         typeof item.timestamp !== 'string' || item.timestamp.length > MAX_SHORT_TEXT ||
-        typeof item.markdown !== 'string' || item.markdown.length < 1 ||
-        item.markdown.length > MAX_TEXT) return null;
+        typeof item.markdown !== 'string' || item.markdown.length > MAX_TEXT) return null;
     const settings = normalizeImportedSettings(item.settings, fallbackSettings);
     if (!settings) return null;
     const draft: ResumeDraft = {
