@@ -173,12 +173,22 @@ test('locally cropped portrait stays on its own profile across a workspace trans
     expect(backup.profiles.filter((p: { photoDataUrl?: string }) => Boolean(p.photoDataUrl)))
       .toHaveLength(1);
 
+    // A second profile must remain photo-free after replacing the destination workspace.
+    const plainProfile = {
+      ...photographedProfile,
+      id: 'portable_profile_without_photo',
+      name: 'No portrait profile',
+      photoDataUrl: undefined,
+      settings: { ...photographedProfile.settings, showPhoto: false },
+    };
+    const transfer = { ...backup, profiles: [...backup.profiles, plainProfile] };
+
     await destination.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
     const newModal = destination.getByRole('dialog', { name: '简历管理' });
     await newModal.getByRole('button', { name: '备份', exact: true }).click();
     await newModal.locator('input[aria-label="选择工作区备份文件"]').setInputFiles({
       name: 'photo-transfer.json', mimeType: 'application/json',
-      buffer: Buffer.from(JSON.stringify(backup)),
+      buffer: Buffer.from(JSON.stringify(transfer)),
     });
     const approve = destination.getByRole('dialog', { name: '覆盖全部本地简历？' });
     await approve.getByRole('button', { name: '确认覆盖工作区' }).click();
@@ -187,7 +197,24 @@ test('locally cropped portrait stays on its own profile across a workspace trans
     await expect(restoredPortrait).toHaveAttribute('src', portraitSrc!);
     await destination.reload();
     await expect(restoredPortrait).toHaveAttribute('src', portraitSrc!);
-    expect((await readProfiles(destination)).length).toBe(backup.profiles.length);
+    expect((await readProfiles(destination)).length).toBe(transfer.profiles.length);
+    const restored = await destination.evaluate(() => new Promise<Array<{ id: string; photoDataUrl?: string }>>((resolve, reject) => {
+      const request = indexedDB.open('resume-craft');
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const db = request.result;
+        const transaction = db.transaction('profiles', 'readonly');
+        const getAll = transaction.objectStore('profiles').getAll();
+        transaction.onerror = () => { db.close(); reject(transaction.error); };
+        transaction.oncomplete = () => {
+          db.close();
+          resolve((getAll.result ?? []) as Array<{ id: string; photoDataUrl?: string }>);
+        };
+      };
+    }));
+    expect(restored.find(profile => profile.id === backup.activeProfileId)?.photoDataUrl).toBe(portraitSrc);
+    expect(restored.find(profile => profile.id === plainProfile.id)?.photoDataUrl).toBeUndefined();
+    expect(restored.filter(profile => Boolean(profile.photoDataUrl))).toHaveLength(1);
   } finally {
     await oldContext.close();
     await newContext.close();
