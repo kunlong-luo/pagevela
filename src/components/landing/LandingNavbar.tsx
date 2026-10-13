@@ -38,7 +38,7 @@ export function LandingNavbar({
           </div>
           <div className="flex items-baseline gap-2">
             <span className="hidden sm:inline font-black text-base tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
-              {isEn ? 'Resume Craft' : '简匠 Resume Craft'}
+              {isEn ? 'Resume Craft' : '简匠'}
             </span>
             <span className="text-[11px] font-medium text-slate-400 hidden lg:inline whitespace-nowrap">
               {isEn ? 'Private, Professional Resume Builder' : '本地私密 · 结构化简历构建工具'}
