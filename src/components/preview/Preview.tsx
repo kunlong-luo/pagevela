@@ -244,7 +244,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
 
         {settings.topAccentLine && <div className={`absolute top-0 left-0 right-0 h-[4.5px] ${theme.topAccentColor}`} />}
         
-        {headerInfo.hasHeader && <ResumeHeader headerInfo={headerInfo} theme={theme} lang={settings.lang} />}
+        {headerInfo.hasHeader && <ResumeHeader headerInfo={headerInfo} theme={theme} lang={settings.lang} layout={settings.headerLayout} />}
 
         {(() => {
           // 1. Two-Column Layout

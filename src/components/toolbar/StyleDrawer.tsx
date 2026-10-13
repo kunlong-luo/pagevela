@@ -5,6 +5,7 @@ import { useResumeStore } from '../../store/useResumeStore';
 import { CustomColorPicker } from '../ui/CustomColorPicker';
 import { SettingsPopover } from './SettingsPopover';
 import { MASTER_PRESETS, THEME_COLOR_PALETTES, TOOLBAR_TRANSLATIONS } from './toolbar-presets';
+import { PresetResumeThumbnail } from './PresetResumeThumbnail';
 
 interface StyleDrawerProps {
   isOpen: boolean;
@@ -24,14 +25,8 @@ export function StyleDrawer({
   const visualThemes = useMemo(
     () =>
       MASTER_PRESETS.map((preset) => ({
-        id: preset.id,
-        name: isEn ? preset.nameEn : preset.name,
-        settings: {
-          themeColor: preset.settings.themeColor,
-          customColor: preset.settings.customColor,
-          h2Style: preset.settings.h2Style,
-          topAccentLine: preset.settings.topAccentLine,
-        } as Partial<ResumeSettings>,
+        ...preset,
+        displayName: isEn ? preset.nameEn : preset.name,
       })),
     [isEn],
   );
@@ -66,7 +61,7 @@ export function StyleDrawer({
         <section>
           <div className="mb-2 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-slate-400">
             <Wand2 className="h-3.5 w-3.5 text-indigo-500" />
-            {isEn ? 'Visual themes' : '视觉主题'}
+            {isEn ? 'Resume style templates' : '简历视觉模板'}
           </div>
           <div className="grid grid-cols-2 gap-2">
             {visualThemes.map((theme) => {
@@ -77,23 +72,31 @@ export function StyleDrawer({
                   type="button"
                   onClick={() => updateSettings(theme.settings)}
                   aria-pressed={active}
-                  className={`rounded-xl border px-3 py-2.5 text-left transition ${
+                  className={`rounded-xl border p-2.5 text-left transition ${
                     active
                       ? 'border-indigo-400 bg-indigo-50 ring-2 ring-indigo-500/10 dark:border-indigo-700 dark:bg-indigo-950/50'
                       : 'border-slate-200 bg-white hover:border-indigo-300 hover:bg-indigo-50/50 dark:border-slate-700 dark:bg-slate-900 dark:hover:border-indigo-700 dark:hover:bg-indigo-950/30'
                   }`}
                 >
-                  <span className="flex items-center justify-between gap-2 text-[11px] font-black text-slate-800 dark:text-slate-100">
-                    {theme.name}
+                  <PresetResumeThumbnail preset={theme} isEn={isEn} />
+                  <span className="mt-2 flex items-center justify-between gap-2 text-[11px] font-black text-slate-800 dark:text-slate-100">
+                    {theme.displayName}
                     {active && <Check className="h-3.5 w-3.5 shrink-0 text-indigo-600 dark:text-indigo-400" />}
                   </span>
                   <span className="mt-1 block text-[9px] text-slate-400">
-                    {isEn ? 'Visual only' : '仅调整视觉样式'}
+                    {theme.audience === 'cn'
+                      ? (isEn ? 'Chinese resume' : '中文求职场景')
+                      : (isEn ? 'Professional style' : '专业风格')}
                   </span>
                 </button>
               );
             })}
           </div>
+          <p className="mt-2 text-[10px] leading-relaxed text-slate-500 dark:text-slate-400">
+            {isEn
+              ? 'Previews are illustrations. Applying a style changes typography, layout and spacing without replacing your content.'
+              : '缩略图为版式示意。应用完整排版、字体与间距设置，不会替换简历内容。'}
+          </p>
         </section>
 
         <section className="space-y-2 border-t border-slate-100 pt-4 dark:border-slate-800">

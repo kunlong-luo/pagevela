@@ -3,6 +3,7 @@ export type FontSize = 'compact' | 'standard' | 'relaxed';
 export type FontFamily = 'sans' | 'serif' | 'mono';
 export type PaperMargin = 'compact' | 'standard' | 'relaxed';
 export type LayoutMode = 'split' | 'editor' | 'preview';
+export type ResumeHeaderLayout = 'split' | 'centered' | 'stacked';
 export type H2Style = 'accent-line' | 'modern-badge' | 'minimal-clean' | 'academic-line' | 'bracket-tag';
 export type TemplateLayout = 'single' | 'two-column' | 'academic' | 'modern-card';
 export type Language = 'zh' | 'en';
@@ -29,6 +30,8 @@ export interface ResumeSettings {
   letterSpacing: number;
   showPageBreakLine: boolean;
   templateLayout: TemplateLayout;
+  /** Defaults to split for existing documents. */
+  headerLayout?: ResumeHeaderLayout;
   /** Resume content language. UI language is stored globally. */
   lang?: Language;
   paperSize?: PaperSize;

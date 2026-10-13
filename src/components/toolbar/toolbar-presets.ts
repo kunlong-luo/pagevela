@@ -5,9 +5,70 @@ export interface StylePreset {
   name: string;
   nameEn: string;
   settings: Partial<ResumeSettings>;
+  audience?: 'cn';
 }
 
 export const MASTER_PRESETS: StylePreset[] = [
+  {
+    id: 'cn_classic',
+    name: '中文经典商务',
+    nameEn: 'Chinese Classic',
+    audience: 'cn',
+    settings: {
+      themeColor: 'custom',
+      customColor: '#153A5A',
+      fontFamily: 'serif',
+      fontSize: 'standard',
+      lineHeight: 1.52,
+      blockGap: 0.85,
+      letterSpacing: 0.01,
+      h2Style: 'academic-line',
+      templateLayout: 'single',
+      headerLayout: 'split',
+      margin: 'standard',
+      topAccentLine: false,
+    },
+  },
+  {
+    id: 'cn_graduate',
+    name: '校招清新',
+    nameEn: 'Fresh Graduate',
+    audience: 'cn',
+    settings: {
+      themeColor: 'custom',
+      customColor: '#0F766E',
+      fontFamily: 'sans',
+      fontSize: 'standard',
+      lineHeight: 1.6,
+      blockGap: 0.95,
+      letterSpacing: 0.01,
+      h2Style: 'modern-badge',
+      templateLayout: 'single',
+      headerLayout: 'centered',
+      margin: 'standard',
+      topAccentLine: true,
+    },
+  },
+  {
+    id: 'cn_modern',
+    name: '现代双栏',
+    nameEn: 'Modern Two-Column',
+    audience: 'cn',
+    settings: {
+      themeColor: 'custom',
+      customColor: '#2563EB',
+      fontFamily: 'sans',
+      fontSize: 'compact',
+      lineHeight: 1.5,
+      blockGap: 0.75,
+      letterSpacing: 0,
+      h2Style: 'bracket-tag',
+      templateLayout: 'two-column',
+      headerLayout: 'stacked',
+      margin: 'standard',
+      topAccentLine: true,
+    },
+  },
   {
     id: 'finance',
     name: '金融咨询',
@@ -22,6 +83,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: 0.02,
       h2Style: 'accent-line',
       templateLayout: 'single',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: true
     }
@@ -40,6 +102,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: 0.0,
       h2Style: 'accent-line',
       templateLayout: 'single',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: true
     }
@@ -58,6 +121,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: -0.01,
       h2Style: 'academic-line',
       templateLayout: 'academic',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: false
     }
@@ -76,6 +140,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: 0.0,
       h2Style: 'modern-badge',
       templateLayout: 'modern-card',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: true
     }
@@ -94,6 +159,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: 0.01,
       h2Style: 'accent-line',
       templateLayout: 'single',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: true
     }
@@ -112,6 +178,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: 0.01,
       h2Style: 'accent-line',
       templateLayout: 'single',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: true
     }

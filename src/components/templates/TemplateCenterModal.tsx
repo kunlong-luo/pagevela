@@ -8,6 +8,7 @@ import {
   GraduationCap,
   LayoutGrid,
   Layers,
+  Palette,
   X,
 } from 'lucide-react';
 import { createPortal } from 'react-dom';
@@ -321,14 +322,28 @@ export function TemplateCenterModal({
                 : '按求职场景浏览并先预览。应用模板会替换简历内容，并同步简历语言、目标市场、纸张和日期格式；视觉排版与样式设置保持不变。'}
             </p>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label={isEn ? 'Close content template library' : '关闭内容模板库'}
-            className="min-h-10 min-w-10 inline-flex items-center justify-center rounded-xl p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-          >
-            <X className="h-4 w-4" />
-          </button>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                window.dispatchEvent(new Event('resume-craft:open-style'));
+              }}
+              aria-label={isEn ? 'Browse visual resume styles' : '浏览视觉简历模板'}
+              className="inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-2.5 text-[11px] font-bold text-indigo-700 transition hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-900/40"
+            >
+              <Palette className="h-4 w-4" aria-hidden="true" />
+              <span className="hidden sm:inline">{isEn ? 'Visual Styles' : '视觉样式'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={isEn ? 'Close content template library' : '关闭内容模板库'}
+              className="min-h-10 min-w-10 inline-flex items-center justify-center rounded-xl p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         <div className="border-b border-slate-100 px-5 py-3 dark:border-slate-800 sm:px-6">

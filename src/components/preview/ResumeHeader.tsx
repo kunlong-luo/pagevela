@@ -5,6 +5,7 @@ import {
   Briefcase, GraduationCap, Calendar, MapPin, Clock, Award, CheckCircle2 
 } from 'lucide-react';
 import { parseBasicInfoMetadata, BasicInfoItem } from '../../lib/preview-utils';
+import type { ResumeHeaderLayout } from '../../types';
 
 interface ResumeHeaderProps {
   headerInfo: {
@@ -15,6 +16,7 @@ interface ResumeHeaderProps {
   };
   theme: any;
   lang?: 'zh' | 'en';
+  layout?: ResumeHeaderLayout;
 }
 
 const GitHubIcon = ({ className }: { className?: string }) => (
@@ -49,7 +51,7 @@ function hostnameMatches(url: URL | null, domain: string): boolean {
   return hostname === normalizedDomain || hostname.endsWith(`.${normalizedDomain}`);
 }
 
-export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme, lang = 'zh' }: ResumeHeaderProps) {
+export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme, lang = 'zh', layout = 'split' }: ResumeHeaderProps) {
   const basicInfoItems = useMemo(() => {
     return parseBasicInfoMetadata(headerInfo.experience, lang);
   }, [headerInfo.experience, lang]);
@@ -77,8 +79,12 @@ export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme
 
   return (
     <div className="border-b border-gray-200/80 pb-5 mb-5">
-      <div className="flex flex-row items-start justify-between gap-5">
-        <div className="flex-1 min-w-0 space-y-2">
+      <div className={layout === 'centered'
+        ? 'flex flex-col items-center gap-2 text-center'
+        : layout === 'stacked'
+          ? 'flex flex-col items-start gap-2'
+          : 'flex flex-row items-start justify-between gap-5'}>
+        <div className={layout === 'split' ? 'flex-1 min-w-0 space-y-2' : 'w-full min-w-0 space-y-2'}>
           {/* Candidate Name */}
           <h1 className="text-3xl font-black text-gray-900 tracking-tight">
             {headerInfo.name}
@@ -86,7 +92,7 @@ export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme
           
           {/* Target Job Titles / Roles (求职意向/核心职能) */}
           {headerInfo.titles.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 pt-0.5">
+            <div className={`flex flex-wrap items-center gap-2 pt-0.5 ${layout === 'centered' ? 'justify-center' : ''}`}>
               {headerInfo.titles.map((title, idx) => (
                 <span 
                   key={idx}
@@ -100,7 +106,7 @@ export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme
 
           {/* Structured Basic Information Bar (个人核心基础信息条 - Zero-Pill 去药丸化排版) */}
           {basicInfoItems.length > 0 && (
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[12px] text-gray-650 font-medium pt-0.5">
+            <div className={`flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[12px] text-gray-650 font-medium pt-0.5 ${layout === 'centered' ? 'justify-center' : ''}`}>
               {basicInfoItems.map((item, idx) => (
                 <React.Fragment key={item.key || idx}>
                   {idx > 0 && (
@@ -120,7 +126,9 @@ export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme
         
         {/* Contacts - Vertically Aligned */}
         {headerInfo.contacts.length > 0 && (
-          <div className="flex flex-col items-start gap-1.5 text-[11.5px] text-gray-600 font-medium ml-auto self-start shrink-0 min-w-0 pt-1">
+          <div className={layout === 'split'
+              ? 'flex flex-col items-start gap-1.5 text-[11.5px] text-gray-600 font-medium ml-auto self-start shrink-0 min-w-0 pt-1'
+              : `flex flex-wrap gap-x-4 gap-y-1.5 text-[11.5px] text-gray-600 font-medium min-w-0 pt-1 ${layout === 'centered' ? 'justify-center' : 'justify-start'}`}>
 
             {headerInfo.contacts.map((contact, idx) => {
               let icon = null;

@@ -52,6 +52,21 @@ test.describe('template center', () => {
     ).toHaveCount(0);
   });
 
+  test('opens visual styles from the content library without replacing resume content', async ({ page }) => {
+    await page.goto('/?page=editor');
+    await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
+    const originalMarkdown = await readActiveMarkdown(page);
+
+    await page.getByRole('button', { name: /Browse resume templates|浏览与切换简历模板/ }).click();
+    const contentDialog = page.getByRole('dialog', { name: /Choose a content template|选择内容模板/ });
+    await contentDialog.getByRole('button', { name: 'Browse visual resume styles' }).click();
+
+    await expect(contentDialog).toBeHidden();
+    const styleDialog = page.getByRole('dialog', { name: 'Style' });
+    await expect(styleDialog.getByRole('button', { name: /Chinese Classic/ })).toBeVisible();
+    await expect.poll(() => readActiveMarkdown(page)).toBe(originalMarkdown);
+  });
+
   test('filters templates by job-seeking scenario', async ({ page }) => {
     await page.goto('/?page=editor');
 
@@ -200,7 +215,7 @@ test.describe('template center', () => {
     await expect.poll(() => readActiveMarkdown(page)).toContain('林智远');
   });
 
-  test('applies content without changing layout or style', async ({ page }) => {
+  test('content templates preserve the selected visual style', async ({ page }) => {
     // This flow crosses several dialogs and state re-checks; WebKit is
     // consistently slower than the default 20-second per-test budget.
     test.slow();
@@ -242,7 +257,7 @@ test.describe('template center', () => {
     await toolbar.getByRole('button', { name: /Open layout settings|打开排版设置/ }).click();
     const layoutAfter = page.getByRole('dialog', { name: 'Layout' });
     await expect(
-      layoutAfter.getByRole('button', { name: /Two columns/ }),
+      layoutAfter.getByRole('button', { name: /Single column/ }),
     ).toHaveAttribute('aria-pressed', 'true');
     await layoutAfter.getByRole('button', { name: 'Close Layout' }).click();
 

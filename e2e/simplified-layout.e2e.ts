@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { readActiveMarkdown } from './helpers/indexeddb';
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
@@ -11,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('simplified workspace actions', () => {
-  test('separates layout controls from visual style controls', async ({ page }) => {
+  test('keeps layout controls separate while visual presets apply complete styling', async ({ page }) => {
     await page.goto('/?page=editor');
 
     const toolbar = page.locator('#resume-main-toolbar');
@@ -45,7 +46,7 @@ test.describe('simplified workspace actions', () => {
 
     const styleDialog = page.getByRole('dialog', { name: 'Style' });
     await expect(styleDialog).toBeVisible();
-    await expect(styleDialog.getByText('Visual themes', { exact: true })).toBeVisible();
+    await expect(styleDialog.getByText('Resume style templates', { exact: true })).toBeVisible();
     await expect(styleDialog.getByText('Accent color', { exact: true })).toBeVisible();
     await expect(styleDialog.getByText('Section title style', { exact: true })).toBeVisible();
     await expect(styleDialog.getByText('Page layout', { exact: true })).toHaveCount(0);
@@ -56,8 +57,32 @@ test.describe('simplified workspace actions', () => {
 
     await toolbar.getByRole('button', { name: /Open layout settings|打开排版设置/ }).click();
     await expect(
+      page.getByRole('dialog', { name: 'Layout' }).getByRole('button', { name: /Single column/ }),
+    ).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  test('Chinese premium visual styles preserve resume content across layout changes', async ({ page }) => {
+    await page.goto('/?page=editor');
+    await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
+    const original = await readActiveMarkdown(page);
+
+    const toolbar = page.locator('#resume-main-toolbar');
+    await toolbar.getByRole('button', { name: 'Open style settings' }).click();
+
+    const dialog = page.getByRole('dialog', { name: 'Style' });
+    await dialog.getByRole('button', { name: /Chinese Classic/ }).click();
+    await expect(
+      dialog.getByRole('button', { name: /Chinese Classic/ }),
+    ).toHaveAttribute('aria-pressed', 'true');
+
+    await dialog.getByRole('button', { name: /Modern Two-Column/ }).click();
+    await dialog.getByRole('button', { name: 'Close Style' }).click();
+
+    await toolbar.getByRole('button', { name: 'Open layout settings' }).click();
+    await expect(
       page.getByRole('dialog', { name: 'Layout' }).getByRole('button', { name: /Two columns/ }),
     ).toHaveAttribute('aria-pressed', 'true');
+    await expect.poll(() => readActiveMarkdown(page)).toBe(original);
   });
 
   test('switches the live preview between A4 and US Letter dimensions', async ({ page }) => {

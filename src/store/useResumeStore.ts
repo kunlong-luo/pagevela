@@ -131,6 +131,9 @@ const sanitizeSettings = (raw: Partial<ResumeSettings> | null, defaultSettings: 
   const templateLayouts: ResumeSettings['templateLayout'][] = [
     'single', 'two-column', 'academic', 'modern-card',
   ];
+  const headerLayouts: NonNullable<ResumeSettings['headerLayout']>[] = [
+    'split', 'centered', 'stacked',
+  ];
 
   if (!themeColors.includes(merged.themeColor)) {
     merged.themeColor = defaultSettings.themeColor;
@@ -152,6 +155,9 @@ const sanitizeSettings = (raw: Partial<ResumeSettings> | null, defaultSettings: 
   }
   if (!templateLayouts.includes(merged.templateLayout)) {
     merged.templateLayout = defaultSettings.templateLayout;
+  }
+  if (!merged.headerLayout || !headerLayouts.includes(merged.headerLayout)) {
+    merged.headerLayout = 'split';
   }
 
   if (
@@ -279,6 +285,7 @@ const getInitialSettings = (): ResumeSettings => {
     letterSpacing: 0.0,
     showPageBreakLine: true,
     templateLayout: 'single',
+    headerLayout: 'split',
     lang: initialLang,
     marketRegion: initialMarket,
     paperSize: resolveDefaultPaperSize(initialMarket),
