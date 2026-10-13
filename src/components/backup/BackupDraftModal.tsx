@@ -251,10 +251,9 @@ export function BackupDraftModal() {
 
         if (confirmed) {
           onRestore(parsed.markdown, parsed.settings, parsed.templateId);
-          // Older backups without this key retain the active photo; newer ones restore it exactly.
-          if (parsed.photoDataUrl !== undefined) {
-            useResumeStore.getState().setActiveProfilePhoto(parsed.photoDataUrl);
-          }
+          // Legacy backups contain no photo. Clear the old portrait rather than
+          // silently attaching it to unrelated imported resume content.
+          useResumeStore.getState().setActiveProfilePhoto(parsed.photoDataUrl ?? null);
           showToast(isEn ? 'Configuration imported successfully!' : '备份文件导入并恢复成功！');
           setTimeout(() => onClose(), 800);
         }
