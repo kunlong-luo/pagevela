@@ -20,6 +20,8 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
   const setPhoto = useResumeStore((state) => state.setActiveProfilePhoto);
   const updateSetting = useResumeStore((state) => state.updateSetting);
   const fileInput = useRef<HTMLInputElement>(null);
+  // Invalidate in-flight image processing after a profile switch or another selection.
+  const selectionVersion = useRef(0);
 
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [temporaryUrl, setTemporaryUrl] = useState('');
@@ -35,6 +37,7 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
   }, [temporaryUrl]);
 
   useEffect(() => {
+    selectionVersion.current += 1;
     setPendingFile(null);
     setTemporaryUrl('');
     setError('');
@@ -42,6 +45,7 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
 
   const pickPhoto = (file: File | undefined) => {
     if (!file) return;
+    selectionVersion.current += 1;
     const invalid = validateResumePhotoFile(file);
     if (invalid) {
       setError(invalid === 'unsupported'
@@ -58,17 +62,22 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
 
   const savePhoto = async () => {
     if (!pendingFile || saving) return;
+    const startedForProfile = activeProfileId;
+    const startedVersion = selectionVersion.current;
     setSaving(true);
     setError('');
     try {
       const dataUrl = await cropResumePhoto(pendingFile, horizontal / 100, vertical / 100);
       // Async decoding may outlast a profile switch. Never attach to the wrong profile.
-      if (useResumeStore.getState().activeProfileId !== activeProfileId) return;
+      if (useResumeStore.getState().activeProfileId !== startedForProfile ||
+          selectionVersion.current !== startedVersion) return;
       setPhoto(dataUrl);
       updateSetting('showPhoto', true);
       setPendingFile(null);
       setTemporaryUrl('');
     } catch {
+      if (selectionVersion.current !== startedVersion ||
+          useResumeStore.getState().activeProfileId !== startedForProfile) return;
       setError(isEn
         ? 'This photo could not be processed. Try a different photo.'
         : '无法处理这张图片，请换一张照片重试。');
@@ -143,7 +152,7 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
             {savedPhoto && (
               <button
                 type="button"
-                onClick={() => { setPhoto(null); setPendingFile(null); setTemporaryUrl(''); }}
+                onClick={() => { selectionVersion.current += 1; setPhoto(null); setPendingFile(null); setTemporaryUrl(''); }}
                 className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300"
               >
                 <Trash2 className="h-3.5 w-3.5" />
