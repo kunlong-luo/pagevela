@@ -105,6 +105,7 @@ export function BackupTab({
             </div>
             <input
               type="file"
+              data-testid="single-resume-backup-file"
               ref={fileInputRef}
               accept=".json,.JSON,application/json"
               onChange={(e) => {
