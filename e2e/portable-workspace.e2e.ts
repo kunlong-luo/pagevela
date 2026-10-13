@@ -69,3 +69,56 @@ test('portable workspace export and confirmed restore survive reload', async ({ 
     markdown: '# Saved prior version',
   });
 });
+
+
+test('portable file moves a resume between isolated browser profiles', async ({ browser }) => {
+  test.setTimeout(45_000);
+  const sourceContext = await browser.newContext({ acceptDownloads: true });
+  const destinationContext = await browser.newContext({ acceptDownloads: true });
+  try {
+    const oldSite = await sourceContext.newPage();
+    const newSite = await destinationContext.newPage();
+    for (const page of [oldSite, newSite]) {
+      await page.addInitScript(() => {
+        localStorage.setItem('resume-onboarding-v1-complete', '1');
+        localStorage.setItem('resume_ui_language', 'en');
+      });
+      await page.goto('http://127.0.0.1:3000/?page=editor');
+      await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
+    }
+
+    await oldSite.getByRole('button', { name: /^(Markdown source editor|Markdown 源码编辑模式)$/ }).click();
+    await oldSite.locator('#markdown-textarea').fill('# Source browser only');
+    await expect.poll(() => readActiveMarkdown(oldSite)).toBe('# Source browser only');
+    await expect.poll(() => readActiveMarkdown(newSite)).not.toBe('# Source browser only');
+
+    await oldSite.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
+    const sourceModal = oldSite.getByRole('dialog', { name: 'Resume Management' });
+    await sourceModal.getByRole('button', { name: 'Backup', exact: true }).click();
+    const [download] = await Promise.all([
+      oldSite.waitForEvent('download'),
+      sourceModal.getByRole('button', { name: 'Export workspace .json' }).click(),
+    ]);
+    const json = await readFile(await download.path()!, 'utf8');
+
+    await newSite.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
+    const destinationModal = newSite.getByRole('dialog', { name: 'Resume Management' });
+    await destinationModal.getByRole('button', { name: 'Backup', exact: true }).click();
+    await destinationModal.locator('input[aria-label="Choose workspace backup file"]').setInputFiles({
+      name: 'transfer.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(json),
+    });
+    const approval = newSite.getByRole('dialog', { name: 'Replace all local resumes?' });
+    await approval.getByRole('button', { name: 'Replace workspace' }).click();
+    await expect.poll(() => readActiveMarkdown(newSite)).toBe('# Source browser only');
+
+    await newSite.reload();
+    await expect.poll(() => readActiveMarkdown(newSite)).toBe('# Source browser only');
+    await oldSite.reload();
+    await expect.poll(() => readActiveMarkdown(oldSite)).toBe('# Source browser only');
+  } finally {
+    await sourceContext.close();
+    await destinationContext.close();
+  }
+});
