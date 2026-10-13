@@ -8,6 +8,7 @@ import { getMarketProfile, isMarketRegion, resolveDefaultPaperSize } from '../li
 import { isPaperSize } from '../lib/paper';
 import { isSafeResumePhotoDataUrl } from '../lib/resume-photo';
 import { getResumeBootstrapSnapshot } from '../lib/resume-bootstrap-state';
+import { stageProfileSettings, recoverProfileSettings, discardPendingProfileSettings } from '../lib/pending-profile-settings';
 
 interface ResumeState {
   // States
@@ -317,7 +318,7 @@ const getInitialProfiles = (
       const markdown = typeof p.markdown === 'string'
         ? migrateStoredMarkdown(p.markdown)
         : defaultMd;
-      const settings = sanitizeSettings(p.settings, defaultSettings);
+      const settings = sanitizeSettings(recoverProfileSettings(p), defaultSettings);
       const templateId =
         typeof p.templateId === 'string' && (p.templateId === 'custom' || TEMPLATES.some(t => t.id === p.templateId))
           ? p.templateId
@@ -489,11 +490,13 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
   setSettings: (settings) => {
     const { profiles, activeProfileId } = get();
     const nextSettings = sanitizeSettings(settings, get().settings);
+    const now = new Date().toISOString();
     const updatedProfiles = profiles.map(p =>
       p.id === activeProfileId
-        ? { ...p, settings: nextSettings, updatedAt: new Date().toISOString() }
+        ? { ...p, settings: nextSettings, updatedAt: now }
         : p
     );
+    stageProfileSettings(activeProfileId, nextSettings, now);
     storage.set(STORAGE_KEYS.SETTINGS, nextSettings);
     set({ settings: nextSettings, profiles: updatedProfiles, measuredPageCount: null });
   },
@@ -662,6 +665,7 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     }
 
     const updated = profiles.filter(p => p.id !== profileId);
+    discardPendingProfileSettings(profileId);
 
     if (activeProfileId === profileId) {
       const nextActive = updated[0];
@@ -692,6 +696,7 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
 
   importProfiles: (importedProfiles: ResumeProfile[]) => {
     if (!Array.isArray(importedProfiles) || importedProfiles.length === 0) return;
+    discardPendingProfileSettings();
 
     const normalizedProfiles = importedProfiles.map(profile => ({
       ...profile,
@@ -732,6 +737,7 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     const active = profiles.find(profile => profile.id === activeProfileId);
     if (!active) return;
     // Called only with fully validated portable backups after an atomic IndexedDB write.
+    discardPendingProfileSettings();
     const settings = sanitizeSettings(active.settings, get().settings);
     const templateId = active.templateId === 'custom' ||
       TEMPLATES.some(template => template.id === active.templateId)
@@ -787,6 +793,7 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
         : profile
     );
 
+    stageProfileSettings(activeProfileId, nextSettings, now);
     storage.set(STORAGE_KEYS.SETTINGS, nextSettings);
 
     if (debounceTimer) clearTimeout(debounceTimer);
@@ -966,11 +973,13 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     }
 
     const { profiles, activeProfileId } = get();
+    const now = new Date().toISOString();
     const updatedProfiles = profiles.map(p =>
       p.id === activeProfileId
-        ? { ...p, settings: newSettings, markdown: nextMarkdown, updatedAt: new Date().toISOString() }
+        ? { ...p, settings: newSettings, markdown: nextMarkdown, updatedAt: now }
         : p
     );
+    stageProfileSettings(activeProfileId, newSettings, now);
     set({
       settings: newSettings,
       markdown: nextMarkdown,
@@ -997,11 +1006,13 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     }
 
     const { profiles, activeProfileId } = get();
+    const now = new Date().toISOString();
     const updatedProfiles = profiles.map(p =>
       p.id === activeProfileId
-        ? { ...p, settings: newSettings, markdown: nextMarkdown, updatedAt: new Date().toISOString() }
+        ? { ...p, settings: newSettings, markdown: nextMarkdown, updatedAt: now }
         : p
     );
+    stageProfileSettings(activeProfileId, newSettings, now);
     set({
       settings: newSettings,
       markdown: nextMarkdown,
