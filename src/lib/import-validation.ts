@@ -188,7 +188,7 @@ export function normalizeResumeBackup(
   if (value.version !== 'markdown-resume-backup-v1') return null;
   if (
     typeof value.markdown !== 'string' ||
-    value.markdown.length === 0 ||
+    (!options.allowEmptyMarkdown && value.markdown.length === 0) ||
     value.markdown.length > MAX_MARKDOWN_LENGTH
   ) {
     return null;
@@ -224,6 +224,7 @@ export function normalizeResumeBackup(
 export function normalizeImportedProfile(
   value: unknown,
   fallbackSettings: ResumeSettings,
+  options: { allowEmptyMarkdown?: boolean } = {},
 ): ResumeProfile | null {
   if (!isRecord(value)) return null;
 
@@ -277,6 +278,7 @@ export function normalizeImportedProfile(
 export function normalizeImportedProfiles(
   value: unknown,
   fallbackSettings: ResumeSettings,
+  options: { allowEmptyMarkdown?: boolean } = {},
 ): ResumeProfile[] | null {
   if (!Array.isArray(value) || value.length === 0 || value.length > 100) {
     return null;
@@ -286,7 +288,7 @@ export function normalizeImportedProfiles(
   const ids = new Set<string>();
 
   for (const item of value) {
-    const profile = normalizeImportedProfile(item, fallbackSettings);
+    const profile = normalizeImportedProfile(item, fallbackSettings, options);
     if (!profile || ids.has(profile.id)) return null;
 
     ids.add(profile.id);
