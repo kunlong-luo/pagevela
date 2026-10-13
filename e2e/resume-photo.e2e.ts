@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
 import { readActiveMarkdown } from './helpers/indexeddb';
 
 const TINY_PNG = Buffer.from(
@@ -68,4 +69,50 @@ test('rejected replacement clears a previously queued valid photo', async ({ pag
   await expect(page.getByRole('alert')).toContainText('请上传 PNG、JPEG 或 WebP');
   await expect(page.getByRole('button', { name: '应用 3:4 裁剪' })).toHaveCount(0);
   await expect(page.locator('#resume-print-content img[alt="简历证件照"]')).toHaveCount(0);
+});
+
+
+test('China-market portrait stays inside the A4 page and Quick PDF is downloadable', async ({ page, browserName }) => {
+  test.skip(browserName !== 'chromium', 'Direct PDF download is validated in Chromium');
+  test.setTimeout(120_000);
+  await page.addInitScript(() => {
+    localStorage.setItem('resume-onboarding-v1-complete', '1');
+    localStorage.setItem('resume_ui_language', 'zh');
+    localStorage.setItem('resume-settings', JSON.stringify({
+      lang: 'zh',
+      marketRegion: 'cn',
+      paperSize: 'a4',
+    }));
+  });
+  await page.goto('/?page=editor');
+  await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
+  await page.locator('input[aria-label="选择简历证件照"]').setInputFiles({
+    name: 'portrait.png', mimeType: 'image/png', buffer: TINY_PNG,
+  });
+  await expect(page.locator('img[alt="简历证件照预览"]'))
+    .toHaveAttribute('src', /^data:image\/jpeg;base64,/);
+  await page.getByRole('button', { name: '应用 3:4 裁剪' }).click();
+
+  const portrait = page.locator('#resume-print-content img[alt="简历证件照"]');
+  await expect(portrait).toHaveCount(1);
+  const portraitBox = await portrait.boundingBox();
+  const pageBox = await page.locator('#resume-print-content').boundingBox();
+  expect(portraitBox).not.toBeNull();
+  expect(pageBox).not.toBeNull();
+  expect(portraitBox!.x).toBeGreaterThan(pageBox!.x + pageBox!.width * 0.5);
+  expect(portraitBox!.x + portraitBox!.width).toBeLessThanOrEqual(pageBox!.x + pageBox!.width + 2);
+  expect(portraitBox!.y).toBeGreaterThanOrEqual(pageBox!.y - 2);
+
+  await page.getByRole('button', { name: '选择 PDF 下载方式' }).click();
+  const [download] = await Promise.all([
+    page.waitForEvent('download', { timeout: 90_000 }),
+    page.getByRole('button', { name: '快速 PDF', exact: true }).click(),
+  ]);
+  expect(download.suggestedFilename()).toMatch(/\.pdf$/i);
+  expect(await download.failure()).toBeNull();
+  const path = await download.path();
+  expect(path).toBeTruthy();
+  const pdfBytes = await readFile(path!);
+  expect(pdfBytes.length).toBeGreaterThan(5_000);
+  expect(pdfBytes.subarray(0, 5).toString('ascii')).toBe('%PDF-');
 });
