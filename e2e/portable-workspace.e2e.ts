@@ -122,3 +122,69 @@ test('portable file moves a resume between isolated browser profiles', async ({ 
     await destinationContext.close();
   }
 });
+
+
+const TRANSFER_PHOTO_PNG = Buffer.from(
+  'iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAFElEQVR4nGMU2XKHARtgwio6aCUASycBtDR93bkAAAAASUVORK5CYII=',
+  'base64',
+);
+
+test('locally cropped portrait stays on its own profile across a workspace transfer', async ({ browser }) => {
+  test.setTimeout(60_000);
+  const oldContext = await browser.newContext({ acceptDownloads: true });
+  const newContext = await browser.newContext({ acceptDownloads: true });
+  try {
+    const source = await oldContext.newPage();
+    const destination = await newContext.newPage();
+    for (const page of [source, destination]) {
+      await page.addInitScript(() => {
+        localStorage.setItem('resume-onboarding-v1-complete', '1');
+        localStorage.setItem('resume_ui_language', 'zh');
+      });
+      await page.goto('http://127.0.0.1:3000/?page=editor');
+      await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
+    }
+
+    await source.locator('input[aria-label="选择简历证件照"]').setInputFiles({
+      name: 'portrait.png', mimeType: 'image/png', buffer: TRANSFER_PHOTO_PNG,
+    });
+    await expect(source.locator('img[alt="简历证件照预览"]'))
+      .toHaveAttribute('src', /^data:image\/jpeg;base64,/);
+    await source.getByRole('button', { name: '应用 3:4 裁剪' }).click();
+    const originalPortrait = source.locator('#resume-print-content img[alt="简历证件照"]');
+    await expect(originalPortrait).toHaveCount(1);
+    const portraitSrc = await originalPortrait.getAttribute('src');
+
+    await source.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
+    const oldModal = source.getByRole('dialog', { name: '简历管理' });
+    await oldModal.getByRole('button', { name: '备份', exact: true }).click();
+    const [download] = await Promise.all([
+      source.waitForEvent('download'),
+      oldModal.getByRole('button', { name: '导出工作区 .json' }).click(),
+    ]);
+    const backup = JSON.parse(await readFile(await download.path()!, 'utf8'));
+    const photographedProfile = backup.profiles.find((p: { id: string }) => p.id === backup.activeProfileId);
+    expect(photographedProfile.photoDataUrl).toBe(portraitSrc);
+    expect(backup.profiles.filter((p: { photoDataUrl?: string }) => Boolean(p.photoDataUrl)))
+      .toHaveLength(1);
+
+    await destination.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
+    const newModal = destination.getByRole('dialog', { name: '简历管理' });
+    await newModal.getByRole('button', { name: '备份', exact: true }).click();
+    await newModal.locator('input[aria-label="选择工作区备份文件"]').setInputFiles({
+      name: 'photo-transfer.json', mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(backup)),
+    });
+    const approve = destination.getByRole('dialog', { name: '覆盖全部本地简历？' });
+    await approve.getByRole('button', { name: '确认覆盖工作区' }).click();
+
+    const restoredPortrait = destination.locator('#resume-print-content img[alt="简历证件照"]');
+    await expect(restoredPortrait).toHaveAttribute('src', portraitSrc!);
+    await destination.reload();
+    await expect(restoredPortrait).toHaveAttribute('src', portraitSrc!);
+    expect((await readProfiles(destination)).length).toBe(backup.profiles.length);
+  } finally {
+    await oldContext.close();
+    await newContext.close();
+  }
+});
