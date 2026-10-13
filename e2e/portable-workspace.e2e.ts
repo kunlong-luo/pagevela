@@ -220,3 +220,60 @@ test('locally cropped portrait stays on its own profile across a workspace trans
     await newContext.close();
   }
 });
+
+
+test('same browser keeps data isolated across hostnames until an explicit workspace import', async ({ browser }) => {
+  test.setTimeout(60_000);
+  const context = await browser.newContext({ acceptDownloads: true });
+  try {
+    await context.addInitScript(() => {
+      localStorage.setItem('resume-onboarding-v1-complete', '1');
+      localStorage.setItem('resume_ui_language', 'en');
+    });
+    // Both hostnames resolve to the same test server, but browsers assign
+    // separate IndexedDB/localStorage namespaces based on the origin hostname.
+    const oldSite = await context.newPage();
+    const newSite = await context.newPage();
+    await oldSite.goto('http://127.0.0.1:3000/?page=editor');
+    await newSite.goto('http://localhost:3000/?page=editor');
+    await expect.poll(() => readActiveMarkdown(oldSite)).not.toBeNull();
+    await expect.poll(() => readActiveMarkdown(newSite)).not.toBeNull();
+
+    const oldOrigin = await oldSite.evaluate(() => location.origin);
+    const newOrigin = await newSite.evaluate(() => location.origin);
+    expect(oldOrigin).not.toBe(newOrigin);
+
+    await oldSite.getByRole('button', { name: /^(Markdown source editor|Markdown 源码编辑模式)$/ }).click();
+    await oldSite.locator('#markdown-textarea').fill('# Source isolated by hostname');
+    await expect.poll(() => readActiveMarkdown(oldSite)).toBe('# Source isolated by hostname');
+    await expect.poll(() => readActiveMarkdown(newSite)).not.toBe('# Source isolated by hostname');
+
+    await oldSite.evaluate(() => dispatchEvent(new Event('resume-craft:open-backup')));
+    const sourceHub = oldSite.getByRole('dialog', { name: 'Resume Management' });
+    await sourceHub.getByRole('button', { name: 'Backup', exact: true }).click();
+    const [download] = await Promise.all([
+      oldSite.waitForEvent('download'),
+      sourceHub.getByRole('button', { name: 'Export workspace .json' }).click(),
+    ]);
+    const backup = await readFile(await download.path()!, 'utf8');
+    expect(JSON.parse(backup).version).toBe('resume-craft-workspace-v1');
+
+    await newSite.evaluate(() => dispatchEvent(new Event('resume-craft:open-backup')));
+    const destinationHub = newSite.getByRole('dialog', { name: 'Resume Management' });
+    await destinationHub.getByRole('button', { name: 'Backup', exact: true }).click();
+    await destinationHub.locator('input[aria-label="Choose workspace backup file"]').setInputFiles({
+      name: 'cross-origin-backup.json', mimeType: 'application/json',
+      buffer: Buffer.from(backup),
+    });
+    const approval = newSite.getByRole('dialog', { name: 'Replace all local resumes?' });
+    await approval.getByRole('button', { name: 'Replace workspace' }).click();
+    await expect.poll(() => readActiveMarkdown(newSite)).toBe('# Source isolated by hostname');
+
+    await newSite.reload();
+    await expect.poll(() => readActiveMarkdown(newSite)).toBe('# Source isolated by hostname');
+    await oldSite.reload();
+    await expect.poll(() => readActiveMarkdown(oldSite)).toBe('# Source isolated by hostname');
+  } finally {
+    await context.close();
+  }
+});
