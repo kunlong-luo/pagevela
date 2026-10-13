@@ -316,7 +316,7 @@ test.describe('product state flows', () => {
 
     const backupInput = page
       .getByRole('dialog')
-      .locator('input[type="file"][accept*=".json"]');
+      .locator('input[type="file"][accept*=".JSON"]');
 
     await backupInput.setInputFiles({
       name: 'too-large-backup.JSON',
