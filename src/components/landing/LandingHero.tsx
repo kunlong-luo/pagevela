@@ -1,5 +1,6 @@
 import React from 'react';
 import { trackAnalyticsEvent } from '../../lib/analytics';
+import { GithubIcon } from './LandingNavbar';
 import { Zap, ArrowRight, CheckCircle2, Layout, ShieldCheck, Lock, Download } from 'lucide-react';
 
 interface LandingHeroProps {
@@ -81,6 +82,21 @@ export function LandingHero({
           >
             <Layout className="w-4 h-4 text-indigo-500" />
             <span>{isEn ? 'Browse Templates' : '浏览内置模板'}</span>
+          </a>
+        </div>
+
+        {/* Small tertiary action: support the open-source project without displacing the resume CTA. */}
+        <div className="mt-4 flex justify-center">
+          <a
+            href="https://github.com/kunlong-luo/resume-craft"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="landing-github-star"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+          >
+            <GithubIcon className="w-4 h-4" />
+            <span>{isEn ? 'Star on GitHub' : '在 GitHub 点个 Star'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
 
