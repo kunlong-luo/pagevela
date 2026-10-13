@@ -314,9 +314,7 @@ test.describe('product state flows', () => {
     ).toBeVisible();
     await page.getByRole('button', { name: /^(Backup|备份)$/ }).click();
 
-    const backupInput = page
-      .getByRole('dialog')
-      .locator('input[type="file"][accept*=".JSON"]');
+    const backupInput = page.getByTestId('single-resume-backup-file');
 
     await backupInput.setInputFiles({
       name: 'too-large-backup.JSON',
