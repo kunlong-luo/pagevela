@@ -13,7 +13,7 @@ export function LandingFooter({ isEn }: LandingFooterProps) {
           <div className="w-6 h-6 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-lg text-white flex items-center justify-center font-black text-[10px]">
             RC
           </div>
-          <span className="font-bold text-slate-200">Resume Craft 简匠</span>
+          <span className="font-bold text-slate-200">{isEn ? 'Resume Craft' : '简匠'}</span>
           <span>· MIT License · Open Source</span>
         </div>
 
