@@ -2,20 +2,20 @@
   <img src=".github/assets/readme-banner.svg" alt="Resume Craft — Markdown Resume Builder" width="100%" />
 </p>
 
-<h1 align="center">🚀 简匠</h1>
+<h1 align="center">🚀 Resume Craft</h1>
 
-<h3 align="center">本地优先的 Markdown 简历编辑器</h3>
+<h3 align="center">Local-first Markdown Resume Builder</h3>
 
 <p align="center">
-  实时 A4 / US Letter 预览、ATS 检查、中英双语、PDF 导出。
+  Build and tailor A4 or US Letter resumes with Markdown, structured forms, ATS checks, and direct PDF export.
 </p>
 
 <p align="center">
-  <a href="https://kunlong-luo.github.io/resume-craft/"><strong>在线体验</strong></a>
+  <a href="https://kunlong-luo.github.io/resume-craft/"><strong>Live Demo</strong></a>
   ·
-  <a href="./README.en.md">English</a>
+  <a href="./README.zh-CN.md">简体中文</a>
   ·
-  <a href="https://github.com/kunlong-luo/resume-craft/discussions">反馈 / Discussions</a>
+  <a href="https://github.com/kunlong-luo/resume-craft/discussions">Feedback / Discussions</a>
   ·
   <a href="https://github.com/kunlong-luo/resume-craft/releases/latest">Latest Release</a>
 </p>
@@ -25,252 +25,232 @@
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License" /></a>
 </p>
 
-> **Resume Craft** 面向希望摆脱 Word 排版负担的求职者和开发者。它把 Markdown 的高效编辑、结构化表单和 A4 / US Letter 实时预览放在同一个本地优先工作流里，无需注册即可开始制作简历。
+> **Resume Craft** is for job seekers and developers who want to spend less time fighting Word layouts. It combines Markdown, structured forms, and a live A4 / US Letter preview in a local-first workflow that works without an account.
 >
 > **Markdown ↔ Form · A4 / US Letter Preview · ATS Checks · Auto Fit · PDF Export · Local-first · PWA**
 >
-> 简历草稿与设置主要保存在浏览器本地；ATS 检查、排版工具和 PDF 导出都在前端完成。需要分享时，可以生成公开链接或使用密码派生密钥的 AES-256-GCM 加密链接。
+> Resume drafts and settings are primarily stored in the browser. ATS checks, layout tools, and PDF generation run on the client, while optional share links provide a lightweight way to send a resume to others.
 
 ---
 
-## 🆕 v2.5.0 更新
+## 🆕 What's New in v2.5.0
 
-- **独立产品欢迎页（Landing Page）**：新增独立高保真产品欢迎页，包含 Hero 品牌区、真实编辑器交互演示、六大核心特色亮点、本地优先隐私说明、精选行业模板与常见问答。
-- **双路由无缝切换与历史栈支持**：支持产品欢迎页（`/`、`?page=landing`、`#/landing`）与简历编辑器（`/editor`、`?page=editor`、`#/editor`）双向平滑导航，支持浏览器前进/后退与书签保存，编辑器顶部提供一键返回欢迎页。
-- **首次进入新手教程引导**：从欢迎页点击进入编辑器时，若为首次访问自动唤起三步交互式新手引导教程（编辑区介绍、工具栏介绍与模板选择）；已完成引导的用户直接进入工作区。
-- **本地数据安全零风险**：已有用户的 IndexedDB 简历草稿、多档案库和端到端加密分享链接不受任何影响，保持完全离线与本地优先。
+- **Independent Product Landing Page**: Adds a full-fledged, responsive, accessible welcome page featuring Hero brand storytelling, live interactive workspace demonstration, six core feature highlights, local-first privacy manifesto, curated industry templates, and FAQ.
+- **Universal Dual-Route Navigation**: Seamless switching between the Landing Page (`/`, `?page=landing`, `#/landing`) and Editor Workspace (`/editor`, `?page=editor`, `#/editor`) with full browser history (back/forward) and bookmarking support. Direct return-to-home navigation available right in the editor header.
+- **First-Time User Onboarding Guarantee**: When entering the editor from the landing page for the first time, automatically launches the 3-step interactive onboarding tour (editor overview, toolbar layout, starter choices). Returning users jump directly into their workspace.
+- **Zero-Risk Local-First Continuity**: Existing resume drafts in IndexedDB, multi-profile archives, and encrypted share links remain fully protected and 100% private.
 
-完整发布记录见 [v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0)。
+See the full [v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0).
 ---
 
-## 💡 为什么选择 Resume Craft？
+## 💡 Why Choose Resume Craft?
 
-在传统的简历制作中，求职者常常面临 **Word 对齐地狱**、**PDF 导出乱码错位**、**“1.1 页”尴尬超页** 以及 **跨设备字体变形** 等痛点。Resume Craft 针对这些问题构建了一整套极客级解决方案：
+When creating resumes, candidates frequently suffer from **Word layout nightmares**, **PDF export font corruptions**, **unwanted 1.1-page spills**, and **multi-device font distortion**. Resume Craft provides an end-to-end engineered solution:
 
 ```
 +-----------------------------------------------------------------------------------+
 |                                  RESUME CRAFT                                     |
 |                                                                                   |
-|  [ 可视化结构表单 ] <==========( 实时双向 AST 引擎 )==========> [ Markdown 源码 ]    |
+|  [ Structured Form ] <=========( Real-Time AST Bi-Sync )=========> [ Markdown ]   |
 |          |                                                             |          |
-|          +---------------------> [ A4 画布渲染底座 ] <-----------------+          |
+|          +---------------------> [ A4 Canvas Core ] <------------------+          |
 |                                         |                                         |
 |    +------------------------------------+-----------------------------------+    |
 |    |                                    |                                   |    |
-| [ 1-Click 智能压缩贴合 ]    [ 高保真系统字体降级 Stack ]      [ ATS 岗位词库诊断匹配 ]|
+| [ 1-Click Smart Auto-Fit ]    [ Fallback Font Stack ]      [ ATS JD Keyword Audit ]|
 |    |                                    |                                   |    |
 |    +------------------------------------+-----------------------------------+    |
 |                                         |                                         |
 |                   +---------------------+---------------------+                   |
 |                   |                                           |                   |
-|         [ ATS PDF / 快速 PDF ]                      [ H5 分享链接 ]              |
+|         [ ATS PDF / Quick PDF ]                      [ H5 Share Link ]   |
 +-----------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 🌟 核心杀手级特性
+## 🌟 Core Highlights
 
-### 1. 🔄 可视化表单 & Markdown 双向同步引擎
-* **双域联动**：无论是在左侧「结构化表单」修改姓名职位，还是在「Markdown 源码」编辑项目细节，简历画布会实时更新，保持表单、Markdown 与预览内容同步。
-* **拖拽重排**：表单组件内置 Grip 抓手，鼠标拖拽即可秒级调整项目经历或技能板块排序，Markdown 源码与预览图同步完成文本段落重组。
+### 1. 🔄 Visual Form & Markdown Bi-Directional Sync Engine
+* **Bi-Directional Sync**: Seamlessly edit in either the "Structured Form" or "Markdown Source" with real-time updates across the form, Markdown source, and live preview.
+* **Drag & Drop Reordering**: Native grip handles allow mouse drag-and-drop to reorder experiences or skills instantly, updating both Markdown text and live previews.
 
-### 2. ⚡ 顶栏「一键压缩贴合」（1-Click Auto Fit）与纸张控页
-* **消除溢出**：拒绝“1.1 页”尴尬断层！闪电按钮自动级联微调页边距（Margin）、字体行高（Line Height）与段落间距（Spacing），将溢出内容平滑贴合至整齐 1 页纸内。
-* **纸张边界提示**：预览与打印支持 A4 与 US Letter，并根据当前目标市场与纸张设置展示对应分页边界。
+### 2. ⚡ 1-Click Auto Fit & Paper Boundary Control
+* **Eliminate Page Spills**: Say goodbye to 1.1-page awkward overflows. The lightning button dynamically adjusts margins, line height, and section padding to fit everything onto a pristine 1-page document.
+* **Paper Boundary Indicators**: Preview and print support A4 and US Letter, with page boundaries matched to the current market and paper settings.
 
-### 3. ✨ PDF / 文件 / 纯文本本地导入
-* **PDF 本地提取**：可直接选择带文本层的 PDF，使用 PDF.js 在浏览器本地提取文字；文件不会上传到 Resume Craft 服务器。
-* **机器可读性检查**：导入 PDF 前会展示文本提取质量、邮箱/电话与常见章节识别情况，作为 ATS 可读性的代理参考；它不代表任何具体 ATS 的最终评分或通过保证。
-* **智能规整**：PDF 提取文本、`.txt` 与直接粘贴的杂乱文本会由本地轻量算法识别姓名、联系方式、工作经历与技能模块，并规整为可继续编辑的 Markdown。
-* **边界说明**：扫描件 / 纯图片 PDF 暂不做 OCR；带密码保护或缺少可用文本层的 PDF 会提示改用其他导出版本或纯文本粘贴。
+### 3. ✨ Local PDF / File / Raw Text Import
+* **Local PDF extraction**: Select a PDF with a text layer and PDF.js extracts the text entirely in the browser; the file is not uploaded to a Resume Craft server.
+* **Machine-readability check**: Before import, the app summarizes text extraction quality plus detected email, phone, and common section headings as an ATS-readability proxy. It is not a guarantee or score from any specific ATS.
+* **Smart normalization**: Extracted PDF text, `.txt` files, and pasted raw text are locally converted into editable Markdown with contact, experience, and skills structure.
+* **Current limits**: Image-only/scanned PDFs are not OCR'd yet. Password-protected PDFs or files without a usable text layer are rejected with a fallback suggestion.
 
-### 4. 🎯 ATS 岗位匹配与智能诊断系统
-* **JD 契合度匹配**：粘贴目标岗位 Job Description，算法智能对比核心匹配度关键词，突出显示核心技能短板。
-* **排版与合规自检**：实时扫描联系方式遗漏、多段经历时间重叠冲突及技术词汇规范大小写（如将 `react` / `node` 建议修正为 `React` / `Node.js`）。
+### 4. 🎯 ATS Job Matching & Smart Audit System
+* **JD Keyword Matching**: Paste target Job Descriptions to analyze match percentage and highlight missing keywords.
+* **Formatting Audit**: Scans for missing contact details, overlapping timeline dates, and inconsistent technology capitalization (e.g., auto-suggesting `React` over `react`).
 
-### 5. ✍️ 一键中英排版空格优化 (Bilingual Spacing)
-* **排版美学**：依据中文排版规范，一键自动在中文与英文、数字之间插入美学空格（如 `熟练使用React开发` ➔ `熟练使用 React 开发`），大幅增加文本呼吸感。
+### 5. ✍️ Bilingual Spacing Helper
+* **Aesthetic Typography**: Automatically inserts aesthetic spaces between Chinese characters, English words, and numbers to optimize document readability.
 
-### 6. 🎨 行业专属主题色盘与模版定制
-* **多维排版**：内置科技靛蓝、金融墨绿、极客深黑等行业色盘；支持单双栏布局切换、基础字号（13/14/15px）、行高段距及多种二级标题下划线风格定制。
+### 6. 🎨 Industry Color Palettes & Layout Customization
+* **Custom Styling**: Select from Indigo, Slate, Emerald, and Amber color palettes; customize single/two-column layouts, base font size (13/14/15px), line height, and header line accents.
 
-### 7. 🔤 系统字体栈与 A4 / US Letter 一致性
-* **跨端一致性设计**：使用 PingFang SC、Microsoft YaHei、Source Han Sans 等系统降级字体链，并基于当前 A4 / US Letter 纸张尺寸进行预览与视口缩放，尽量减少不同浏览器与系统之间的排版差异。实际字体度量仍可能因平台环境产生轻微变化。
+### 7. 🔤 System Font Stack & A4 / US Letter Layout Consistency
+* **Cross-platform consistency**: The UI and resume canvas use system font stacks (for example PingFang SC, Microsoft YaHei, and Source Han Sans SC) instead of Google Fonts CDN, and the preview scales from the selected A4 / US Letter paper size. Small cross-platform font-metric differences can still occur.
 
-### 8. 💾 多档案草稿矩阵 (Profile Matrix) 与差异对比
-* **一职一简历**：快速克隆创建特定岗位版本（如 `前端开发版`、`全栈工程师版`）。
-* **Diff 差异对比**：提供左右侧两版本模块级差异对比面板，清晰高亮文本修改与关键字调整。
+### 8. 💾 Multi-Profile Matrix & Diff Comparison
+* **Version Control**: Clone and maintain tailored resume branches for different roles (e.g., `Frontend Lead`, `Full-Stack Developer`).
+* **Diff Analysis**: View side-by-side diff highlights comparing text changes and keywords between two versions.
 
-### 9. 🔒 H5 外链分享与可选加密
-* **便捷分享**：公开分享会把可读取的简历载荷放在分享链接中；密码保护分享会在浏览器本地加密后再生成链接，密码本身不写入链接。公开链接应视为“持有链接即可读取”，加密链接仍依赖密码强度与安全传递，建议把密码与链接分开发送。
+### 9. 🔒 H5 Link Sharing & Optional Encryption
+* **Convenient Sharing**: Public links contain a readable resume payload, while password-protected links encrypt the resume locally in the browser before the link is created. The password is never stored in the link. Treat public links as readable by anyone who receives them, and send passwords separately from encrypted links when possible.
 
-### 10. 📐 板块位置极速排序 (Section Sorter)
-* **模块重排**：自动识别 Markdown 中的二级标题板块，支持拖拽或一键上下平移整个章节，无须手动繁琐剪切粘贴。
+### 10. 📐 Section Sorter
+* **Module Reordering**: Automatically detects Markdown section headers (`H2`) and allows moving entire sections up or down with one click.
 
-### 11. 🌙 深色模式与 A4 纸张隔离
-* **视觉舒适**：全站配备低疲劳深色模式，同时建立简历画布与导出 PDF 的样式强隔离机制，确保深色模式下预览纸张始终保持清晰白底黑字。
+### 11. 🌙 Dark Mode with Canvas Isolation
+* **Eye Comfort**: Full tactile Dark Mode theme with styling isolation so resume previews always maintain pristine white paper with crisp dark text.
 
-### 12. 🌐 全局中英双语与目标市场适配
-* **极速切换**：一键无缝切换中文（zh）与英文（en），不仅界面文案，内置简历模版与诊断提示亦全面中英适配。
-* **Target Market**：可选择美国、加拿大、英国、爱尔兰、中国或 International；当用户仍使用默认值时，目标市场会联动推荐纸张与日期格式，同时保留手动覆盖。
-* **日期与纸张本地化**：支持 A4 / US Letter，以及 `2026.09`、`Sep 2026`、`September 2026` 等日期样式，便于按地区习惯调整简历。
+### 12. 🌐 Bilingual Localization & Target Market
+* **Instant Switch**: Toggle between English (`en`) and Chinese (`zh`) with full UI, template, and diagnostic translation.
+* **Target Market**: Choose United States, Canada, United Kingdom, Ireland, China, or International. While defaults are still in use, the market setting can recommend paper size and date style without overwriting manual choices.
+* **Localized paper and dates**: Supports A4 / US Letter plus date styles such as `2026.09`, `Sep 2026`, and `September 2026`.
 
-### 13. ⚡ PWA 离线运行与本地优先数据存储
-* **本地优先**：支持安装至桌面与移动端。核心简历内容、Profiles、Draft / 自动备份与 JD 文本持久化在当前浏览器的 IndexedDB 中；主题、语言、缩放等轻量偏好保留在 localStorage。项目本身不提供用于保存简历内容的应用后端。新分享链接使用 URL fragment 保存载荷，仍应只分享给可信接收者。
+### 13. ⚡ PWA & Local-First Storage
+* **Local First**: Installable as a desktop or mobile PWA. Core resume content, profiles, drafts / automatic backups, and JD text are persisted in this browser's IndexedDB; small preferences such as theme, language, and zoom remain in localStorage. The project does not provide an application backend for persisting resume content. New share links keep their payload in the URL fragment; only share them with trusted recipients.
 
 ---
 
-## 📂 源码目录结构
+## 📂 Source Directory Architecture
 
 ```
 .
 ├── .github/
-│   ├── dependabot.yml           # Dependabot 依赖每周自动巡检
+│   ├── dependabot.yml           # Dependabot automated weekly checks
 │   └── workflows/
-│       ├── ci.yml               # GitHub Actions CI 检查与测试
-│       ├── deploy.yml           # main 分支自动部署 GitHub Pages
-│       ├── release.yml          # package.json 版本变更后自动发布稳定版
-│       ├── seo-submit.yml       # 部署成功后可选提交 IndexNow
-│       └── promote.yml          # 新内容跨平台推广（默认 dry-run）
+│       ├── ci.yml               # CI build & test check pipeline
+│       ├── deploy.yml           # Deploy main to GitHub Pages
+│       ├── release.yml          # Stable release after package version changes
+│       ├── seo-submit.yml       # Optional IndexNow submission after deploy
+│       └── promote.yml          # Cross-post new content (dry-run by default)
 ├── src/
-│   ├── assets/                  # 静态资源与矢量图形
-│   ├── components/              # UI 组件分层架构
-│   │   ├── form/                # 可视化简历结构表单
-│   │   ├── layout/              # 顶栏、侧边栏与分栏容器
-│   │   ├── modals/              # ATS 诊断、密码锁、草稿对比弹窗
-│   │   ├── preview/             # A4 画布渲染器与 ZoomControls
-│   │   ├── share/               # H5 外链分享访问端组件
-│   │   └── toolbar/             # 快捷工具栏与 AutoFit 按钮
-│   ├── context/                 # 全局 Context 与 Provider
-│   ├── data/                    # 示例模板与中文/英文初始简历
-│   ├── hooks/                   # 自定义 React Hooks (A4测量, 快捷键)
-│   ├── i18n/                    # 中英双语国际化词条
-│   ├── lib/                     # 核心算法 (AST解析, 贴合算法, 分享与存储工具)
-│   ├── store/                   # Zustand 全局响应式状态管理
-│   ├── types.ts                 # TypeScript 强类型定义
-│   ├── index.css                # Tailwind CSS v4 & 全局 CSS 变量
-│   └── main.tsx                 # 应用入口点
-├── index.html                   # HTML 模板入口
-├── package.json                 # 依赖配置与运行脚本
-├── vite.config.ts               # Vite 8 打包构建配置
-└── README.md                    # 项目说明文档
+│   ├── assets/                  # Icons & static media assets
+│   ├── components/              # Layered UI component architecture
+│   │   ├── form/                # Visual structured form input fields
+│   │   ├── layout/              # Topbar, sidebar & split layout wrappers
+│   │   ├── modals/              # ATS, password lock, draft diff modals
+│   │   ├── preview/             # A4 canvas renderer & ZoomControls
+│   │   ├── share/               # Public H5 share page component
+│   │   └── toolbar/             # Quick action bar & AutoFit controls
+│   ├── context/                 # Global React contexts
+│   ├── data/                    # Initial templates in EN & ZH
+│   ├── hooks/                   # Custom hooks (A4 measurement, shortcuts)
+│   ├── i18n/                    # Localization dictionaries
+│   ├── lib/                     # AST parsers, Auto-Fit, sharing & storage utilities
+│   ├── store/                   # Zustand reactive state store
+│   ├── types.ts                 # TypeScript type definitions
+│   ├── index.css                # Tailwind CSS v4 & theme variables
+│   └── main.tsx                 # Application entrypoint
+├── index.html                   # HTML template entry
+├── package.json                 # Project dependencies & scripts
+├── vite.config.ts               # Vite 8 bundler configuration
+└── README.md                    # Main documentation
 ```
 
 ---
 
-## 🛠️ 技术栈与依赖库
+## 🛠️ Tech Stack
 
-| 领域 | 技术方案 | 优势 / 说明 |
+| Category | Technology | Description |
 | :--- | :--- | :--- |
-| **前端框架** | React 19 + TypeScript 7 | 极致性能与强类型安全 |
-| **构建工具** | Vite 8 | 毫秒级 HMR 与极速生产打包 |
-| **样式引擎** | Tailwind CSS v4 | 新一代 CSS 变量与极简原子化样式 |
-| **状态管理** | Zustand 5 | 轻量响应式运行时状态 |
-| **本地持久化** | Dexie 4 + IndexedDB | 核心简历、Profiles、Draft / 自动备份与 JD 数据持久化 |
-| **动效系统** | Motion 13 | 流畅弹窗、拖拽重排与平滑展开动画 |
-| **Markdown** | `react-markdown` + `remark-gfm` | 标准 GFM 语法高能解析 |
-| **PDF 导入 / 导出** | `pdfjs-dist` + 浏览器原生打印 + `html2canvas-pro` + `jspdf` | 本地文本提取与机器可读性检查；ATS 友好打印 / Save as PDF + 图片型快速 PDF 双路径 |
-| **图标库** | Lucide React | 矢量现代线条图标 |
+| **Frontend** | React 19 + TypeScript 7 | Type-safe, high-performance UI rendering |
+| **Bundler** | Vite 8 | Instant HMR & fast production builds |
+| **Styling** | Tailwind CSS v4 | Atomic styling with modern CSS variables |
+| **State** | Zustand 5 | Lightweight reactive runtime state |
+| **Local Persistence** | Dexie 4 + IndexedDB | Durable storage for core resumes, profiles, drafts / backups, and JD data |
+| **Animations** | Motion 13 | Smooth drag-and-drop & modal transitions |
+| **Markdown** | `react-markdown` + `remark-gfm` | GFM-compliant markdown parsing |
+| **PDF Import / Export** | `pdfjs-dist` + browser print + `html2canvas-pro` + `jspdf` | Local text extraction and readability feedback plus ATS-friendly Save as PDF and image-based Quick PDF fallback |
 
 ---
 
-## 🚀 开发者快速启动指南
+## 🚀 Quick Start Guide
 
-### 1. 克隆项目
+### 1. Clone Repository
 ```bash
 git clone https://github.com/kunlong-luo/resume-craft.git
 cd resume-craft
 ```
 
-### 2. 安装依赖
+### 2. Install Dependencies
 ```bash
 pnpm install
 ```
 
-### 3. 启动开发服务器
+### 3. Run Development Server
 ```bash
 pnpm dev
 ```
-打开浏览器访问 `http://localhost:3000` 即可开始开发调试。
+Open `http://localhost:3000` in your browser to start editing.
 
-### 4. 运行工程脚本
+### 4. Scripts Overview
 
-| 脚本命令 | 说明 |
+| Command | Description |
 | :--- | :--- |
-| `pnpm dev` | 启动 Vite 开发服务器（Port: 3000） |
-| `pnpm build` | 构建生产环境产物（dist 目录） |
-| `pnpm lint` | 运行 TypeScript 全量静态类型检查 |
-| `pnpm test` | 执行 Vitest 自动化单元测试 |
-| `pnpm preview` | 预览本地生产打包结果 |
-| `pnpm check:stable-deps` | 检查直接依赖是否全部为稳定版本 |
+| `pnpm dev` | Start Vite dev server on port 3000 |
+| `pnpm build` | Build production assets into `dist/` |
+| `pnpm lint` | Run TypeScript static type checker |
+| `pnpm test` | Run Vitest unit test suite |
+| `pnpm preview` | Preview production build locally |
+| `pnpm check:stable-deps` | Reject direct dependency pre-releases |
 
 ---
 
-## 📈 PDF 下载与打印指南
+## 📈 PDF Download & Print Guide
 
-Resume Craft 提供两条导出路径：
+Resume Craft provides two export paths:
 
-1. **ATS PDF（默认、推荐）**：点击顶部 **“ATS PDF”**，或使用 **Ctrl/Cmd + P** 调起浏览器原生打印流程，然后选择 **Save as PDF / 另存为 PDF**。浏览器生成的 PDF 在支持的情况下会保留可搜索、可选择的文本，更适合正式投递与 ATS 解析。
-2. **快速 PDF（备用）**：使用 `html2canvas-pro + jsPDF` 将当前纸张画布渲染成图片型 PDF，适合快速下载、视觉分享或浏览器打印受限时使用。该路径会把页面内容光栅化，不建议作为 ATS 投递的首选。
+1. **ATS PDF (default, recommended)**: click **ATS PDF** or press **Ctrl/Cmd + P**, then choose **Save as PDF** in the browser print flow. Where supported by the browser, this preserves searchable/selectable text and is the preferred path for job applications and ATS parsing.
+2. **Quick PDF (fallback)**: uses `html2canvas-pro + jsPDF` to rasterize the currently selected paper canvas into an image-based PDF. It is useful for fast downloads, visual sharing, or environments where browser printing is blocked, but it is not the preferred ATS submission format.
 
-撰写时可以配合当前 A4 / US Letter 纸张边界与 **一键压缩贴合** 检查分页。如果使用系统打印窗口（Chrome / Edge / Safari），建议：
+While editing, use the current A4 / US Letter paper boundaries and **1-Click Auto Fit** to check pagination. For the browser print path (Chrome / Edge / Safari), recommended settings are:
 
-* **目标打印机**：选择 `另存为 PDF` (Save as PDF)，正式投递优先使用这条 ATS PDF 路径
-* **纸张大小**：按当前简历设置选择 `A4` 或 `Letter`
-* **边距**：根据预览结果优先尝试 **`无` (None)**
-* **选项**：需要保留主题背景时勾选 **`背景图形` (Background graphics)**
-* **页眉和页脚**：建议取消勾选
-
----
-
-## ❓ 常见问题 FAQ
-
-<details>
-<summary><b>Q1: 我的个人简历数据会被上传到后端服务器吗？</b></summary>
-<b>答：</b>编辑器本身没有用于保存简历内容的应用后端。v2.3 起，核心简历、Profiles、Draft / 自动备份与 JD 文本保存在当前浏览器的 IndexedDB 中，轻量偏好保存在 localStorage；这些本地存储默认都不是加密保险箱。请把浏览器账户、设备和本地备份视为敏感数据环境。
-</details>
-
-<details>
-<summary><b>Q2: 生成的 H5 分享链接安全性如何？</b></summary>
-<b>答：</b>公开分享会把可读取的简历载荷放在 URL fragment 中；密码保护分享会先在浏览器本地加密，密码本身不会进入链接。公开链接应只发给可信接收者；加密分享仍依赖密码强度与安全传递，建议不要把密码和链接放在同一条消息中。
-</details>
-
-<details>
-<summary><b>Q3: 为什么换电脑后排版通常还能保持比较一致？</b></summary>
-<b>答：</b>项目使用跨平台系统字体降级链，并以当前 A4 / US Letter 纸张基准配合视口缩放来减少差异。不同操作系统、浏览器和本机字体度量仍可能造成轻微变化，因此重要投递建议以最终导出的 PDF 为准。
-</details>
+* **Destination**: `Save as PDF` (recommended for ATS submissions)
+* **Paper Size**: match the resume setting with `A4` or `Letter`
+* **Margins**: try **`None`** first and confirm against the preview
+* **Options**: enable **`Background graphics`** when needed
+* **Headers and Footers**: disable them
 
 ---
 
-## 🔐 隐私与安全边界
+## 🔐 Privacy & Security Boundaries
 
-Resume Craft 采用本地优先架构，但“本地优先”不等于“所有数据都经过加密”。
+Resume Craft is local-first, but local-first does not mean that every stored or shared value is cryptographically encrypted.
 
-- 核心简历、Profiles、Draft / 自动备份与 JD 文本保存在当前浏览器的 IndexedDB 中；主题、语言、布局等轻量偏好保存在 `localStorage`。
-- 项目本身不提供用于持久化简历内容的应用后端。
-- 字体使用本机系统字体栈，不从 Google Fonts 等第三方字体 CDN 加载。
-- 产品使用 Simple Analytics 统计少量匿名聚合指标（开始编辑、导出、ATS 匹配、Auto Fit、分享、PWA 安装与反馈入口）；事件只有固定事件名，不附带 metadata。尊重 Do Not Track，开启 DNT 时不会加载统计脚本；不发送简历、JD、联系方式、文件名、分享参数或访问口令，也不启用会话回放/指纹识别。
-- 新分享链接把载荷放在 URL fragment 中，不会作为请求查询参数发送给托管站点；旧版 `?share=` 链接仍兼容。公开分享不提供内容加密；密码保护分享在浏览器本地加密，密码不写入链接。
-- 不要在 Issue、PR、测试数据或截图中提交真实简历、访问令牌、密码或其他敏感信息。
-- 产品建议与使用反馈可前往 [GitHub Discussions](https://github.com/kunlong-luo/resume-craft/discussions)；不会自动附带任何简历内容。
-- 安全问题请按照 [SECURITY.md](SECURITY.md) 的私密报告流程处理。
-
----
-
-## 🤝 参与贡献与社区
-
-欢迎提交 Bug、功能建议和代码贡献。在开始之前，请先阅读：
-
-- [贡献指南](CONTRIBUTING.md) — 开发环境、提交规范和 PR 流程
-- [行为准则](CODE_OF_CONDUCT.md) — 社区协作规则
-- [安全策略](SECURITY.md) — 漏洞请通过私密渠道报告，不要公开提交敏感细节
-- [支持说明](SUPPORT.md) — Bug、功能建议和使用问题的处理方式
-
-提交 Pull Request 前，请确保 `pnpm lint`、`pnpm test` 和 `pnpm build` 均通过。
+- Core resumes, profiles, drafts / automatic backups, and JD text are stored in this browser's IndexedDB; small UI preferences such as theme, language, and layout remain in `localStorage`.
+- The project does not provide an application backend for persisting resume content.
+- Fonts use local system stacks and are not loaded from third-party font CDNs such as Google Fonts.
+- The product uses Simple Analytics for a small set of anonymous aggregate signals (editing, export, ATS matching, Auto Fit, sharing, PWA installation, and feedback intent). Events contain only a fixed event name and no metadata. Do Not Track is respected and the analytics script is not loaded when DNT is enabled; resume, JD, contact, filename, share-payload, and access-code content are never sent, and session replay/fingerprinting are not used.
+- New share URLs keep the payload in the URL fragment so it is not sent to the hosting server as a request query; legacy `?share=` links remain compatible. Public links are not content-encrypted; password-protected shares are encrypted locally in the browser, and the password is never placed in the link.
+- Do not include real resume data, tokens, passwords, or other sensitive information in issues, pull requests, test fixtures, or screenshots.
+- Product feedback and ideas can go to [GitHub Discussions](https://github.com/kunlong-luo/resume-craft/discussions); no resume content is attached automatically.
+- Report security issues through the private process described in [SECURITY.md](SECURITY.md).
 
 ---
 
-## 📄 开源许可证
+## 🤝 Contributing & Community
 
-本项目采用 [MIT License](LICENSE) 开源许可证。您可以自由地在个人、团队或商业项目中修改和使用。
+Bug reports, feature ideas, and code contributions are welcome. Before contributing, please read:
+
+- [Contributing Guide](CONTRIBUTING.md) — development setup, commit conventions, and pull request workflow
+- [Code of Conduct](CODE_OF_CONDUCT.md) — community expectations
+- [Security Policy](SECURITY.md) — report vulnerabilities privately; do not publish sensitive details
+- [Support](SUPPORT.md) — where to ask for help or report problems
+
+Before opening a pull request, make sure `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
+
+---
+
+## 📄 License
+
+Distributed under the [MIT License](LICENSE). Free for personal and commercial use.
