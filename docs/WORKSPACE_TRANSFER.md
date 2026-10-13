@@ -1,0 +1,62 @@
+# Transfer all resumes to a new browser or website
+
+> This guide covers the **Complete Workspace** backup introduced in draft PR #204. It is not yet a production migration announcement. The public brand and domain have **not changed**.
+
+Your resume content is stored primarily in browser-local IndexedDB. Browsers do **not** automatically copy this data to a different website origin (domain, scheme or port), browser profile or device.
+
+## English — export from the original site
+
+1. Open the **editor** on the existing website, then open **Resume management → Backup**.
+2. Under **Move your complete workspace**, choose **Export workspace .json**.
+3. Save the file somewhere private. **Do not clear data, uninstall the PWA, or close the original site's access until the restore has been verified.**
+4. Treat the file as sensitive personal data: it is **not encrypted** and may include names, contact details, every resume profile, saved drafts, a job description and locally saved portrait photos.
+
+The **Export Current Resume** option above it is an older, *single-resume* format. It cannot move all profiles and drafts.
+
+## English — restore to a different browser or origin
+
+1. Open the new site's editor and navigate to **Resume management → Backup**.
+2. Close other tabs editing resumes on the destination site. If existing destination resumes matter, export them as a separate backup first.
+3. Choose **Import workspace .json** and select the file from step 2 above.
+4. Inspect the confirmation dialog: it explains that **all destination profiles, drafts and saved job description will be replaced**. Use **Cancel** if unsure.
+5. Confirm the import. Refresh the editor and check the active resume, other profiles, draft list and any photo before deleting the original file or retiring the original browser.
+6. Retain the original website and original backup until you have independently verified everything on the destination.
+
+**File limits:** currently up to 64 MiB for a full workspace backup and up to 100 profiles. The application refuses invalid or incompatible files. It does not upload the backup to a server.
+
+**Existing shared links:** an old link may still point to the old site. A downloaded workspace backup transfers editable content, **not** existing hosted share URLs or all PWA settings. Do not assume that changing the domain migrates a previously shared link.
+
+**If the import fails:** do not delete or edit the source data. Check the destination browser's free storage, file validity, and whether another editor tab is open. Retry using a fresh copy of the original backup.
+
+## 中文 — 在旧网站导出
+
+1. 打开旧网站编辑器，进入 **简历管理 → 备份**。
+2. 在 **迁移完整简历工作区** 区域选择 **导出工作区 .json**。
+3. 妥善保存文件。**在新网站确认恢复成功之前，不要清理旧网站数据或卸载旧 PWA。**
+4. 文件**未经加密**，可能包含所有档案、草稿、职位描述、个人联系方式及已保存的证件照，请勿公开分享。
+
+请不要误用上方的 **导出当前简历 JSON**：那是只备份单份简历的旧格式，不包含其他档案和草稿。
+
+## 中文 — 在新网站导入
+
+1. 打开新网站的编辑器，进入 **简历管理 → 备份**。
+2. 关闭新网站其他正在编辑简历的标签页；如有重要的旧档案，先单独导出备份。
+3. 点击 **导入工作区 .json** 并选择旧网站导出的文件。
+4. 仔细阅读确认弹窗：确认操作将**替换当前浏览器已有的全部档案、草稿与职位描述**。不确定时请取消。
+5. 完成后刷新页面，逐一检查激活简历、其他档案、草稿、职位描述和照片。
+6. 核对无误后再考虑停用旧网站。建议保留一份安全存放的原始备份。
+
+当前文件上限为 64 MiB，档案最多 100 份。导入失败时**不要清理旧网站数据**。此迁移通过本地文件完成，不需要上传简历到服务器。
+
+## Maintainer acceptance checklist (manual release gate)
+
+- [ ] Export when active Markdown has **unsaved edits**; import into a clean browser profile.
+- [ ] Verify two or more profiles in their original order and active selection.
+- [ ] Verify drafts (including an empty draft), JD text, template/margin settings and optional JPEG portrait.
+- [ ] Verify the old single-resume JSON format is still independently importable.
+- [ ] Cancel destination overwrite and confirm no local data changed.
+- [ ] Import corrupt JSON, oversized file, duplicate profile ID and invalid photo and confirm no partial overwrite.
+- [ ] Verify an actual **new hostname** cannot see old IndexedDB before import, then can read imported data after browser reload.
+- [ ] Validate Chromium / Firefox / WebKit and installed PWA flows.
+- [ ] Confirm the original site remains accessible and encrypted legacy shared links still open.
+- [ ] Verify no backup payload appears in analytics or external network requests.
