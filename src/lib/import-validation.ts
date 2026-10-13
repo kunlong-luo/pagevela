@@ -188,7 +188,7 @@ export function normalizeResumeBackup(
   if (value.version !== 'markdown-resume-backup-v1') return null;
   if (
     typeof value.markdown !== 'string' ||
-    (!options.allowEmptyMarkdown && value.markdown.length === 0) ||
+    value.markdown.length === 0 ||
     value.markdown.length > MAX_MARKDOWN_LENGTH
   ) {
     return null;
@@ -234,7 +234,7 @@ export function normalizeImportedProfile(
     typeof value.name !== 'string' ||
     value.name.trim().length === 0 ||
     typeof value.markdown !== 'string' ||
-    value.markdown.length === 0 ||
+    (!options.allowEmptyMarkdown && value.markdown.length === 0) ||
     value.markdown.length > MAX_MARKDOWN_LENGTH
   ) {
     return null;
