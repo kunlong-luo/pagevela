@@ -66,6 +66,19 @@ describe('cross-origin portable workspace backups', () => {
     });
   });
 
+  it('preserves valid empty resume and draft content during migration', () => {
+    const source = {
+      ...original,
+      profiles: [{ ...profiles[0], markdown: '' }, profiles[1]],
+      drafts: [{ ...drafts[0], markdown: '' }],
+    };
+    const parsed = normalizePortableWorkspaceBackup(
+      JSON.parse(serializePortableWorkspaceBackup(source, settings)), settings,
+    );
+    expect(parsed?.profiles[0].markdown).toBe('');
+    expect(parsed?.drafts[0].markdown).toBe('');
+  });
+
   it('keeps the old single-resume backup type distinct', () => {
     expect(normalizePortableWorkspaceBackup({
       version: 'markdown-resume-backup-v1', markdown: '# Single', settings,
@@ -79,7 +92,7 @@ describe('cross-origin portable workspace backups', () => {
       ...original, drafts: [drafts[0], drafts[0]],
     }, settings)).toBeNull();
     expect(normalizePortableWorkspaceBackup({
-      ...original, drafts: [{ ...drafts[0], markdown: '' }],
+      ...original, drafts: [{ ...drafts[0], markdown: 'x'.repeat(2_000_001) }],
     }, settings)).toBeNull();
     expect(normalizePortableWorkspaceBackup({ ...original, version: 'evil' }, settings)).toBeNull();
   });
