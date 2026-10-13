@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { getRouteFromLocation, buildRouteUrl } from '../lib/router';
 
@@ -75,5 +76,23 @@ describe('Landing Page & Router integration', () => {
       const isFirstTimeOnboarding = storageMock['resume-onboarding-v1-complete'] !== '1';
       expect(isFirstTimeOnboarding).toBe(false);
     });
+  });
+});
+
+
+describe('Landing GitHub Star entry points', () => {
+  it('provides GitHub Star links in the hero and navigation', () => {
+    const hero = readFileSync(new URL('../components/landing/LandingHero.tsx', import.meta.url), 'utf8');
+    const navbar = readFileSync(new URL('../components/landing/LandingNavbar.tsx', import.meta.url), 'utf8');
+    const repositoryUrl = 'https://github.com/kunlong-luo/resume-craft';
+
+    expect(hero).toContain(repositoryUrl);
+    expect(hero).toContain('landing-github-star');
+    expect(hero).toContain('Star on GitHub');
+    expect(hero).toContain('在 GitHub 点个 Star');
+    expect(navbar).toContain(repositoryUrl);
+    expect(navbar).toContain('Star Resume Craft on GitHub');
+    expect(hero).toContain('rel="noopener noreferrer"');
+    expect(navbar).toContain('rel="noopener noreferrer"');
   });
 });
