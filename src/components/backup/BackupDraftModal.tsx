@@ -345,12 +345,18 @@ export function BackupDraftModal() {
 
       // Drain all old in-flight autosaves before atomically replacing IndexedDB.
       await activeResumePersistence.flush();
-      await resumeRepository.saveSnapshot({
+      const writeImportedWorkspace = () => resumeRepository.saveSnapshot({
         markdown: parsed.profiles.find(profile => profile.id === parsed.activeProfileId)!.markdown,
         profiles: parsed.profiles,
         drafts: parsed.drafts,
         jdText: parsed.jdText,
       });
+      // Match the autosave lock, including when other tabs share this origin.
+      if (navigator.locks?.request) {
+        await navigator.locks.request('resume-craft:indexeddb-write', writeImportedWorkspace);
+      } else {
+        await writeImportedWorkspace();
+      }
       // Sync live state only after the atomic transaction committed.
       useResumeStore.getState().restorePortableWorkspace(
         parsed.profiles, parsed.activeProfileId, parsed.jdText,
