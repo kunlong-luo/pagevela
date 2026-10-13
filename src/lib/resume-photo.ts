@@ -31,14 +31,11 @@ export async function cropResumePhoto(file: File, panX = 0.5, panY = 0.5): Promi
   const invalid = validateResumePhotoFile(file);
   if (invalid) throw new Error(invalid);
 
-  const url = URL.createObjectURL(file);
+  // Decode the Blob directly. Raw upload URLs never enter an image DOM element.
+  const bitmap = await createImageBitmap(file);
   try {
-    const photo = new Image();
-    photo.decoding = 'async';
-    photo.src = url;
-    await photo.decode();
-    const width = photo.naturalWidth;
-    const height = photo.naturalHeight;
+    const width = bitmap.width;
+    const height = bitmap.height;
     if (width < 1 || height < 1 || width * height > 50_000_000) {
       throw new Error('invalid-dimensions');
     }
@@ -57,12 +54,12 @@ export async function cropResumePhoto(file: File, panX = 0.5, panY = 0.5): Promi
     const y = (height - cropHeight) * Math.min(1, Math.max(0, panY));
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(photo, x, y, cropWidth, cropHeight, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(bitmap, x, y, cropWidth, cropHeight, 0, 0, canvas.width, canvas.height);
 
     const result = canvas.toDataURL('image/jpeg', 0.8);
     if (!isSafeResumePhotoDataUrl(result)) throw new Error('output-too-large');
     return result;
   } finally {
-    URL.revokeObjectURL(url);
+    bitmap.close();
   }
 }
