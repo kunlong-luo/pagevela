@@ -24,7 +24,8 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
   const selectionVersion = useRef(0);
 
   const [pendingFile, setPendingFile] = useState<File | null>(null);
-  const [temporaryUrl, setTemporaryUrl] = useState('');
+  // Preview only re-encoded JPEG data, never a raw upload blob URL.
+  const [previewPhoto, setPreviewPhoto] = useState('');
   const [horizontal, setHorizontal] = useState(50);
   const [vertical, setVertical] = useState(50);
   const [saving, setSaving] = useState(false);
@@ -32,16 +33,40 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
   const isChina = (marketRegion ?? 'cn') === 'cn';
   const visible = showPhotoSetting ?? isChina;
 
-  useEffect(() => () => {
-    if (temporaryUrl) URL.revokeObjectURL(temporaryUrl);
-  }, [temporaryUrl]);
-
   useEffect(() => {
     selectionVersion.current += 1;
     setPendingFile(null);
-    setTemporaryUrl('');
+    setPreviewPhoto('');
     setError('');
   }, [activeProfileId]);
+
+  useEffect(() => {
+    if (!pendingFile) {
+      setPreviewPhoto('');
+      return;
+    }
+
+    let cancelled = false;
+    // Debounce range dragging: decoding the uploaded source on every pointer move is expensive.
+    const timer = window.setTimeout(() => {
+      void cropResumePhoto(pendingFile, horizontal / 100, vertical / 100)
+        .then((jpeg) => {
+          if (!cancelled) setPreviewPhoto(jpeg);
+        })
+        .catch(() => {
+          if (!cancelled) {
+            setPreviewPhoto('');
+            setError(isEn
+              ? 'This photo could not be processed. Try a different photo.'
+              : '无法处理这张图片，请换一张照片重试。');
+          }
+        });
+    }, 120);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [pendingFile, horizontal, vertical, isEn]);
 
   const pickPhoto = (file: File | undefined) => {
     if (!file) return;
@@ -50,14 +75,14 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
     if (invalid) {
       // A rejected replacement must not leave a previously queued upload actionable.
       setPendingFile(null);
-      setTemporaryUrl('');
+      setPreviewPhoto('');
       setError(invalid === 'unsupported'
         ? (isEn ? 'Choose a PNG, JPEG, or WebP photo.' : '请上传 PNG、JPEG 或 WebP 图片。')
         : (isEn ? 'Photo must be smaller than 5 MB.' : '照片须小于 5 MB。'));
       return;
     }
     setPendingFile(file);
-    setTemporaryUrl(URL.createObjectURL(file));
+    setPreviewPhoto('');
     setHorizontal(50);
     setVertical(50);
     setError('');
@@ -77,7 +102,7 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
       setPhoto(dataUrl);
       updateSetting('showPhoto', true);
       setPendingFile(null);
-      setTemporaryUrl('');
+      setPreviewPhoto('');
     } catch {
       if (selectionVersion.current !== startedVersion ||
           useResumeStore.getState().activeProfileId !== startedForProfile) return;
@@ -123,9 +148,9 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
       )}
 
       <div className="mt-3 flex flex-wrap items-start gap-4">
-        {(temporaryUrl || savedPhoto) && (
+        {(pendingFile ? previewPhoto : savedPhoto) && (
           <img
-            src={temporaryUrl || savedPhoto}
+            src={pendingFile ? previewPhoto : savedPhoto}
             alt={isEn ? 'Resume portrait preview' : '简历证件照预览'}
             className="h-[112px] w-[84px] shrink-0 rounded-md border border-slate-200 bg-slate-100 object-cover"
             style={{ objectPosition: `${horizontal}% ${vertical}%` }}
@@ -155,7 +180,7 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
             {savedPhoto && (
               <button
                 type="button"
-                onClick={() => { selectionVersion.current += 1; setPhoto(null); setPendingFile(null); setTemporaryUrl(''); }}
+                onClick={() => { selectionVersion.current += 1; setPhoto(null); setPendingFile(null); setPreviewPhoto(''); }}
                 className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300"
               >
                 <Trash2 className="h-3.5 w-3.5" />
