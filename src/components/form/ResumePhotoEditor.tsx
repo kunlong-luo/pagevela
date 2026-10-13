@@ -123,8 +123,8 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
           </p>
           <p className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400">
             {isEn
-              ? 'Stored only in your browser. The photo is never inserted into Markdown or a share URL.'
-              : '照片只保存在本地浏览器，不会加入 Markdown 内容或分享链接。'}
+              ? 'Processed locally and stored in your browser. Full JSON backups include the photo; Markdown and share links do not.'
+              : '照片在本地处理并保存在浏览器；完整 JSON 备份会包含照片，但 Markdown 和分享链接不会包含。'}
           </p>
         </div>
         {savedPhoto && !pendingFile && (
