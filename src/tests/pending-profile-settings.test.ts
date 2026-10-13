@@ -82,6 +82,16 @@ describe('pending per-profile settings recovery', () => {
     expect(data.has(STORAGE_KEYS.PENDING_PROFILE_SETTINGS)).toBe(false);
   });
 
+  it('ignores malformed and invalid-date journal entries instead of overwriting a profile', () => {
+    const source = profile('first');
+    data.set(STORAGE_KEYS.PENDING_PROFILE_SETTINGS, JSON.stringify({
+      first: { settings: { ...settings, marketRegion: 'uk' }, updatedAt: 'invalid-date' },
+    }));
+    expect(recoverPendingProfile(source)).toEqual(source);
+    data.set(STORAGE_KEYS.PENDING_PROFILE_SETTINGS, '{not-json');
+    expect(recoverPendingProfile(source)).toEqual(source);
+  });
+
   it('drops old pending values when a workspace import replaces all profiles', () => {
     stageProfileSettings('same-id', { ...settings, marketRegion: 'us' }, '2026-10-14T05:00:02.000Z');
     discardPendingProfileSettings();
