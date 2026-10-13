@@ -58,6 +58,8 @@ export function BackupDraftModal() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const workspaceLock = useRef(false);
   const [workspaceBusy, setWorkspaceBusy] = useState(false);
+  // User-triggered draft changes can be in flight while a workspace is exported.
+  const draftWriteChain = useRef<Promise<void>>(Promise.resolve());
   const dialogRef = useRef<HTMLDivElement>(null);
   useDialogFocus({ isOpen, dialogRef, onClose });
 
@@ -88,7 +90,10 @@ export function BackupDraftModal() {
 
   const saveDraftsList = (updatedDrafts: ResumeDraft[]) => {
     setDrafts(updatedDrafts);
-    void resumeRepository.replaceDrafts(updatedDrafts).catch((error) => {
+    // Serialize writes and allow portable export/import to wait for the newest draft.
+    draftWriteChain.current = draftWriteChain.current.catch(() => undefined)
+      .then(() => resumeRepository.replaceDrafts(updatedDrafts));
+    void draftWriteChain.current.catch((error) => {
       console.error('Error saving drafts to IndexedDB', error);
       setErrorMessage(uiLanguage === 'en' ? 'Failed to save local draft.' : '本地草稿保存失败。');
       setTimeout(() => setErrorMessage(''), 3000);
@@ -282,6 +287,7 @@ export function BackupDraftModal() {
             customFileName: state.customFileName,
           }
         : profile);
+      await draftWriteChain.current;
       const savedDrafts = await resumeRepository.getDrafts();
       const json = serializePortableWorkspaceBackup({
         profiles,
@@ -343,7 +349,8 @@ export function BackupDraftModal() {
       });
       if (!accepted) return;
 
-      // Drain all old in-flight autosaves before atomically replacing IndexedDB.
+      // Drain old draft writes and editor autosaves before the atomic replacement.
+      await draftWriteChain.current;
       await activeResumePersistence.flush();
       const writeImportedWorkspace = () => resumeRepository.saveSnapshot({
         markdown: parsed.profiles.find(profile => profile.id === parsed.activeProfileId)!.markdown,
