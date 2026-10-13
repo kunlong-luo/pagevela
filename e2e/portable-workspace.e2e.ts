@@ -31,7 +31,7 @@ test('portable workspace export and confirmed restore survive reload', async ({ 
   const count = (await readProfiles(page)).length;
   await picker.setInputFiles(fixture);
   const confirmation = page.getByRole('dialog', { name: 'Replace all local resumes?' });
-  await confirmation.getByRole('button', { name: 'Cancel' }).click();
+  await confirmation.getByRole('button', { name: 'Cancel', exact: true }).last().click();
   expect((await readProfiles(page)).length).toBe(count);
 
   await picker.setInputFiles(fixture);
