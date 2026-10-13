@@ -2,6 +2,26 @@ import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { readActiveMarkdown, readProfiles } from './helpers/indexeddb';
 
+async function readSavedDraftsAndJd(page: import('@playwright/test').Page) {
+  return page.evaluate(() => new Promise<{ drafts: Array<{ id: string; markdown: string }>; jdText: string | null }>((resolve, reject) => {
+    const request = indexedDB.open('resume-craft');
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const db = request.result;
+      const tx = db.transaction(['drafts', 'documents'], 'readonly');
+      const draftsRequest = tx.objectStore('drafts').getAll();
+      const jdRequest = tx.objectStore('documents').get('jd');
+      tx.onerror = () => { db.close(); reject(tx.error); };
+      tx.oncomplete = () => {
+        const drafts = (draftsRequest.result ?? []) as Array<{ id: string; markdown: string }>;
+        const jd = jdRequest.result as { markdown?: string } | undefined;
+        db.close();
+        resolve({ drafts: drafts.map(({ id, markdown }) => ({ id, markdown })), jdText: jd?.markdown ?? null });
+      };
+    };
+  }));
+}
+
 test('portable workspace export and confirmed restore survive reload', async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem('resume-onboarding-v1-complete', '1');
@@ -23,7 +43,9 @@ test('portable workspace export and confirmed restore survive reload', async ({ 
     markdown: '# Restored workspace' };
   const modified = {
     ...backup, activeProfileId: imported.id, profiles: [...backup.profiles, imported],
-    drafts: [], jdText: 'Local fixture job description',
+    drafts: [{ id: 'portable_saved_draft', title: 'Previous version',
+      markdown: '# Saved prior version', settings: imported.settings, timestamp: '2026-10-13',
+    }], jdText: 'Local fixture job description',
   };
   const picker = modal.locator('input[aria-label="Choose workspace backup file"]');
   const fixture = { name: 'workspace.json', mimeType: 'application/json',
@@ -40,4 +62,10 @@ test('portable workspace export and confirmed restore survive reload', async ({ 
   await page.reload();
   await expect.poll(() => readActiveMarkdown(page)).toBe('# Restored workspace');
   expect((await readProfiles(page)).some(p => p.id === 'portable_fixture')).toBe(true);
+  const persisted = await readSavedDraftsAndJd(page);
+  expect(persisted.jdText).toBe('Local fixture job description');
+  expect(persisted.drafts).toContainEqual({
+    id: 'portable_saved_draft',
+    markdown: '# Saved prior version',
+  });
 });
