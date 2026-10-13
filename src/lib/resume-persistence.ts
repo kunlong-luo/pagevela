@@ -97,3 +97,7 @@ export function createResumePersistenceCoordinator(debounceMs = DEFAULT_DEBOUNCE
 
   return { schedule, flush, dispose };
 }
+
+// Shared by the bootstrapped app and the explicit portable workspace importer.
+// Flush pending autosaves before overwriting IndexedDB, then flush restored state.
+export const activeResumePersistence = createResumePersistenceCoordinator();
