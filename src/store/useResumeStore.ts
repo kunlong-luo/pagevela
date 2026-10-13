@@ -65,6 +65,7 @@ interface ResumeState {
   renameProfile: (profileId: string, name: string, targetRole?: string) => void;
   deleteProfile: (profileId: string) => boolean;
   importProfiles: (profiles: ResumeProfile[]) => void;
+  restorePortableWorkspace: (profiles: ResumeProfile[], activeProfileId: string, jdText: string) => void;
   replaceDocument: (markdown: string, settings?: ResumeSettings, templateId?: string) => void;
   applyTemplate: (templateId: string) => boolean;
   
@@ -707,6 +708,44 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
       history: [nextActive.markdown],
       historyIndex: 0,
       currentTemplateId: nextActive.templateId || getInitialTemplateId(nextActive.markdown),
+      lastSaved: new Date().toLocaleTimeString(),
+      isSaving: false,
+      saveStatus: 'saved',
+      measuredPageCount: null,
+    });
+  },
+
+  restorePortableWorkspace: (profiles, activeProfileId, jdText) => {
+    const active = profiles.find(profile => profile.id === activeProfileId);
+    if (!active) return;
+    // Called only with fully validated portable backups after an atomic IndexedDB write.
+    const settings = sanitizeSettings(active.settings, get().settings);
+    const templateId = active.templateId === 'custom' ||
+      TEMPLATES.some(template => template.id === active.templateId)
+      ? active.templateId!
+      : getInitialTemplateId(active.markdown);
+
+    if (debounceTimer) clearTimeout(debounceTimer);
+    if (typingTimer) clearTimeout(typingTimer);
+    if (saveStatusTimer) clearTimeout(saveStatusTimer);
+
+    storage.set(STORAGE_KEYS.ACTIVE_PROFILE_ID, active.id);
+    storage.set(STORAGE_KEYS.SETTINGS, settings);
+    if (active.customFileName !== undefined) {
+      storage.set(STORAGE_KEYS.CUSTOM_FILE_NAME, active.customFileName);
+    } else {
+      storage.remove(STORAGE_KEYS.CUSTOM_FILE_NAME);
+    }
+    set({
+      profiles,
+      activeProfileId: active.id,
+      markdown: active.markdown,
+      settings,
+      jdText,
+      customFileName: active.customFileName || '',
+      currentTemplateId: templateId,
+      history: [active.markdown],
+      historyIndex: 0,
       lastSaved: new Date().toLocaleTimeString(),
       isSaving: false,
       saveStatus: 'saved',
