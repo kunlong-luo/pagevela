@@ -83,6 +83,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: 0.02,
       h2Style: 'accent-line',
       templateLayout: 'single',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: true
     }
@@ -101,6 +102,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: 0.0,
       h2Style: 'accent-line',
       templateLayout: 'single',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: true
     }
@@ -119,6 +121,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: -0.01,
       h2Style: 'academic-line',
       templateLayout: 'academic',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: false
     }
@@ -137,6 +140,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: 0.0,
       h2Style: 'modern-badge',
       templateLayout: 'modern-card',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: true
     }
@@ -155,6 +159,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: 0.01,
       h2Style: 'accent-line',
       templateLayout: 'single',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: true
     }
@@ -173,6 +178,7 @@ export const MASTER_PRESETS: StylePreset[] = [
       letterSpacing: 0.01,
       h2Style: 'accent-line',
       templateLayout: 'single',
+      headerLayout: 'split',
       margin: 'standard',
       topAccentLine: true
     }
