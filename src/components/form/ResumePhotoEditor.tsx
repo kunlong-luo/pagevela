@@ -48,6 +48,9 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
     selectionVersion.current += 1;
     const invalid = validateResumePhotoFile(file);
     if (invalid) {
+      // A rejected replacement must not leave a previously queued upload actionable.
+      setPendingFile(null);
+      setTemporaryUrl('');
       setError(invalid === 'unsupported'
         ? (isEn ? 'Choose a PNG, JPEG, or WebP photo.' : '请上传 PNG、JPEG 或 WebP 图片。')
         : (isEn ? 'Photo must be smaller than 5 MB.' : '照片须小于 5 MB。'));
