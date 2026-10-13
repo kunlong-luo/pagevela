@@ -794,7 +794,9 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
         : profile
     );
 
-    stageProfileSettings(activeProfileId, nextSettings, now);
+    // A document replacement changes content and settings together. Never replay
+    // settings alone onto an older Markdown document after an interrupted write.
+    discardPendingProfileSettings(activeProfileId);
     storage.set(STORAGE_KEYS.SETTINGS, nextSettings);
 
     if (debounceTimer) clearTimeout(debounceTimer);
@@ -844,7 +846,8 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
         : profile
     );
 
-    stageProfileSettings(activeProfileId, nextSettings, now);
+    // Templates update Markdown and market settings atomically in IndexedDB.
+    discardPendingProfileSettings(activeProfileId);
     storage.set(STORAGE_KEYS.SETTINGS, nextSettings);
 
     if (debounceTimer) clearTimeout(debounceTimer);
@@ -981,7 +984,13 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
         ? { ...p, settings: newSettings, markdown: nextMarkdown, updatedAt: now }
         : p
     );
-    stageProfileSettings(activeProfileId, newSettings, now);
+    if (nextMarkdown === get().markdown) {
+      stageProfileSettings(activeProfileId, newSettings, now);
+    } else {
+      // Language translation changes resume content. A settings-only journal
+      // must not create a mixed-language resume if the IndexedDB write is interrupted.
+      discardPendingProfileSettings(activeProfileId);
+    }
     set({
       settings: newSettings,
       markdown: nextMarkdown,
@@ -1014,7 +1023,13 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
         ? { ...p, settings: newSettings, markdown: nextMarkdown, updatedAt: now }
         : p
     );
-    stageProfileSettings(activeProfileId, newSettings, now);
+    if (nextMarkdown === get().markdown) {
+      stageProfileSettings(activeProfileId, newSettings, now);
+    } else {
+      // Language translation changes resume content. A settings-only journal
+      // must not create a mixed-language resume if the IndexedDB write is interrupted.
+      discardPendingProfileSettings(activeProfileId);
+    }
     set({
       settings: newSettings,
       markdown: nextMarkdown,
