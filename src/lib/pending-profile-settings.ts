@@ -39,15 +39,17 @@ export function stageProfileSettings(profileId: string, settings: ResumeSettings
 }
 
 /** Used only for profile settings; the DB is still authoritative for resume content. */
-export function recoverProfileSettings(profile: ResumeProfile): ResumeSettings {
+export function recoverPendingProfile(profile: ResumeProfile): ResumeProfile {
   const pending = readJournal()[profile.id];
-  if (!pending) return profile.settings;
+  if (!pending) return profile;
   const persistedAt = Date.parse(profile.updatedAt);
   const pendingAt = Date.parse(pending.updatedAt);
   if (Number.isFinite(persistedAt) && persistedAt > pendingAt) {
-    return profile.settings; // Never overwrite a newer saved profile.
+    return profile; // Never overwrite a newer saved profile.
   }
-  return pending.settings; // Validated by the normal settings sanitizer on bootstrap.
+  // Carry the write-ahead revision through bootstrap so a successful
+  // IndexedDB snapshot can acknowledge it and clear the journal.
+  return { ...profile, settings: pending.settings, updatedAt: pending.updatedAt };
 }
 
 /** A successful DB commit acknowledges only matching, not newer, pending edits. */
