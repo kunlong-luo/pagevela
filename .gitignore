@@ -14,3 +14,6 @@ package-lock.json
 playwright-report/
 test-results/
 blob-report/
+
+# Google AI Studio generated planning artifacts (at any depth)
+.aistudio/
