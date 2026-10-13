@@ -15,6 +15,7 @@ import {
   serializePortableWorkspaceBackup,
 } from '../../lib/portable-workspace-backup';
 import { normalizeResumeBackup } from '../../lib/import-validation';
+import { isSafeResumePhotoDataUrl } from '../../lib/resume-photo';
 import { TEMPLATES } from '../../data';
 import { useDialogFocus } from '../../hooks/useDialogFocus';
 
@@ -181,12 +182,15 @@ export function BackupDraftModal() {
   const handleExportConfig = () => {
     const isEn = uiLanguage === 'en';
     try {
+      const state = useResumeStore.getState();
+      const photoCandidate = state.profiles.find(p => p.id === state.activeProfileId)?.photoDataUrl;
       const backupData = {
         version: "markdown-resume-backup-v1",
         exportedAt: new Date().toLocaleString(isEn ? 'en-US' : 'zh-CN', { hour12: false }),
         markdown,
         settings,
         templateId: currentTemplateId,
+        photoDataUrl: isSafeResumePhotoDataUrl(photoCandidate) ? photoCandidate : null,
       };
 
       const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json;charset=utf-8;' });
@@ -260,6 +264,9 @@ export function BackupDraftModal() {
 
         if (confirmed) {
           onRestore(parsed.markdown, parsed.settings, parsed.templateId);
+          // Legacy backups contain no photo. Clear the old portrait rather than
+          // silently attaching it to unrelated imported resume content.
+          useResumeStore.getState().setActiveProfilePhoto(parsed.photoDataUrl ?? null);
           showToast(isEn ? 'Configuration imported successfully!' : '备份文件导入并恢复成功！');
           setTimeout(() => onClose(), 800);
         }

@@ -13,8 +13,10 @@ import type {
   PaperSize,
   MarketRegion,
   DateStyle,
+  ResumeHeaderLayout,
 } from '../types';
 import { detectResumeLanguage } from './resume-language';
+import { isSafeResumePhotoDataUrl } from './resume-photo';
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -41,6 +43,7 @@ const H2_STYLES = [
   'academic-line',
   'bracket-tag',
 ] as const satisfies readonly H2Style[];
+const HEADER_LAYOUTS = ['split', 'centered', 'stacked'] as const satisfies readonly ResumeHeaderLayout[];
 const TEMPLATE_LAYOUTS = [
   'single',
   'two-column',
@@ -63,6 +66,8 @@ export interface ResumeBackupV1 {
   markdown: string;
   settings: ResumeSettings;
   exportedAt?: string;
+  /** Undefined for legacy backups; null explicitly clears the current portrait. */
+  photoDataUrl?: string | null;
 }
 
 function isRecord(value: unknown): value is UnknownRecord {
@@ -148,6 +153,16 @@ export function normalizeImportedSettings(
       : fallback.templateLayout,
   };
 
+  const headerLayout = isOneOf(value.headerLayout, HEADER_LAYOUTS)
+    ? value.headerLayout
+    : fallback.headerLayout;
+  if (headerLayout !== undefined) normalized.headerLayout = headerLayout;
+
+  const showPhoto = typeof value.showPhoto === 'boolean'
+    ? value.showPhoto
+    : fallback.showPhoto;
+  if (showPhoto !== undefined) normalized.showPhoto = showPhoto;
+
   const customColor =
     typeof value.customColor === 'string' && HEX_COLOR_RE.test(value.customColor)
       ? value.customColor
@@ -218,6 +233,13 @@ export function normalizeResumeBackup(
     backup.exportedAt = value.exportedAt.slice(0, MAX_PROFILE_TEXT_LENGTH);
   }
 
+  if (Object.prototype.hasOwnProperty.call(value, 'photoDataUrl')) {
+    if (value.photoDataUrl !== null && !isSafeResumePhotoDataUrl(value.photoDataUrl)) {
+      return null;
+    }
+    backup.photoDataUrl = value.photoDataUrl;
+  }
+
   return backup;
 }
 
@@ -271,6 +293,11 @@ export function normalizeImportedProfile(
 
   const customFileName = optionalString(value.customFileName);
   if (customFileName !== undefined) profile.customFileName = customFileName;
+
+  if (value.photoDataUrl !== undefined && value.photoDataUrl !== null) {
+    if (!isSafeResumePhotoDataUrl(value.photoDataUrl)) return null;
+    profile.photoDataUrl = value.photoDataUrl;
+  }
 
   return profile;
 }
