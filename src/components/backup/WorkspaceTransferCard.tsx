@@ -29,8 +29,8 @@ export function WorkspaceTransferCard({
       </p>
       <p className="text-[11px] text-amber-700 dark:text-amber-300 leading-relaxed">
         {isEn
-          ? 'Sensitive, unencrypted JSON: it may include names, contact details, job descriptions and any saved resume photos. Keep this file private. Import replaces all existing local profiles and drafts on this browser.'
-          : '重要：此 JSON 未加密，可能包含姓名、联系方式、职位描述和已保存的证件照。请妥善保管。导入将覆盖当前浏览器全部简历档案和草稿。'}
+          ? 'Sensitive, unencrypted JSON: it may include names, contact details, job descriptions and any saved resume photos. Keep this file private. Import replaces all existing local profiles and drafts on this browser. Close other editor tabs before restoring.'
+          : '重要：此 JSON 未加密，可能包含姓名、联系方式、职位描述和已保存的证件照。请妥善保管。导入将覆盖当前浏览器全部简历档案和草稿。恢复前请关闭其他正在编辑的标签页。'}
       </p>
       <div className="flex flex-wrap gap-2">
         <button type="button" disabled={busy} onClick={onExport}
