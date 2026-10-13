@@ -254,3 +254,49 @@ describe('import validation', () => {
     expect(profiles?.[0].settings.margin).toBe('standard');
   });
 });
+
+
+describe('resume photo backup compatibility', () => {
+  const localPhoto = 'data:image/jpeg;base64,aGVsbG8=';
+
+  it('restores a portrait and new header settings without allowing external image URLs', () => {
+    const backup = normalizeResumeBackup({
+      version: 'markdown-resume-backup-v1',
+      markdown: '# 李晓明',
+      settings: { ...fallbackSettings, headerLayout: 'stacked', showPhoto: true },
+      photoDataUrl: localPhoto,
+    }, fallbackSettings);
+
+    expect(backup?.photoDataUrl).toBe(localPhoto);
+    expect(backup?.settings.headerLayout).toBe('stacked');
+    expect(backup?.settings.showPhoto).toBe(true);
+
+    expect(normalizeResumeBackup({
+      version: 'markdown-resume-backup-v1',
+      markdown: '# 李晓明',
+      settings: fallbackSettings,
+      photoDataUrl: 'https://bad.example/track.jpg',
+    }, fallbackSettings)).toBeNull();
+  });
+
+  it('keeps existing backups without a photo valid, and rejects unsafe profile images', () => {
+    const legacy = normalizeResumeBackup({
+      version: 'markdown-resume-backup-v1',
+      markdown: '# 旧版简历',
+      settings: fallbackSettings,
+    }, fallbackSettings);
+    expect(legacy?.photoDataUrl).toBeUndefined();
+
+    const profile = {
+      id: 'p1',
+      name: '一号',
+      markdown: '# 一号',
+      settings: fallbackSettings,
+      photoDataUrl: localPhoto,
+    };
+    expect(normalizeImportedProfiles([profile], fallbackSettings)?.[0].photoDataUrl).toBe(localPhoto);
+    expect(normalizeImportedProfiles([
+      { ...profile, photoDataUrl: 'data:image/svg+xml;base64,PHN2Zz4=' },
+    ], fallbackSettings)).toBeNull();
+  });
+});
