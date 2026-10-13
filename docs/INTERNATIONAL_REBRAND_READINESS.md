@@ -1,0 +1,125 @@
+# International rebrand readiness (working document)
+
+> Status: **preparation only, not a production rebrand**. Both public names, "Resume Craft" and "简匠", are intended to change, but **no new brand is approved**. Do not substitute candidate names into user-facing pages yet.
+>
+> Tracking: [International rebrand issue #202](https://github.com/kunlong-luo/resume-craft/issues/202).
+>
+> Audit snapshot: 2026-10-13, based on `main` at `7a718ea9`. Refresh this audit against current main before implementing the rename.
+
+## 1. Business / product direction
+
+Primary launch market: English-speaking US, UK, Canada and other international markets. Initial target audience: developers, technical job seekers, and candidates who maintain multiple tailored resumes.
+
+Candidate positioning (not a claim of ATS passage):
+
+**Build a professional resume. Keep control of your data.**
+
+- No account required to get started.
+- Local-first storage of resume content.
+- Editable with structured forms **or** Markdown.
+- Live A4 / US Letter preview with layout controls.
+- Text-selectable PDF through browser print where supported.
+- Optional resume variations and JD keyword checks (guidance, not an ATS guarantee).
+
+Prioritize a reliably completed first resume over adding a large number of weak templates or making unverified AI claims.
+
+## 2. Naming shortlist — UNVERIFIED
+
+| English concept | Chinese concept | Why it may fit | Current status |
+| --- | --- | --- | --- |
+| Pagevela | 页帆 | Memorable page/journey motif | Search-engine-only preliminary check; **not cleared** |
+| Folivanta | 履跃 | Suggests portfolio + progress | Search-engine-only preliminary check; **not cleared** |
+| Cverilo | 履序 | CV-oriented, ordered work | Search-engine-only preliminary check; **not cleared** |
+
+These are provisional ideas, **not available/registrable domain or trademark claims**. Generic web-search queries found no clearly identified exact-name resume company in the inspected results; this is weak negative evidence, not legal clearance.
+
+Before the naming decision, check:
+1. Exact, phonetic and visually similar marks across official USPTO / WIPO / EUIPO / China records, including Nice classes 9 and 42 as well as applicable adjacent classes and services.
+2. Actual registrar/RDAP results for .com and alternative domains; do not infer availability from search absence.
+3. Names and near-matches in GitHub, Product Hunt, Google Play, App Store, search results, and social handles.
+4. Ease of pronunciation, spelling on first hearing, cultural connotations, search distinctiveness.
+5. Trademark/legal review appropriate for the intended launch jurisdictions.
+
+Useful official resources:
+- https://www.wipo.int/en/web/madrid-system/how_to/search/index
+- https://www.wipo.int/en/web/global-brand-database/index
+- https://www.uspto.gov/trademarks/search
+
+**Stop rule:** Until this clearance is documented and a name is deliberately approved, make **no rename to main, domain redirects, PWA name changes, or new public logo rollout**.
+
+## 3. Audit map of user-visible brand strings
+
+| Surface / file | Existing coupling | What to change once approved |
+| --- | --- | --- |
+| `index.html` | Title, keywords, OG, Twitter, JSON-LD, Apple web-app title, startup RC mark, canonical | Swap reviewed product copy, canonical and visual identity; preserve metadata consistency |
+| `src/lib/seo.ts` | Both language titles and descriptions | Make English/Chinese names and copy consistent with the new brand |
+| `src/tests/seo.test.ts` | Asserts fixed English head metadata and old canonical | Update tests in the same PR as metadata |
+| `src/components/landing/LandingNavbar.tsx` | RC monogram and both display names; GitHub star label | Adopt approved wordmark; do not break GitHub URL |
+| `src/components/landing/LandingFooter.tsx` | RC monogram and both display names | Adopt approved names |
+| `src/components/landing/LandingHero.tsx` | Headline, primary CTA and technical positioning | Outcome-first message; keep accurate feature claims |
+| `vite.config.ts` | PWA manifest name, short_name, description and cache-name string | Change displayed manifest branding, validate install and update behavior; cache migration must be deliberate |
+| `public/sitemap.xml` and `public/robots.txt` | Old GitHub Pages URL | Update only after new canonical origin is deployed and verified |
+| `.github/assets/readme-banner.svg`, `README.md`, `README.zh-CN.md`, `README.en.md` | Old visual and written identity | Update documentation and add "formerly" transition notes |
+| `src/components/share/*` and public share routes | Old shared links can already exist | Preserve old link loading; add compatibility E2E |
+| Landing, editor, help / legal and social assets | Potential old textual labels, URLs, monograms | Follow-up string audit before rollout |
+
+Also inspect Open Graph card generator (`scripts/generate-og-card.mjs`), deployment workflows, FAQ, icon assets, user-support labels and links, and every translated label. A new brand should never appear on some screens while an old wordmark remains elsewhere.
+
+## 4. **Critical compatibility requirements** (not branding copy)
+
+### A. Browser origin isolation
+
+`src/lib/storage.ts`, `src/lib/storage-migration.ts` and repository storage logic use localStorage / IndexedDB. These browser databases are scoped to origin, not automatically transferable to a new domain. Even if the website content is identical, data on `https://kunlong-luo.github.io` will not appear on a different new hostname.
+
+A safe transition therefore needs an **explicit user-initiated** data export on the old origin and an import/restore flow on the new origin. Prefer a portable file/backup, no server upload, and no silent cross-origin resume transfer. If proposing a transfer link, require a privacy and size review, a consent step and a separate threat model first.
+
+Validation must cover:
+- Active Markdown and settings; all profiles (including custom names and active selection).
+- Drafts, templates and JD text (where supported by the chosen export format).
+- Optional local resume portraits and disclosure that *full JSON backup contains photos*.
+- Legacy backups without portrait fields, corrupt/oversized backups, and failed imports that leave current data unchanged.
+- Repeated import, cancelled import, and existing destination drafts; never silently overwrite.
+- Both installed PWA users and ordinary browser users.
+
+### B. Preserve encryption and URL formats
+
+`src/lib/share-utils.ts` includes `resume-craft-share-v2` and `resume-craft-share-v3` as authenticated encryption associated-data (AAD) strings. **These are cryptographic protocol constants**, not copy. Replacing them with a new brand string would break decryption of existing encrypted shared links. Keep their byte values unchanged unless introducing an explicitly versioned, backward-compatible cryptographic migration with tests.
+
+Other old `resume-*` storage keys and application cache identifiers may likewise require backward compatibility. **Never run a broad search-and-replace across the repository.**
+
+Required share E2E / unit checks:
+- v2 encrypted share works with legacy AAD.
+- v3 encrypted share works with current AAD.
+- Legacy plain and query-style links remain readable.
+- New sharing links work and do not unexpectedly include locally stored portraits.
+- Copying an old URL still reaches an endpoint that serves the legacy share handler.
+
+### C. Redirecting the old site
+
+Do not automatically redirect old-origin visitors before offering export or retaining full on-site functionality; that could strand their drafts because the new origin cannot read the old storage.
+
+A staged plan:
+1. Add a plain-language transition notice to the **old** app (with Export Backup).
+2. Launch the new app in parallel (with Import Backup and compatibility tests).
+3. Verify restores on each supported browser before any stronger redirect.
+4. Keep legacy links and old origin accessible for a documented transition period, subject to operational feasibility.
+5. Measure aggregate failures without collecting resume contents.
+
+## 5. Work sequencing
+
+1. **Phase 0:** finish name/domain/trademark assessment. Pick approved English + Chinese name and approved canonical URL.
+2. **Phase 1:** implement explicit old/new origin export/import migration and regression tests. Include photos, safe errors, backup compatibility and no data overwrite.
+3. **Phase 2:** centralize reviewed display names/copy; update public metadata, SEO, logos, PWA and README **in one reviewed PR**.
+4. **Phase 3:** deploy both origins in parallel; verify install, PDF, localized screens, sharing and all external link aliases.
+5. **Phase 4:** publish branding announcement, migration FAQ, release notes, sample demos, and launch content for target overseas communities.
+
+**Release gates:** no blocker regressions in backups, shares, PDF, browser E2E; verified old-user migration; reviewed public brand; correct canonical/OG/sitemap; old links accessible.
+
+## 6. Initial validation / evidence boundary
+
+- `main` audit is code-level inspection only. This document does not claim successful migration E2E or clearance of any names.
+- Working PR #201 for optional local portraits remains a separate draft and needs its own acceptance checks.
+- WIPO's Global Brand Database covers many international/national marks, but WIPO itself advises searching national/regional registers. Exact-name Google searches are not a substitute.
+- MDN confirms IndexedDB same-origin isolation: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Basic_Terminology
+
+Owner note: This document is deliberately brand-neutral and safe to merge into existing code because it changes no runtime behavior.
