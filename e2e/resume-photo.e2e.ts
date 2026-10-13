@@ -22,6 +22,11 @@ test('Chinese resume photo is cropped locally, printed at upper right, and survi
   await expect(picker).toHaveCount(1);
   await picker.setInputFiles({ name: 'photo.png', mimeType: 'image/png', buffer: TINY_PNG });
 
+  // A raw object URL must never be passed to a live preview DOM element.
+  const cropPreview = page.locator('img[alt="简历证件照预览"]');
+  await expect(cropPreview).toHaveAttribute('src', /^data:image\/jpeg;base64,/);
+  await expect(cropPreview).not.toHaveAttribute('src', /^blob:/);
+
   await page.getByRole('button', { name: '应用 3:4 裁剪' }).click();
   const printedPortrait = page.locator('#resume-print-content img[alt="简历证件照"]');
   await expect(printedPortrait).toHaveCount(1);
