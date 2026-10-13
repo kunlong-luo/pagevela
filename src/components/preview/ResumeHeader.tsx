@@ -92,7 +92,7 @@ export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme
           
           {/* Target Job Titles / Roles (求职意向/核心职能) */}
           {headerInfo.titles.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 pt-0.5">
+            <div className={`flex flex-wrap items-center gap-2 pt-0.5 ${layout === 'centered' ? 'justify-center' : ''}`}>
               {headerInfo.titles.map((title, idx) => (
                 <span 
                   key={idx}
