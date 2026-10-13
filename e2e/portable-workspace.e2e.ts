@@ -140,6 +140,11 @@ test('locally cropped portrait stays on its own profile across a workspace trans
       await page.addInitScript(() => {
         localStorage.setItem('resume-onboarding-v1-complete', '1');
         localStorage.setItem('resume_ui_language', 'zh');
+        localStorage.setItem('resume-settings', JSON.stringify({
+          lang: 'zh',
+          marketRegion: 'cn',
+          paperSize: 'a4',
+        }));
       });
       await page.goto('http://127.0.0.1:3000/?page=editor');
       await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
