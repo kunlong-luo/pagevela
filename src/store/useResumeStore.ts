@@ -843,6 +843,7 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
         : profile
     );
 
+    stageProfileSettings(activeProfileId, nextSettings, now);
     storage.set(STORAGE_KEYS.SETTINGS, nextSettings);
 
     if (debounceTimer) clearTimeout(debounceTimer);
