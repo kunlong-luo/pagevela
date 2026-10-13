@@ -16,6 +16,7 @@ test('Chinese resume photo is cropped locally, printed at upper right, and survi
     }));
   });
   await page.goto('/?page=editor');
+  await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
   const markdown = await readActiveMarkdown(page);
   const picker = page.locator('input[aria-label="选择简历证件照"]');
   await expect(picker).toHaveCount(1);
