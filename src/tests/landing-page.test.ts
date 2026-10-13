@@ -80,6 +80,19 @@ describe('Landing Page & Router integration', () => {
 });
 
 
+describe('Landing bilingual brand labels', () => {
+  it('uses 简匠 for Chinese and Resume Craft for English in the navbar and footer', () => {
+    const navbar = readFileSync(new URL('../components/landing/LandingNavbar.tsx', import.meta.url), 'utf8');
+    const footer = readFileSync(new URL('../components/landing/LandingFooter.tsx', import.meta.url), 'utf8');
+    const expectedBrand = "{isEn ? 'Resume Craft' : '简匠'}";
+
+    expect(navbar).toContain(expectedBrand);
+    expect(footer).toContain(expectedBrand);
+    expect(navbar).not.toContain('简匠 Resume Craft');
+    expect(footer).not.toContain('Resume Craft 简匠');
+  });
+});
+
 describe('Landing GitHub Star entry points', () => {
   it('provides GitHub Star links in the hero and navigation', () => {
     const hero = readFileSync(new URL('../components/landing/LandingHero.tsx', import.meta.url), 'utf8');
