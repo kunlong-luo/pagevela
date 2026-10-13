@@ -215,7 +215,7 @@ test.describe('template center', () => {
     await expect.poll(() => readActiveMarkdown(page)).toContain('林智远');
   });
 
-  test('applies content without changing layout or style', async ({ page }) => {
+  test('content templates preserve the selected visual style', async ({ page }) => {
     // This flow crosses several dialogs and state re-checks; WebKit is
     // consistently slower than the default 20-second per-test budget.
     test.slow();
@@ -257,7 +257,7 @@ test.describe('template center', () => {
     await toolbar.getByRole('button', { name: /Open layout settings|打开排版设置/ }).click();
     const layoutAfter = page.getByRole('dialog', { name: 'Layout' });
     await expect(
-      layoutAfter.getByRole('button', { name: /Two columns/ }),
+      layoutAfter.getByRole('button', { name: /Single column/ }),
     ).toHaveAttribute('aria-pressed', 'true');
     await layoutAfter.getByRole('button', { name: 'Close Layout' }).click();
 
