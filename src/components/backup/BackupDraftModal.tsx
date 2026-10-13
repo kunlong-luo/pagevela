@@ -8,6 +8,12 @@ import { BackupTab } from './BackupTab';
 import { useConfirm } from '../../context/ConfirmContext';
 import { useResumeStore } from '../../store/useResumeStore';
 import { resumeRepository } from '../../lib/resume-repository';
+import { activeResumePersistence } from '../../lib/resume-persistence';
+import {
+  MAX_PORTABLE_WORKSPACE_BYTES,
+  normalizePortableWorkspaceBackup,
+  serializePortableWorkspaceBackup,
+} from '../../lib/portable-workspace-backup';
 import { normalizeResumeBackup } from '../../lib/import-validation';
 import { TEMPLATES } from '../../data';
 import { useDialogFocus } from '../../hooks/useDialogFocus';
@@ -50,6 +56,8 @@ export function BackupDraftModal() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [importDragActive, setImportDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const workspaceLock = useRef(false);
+  const [workspaceBusy, setWorkspaceBusy] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   useDialogFocus({ isOpen, dialogRef, onClose });
 
@@ -257,6 +265,109 @@ export function BackupDraftModal() {
     reader.readAsText(file);
   };
 
+  const handleExportWorkspace = async () => {
+    if (workspaceLock.current) return;
+    workspaceLock.current = true;
+    setWorkspaceBusy(true);
+    const isEn = uiLanguage === 'en';
+    try {
+      // Pending editor state is newer than an asynchronous IndexedDB autosave.
+      const state = useResumeStore.getState();
+      const profiles = state.profiles.map(profile => profile.id === state.activeProfileId
+        ? {
+            ...profile,
+            markdown: state.markdown,
+            settings: state.settings,
+            templateId: state.currentTemplateId,
+            customFileName: state.customFileName,
+          }
+        : profile);
+      const savedDrafts = await resumeRepository.getDrafts();
+      const json = serializePortableWorkspaceBackup({
+        profiles,
+        activeProfileId: state.activeProfileId,
+        drafts: savedDrafts,
+        jdText: state.jdText,
+      }, state.settings);
+      const url = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
+      try {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'resume-workspace-portable-backup.json';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } finally {
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+      showToast(isEn ? 'Workspace backup downloaded. Keep it private.' : '已导出工作区备份，请妥善保管。');
+    } catch (error) {
+      console.error('[workspace-backup] Export failed:', error);
+      showToast(isEn ? 'Workspace export failed. Check your browser storage and try again.'
+        : '工作区导出失败，请检查浏览器存储后重试。', true);
+    } finally {
+      workspaceLock.current = false;
+      setWorkspaceBusy(false);
+    }
+  };
+
+  const handleImportWorkspace = async (file: File) => {
+    if (workspaceLock.current) return;
+    const isEn = uiLanguage === 'en';
+    if (!file.name.toLowerCase().endsWith('.json') ||
+        file.size === 0 || file.size > MAX_PORTABLE_WORKSPACE_BYTES) {
+      showToast(isEn ? 'Choose a non-empty workspace .json file (up to 64 MB).'
+        : '请选择非空的工作区 .json 文件（不超过 64 MB）。', true);
+      return;
+    }
+    workspaceLock.current = true;
+    setWorkspaceBusy(true);
+    try {
+      const parsed = normalizePortableWorkspaceBackup(
+        JSON.parse(await file.text()),
+        useResumeStore.getState().settings,
+      );
+      if (!parsed) {
+        showToast(isEn ? 'Invalid or unsupported workspace backup.'
+          : '工作区备份无效或版本不受支持。', true);
+        return;
+      }
+      const accepted = await confirm({
+        title: isEn ? 'Replace all local resumes?' : '覆盖全部本地简历？',
+        message: isEn
+          ? `Restore ${parsed.profiles.length} profiles and ${parsed.drafts.length} drafts? This REPLACES all existing local profiles, drafts and job description in this browser. Export your current workspace first if you need it. This file may include personal data and photos.`
+          : `即将恢复 ${parsed.profiles.length} 份简历档案及 ${parsed.drafts.length} 份草稿。此操作将覆盖本浏览器全部档案、草稿和职位描述。如需保留现有数据，请先导出工作区备份。文件可能包含个人信息及照片。`,
+        confirmText: isEn ? 'Replace workspace' : '确认覆盖工作区',
+        cancelText: isEn ? 'Cancel' : '取消',
+        type: 'warning',
+      });
+      if (!accepted) return;
+
+      // Drain all old in-flight autosaves before atomically replacing IndexedDB.
+      await activeResumePersistence.flush();
+      await resumeRepository.saveSnapshot({
+        markdown: parsed.profiles.find(profile => profile.id === parsed.activeProfileId)!.markdown,
+        profiles: parsed.profiles,
+        drafts: parsed.drafts,
+        jdText: parsed.jdText,
+      });
+      // Sync live state only after the atomic transaction committed.
+      useResumeStore.getState().restorePortableWorkspace(
+        parsed.profiles, parsed.activeProfileId, parsed.jdText,
+      );
+      await activeResumePersistence.flush();
+      await loadDrafts();
+      showToast(isEn ? 'Workspace restored in this browser.' : '工作区已恢复到当前浏览器。');
+    } catch (error) {
+      console.error('[workspace-backup] Import failed:', error);
+      showToast(isEn ? 'Workspace restore failed; please check local storage and retry.'
+        : '工作区恢复失败，请检查本地存储后重试。', true);
+    } finally {
+      workspaceLock.current = false;
+      setWorkspaceBusy(false);
+    }
+  };
+
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -419,6 +530,9 @@ export function BackupDraftModal() {
                   importDragActive={importDragActive}
                   fileInputRef={fileInputRef}
                   handleImportConfig={handleImportConfig}
+                  handleExportWorkspace={() => void handleExportWorkspace()}
+                  handleImportWorkspace={(file) => void handleImportWorkspace(file)}
+                  workspaceBusy={workspaceBusy}
                   lang={uiLanguage}
                 />
               )}
