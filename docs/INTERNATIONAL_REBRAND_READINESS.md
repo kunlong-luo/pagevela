@@ -79,6 +79,35 @@ This is a change to the **migration plan**, not a request to modify DNS or Pages
 4. Integrate coherent bilingual brand assets/SEO for the international site, while retaining `简匠` as the domestic identity and retaining the old site's browser-data exporter.
 5. Only then announce a gradual international launch. November 2026 is a **target**, not a guaranteed completion date.
 
+## 2.2 Dated evidence log — 2026-10-14 (research, NOT approval)
+
+| Channel | Pagevela | Folivanta | Cverilo | Evidence boundary |
+| --- | --- | --- | --- | --- |
+| GitHub repository name/description search | One near-name repo: [`palomabeckers/pagevelas`](https://github.com/palomabeckers/pagevelas); **zero exact-name repositories** in the inspected result set | No matching repositories returned by the inspected query | Two unrelated hits due to `CVerilog` substring: [`Caikera/CVerilog`](https://github.com/Caikera/CVerilog), [`agajankush/I2CVerilog`](https://github.com/agajankush/I2CVerilog); no exact-name hit | Repository search is not a brand, username, app marketplace or trademark search. Public results can change. |
+| General exact-phrase web search | No verifiable exact-match commercial resume service surfaced in the inspected results | No verifiable exact-match commercial resume service surfaced | No verifiable exact-match commercial resume service surfaced; noisy PDF OCR matches | Search-result absence is **not** proof of non-use. The search index does not cover everything. |
+| `.com` domain RDAP | **UNVERIFIED** | **UNVERIFIED** | **UNVERIFIED** | Attempts to request the registry RDAP endpoints failed through the available browser/search interface; no definitive registered/unregistered response. No registrar cart check. |
+| Official trademark registers | **NOT VERIFIED** | **NOT VERIFIED** | **NOT VERIFIED** | USPTO official trademark-search instructions were accessible, but an actual live name/similar-mark search was **not completed**. WIPO/UK/EU/China checks also outstanding. |
+| Domain/social handle purchase | Not attempted | Not attempted | Not attempted | Never assume availability from an unreturned result. |
+
+Sources/tools to use in the final hands-on clearance: [USPTO Trademark Search](https://www.uspto.gov/trademarks/search) including phonetic/look-alike variants; [WIPO Global Brand Database](https://www.wipo.int/en/web/global-brand-database); [ICANN Lookup](https://lookup.icann.org/en) (RDAP); chosen registrar's **live** checkout availability and renewals; regional official registers; app marketplaces and relevant social usernames.
+
+**Decision status**: Pagevela remains the **working creative preference**, not a cleared brand, domain or public wordmark. Do not make a GitHub repo or register domain on behalf of the project based on this document alone.
+
+### Two-site deployment safety: new observation
+
+The official [GitHub Pages custom-domain guide](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages) describes custom domains and potential automatic redirects for apex/`www` pairs; setting a custom domain on a user site can also affect its project sites. [Domain verification](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages) is recommended against takeover, and GitHub discourages wildcard DNS records. These are infrastructure behaviors, **not** confirmation that the original `github.io` URL will remain suitable for recovering its existing IndexedDB.
+
+Launch design therefore keeps `https://kunlong-luo.github.io/resume-craft/` as an independently working **old-origin exporter**; new international hostname gets a **separate deployment**. Verify from a *real existing browser profile* that exporting still works after any DNS/CDN/canonical changes. Do not use an automatic redirect on the old hostname as a substitute for transferring local data.
+
+### Approval sign-off checklist
+
+- [ ] Record trademark searches for each candidate, near-spelling and phonetic variants, in actual jurisdictions and relevant classes, with dates and official evidence links.
+- [ ] Confirm exact `.com` registration/availability at **registry RDAP and registrar checkout** (include annual renewal and brand impersonation risks), then check practical alternatives.
+- [ ] Search conflicting software, education, career-tool, app-store and social names; inspect handles, not only GitHub repositories.
+- [ ] Owner explicitly approves one international English name, written capitalization, optional domestic naming plan, and purchased domain.
+- [ ] Keep old origin functioning; validate migration from old HTTPS origin into a separate production-like new HTTPS origin, including legacy encrypted share links and installed PWA.
+- [ ] Only **after** all above, create coherent international logo/SEO/canonical/PWA naming PR, stage side by side, and announce gradually.
+
 ## 3. Audit map of user-visible brand strings
 
 | Surface / file | Existing coupling | What to change once approved |
