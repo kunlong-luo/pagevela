@@ -53,11 +53,11 @@ Useful official resources:
 
 | Candidate | Pronunciation & recognizability | Search evidence | Domain registration | Trademark clearance | Decision |
 | --- | --- | --- | --- | --- | --- |
-| **Pagevela** / 页帆 | Short, two-element compound: page + vela (sail); easiest to communicate to developers and ordinary job seekers | Quick multi-query web search did not produce a clearly attributable exact-name resume software company; results were noisy, **not exhaustive** | **UNKNOWN:** authoritative .com RDAP did not yield a usable result during this audit | **NOT CHECKED** in official trademark records | **Working creative favorite only; not approved** |
-| Folivanta / 履跃 | Portfolio/vantage-like coined form, distinctive but longer | Same low-confidence preliminary search only | **UNKNOWN** | **NOT CHECKED** | Reserve |
-| Cverilo / 履序 | CV motif, but ambiguity in first-syllable pronunciation/spelling | Same low-confidence preliminary search only | **UNKNOWN** | **NOT CHECKED** | Lower priority |
+| **Pagevela** / 页帆 | Short, two-element compound: page + vela (sail); easiest to communicate to developers and ordinary job seekers | Quick multi-query web search did not produce a clearly attributable exact-name resume software company; results were noisy, **not exhaustive** | **RDAP 404 on 2026-10-14:** no .com domain record found; registration availability NOT confirmed | **NOT CHECKED** in official trademark records | **Working creative favorite only; not approved** |
+| Folivanta / 履跃 | Portfolio/vantage-like coined form, distinctive but longer | Same low-confidence preliminary search only | **REGISTERED** (Verisign RDAP 200; created 2026-06-23) | **NOT CHECKED** | Reserve |
+| Cverilo / 履序 | CV motif, but ambiguity in first-syllable pronunciation/spelling | Same low-confidence preliminary search only | **RDAP 404 on 2026-10-14**; registrar availability NOT confirmed | **NOT CHECKED** | Lower priority |
 
-**Do not equate absence in web search results with domain availability, legal clearance, or exclusivity.** The exact .com domains `pagevela.com`, `folivanta.com` and `cverilo.com` have **not** been verified as registrable. Before any purchase/branding implementation, run an actual live RDAP and registrar cart check, including price/renewal and domain restrictions; check WIPO/USPTO and relevant China/UK/EU registers for exact and confusingly similar marks and goods/service classes. Record date, evidence, jurisdiction and final decision in issue #202. Official tools: [ICANN RDAP lookup](https://lookup.icann.org/en), [WIPO Global Brand Database](https://www.wipo.int/en/web/global-brand-database), [USPTO Trademark Search](https://www.uspto.gov/trademarks/search).
+**Do not equate absence in web search results or RDAP 404 with domain availability, legal clearance, or exclusivity.** `folivanta.com` already has a registered .com record; `pagevela.com` and `cverilo.com` returned 404 in the 2026-10-14 authoritative RDAP query, but neither has been confirmed purchasable through a registrar. Before any purchase/branding implementation, run an actual live RDAP and registrar cart check, including price/renewal and domain restrictions; check WIPO/USPTO and relevant China/UK/EU registers for exact and confusingly similar marks and goods/service classes. Record date, evidence, jurisdiction and final decision in issue #202. Official tools: [ICANN RDAP lookup](https://lookup.icann.org/en), [WIPO Global Brand Database](https://www.wipo.int/en/web/global-brand-database), [USPTO Trademark Search](https://www.uspto.gov/trademarks/search).
 
 ### Why **not** simply attach a custom domain to the existing GitHub Pages project
 
@@ -107,6 +107,20 @@ Launch design therefore keeps `https://kunlong-luo.github.io/resume-craft/` as a
 - [ ] Owner explicitly approves one international English name, written capitalization, optional domestic naming plan, and purchased domain.
 - [ ] Keep old origin functioning; validate migration from old HTTPS origin into a separate production-like new HTTPS origin, including legacy encrypted share links and installed PWA.
 - [ ] Only **after** all above, create coherent international logo/SEO/canonical/PWA naming PR, stage side by side, and announce gradually.
+
+## 2.3 Authoritative .com RDAP retry — 2026-10-14
+
+Direct HTTPS queries to **Verisign's authoritative .com RDAP service** returned actual HTTP status codes (previous 2.2 results are a historical snapshot of earlier unsuccessful attempts):
+
+| Candidate domain | Verisign registry response | Interpretation |
+| --- | --- | --- |
+| [`pagevela.com`](https://rdap.verisign.com/com/v1/domain/pagevela.com) | **HTTP 404** | No registration record returned at check time. Not a confirmed sale/available claim. |
+| [`folivanta.com`](https://rdap.verisign.com/com/v1/domain/folivanta.com) | **HTTP 200** with `ldhName: FOLIVANTA.COM`, `registration: 2026-06-23` | **Currently registered**; eliminate as a primary candidate unless the owner deliberately acquires the name through a lawful registrar process after full clearance. |
+| [`cverilo.com`](https://rdap.verisign.com/com/v1/domain/cverilo.com) | **HTTP 404** | No registration record returned at check time. Not a confirmed sale/available claim. |
+
+All statuses may change; recheck on the actual purchase date. An HTTP 404 is not sufficient evidence that a registrar will allow registration at an acceptable price or that the name is trademark-safe. **No domains were purchased or reserved.**
+
+**Decision:** Pagevela remains the only favored concept worth continuing to formal trademark and registrar-cart review; Cverilo is a less pronounceable fallback, Folivanta fails the preferred .com registration screen. Continue without any live rename/domain redirect.
 
 ## 3. Audit map of user-visible brand strings
 
