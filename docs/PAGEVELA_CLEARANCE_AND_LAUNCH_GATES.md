@@ -1,6 +1,6 @@
 # Pagevela clearance and launch gates — 2026-10-15
 
-> **Candidate only; NOT approved.** This record supplements [INTERNATIONAL_REBRAND_READINESS.md](./INTERNATIONAL_REBRAND_READINESS.md) and issue #202. Do not change production name, DNS, canonical URLs, manifest names, local storage keys, or the original GitHub Pages origin based on this record.
+> **Candidate only; NOT approved.** This record supplements [INTERNATIONAL_REBRAND_READINESS.md](./INTERNATIONAL_REBRAND_READINESS.md) and issue #202. The owner explicitly rejected continued use of the legacy Chinese brand on 2026-10-15. Retire it in the eventual approved rollout; do not treat this as legal approval of Pagevela. Do not change production name, DNS, canonical URLs, manifest names, local storage keys, or the original GitHub Pages origin based on this record.
 
 ## Evidence and limits
 
@@ -21,7 +21,7 @@ Do not treat an exact search yielding zero results as authorization to use or re
 - [ ] Review relevant Nice classes **9 and 42**, and evaluate whether **35, 41 and other adjacent categories** are relevant to actual planned services; classes alone do not decide confusion.
 - [ ] Inspect EUIPO, UKIPO, Canada (CIPO) and China (CNIPA) depending on actual launch/registration plan, including unregistered commercial use.
 - [ ] Inspect software/career products, app marketplaces, Product Hunt and social handles. Do not assume handle ownership from a search result.
-- [ ] Confirm English naming, capitalization, pronunciation and intended Chinese coexistence; get explicit owner sign-off.
+- [ ] Confirm English naming, capitalization, pronunciation and Chinese-market localization without continuing the legacy Chinese brand; get explicit owner sign-off.
 - [ ] **Only with owner authorization** purchase a domain following fresh price and rights review. No automatic DNS, redirect or existing GitHub Pages custom-domain modification.
 
 ## Separate HTTPS-origin rehearsal — remaining matrix
