@@ -42,7 +42,7 @@
 
 **Important:** A new browser, device or site origin does not automatically have access to your existing resumes. Export your old workspace and verify the destination import before deleting anything. [Workspace transfer guide](./docs/WORKSPACE_TRANSFER.md).
 
-See [v2.6.0 release notes](./RELEASE_NOTES.md). Previous: [v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0).
+See the published [v2.6.0 GitHub Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0) and [full release notes](./RELEASE_NOTES.md). Previous: [v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0).
 
 ---
 
