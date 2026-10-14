@@ -33,10 +33,27 @@ test('market selection survives an immediate reload before debounced IndexedDB c
 test('bootstrap repairs a stale IndexedDB profile from a newer settings journal', async ({ page }) => {
   await page.goto('/?page=editor');
   await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
-  await page.evaluate((key) => {
+  await page.evaluate(async (key) => {
     const activeId = localStorage.getItem('resume-active-profile-id');
     if (!activeId) throw new Error('No active profile');
-    const settings = JSON.parse(localStorage.getItem('resume-settings') || '{}');
+    // Simulate a real staged write: the editor writes *complete* profile settings,
+    // not the sparse localStorage fallback used during early bootstrap.
+    const settings = await new Promise<Record<string, unknown>>((resolve, reject) => {
+      const request = indexedDB.open('resume-craft');
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const db = request.result;
+        const tx = db.transaction('profiles', 'readonly');
+        const get = tx.objectStore('profiles').get(activeId);
+        tx.onerror = () => { db.close(); reject(tx.error); };
+        tx.oncomplete = () => {
+          db.close();
+          const record = get.result as { settings?: Record<string, unknown> } | undefined;
+          if (!record?.settings) reject(new Error('Persisted profile settings are missing'));
+          else resolve(record.settings);
+        };
+      };
+    });
     localStorage.setItem(key, JSON.stringify({
       [activeId]: {
         settings: { ...settings, marketRegion: 'uk', paperSize: 'letter', dateStyle: 'month-long' },
