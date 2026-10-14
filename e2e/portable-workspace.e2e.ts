@@ -51,14 +51,29 @@ test('portable workspace export and confirmed restore survive reload', async ({ 
   const fixture = { name: 'workspace.json', mimeType: 'application/json',
     buffer: Buffer.from(JSON.stringify(modified)) };
   const count = (await readProfiles(page)).length;
+  // A pending setting from the destination's old profile must never leak
+  // into a newly imported workspace (even when profile IDs are reused).
+  await page.evaluate(() => {
+    const id = localStorage.getItem('resume-active-profile-id');
+    const settings = JSON.parse(localStorage.getItem('resume-settings') || '{}');
+    if (!id) throw new Error('Missing source active profile');
+    localStorage.setItem('resume-profile-settings-pending-v1', JSON.stringify({
+      [id]: { settings: { ...settings, marketRegion: 'uk', paperSize: 'letter' },
+        updatedAt: new Date(Date.now() + 60_000).toISOString() },
+    }));
+  });
   await picker.setInputFiles(fixture);
   const confirmation = page.getByRole('dialog', { name: 'Replace all local resumes?' });
   await confirmation.getByRole('button', { name: 'Cancel', exact: true }).last().click();
   expect((await readProfiles(page)).length).toBe(count);
+  expect(await page.evaluate(() => localStorage.getItem('resume-profile-settings-pending-v1')))
+    .not.toBeNull();
 
   await picker.setInputFiles(fixture);
   await confirmation.getByRole('button', { name: 'Replace workspace' }).click();
   await expect.poll(() => readActiveMarkdown(page)).toBe('# Restored workspace');
+  expect(await page.evaluate(() => localStorage.getItem('resume-profile-settings-pending-v1')))
+    .toBeNull();
   await page.reload();
   await expect.poll(() => readActiveMarkdown(page)).toBe('# Restored workspace');
   expect((await readProfiles(page)).some(p => p.id === 'portable_fixture')).toBe(true);
