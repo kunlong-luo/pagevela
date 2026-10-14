@@ -24,6 +24,15 @@ test('Chinese A4 portrait print preserves selectable PDF text and physical page 
   await page.goto('/?page=editor');
   await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
 
+  await page.locator('input[aria-label="选择简历证件照"]').setInputFiles({
+    name: 'fictional-portrait.png', mimeType: 'image/png', buffer: SAMPLE_PORTRAIT,
+  });
+  await expect(page.locator('img[alt="简历证件照预览"]'))
+    .toHaveAttribute('src', /^data:image\/jpeg;base64,/);
+  await page.getByRole('button', { name: '应用 3:4 裁剪' }).click();
+  const portrait = page.locator('#resume-print-content img[alt="简历证件照"]');
+  await expect(portrait).toHaveCount(1);
+
   await page.getByRole('button', {
     name: /^(Markdown source editor|Markdown 源码编辑模式)$/,
   }).click();
@@ -44,14 +53,7 @@ test('Chinese A4 portrait print preserves selectable PDF text and physical page 
     name: '示例候选人',
   })).toBeVisible();
 
-  await page.locator('input[aria-label="选择简历证件照"]').setInputFiles({
-    name: 'fictional-portrait.png', mimeType: 'image/png', buffer: SAMPLE_PORTRAIT,
-  });
-  await expect(page.locator('img[alt="简历证件照预览"]'))
-    .toHaveAttribute('src', /^data:image\/jpeg;base64,/);
-  await page.getByRole('button', { name: '应用 3:4 裁剪' }).click();
-  const portrait = page.locator('#resume-print-content img[alt="简历证件照"]');
-  await expect(portrait).toHaveCount(1);
+  await expect(page.locator('#resume-print-content img[alt="简历证件照"]')).toHaveCount(1);
 
   // Isolate the real preview DOM plus its CSS from editor controls. The app's
   // ATS PDF export uses react-to-print's analogous isolated print document.
