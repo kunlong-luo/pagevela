@@ -53,6 +53,7 @@ describe('pending per-profile settings recovery', () => {
     stageProfileSettings('first', changed, '2026-10-14T05:00:01.000Z');
     const newer = profile('first', '2026-10-14T05:00:10.000Z', settings);
     expect(recoverPendingProfile(newer)).toEqual(newer);
+    expect(data.has(STORAGE_KEYS.PENDING_PROFILE_SETTINGS)).toBe(false);
   });
 
   it('clears matching writes only after successful persistence and retains newer edits', () => {
