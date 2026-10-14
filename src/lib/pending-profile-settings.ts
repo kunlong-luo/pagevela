@@ -45,7 +45,9 @@ export function recoverPendingProfile(profile: ResumeProfile): ResumeProfile {
   const persistedAt = Date.parse(profile.updatedAt);
   const pendingAt = Date.parse(pending.updatedAt);
   if (Number.isFinite(persistedAt) && persistedAt > pendingAt) {
-    return profile; // Never overwrite a newer saved profile.
+    // A newer database revision supersedes an older interrupted settings write.
+    discardPendingProfileSettings(profile.id);
+    return profile;
   }
   // Carry the write-ahead revision through bootstrap so a successful
   // IndexedDB snapshot can acknowledge it and clear the journal.
