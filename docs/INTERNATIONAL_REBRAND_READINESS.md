@@ -1,6 +1,6 @@
 # International rebrand readiness (working document)
 
-> Status: **preparation only, not a production rebrand**. Both public names, "Resume Craft" and "简匠", are intended to change, but **no new brand is approved**. Do not substitute candidate names into user-facing pages yet.
+> Status: **preparation only, not a production rebrand**. No new brand or domain is approved. The working direction is to introduce a distinctive new international English name while keeping the domestic **简匠** identity during the transition; any later Chinese name change requires a separate decision. Do not substitute candidate names into user-facing pages yet.
 >
 > Tracking: [International rebrand issue #202](https://github.com/kunlong-luo/resume-craft/issues/202).
 >
@@ -46,6 +46,38 @@ Useful official resources:
 - https://www.uspto.gov/trademarks/search
 
 **Stop rule:** Until this clearance is documented and a name is deliberately approved, make **no rename to main, domain redirects, PWA name changes, or new public logo rollout**.
+
+## 2.1 Updated naming research and rollout gates — 2026-10-14
+
+### Provisional preference and evidence
+
+| Candidate | Pronunciation & recognizability | Search evidence | Domain registration | Trademark clearance | Decision |
+| --- | --- | --- | --- | --- | --- |
+| **Pagevela** / 页帆 | Short, two-element compound: page + vela (sail); easiest to communicate to developers and ordinary job seekers | Quick multi-query web search did not produce a clearly attributable exact-name resume software company; results were noisy, **not exhaustive** | **UNKNOWN:** authoritative .com RDAP did not yield a usable result during this audit | **NOT CHECKED** in official trademark records | **Working creative favorite only; not approved** |
+| Folivanta / 履跃 | Portfolio/vantage-like coined form, distinctive but longer | Same low-confidence preliminary search only | **UNKNOWN** | **NOT CHECKED** | Reserve |
+| Cverilo / 履序 | CV motif, but ambiguity in first-syllable pronunciation/spelling | Same low-confidence preliminary search only | **UNKNOWN** | **NOT CHECKED** | Lower priority |
+
+**Do not equate absence in web search results with domain availability, legal clearance, or exclusivity.** The exact .com domains `pagevela.com`, `folivanta.com` and `cverilo.com` have **not** been verified as registrable. Before any purchase/branding implementation, run an actual live RDAP and registrar cart check, including price/renewal and domain restrictions; check WIPO/USPTO and relevant China/UK/EU registers for exact and confusingly similar marks and goods/service classes. Record date, evidence, jurisdiction and final decision in issue #202. Official tools: [ICANN RDAP lookup](https://lookup.icann.org/en), [WIPO Global Brand Database](https://www.wipo.int/en/web/global-brand-database), [USPTO Trademark Search](https://www.uspto.gov/trademarks/search).
+
+### Why **not** simply attach a custom domain to the existing GitHub Pages project
+
+GitHub Pages lets maintainers configure a custom domain in repository Pages settings and controls some canonical/redirect behavior. In a **local-first** editor, the migration danger is that a redirect away from the legacy `https://kunlong-luo.github.io/resume-craft/` origin could stop existing browsers reaching the *old origin's* IndexedDB data-export interface. Even if the browser has retained the data, the new origin cannot access it.
+
+- Keep the existing `kunlong-luo/resume-craft` Pages deployment **operating at the original GitHub Pages URL**, including the complete workspace exporter and existing share routes.
+- Prefer a **separate hosting/project deployment** for the new hostname during parallel rollout. Do not set a custom domain on the **existing** Pages deployment until browser-tested that it will not strand old-origin data; do not count a redirect as migration.
+- Run a real, two-**HTTPS-origin** rehearsal: export a private test backup from the old hostname; import into the new hostname after showing overwrite consent; confirm active profile, other profiles, drafts, JD, JPEG portraits and persistence after reload. Use fictional fixture data; compare Chromium/Firefox/WebKit and installed PWA.
+- Keep old origin and share links operational for a prolonged transition. Display clear migration guidance and avoid forced redirects. If the existing Pages project cannot serve both origins without redirects, use a **separate site** rather than break access to the old one.
+- Verify HTTPS, DNS and domain ownership before marketing or switching `canonical`, `og:url`, sitemap, robots, app manifest or external links.
+
+This is a change to the **migration plan**, not a request to modify DNS or Pages settings now. Official GitHub Pages reference: https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
+
+### Recommended decision sequence
+
+1. Release the preflight-verified **v2.6.0** functionality to the existing URL after manual PDF print/security checks. It already prepares portable workspace backup; do not bundle brand migration in this release.
+2. Select one internationally pronounceable name and only approve it after official mark/domain/handle checks, including neighboring spellings.
+3. Acquire the domain after explicit approval, enable a **second** production site, and rehearse import with non-sensitive test data.
+4. Integrate coherent bilingual brand assets/SEO for the international site, while retaining `简匠` as the domestic identity and retaining the old site's browser-data exporter.
+5. Only then announce a gradual international launch. November 2026 is a **target**, not a guaranteed completion date.
 
 ## 3. Audit map of user-visible brand strings
 
