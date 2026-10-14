@@ -78,7 +78,8 @@ test('Chinese A4 portrait print preserves selectable PDF text and physical page 
   expect(pdfBytes.subarray(0, 5).toString('ascii')).toBe('%PDF-');
 
   const { getDocument } = await import('pdfjs-dist/legacy/build/pdf.mjs');
-  const pdf = await getDocument({ data: new Uint8Array(pdfBytes), useSystemFonts: true }).promise;
+  const loadingTask = getDocument({ data: new Uint8Array(pdfBytes), useSystemFonts: true });
+  const pdf = await loadingTask.promise;
   try {
     expect(pdf.numPages).toBe(1);
     const firstPage = await pdf.getPage(1);
@@ -97,7 +98,7 @@ test('Chinese A4 portrait print preserves selectable PDF text and physical page 
     expect(text).toContain('示例候选人');
     expect(text).toContain('TypeScript');
   } finally {
-    await pdf.destroy();
+    await loadingTask.destroy();
   }
 
   // Uploadable CI artifact: fictional test data only, never user's resumes.
