@@ -27,15 +27,15 @@ Candidate positioning (not a claim of ATS passage):
 
 Prioritize a reliably completed first resume over adding a large number of weak templates or making unverified AI claims.
 
-## 2. Naming shortlist — UNVERIFIED
+## 2. Historical naming research — UNVERIFIED (not a dual-brand proposal)
 
-| English concept | Chinese concept | Why it may fit | Current status |
+| English concept | Retired historical Chinese idea (not for use) | Why it may fit | Current status |
 | --- | --- | --- | --- |
 | Pagevela | 页帆 | Memorable page/journey motif | Search-engine-only preliminary check; **not cleared** |
 | Folivanta | 履跃 | Suggests portfolio + progress | Search-engine-only preliminary check; **not cleared** |
 | Cverilo | 履序 | CV-oriented, ordered work | Search-engine-only preliminary check; **not cleared** |
 
-These are provisional ideas, **not available/registrable domain or trademark claims**. Generic web-search queries found no clearly identified exact-name resume company in the inspected results; this is weak negative evidence, not legal clearance.
+The Chinese labels above are historical brainstorm notes only and are **not** proposed product names or a Chinese sub-brand. These English names are provisional ideas, **not available/registrable domain or trademark claims**. Generic web-search queries found no clearly identified exact-name resume company in the inspected results; this is weak negative evidence, not legal clearance.
 
 Before the naming decision, check:
 1. Exact, phonetic and visually similar marks across official USPTO / WIPO / EUIPO / China records, including Nice classes 9 and 42 as well as applicable adjacent classes and services.
@@ -51,7 +51,7 @@ Useful official resources:
 
 **Stop rule:** Until this clearance is documented and a name is deliberately approved, make **no rename to main, domain redirects, PWA name changes, or new public logo rollout**.
 
-## 2.1 Updated naming research and rollout gates — 2026-10-14
+## 2.1 Historical naming research and rollout gates — 2026-10-14
 
 ### Provisional preference and evidence
 
