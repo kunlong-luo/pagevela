@@ -1,5 +1,7 @@
 # Resume Craft v2.6.0 Promotion Playbook
 
+**Published on 2026-10-14.** For ready-to-review Xiaohongshu, Douyin and Reddit launch copy, filming notes and accurate privacy disclosures, see the [v2.6.0 social launch kit](./docs/V2_6_0_SOCIAL_LAUNCH_KIT.md). These are drafts; all external posts require human review and platform-specific publication.
+
 This document keeps promotion practical, measurable, and non-spammy. Automation prepares material and previews posts; a human reviews and publishes anything that reaches an external community.
 
 ## Goal
