@@ -4,7 +4,7 @@
 >
 > Tracking: [International rebrand issue #202](https://github.com/kunlong-luo/resume-craft/issues/202).
 >
-> Original audit began 2026-10-13. The planning branch was synchronized with the **released v2.6.0 main** at `676fbe1f` on 2026-10-14; this does **not** imply current legal/domain clearance. Rerun user-visible brand-string and domain-migration audits immediately before executing any rename.
+> Original audit began 2026-10-13 and now reflects **production v2.6.0** plus 2026-10-15 migration-readiness tests. This is **not** trademark or domain approval. Recheck registries, social names, and actual deployment/origin behavior before any rename.
 
 ## 1. Business / product direction
 
@@ -73,7 +73,7 @@ This is a change to the **migration plan**, not a request to modify DNS or Pages
 
 ### Recommended decision sequence
 
-1. Release the preflight-verified **v2.6.0** functionality to the existing URL after manual PDF print/security checks. It already prepares portable workspace backup; do not bundle brand migration in this release.
+1. **Completed:** released **v2.6.0** on the existing GitHub Pages URL with portable workspace backups, Chinese photo support and recovery tests. The brand and domain were deliberately not changed.
 2. Select one internationally pronounceable name and only approve it after official mark/domain/handle checks, including neighboring spellings.
 3. Acquire the domain after explicit approval, enable a **second** production site, and rehearse import with non-sensitive test data.
 4. Integrate coherent bilingual brand assets/SEO for the international site, while retaining `简匠` as the domestic identity and retaining the old site's browser-data exporter.
@@ -180,21 +180,35 @@ A staged plan:
 4. Keep legacy links and old origin accessible for a documented transition period, subject to operational feasibility.
 5. Measure aggregate failures without collecting resume contents.
 
-## 5. Work sequencing
+## 5. Work sequencing — reconciled against production v2.6.0
 
-1. **Phase 0:** finish name/domain/trademark assessment. Pick approved English + Chinese name and approved canonical URL.
-2. **Phase 1:** implement explicit old/new origin export/import migration and regression tests. Include photos, safe errors, backup compatibility and no data overwrite.
-3. **Phase 2:** centralize reviewed display names/copy; update public metadata, SEO, logos, PWA and README **in one reviewed PR**.
-4. **Phase 3:** deploy both origins in parallel; verify install, PDF, localized screens, sharing and all external link aliases.
-5. **Phase 4:** publish branding announcement, migration FAQ, release notes, sample demos, and launch content for target overseas communities.
+1. **Already shipped on existing origin:** optional Chinese-market portraits, full-workspace export/import, cancel/overwrite consent, and interrupted-autosave recovery through merged [PR #207](https://github.com/kunlong-luo/resume-craft/pull/207) and [v2.6.0](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0). Standalone drafts #201/#204/#205 were superseded and closed; do not merge them again. Existing local-origin isolation tests in `e2e/portable-workspace.e2e.ts` use `localhost` and `127.0.0.1` and **are not live HTTPS migration tests**.
+2. **Pending legal/commercial clearance:** Check exact and confusingly similar marks (USPTO, WIPO and target regions), social/service names, and registrar cart availability/renewal for the shortlisted names. No candidate is approved or domain acquired. The **2026-10-15 Verisign RDAP recheck** still returned 404 for `pagevela.com` and `cverilo.com` and 200 for the registered `folivanta.com`; 404 does not mean guaranteed sale.
+3. **Pending independent new hosting:** After domain/name approval, deploy a separate HTTPS site. Keep the old GitHub Pages editor/exporter at `https://kunlong-luo.github.io/resume-craft/` fully accessible without redirecting visitors. Do not change its custom-domain setting, service-worker scope or local data keys during initial parallel operation.
+4. **Pending live migration rehearsal:** Run the *opt-in* Playwright test described below against the old and new real HTTPS URLs, plus manually inspect a long multi-page résumé, printed PDF, mobile layout, legacy encrypted share URLs and an **already-installed** PWA. Record screenshots and any exceptions using fictional data only. Test at least Chromium/Firefox/WebKit; the single opt-in test is designed to run in each project.
+5. **Pending branded release:** Once approved, centralize display names and artwork, update public metadata/SEO, manifest and screenshots **for the new origin only**, and verify current/legacy links. Publish clear export/import help and operate both sites in parallel before announcing a new canonical identity.
 
-**Release gates:** no blocker regressions in backups, shares, PDF, browser E2E; verified old-user migration; reviewed public brand; correct canonical/OG/sitemap; old links accessible.
+**Release gates:** no backup, sharing or PDF regressions; documented two-HTTPS-hostname transfer and old-origin data export; trademark/domain approval; correct canonical/OG/sitemap on *new* site; old share URLs remain live.
+
+### Opt-in real HTTPS origin migration test (NOT part of ordinary CI acceptance)
+
+The repo includes `e2e/rebrand-live-origins.e2e.ts`. Without **both** URL environment variables, it is skipped, even though the normal E2E suite continues to cover localhost origin isolation. When a separate, actually live new HTTPS deployment exists, run from a trusted local checkout:
+
+```bash
+REBRAND_OLD_URL="https://kunlong-luo.github.io/resume-craft/" \
+REBRAND_NEW_URL="https://<approved-new-host>/" \
+pnpm exec playwright test e2e/rebrand-live-origins.e2e.ts --project=chromium
+```
+
+Replace the placeholder with the genuinely deployed hostname/path, not a made-up domain. The test rejects non-HTTPS and same-origin URLs, prevents redirects that strand the original hostname, uses an **isolated new Playwright context containing only invented résumés and a tiny synthetic portrait**, and checks export, explicit overwrite cancellation, confirmed import, reload, multiple profiles, one profile with/one without a portrait, saved draft, JD and old-origin data preservation.
+
+**Important limits:** It does not sign in as a real existing user or migrate their private data; it does not simulate updating an installed PWA, audit actual DNS/HTTPS configuration, check trademark rights or validate old encrypted share URLs. A passing test is a technical signal **not permission to retire/redirect** the original site.
 
 ## 6. Initial validation / evidence boundary
 
-- `main` audit is code-level inspection only. This document does not claim successful migration E2E or clearance of any names.
-- Working PR #201 for optional local portraits remains a separate draft and needs its own acceptance checks.
-- WIPO's Global Brand Database covers many international/national marks, but WIPO itself advises searching national/regional registers. Exact-name Google searches are not a substitute.
-- MDN confirms IndexedDB same-origin isolation: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Basic_Terminology
+- v2.6.0 features and local-hostname migration regressions are shipped and CI tested; the *new HTTPS origin* has not been provisioned and the opt-in test has **not** been executed against two real sites.
+- The original GitHub Pages origin and product names remain unchanged; no approved new wordmark, trademark rights, DNS records or domain purchase are claimed.
+- WIPO's Global Brand Database covers many international and national records, but WIPO recommends searching applicable national/regional registers. Ordinary web searches, RDAP responses and absence of GitHub repositories are not legal clearance.
+- MDN documents IndexedDB same-origin isolation: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Basic_Terminology
 
-Owner note: This document is deliberately brand-neutral and safe to merge into existing code because it changes no runtime behavior.
+Owner note: This migration plan and **opt-in, skipped-unless-configured** regression test do not change the runtime brand, origin, share protocol or user storage format.
