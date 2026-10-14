@@ -1,3 +1,11 @@
+# Resume Craft v2.6.0 Promotion Playbook
+
+**v2.6.0 released on 2026-10-14.** For ready-to-review Xiaohongshu, Douyin, and Reddit launch drafts, accurate product/privacy claims, and example screenshots to capture, use [the v2.6.0 social launch kit](./docs/V2_6_0_SOCIAL_LAUNCH_KIT.md).
+
+The existing v2.5.0 playbook below is retained as historical launch guidance; do not reuse older screenshots that omit the v2.6.0 portrait and full-workspace backup UX. A human reviews each post and publishes according to the platform's rules; no automated crossposting or simulated engagement.
+
+---
+
 # Resume Craft v2.5.0 Promotion Playbook
 
 This document keeps promotion practical, measurable, and non-spammy. Automation prepares material and previews posts; a human reviews and publishes anything that reaches an external community.
