@@ -138,6 +138,20 @@ During a public, unauthenticated **read-only** search through each site’s own 
 
 **Outstanding sign-off before implementation:** dated near-name/phonetic queries and goods/service assessment (notably classes 9 and 42 and adjacent categories), WIPO and national registers beyond the one general search, real names in app stores and social networks, domain purchase checkout+renewal, owner approval and actual two-HTTPS-origin migration rehearsal. Save a contemporaneous official screenshot/export of any future clearance search for evidence. The new brand’s launch remains **blocked** until these are completed.
 
+## 2.5 Live registrar result — 2026-10-15 (no checkout or purchase)
+
+A **read-only live Namecheap search** for the exact [`pagevela.com`](https://www.namecheap.com/domains/registration/results/?domain=pagevela.com) displayed **available to register** at the time checked (currency USD).
+
+| Displayed pricing | Amount | Conditions |
+| --- | ---: | --- |
+| Standard first-year offer | **$10.98/year** | Displayed ordinary new registration price; later checkout total may vary |
+| Renewal retail | **$14.98/year** | Displayed retail renewal; not a guarantee of future rates |
+| New-customer promotional offer | **$6.79** first year | Advertised with promo code `NEWCOM679`; eligibility and expiry are not verified |
+
+**No checkout, reservation, account, payment, DNS change or domain purchase occurred**; the cart subtotal remained $0.00 during the research session. This is stronger evidence than a registry RDAP 404, but it does not reserve the name and is not a guarantee the name can be registered later.
+
+**Outstanding before buying:** similarity/phonetic and market-use trademark clearance in target countries, final owner approval of Pagevela versus alternatives, then a fresh registrar/checkout check for total price, renewal terms, taxes and registrant conditions. **Do not change public branding now**. (Section 2.4 reflects evidence available before this registrar search; its older unverified-domain wording is superseded by this time-limited availability observation, not by a completed order.)
+
 ## 3. Audit map of user-visible brand strings
 
 | Surface / file | Existing coupling | What to change once approved |
