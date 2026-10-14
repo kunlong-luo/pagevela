@@ -1,6 +1,7 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useResumeStore } from '../store/useResumeStore';
 import type { ResumeProfile } from '../types';
+import { STORAGE_KEYS, storage } from '../lib/storage';
 
 function buildProfile(id: string, markdown: string, customFileName?: string): ResumeProfile {
   const settings = useResumeStore.getState().settings;
@@ -49,6 +50,33 @@ describe('resume store state consistency', () => {
     useResumeStore.setState({ measuredPageCount: 2 });
     useResumeStore.getState().setMarkdown('direct content');
     expect(useResumeStore.getState().measuredPageCount).toBeNull();
+  });
+
+  it('discards settings-only recovery when replacing Markdown and settings together', () => {
+    // The store unit suite runs in Node. Supply isolated browser storage here.
+    const cache = new Map<string, string>();
+    vi.stubGlobal('window', {});
+    vi.stubGlobal('localStorage', {
+      getItem: (key: string) => cache.get(key) ?? null,
+      setItem: (key: string, value: string) => { cache.set(key, String(value)); },
+      removeItem: (key: string) => { cache.delete(key); },
+    });
+    try {
+      const state = useResumeStore.getState();
+      state.updateSetting('marketRegion', 'uk');
+      expect(storage.get<Record<string, unknown> | null>(
+        STORAGE_KEYS.PENDING_PROFILE_SETTINGS, null,
+      )?.[state.activeProfileId]).toBeTruthy();
+
+      state.replaceDocument('# New imported document', {
+        ...state.settings, marketRegion: 'ca',
+      }, 'custom');
+      expect(storage.get<Record<string, unknown> | null>(
+        STORAGE_KEYS.PENDING_PROFILE_SETTINGS, null,
+      )?.[state.activeProfileId]).toBeUndefined();
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it('persists undo into the active profile and keeps the next edit in history', () => {

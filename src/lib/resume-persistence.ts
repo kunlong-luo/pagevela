@@ -1,6 +1,7 @@
 import type { ResumeProfile } from '../types';
 import { resumeRepository } from './resume-repository';
 import { STORAGE_HEALTH_EVENT } from './storage';
+import { acknowledgeSavedProfileSettings } from './pending-profile-settings';
 
 export interface PersistedResumeSnapshot {
   markdown: string;
@@ -48,6 +49,8 @@ export function createResumePersistenceCoordinator(debounceMs = DEFAULT_DEBOUNCE
               profiles: snapshot.profiles,
               jdText: snapshot.jdText,
             });
+            // Clear only journal entries included in this committed snapshot.
+            acknowledgeSavedProfileSettings(snapshot.profiles);
           };
 
           if (typeof navigator !== 'undefined' && navigator.locks?.request) {
@@ -97,3 +100,7 @@ export function createResumePersistenceCoordinator(debounceMs = DEFAULT_DEBOUNCE
 
   return { schedule, flush, dispose };
 }
+
+// Shared by the bootstrapped app and the explicit portable workspace importer.
+// Flush pending autosaves before overwriting IndexedDB, then flush restored state.
+export const activeResumePersistence = createResumePersistenceCoordinator();

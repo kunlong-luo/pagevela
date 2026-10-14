@@ -6,7 +6,9 @@ import { translateMarkdownContent } from '../lib/section-translator';
 import { migrateStoredMarkdown } from '../lib/markdown-migrations';
 import { getMarketProfile, isMarketRegion, resolveDefaultPaperSize } from '../lib/market-profile';
 import { isPaperSize } from '../lib/paper';
+import { isSafeResumePhotoDataUrl } from '../lib/resume-photo';
 import { getResumeBootstrapSnapshot } from '../lib/resume-bootstrap-state';
+import { stageProfileSettings, recoverPendingProfile, discardPendingProfileSettings } from '../lib/pending-profile-settings';
 
 interface ResumeState {
   // States
@@ -64,7 +66,9 @@ interface ResumeState {
   duplicateProfile: (profileId: string) => ResumeProfile;
   renameProfile: (profileId: string, name: string, targetRole?: string) => void;
   deleteProfile: (profileId: string) => boolean;
+  setActiveProfilePhoto: (photoDataUrl: string | null) => void;
   importProfiles: (profiles: ResumeProfile[]) => void;
+  restorePortableWorkspace: (profiles: ResumeProfile[], activeProfileId: string, jdText: string) => void;
   replaceDocument: (markdown: string, settings?: ResumeSettings, templateId?: string) => void;
   applyTemplate: (templateId: string) => boolean;
   
@@ -310,7 +314,8 @@ const getInitialProfiles = (
   if (savedProfiles && Array.isArray(savedProfiles) && savedProfiles.length > 0) {
     // Apply only deterministic, content-preserving migrations.
     let shouldPersistMigration = false;
-    const migratedProfiles = savedProfiles.map(p => {
+    const migratedProfiles = savedProfiles.map(source => {
+      const p = recoverPendingProfile(source);
       const markdown = typeof p.markdown === 'string'
         ? migrateStoredMarkdown(p.markdown)
         : defaultMd;
@@ -472,14 +477,27 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     );
     set({ markdown, profiles: updatedProfiles, measuredPageCount: null });
   },
+  setActiveProfilePhoto: (photoDataUrl) => {
+    if (photoDataUrl !== null && !isSafeResumePhotoDataUrl(photoDataUrl)) return;
+    const { profiles, activeProfileId } = get();
+    const updatedProfiles = profiles.map(profile =>
+      profile.id === activeProfileId
+        ? { ...profile, photoDataUrl: photoDataUrl ?? undefined, updatedAt: new Date().toISOString() }
+        : profile
+    );
+    // main.tsx observes profile reference changes and persists them in IndexedDB.
+    set({ profiles: updatedProfiles, measuredPageCount: null });
+  },
   setSettings: (settings) => {
     const { profiles, activeProfileId } = get();
     const nextSettings = sanitizeSettings(settings, get().settings);
+    const now = new Date().toISOString();
     const updatedProfiles = profiles.map(p =>
       p.id === activeProfileId
-        ? { ...p, settings: nextSettings, updatedAt: new Date().toISOString() }
+        ? { ...p, settings: nextSettings, updatedAt: now }
         : p
     );
+    stageProfileSettings(activeProfileId, nextSettings, now);
     storage.set(STORAGE_KEYS.SETTINGS, nextSettings);
     set({ settings: nextSettings, profiles: updatedProfiles, measuredPageCount: null });
   },
@@ -648,6 +666,7 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     }
 
     const updated = profiles.filter(p => p.id !== profileId);
+    discardPendingProfileSettings(profileId);
 
     if (activeProfileId === profileId) {
       const nextActive = updated[0];
@@ -678,6 +697,7 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
 
   importProfiles: (importedProfiles: ResumeProfile[]) => {
     if (!Array.isArray(importedProfiles) || importedProfiles.length === 0) return;
+    discardPendingProfileSettings();
 
     const normalizedProfiles = importedProfiles.map(profile => ({
       ...profile,
@@ -714,6 +734,45 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     });
   },
 
+  restorePortableWorkspace: (profiles, activeProfileId, jdText) => {
+    const active = profiles.find(profile => profile.id === activeProfileId);
+    if (!active) return;
+    // Called only with fully validated portable backups after an atomic IndexedDB write.
+    discardPendingProfileSettings();
+    const settings = sanitizeSettings(active.settings, get().settings);
+    const templateId = active.templateId === 'custom' ||
+      TEMPLATES.some(template => template.id === active.templateId)
+      ? active.templateId!
+      : getInitialTemplateId(active.markdown);
+
+    if (debounceTimer) clearTimeout(debounceTimer);
+    if (typingTimer) clearTimeout(typingTimer);
+    if (saveStatusTimer) clearTimeout(saveStatusTimer);
+
+    storage.set(STORAGE_KEYS.ACTIVE_PROFILE_ID, active.id);
+    storage.set(STORAGE_KEYS.SETTINGS, settings);
+    if (active.customFileName !== undefined) {
+      storage.set(STORAGE_KEYS.CUSTOM_FILE_NAME, active.customFileName);
+    } else {
+      storage.remove(STORAGE_KEYS.CUSTOM_FILE_NAME);
+    }
+    set({
+      profiles,
+      activeProfileId: active.id,
+      markdown: active.markdown,
+      settings,
+      jdText,
+      customFileName: active.customFileName || '',
+      currentTemplateId: templateId,
+      history: [active.markdown],
+      historyIndex: 0,
+      lastSaved: new Date().toLocaleTimeString(),
+      isSaving: false,
+      saveStatus: 'saved',
+      measuredPageCount: null,
+    });
+  },
+
   replaceDocument: (nextMarkdown: string, nextSettingsInput?: ResumeSettings, templateId?: string) => {
     const { settings, profiles, activeProfileId } = get();
     const nextSettings = sanitizeSettings(nextSettingsInput ?? settings, settings);
@@ -735,6 +794,9 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
         : profile
     );
 
+    // A document replacement changes content and settings together. Never replay
+    // settings alone onto an older Markdown document after an interrupted write.
+    discardPendingProfileSettings(activeProfileId);
     storage.set(STORAGE_KEYS.SETTINGS, nextSettings);
 
     if (debounceTimer) clearTimeout(debounceTimer);
@@ -784,6 +846,8 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
         : profile
     );
 
+    // Templates update Markdown and market settings atomically in IndexedDB.
+    discardPendingProfileSettings(activeProfileId);
     storage.set(STORAGE_KEYS.SETTINGS, nextSettings);
 
     if (debounceTimer) clearTimeout(debounceTimer);
@@ -914,11 +978,19 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     }
 
     const { profiles, activeProfileId } = get();
+    const now = new Date().toISOString();
     const updatedProfiles = profiles.map(p =>
       p.id === activeProfileId
-        ? { ...p, settings: newSettings, markdown: nextMarkdown, updatedAt: new Date().toISOString() }
+        ? { ...p, settings: newSettings, markdown: nextMarkdown, updatedAt: now }
         : p
     );
+    if (nextMarkdown === get().markdown) {
+      stageProfileSettings(activeProfileId, newSettings, now);
+    } else {
+      // Language translation changes resume content. A settings-only journal
+      // must not create a mixed-language resume if the IndexedDB write is interrupted.
+      discardPendingProfileSettings(activeProfileId);
+    }
     set({
       settings: newSettings,
       markdown: nextMarkdown,
@@ -945,11 +1017,19 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     }
 
     const { profiles, activeProfileId } = get();
+    const now = new Date().toISOString();
     const updatedProfiles = profiles.map(p =>
       p.id === activeProfileId
-        ? { ...p, settings: newSettings, markdown: nextMarkdown, updatedAt: new Date().toISOString() }
+        ? { ...p, settings: newSettings, markdown: nextMarkdown, updatedAt: now }
         : p
     );
+    if (nextMarkdown === get().markdown) {
+      stageProfileSettings(activeProfileId, newSettings, now);
+    } else {
+      // Language translation changes resume content. A settings-only journal
+      // must not create a mixed-language resume if the IndexedDB write is interrupted.
+      discardPendingProfileSettings(activeProfileId);
+    }
     set({
       settings: newSettings,
       markdown: nextMarkdown,

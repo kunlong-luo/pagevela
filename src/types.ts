@@ -38,6 +38,8 @@ export interface ResumeSettings {
   marketRegion?: MarketRegion;
   dateStyle?: DateStyle;
   isPrivacyMasked?: boolean;
+  /** Optional, explicit photo visibility; defaults to China-market only. */
+  showPhoto?: boolean;
 }
 
 export interface ResumeDraft {
@@ -62,6 +64,8 @@ export interface ResumeProfile {
   markdown: string;
   settings: ResumeSettings;
   customFileName?: string;
+  /** Locally cropped JPEG. Never embedded in Markdown or share URLs. */
+  photoDataUrl?: string;
   updatedAt: string;
   createdAt: string;
   isDefault?: boolean;
