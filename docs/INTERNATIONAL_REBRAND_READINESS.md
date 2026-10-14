@@ -122,6 +122,22 @@ All statuses may change; recheck on the actual purchase date. An HTTP 404 is not
 
 **Decision:** Pagevela remains the only favored concept worth continuing to formal trademark and registrar-cart review; Cverilo is a less pronounceable fallback, Folivanta fails the preferred .com registration screen. Continue without any live rename/domain redirect.
 
+## 2.4 Official mark-search observations — 2026-10-15 (preliminary; NOT a clearance opinion)
+
+During a public, unauthenticated **read-only** search through each site’s own UI, the following visible responses were obtained for candidate **PAGEVELA**:
+
+| Search source | Exact public query used | Visible result | Interpretation and limits |
+| --- | --- | --- | --- |
+| [USPTO Trademark Search](https://tmsearch.uspto.gov/search/) (US federal) | Simple `Wordmark`: `PAGEVELA` | **0 results** | No exact query hits returned in that session. Not a phonetic/look-alike, common-law-use or full legal clearance. |
+| USPTO (US federal) | Simple `Wordmark`: `PAGEVELLA` | **0 results** | One extra-spelling variant only. A simple spaced `PAGE VELA` query was **broad/noisy (1,905 hits)** and cannot be interpreted as a precise confusion clearance. |
+| [WIPO Global Brand Database](https://branddb.wipo.int/en/) | Brand name **contains the word `PAGEVELA`** | **No results found** | Database coverage, transliterations and similarities must still be assessed; relevant national/regional registers and actual market use remain to be checked. |
+| [TMview](https://www.tmdn.org/tmview/) (EUIPO-coordinated public aggregation) | Public name query `PAGEVELA` | **No rows found** | TMview expressly states that it **does not constitute an official register and its data have no legal effect**. Independently search applicable EU/UK/national registers. |
+| Verisign `.com` RDAP | `pagevela.com` | **HTTP 404** again on 2026-10-15 | Registry did not return a domain object; **registrar checkout availability and price remain UNVERIFIED**. The fact that the domain is apparently unregistered does not grant trademark rights. |
+
+**Current candidate decision:** Pagevela remains a **working creative preference only**, now with useful **negative exact-wordmark search evidence** in three public trademark interfaces. It is **not approved for public use as a new brand** and is not guaranteed registerable or free of third-party rights. Do not confuse search result counts with a definitive legal analysis, and do not disclose fabricated clearance claims in marketing.
+
+**Outstanding sign-off before implementation:** dated near-name/phonetic queries and goods/service assessment (notably classes 9 and 42 and adjacent categories), WIPO and national registers beyond the one general search, real names in app stores and social networks, domain purchase checkout+renewal, owner approval and actual two-HTTPS-origin migration rehearsal. Save a contemporaneous official screenshot/export of any future clearance search for evidence. The new brand’s launch remains **blocked** until these are completed.
+
 ## 3. Audit map of user-visible brand strings
 
 | Surface / file | Existing coupling | What to change once approved |
