@@ -1,10 +1,14 @@
 # International rebrand readiness (working document)
 
-> Status: **preparation only, not a production rebrand**. No new brand or domain is approved. The working direction is to introduce a distinctive new international English name while keeping the domestic **简匠** identity during the transition; any later Chinese name change requires a separate decision. Do not substitute candidate names into user-facing pages yet.
+> Status: **preparation only, not a production rebrand**. No new brand or domain is approved. The working direction is to introduce a distinctive new international English name while retiring the legacy Chinese-facing product name from all future public branding. Pagevela is the leading candidate for a single international identity, but is not yet approved. Do not substitute candidate names into user-facing pages yet.
 >
 > Tracking: [International rebrand issue #202](https://github.com/kunlong-luo/resume-craft/issues/202).
 >
 > Original audit began 2026-10-13 and now reflects **production v2.6.0** plus 2026-10-15 migration-readiness tests. This is **not** trademark or domain approval. Recheck registries, social names, and actual deployment/origin behavior before any rename.
+
+## Naming decision update — 2026-10-15
+
+The owner has **rejected continued use of the legacy Chinese brand**. The previously proposed dual-brand strategy is superseded. Plan one approved new brand for international and Chinese-language experiences, with localized copy rather than a second brand name. **Pagevela remains a preferred candidate, not an approved trademark or live product rename.** Legacy domain, URLs, storage, encrypted-share AAD and backward compatibility must be preserved for existing users until a safe migration is tested; preserving technical constants does not mean using the old name in new UI or marketing.
 
 ## 1. Business / product direction
 
@@ -76,7 +80,7 @@ This is a change to the **migration plan**, not a request to modify DNS or Pages
 1. **Completed:** released **v2.6.0** on the existing GitHub Pages URL with portable workspace backups, Chinese photo support and recovery tests. The brand and domain were deliberately not changed.
 2. Select one internationally pronounceable name and only approve it after official mark/domain/handle checks, including neighboring spellings.
 3. Acquire the domain after explicit approval, enable a **second** production site, and rehearse import with non-sensitive test data.
-4. Integrate coherent bilingual brand assets/SEO for the international site, while retaining `简匠` as the domestic identity and retaining the old site's browser-data exporter.
+4. Integrate coherent bilingual brand assets/SEO for the international site, while retiring the legacy Chinese-facing name and retaining the old site's browser-data exporter.
 5. Only then announce a gradual international launch. November 2026 is a **target**, not a guaranteed completion date.
 
 ## 2.2 Dated evidence log — 2026-10-14 (research, NOT approval)
@@ -104,7 +108,7 @@ Launch design therefore keeps `https://kunlong-luo.github.io/resume-craft/` as a
 - [ ] Record trademark searches for each candidate, near-spelling and phonetic variants, in actual jurisdictions and relevant classes, with dates and official evidence links.
 - [ ] Confirm exact `.com` registration/availability at **registry RDAP and registrar checkout** (include annual renewal and brand impersonation risks), then check practical alternatives.
 - [ ] Search conflicting software, education, career-tool, app-store and social names; inspect handles, not only GitHub repositories.
-- [ ] Owner explicitly approves one international English name, written capitalization, optional domestic naming plan, and purchased domain.
+- [ ] Owner explicitly approves one international English name, written capitalization, single-name Chinese/English localization plan, and purchased domain.
 - [ ] Keep old origin functioning; validate migration from old HTTPS origin into a separate production-like new HTTPS origin, including legacy encrypted share links and installed PWA.
 - [ ] Only **after** all above, create coherent international logo/SEO/canonical/PWA naming PR, stage side by side, and announce gradually.
 
