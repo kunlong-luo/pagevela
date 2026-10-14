@@ -1,5 +1,7 @@
 # Resume Craft v2.6.0
 
+**Published:** 2026-10-14 · [GitHub Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0) · [Live Demo](https://kunlong-luo.github.io/resume-craft/)
+
 ## Highlights / 本次更新
 
 - **Chinese-market portrait support / 国内简历证件照**: Optional local PNG, JPEG or WebP upload, 3:4 crop and JPEG downscaling. Displays the portrait in the top-right résumé header for supported Chinese-market layouts; international résumés remain photo-free by default.

@@ -42,7 +42,7 @@
 
 **隐私提示：** 完整工作区 JSON **未经加密**，可能包含姓名、联系方式、照片和求职信息，请勿公开分享。切换浏览器或域名不会自动迁移数据；导入成功前请保留原网站数据。详见[完整工作区迁移指南](./docs/WORKSPACE_TRANSFER.md)。
 
-查看 [v2.6.0 更新说明](./RELEASE_NOTES.md)。上一版：[v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0)。
+查看已发布的 [v2.6.0 正式版本](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0) 和[详细更新说明](./RELEASE_NOTES.md)。上一版：[v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0)。
 
 ---
 

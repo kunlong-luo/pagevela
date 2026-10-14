@@ -1,12 +1,6 @@
 # Resume Craft v2.6.0 Promotion Playbook
 
-**v2.6.0 released on 2026-10-14.** For ready-to-review Xiaohongshu, Douyin, and Reddit launch drafts, accurate product/privacy claims, and example screenshots to capture, use [the v2.6.0 social launch kit](./docs/V2_6_0_SOCIAL_LAUNCH_KIT.md).
-
-The existing v2.5.0 playbook below is retained as historical launch guidance; do not reuse older screenshots that omit the v2.6.0 portrait and full-workspace backup UX. A human reviews each post and publishes according to the platform's rules; no automated crossposting or simulated engagement.
-
----
-
-# Resume Craft v2.5.0 Promotion Playbook
+**Published on 2026-10-14.** For ready-to-review Xiaohongshu, Douyin and Reddit launch copy, filming notes and accurate privacy disclosures, see the [v2.6.0 social launch kit](./docs/V2_6_0_SOCIAL_LAUNCH_KIT.md). These are drafts; all external posts require human review and platform-specific publication.
 
 This document keeps promotion practical, measurable, and non-spammy. Automation prepares material and previews posts; a human reviews and publishes anything that reaches an external community.
 
@@ -37,16 +31,19 @@ The first promotion cycle is for learning, not maximizing raw impressions.
 - Markdown and structured form editing stay in sync.
 - A4 / US Letter support with target-market defaults.
 - ATS-oriented readability and JD matching guidance without claiming guaranteed ATS outcomes.
-- Browser-print ATS PDF path plus Quick PDF fallback.
+- Browser-print ATS PDF path with selectable text where supported, plus Quick PDF raster fallback.
+- **v2.6.0:** optional locally cropped 3:4 portrait for China-market résumés, at the top right of supported layouts; international résumés normally omit photos.
+- **v2.6.0:** full workspace JSON backup/restore of profiles, drafts, JD text and stored photos; the backup file is **not encrypted**, and transferring to a different domain is an explicit user action.
+- **v2.6.0:** per-profile market and layout settings survive an interrupted autosave on rapid reload.
 - Public share links are readable by link holders; password-protected links are encrypted locally before link creation.
 - Open-source repository and reproducible release assets.
 
-## Two-week v2.5 validation sequence
+## Two-week v2.6 validation sequence
 
 ### Days 1-2 — Release verification
 
-- Verify the live demo, v2.5.0 release link, social preview card, README, migration behavior, and mobile layout.
-- Confirm an existing v2.2 browser profile opens with its resume data intact after the automatic IndexedDB migration.
+- Verify the live demo, [v2.6.0 release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0), social preview card, README, local profile upgrades, complete-workspace backup, and mobile layout.
+- Confirm existing v2.5.0 users still find their local profiles, drafts and preferences after the v2.6.0 same-origin update; do not clear the original browser's site data.
 - Capture one clean desktop screenshot and one mobile screenshot.
 - Prepare one short demo GIF/video showing: edit -> preview -> Target Market -> ATS check -> PDF.
 - Record the baseline analytics counts before promotion.
@@ -57,7 +54,7 @@ Use channels where the product itself is directly relevant.
 
 **GitHub**
 - Keep README and social preview current.
-- Pin a concise v2.5.0 discussion/update focused on the new landing page, first-run onboarding, and zero-account workflow.
+- Pin a concise v2.6.0 update focused on China-market optional 3:4 portrait support, complete local workspace backup/restore, interrupted-save recovery, and zero-account workflow.
 - Ask for bug reports and workflow feedback, not stars.
 
 **Show HN**

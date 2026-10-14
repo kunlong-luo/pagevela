@@ -1,6 +1,6 @@
 # Transfer all resumes to a new browser or website
 
-> This guide covers **Complete Workspace** backups prepared for Resume Craft v2.6.0. The public brand and GitHub Pages domain have **not changed**. The workflow can also transfer between browsers or devices; it does not move data automatically.
+> This guide covers **Complete Workspace** backups available in Resume Craft v2.6.0. The public brand and GitHub Pages domain have **not changed**. The workflow can also transfer between browsers or devices; it does not move data automatically.
 
 Your resume content is stored primarily in browser-local IndexedDB. Browsers do **not** automatically copy this data to a different website origin (domain, scheme or port), browser profile or device.
 
