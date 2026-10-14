@@ -27,7 +27,7 @@ test.describe('product state flows', () => {
       '- Imported from a Markdown file',
     ].join('\n');
 
-    await page.locator('input[type="file"]').setInputFiles({
+    await page.getByTestId('resume-source-import-file').setInputFiles({
       name: 'e2e-resume.md',
       mimeType: 'text/markdown',
       buffer: Buffer.from(markdown),
@@ -71,7 +71,7 @@ test.describe('product state flows', () => {
       'TypeScript, Java, PostgreSQL',
     ].join('\n');
 
-    await page.locator('input[type="file"]').setInputFiles({
+    await page.getByTestId('resume-source-import-file').setInputFiles({
       name: 'english-resume.txt',
       mimeType: 'text/plain',
       buffer: Buffer.from(rawEnglishResume),
@@ -129,7 +129,7 @@ test.describe('product state flows', () => {
       },
     };
 
-    await page.locator('input[type="file"]').setInputFiles({
+    await page.getByTestId('resume-source-import-file').setInputFiles({
       name: 'UK-Resume.JSON',
       mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(jsonResume)),
@@ -190,7 +190,7 @@ test.describe('product state flows', () => {
       },
     };
 
-    await page.locator('input[type="file"]').setInputFiles({
+    await page.getByTestId('resume-source-import-file').setInputFiles({
       name: 'resume-craft-full-backup.JSON',
       mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(backup)),
@@ -227,7 +227,7 @@ test.describe('product state flows', () => {
     await page.getByRole('button', { name: /More actions|更多操作/ }).click();
     await page.getByRole('button', { name: /^(Import|导入)$/ }).click();
 
-    const fileInput = page.locator('input[type="file"]');
+    const fileInput = page.getByTestId('resume-source-import-file');
     const importButton = page.getByRole('button', { name: /Import This File|确认导入/ });
     const originalMarkdown = await readActiveMarkdown(page);
 
@@ -314,9 +314,7 @@ test.describe('product state flows', () => {
     ).toBeVisible();
     await page.getByRole('button', { name: /^(Backup|备份)$/ }).click();
 
-    const backupInput = page
-      .getByRole('dialog')
-      .locator('input[type="file"][accept*=".json"]');
+    const backupInput = page.getByTestId('single-resume-backup-file');
 
     await backupInput.setInputFiles({
       name: 'too-large-backup.JSON',

@@ -1,5 +1,6 @@
 import React from 'react';
 import { DownloadCloud, UploadCloud, FileJson } from 'lucide-react';
+import { WorkspaceTransferCard } from './WorkspaceTransferCard';
 
 interface BackupTabProps {
   handleExportConfig: () => void;
@@ -8,6 +9,9 @@ interface BackupTabProps {
   importDragActive: boolean;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   handleImportConfig: (file: File) => void;
+  handleExportWorkspace: () => void;
+  handleImportWorkspace: (file: File) => void;
+  workspaceBusy: boolean;
   lang?: string;
 }
 
@@ -18,6 +22,9 @@ export function BackupTab({
   importDragActive,
   fileInputRef,
   handleImportConfig,
+  handleExportWorkspace,
+  handleImportWorkspace,
+  workspaceBusy,
   lang
 }: BackupTabProps) {
   const isEn = lang === 'en';
@@ -29,16 +36,16 @@ export function BackupTab({
         <div className="bg-indigo-50/50 dark:bg-indigo-950/40 border border-indigo-100/60 dark:border-indigo-800/60 rounded-xl p-4.5 text-xs text-slate-700 dark:text-slate-200 leading-relaxed space-y-1.5 shadow-sm">
           <p className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-[12px]">
             <span>📦</span>
-            <span>{isEn ? 'What is the Full Configuration File (.json)?' : '什么是 JSON 配置文件？'}</span>
+            <span>{isEn ? 'What is the Single Resume Configuration (.json)?' : '什么是单份简历 JSON 配置？'}</span>
           </p>
           <p className="text-slate-500 dark:text-slate-400 text-justify text-[11px] font-medium leading-relaxed">
             {isEn ? (
               <>
-                Compared to exporting pure Markdown text, the <strong>Full Configuration File (.json)</strong> packs your <strong>resume content and all customized layout options (fonts, theme colors, spacing fine-tuning, page guide lines, etc.)</strong> into a single JSON file. Importing this file restores the Resume Craft content and layout settings saved in the backup.
+                Compared to exporting pure Markdown text, the <strong>Single Resume Configuration File (.json)</strong> packs your <strong>resume content and all customized layout options (fonts, theme colors, spacing fine-tuning, page guide lines, etc.)</strong> into a single JSON file. This does not include your other profiles or drafts.
               </>
             ) : (
               <>
-                JSON 备份包含简历全部文字及自定义排版参数（如字体、行高、页边距、主题色等）。在其他设备或浏览器导入后，可恢复备份中保存的简历内容与 Resume Craft 排版设置。
+                JSON 备份包含简历全部文字及自定义排版参数（如字体、行高、页边距、主题色等）。它不包括其他档案和草稿。
               </>
             )}
           </p>
@@ -53,7 +60,7 @@ export function BackupTab({
                 <DownloadCloud className="w-5 h-5" />
               </div>
               <h4 className="font-bold text-slate-800 dark:text-slate-100 text-xs">
-                {isEn ? 'Export Full Backup' : '导出 JSON 备份'}
+                {isEn ? 'Export Current Resume' : '导出当前简历 JSON'}
               </h4>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
                 {isEn 
@@ -98,6 +105,7 @@ export function BackupTab({
             </div>
             <input
               type="file"
+              data-testid="single-resume-backup-file"
               ref={fileInputRef}
               accept=".json,.JSON,application/json"
               onChange={(e) => {
@@ -111,6 +119,12 @@ export function BackupTab({
             />
           </div>
         </div>
+        <WorkspaceTransferCard
+          isEn={isEn}
+          busy={workspaceBusy}
+          onExport={handleExportWorkspace}
+          onImport={handleImportWorkspace}
+        />
       </div>
     </div>
   );

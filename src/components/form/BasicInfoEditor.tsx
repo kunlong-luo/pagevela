@@ -8,6 +8,7 @@ import { Tooltip } from '../ui/Tooltip';
 import { getTranslation } from '../../i18n';
 import { getDegreeOptions, getJobStatusOptions, getPopularCities } from '../../lib/form-constants';
 import { InternationalPhoneField } from './InternationalPhoneField';
+import { ResumePhotoEditor } from './ResumePhotoEditor';
 
 import { MarketRegion } from '../../types';
 import { getMarketProfile } from '../../lib/market-profile';
@@ -264,6 +265,7 @@ export function BasicInfoEditor({ model, onChange, expanded, onToggleExpanded, s
             className="p-5 space-y-4"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-5">
+            <ResumePhotoEditor lang={activeUiLang} marketRegion={marketRegion} />
             {/* 姓名 */}
             <div className="space-y-2">
               <label className="block text-[10px] font-extrabold text-slate-400 dark:text-slate-400 uppercase tracking-widest mb-1">{t.nameLabel}</label>

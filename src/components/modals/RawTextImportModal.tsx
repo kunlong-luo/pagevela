@@ -656,6 +656,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
                   <input
                     ref={fileInputRef}
                     type="file"
+                    data-testid="resume-source-import-file"
                     accept=".pdf,.md,.markdown,.txt,.json,application/pdf"
                     onChange={(e) => {
                       const file = e.target.files?.[0];

@@ -33,14 +33,17 @@
 
 ---
 
-## 🆕 What's New in v2.5.0
+## 🆕 What's New in v2.6.0
 
-- **Independent Product Landing Page**: Adds a full-fledged, responsive, accessible welcome page featuring Hero brand storytelling, live interactive workspace demonstration, six core feature highlights, local-first privacy manifesto, curated industry templates, and FAQ.
-- **Universal Dual-Route Navigation**: Seamless switching between the Landing Page (`/`, `?page=landing`, `#/landing`) and Editor Workspace (`/editor`, `?page=editor`, `#/editor`) with full browser history (back/forward) and bookmarking support. Direct return-to-home navigation available right in the editor header.
-- **First-Time User Onboarding Guarantee**: When entering the editor from the landing page for the first time, automatically launches the 3-step interactive onboarding tour (editor overview, toolbar layout, starter choices). Returning users jump directly into their workspace.
-- **Zero-Risk Local-First Continuity**: Existing resume drafts in IndexedDB, multi-profile archives, and encrypted share links remain fully protected and 100% private.
+- **China-market resume portraits:** Optional 3:4 ID-style photo crop and top-right preview, stored locally with the relevant resume profile.
+- **Complete workspace migration:** Back up and restore all profiles, drafts, job-description text and locally stored photos using a versioned JSON file. The file is **not encrypted**; keep it private.
+- **Safer quick-reload recovery:** Recover pending profile layout and market settings when a reload interrupts autosave, without syncing personal resume text to a server.
+- **Compatibility and PDF regression coverage:** Added photo/PDF download and browser-origin migration tests, including explicit overwrite confirmation and profile isolation.
 
-See the full [v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0).
+**Important:** A new browser, device or site origin does not automatically have access to your existing resumes. Export your old workspace and verify the destination import before deleting anything. [Workspace transfer guide](./docs/WORKSPACE_TRANSFER.md).
+
+See the published [v2.6.0 GitHub Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0) and [full release notes](./RELEASE_NOTES.md). Previous: [v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0).
+
 ---
 
 ## 💡 Why Choose Resume Craft?

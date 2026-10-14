@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import { initAnalyticsPageview } from './lib/analytics';
 import { migrateLegacyStorageToIndexedDb } from './lib/storage-migration';
-import { createResumePersistenceCoordinator } from './lib/resume-persistence';
+import { activeResumePersistence } from './lib/resume-persistence';
 import { resumeRepository } from './lib/resume-repository';
 import { setResumeBootstrapSnapshot } from './lib/resume-bootstrap-state';
 
@@ -55,7 +55,7 @@ async function bootstrap() {
     import('./components/ui/ErrorBoundary.tsx'),
   ]);
 
-  const persistence = createResumePersistenceCoordinator();
+  const persistence = activeResumePersistence;
   let previous = useResumeStore.getState();
 
   // Persist sanitized/default bootstrap state too, including first-run profiles.

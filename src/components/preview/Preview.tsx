@@ -26,6 +26,8 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
   const {
     storeMarkdown,
     storeSettings,
+    profiles,
+    activeProfileId,
     uiLanguage,
     onChangeSettings,
     setMeasuredPageCount,
@@ -33,6 +35,8 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
     useShallow((state) => ({
       storeMarkdown: state.markdown,
       storeSettings: state.settings,
+      profiles: state.profiles,
+      activeProfileId: state.activeProfileId,
       uiLanguage: state.uiLanguage,
       onChangeSettings: state.updateSetting,
       setMeasuredPageCount: state.setMeasuredPageCount,
@@ -42,6 +46,11 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
   const activeMarkdown = overrideMarkdown !== undefined ? overrideMarkdown : storeMarkdown;
   const markdown = useDeferredValue(activeMarkdown);
   const settings = overrideSettings !== undefined ? overrideSettings : storeSettings;
+  // Override previews (including shared resumes) must never reveal a private local photo.
+  const photoDataUrl = overrideMarkdown === undefined && overrideSettings === undefined
+    ? profiles.find((profile) => profile.id === activeProfileId)?.photoDataUrl
+    : undefined;
+  const showPhoto = settings.showPhoto ?? settings.marketRegion === 'cn';
 
   const theme = THEME_MAP[settings.themeColor] || THEME_MAP.blue;
   const fontClass = FONT_FAMILY_CLASSES[settings.fontFamily];
@@ -70,7 +79,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
     elementRef,
     targetPageLimit,
     setMeasuredPageCount,
-    [markdown, settings],
+    [markdown, settings, photoDataUrl, showPhoto],
     paperSpec.id
   );
 
@@ -244,7 +253,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
 
         {settings.topAccentLine && <div className={`absolute top-0 left-0 right-0 h-[4.5px] ${theme.topAccentColor}`} />}
         
-        {headerInfo.hasHeader && <ResumeHeader headerInfo={headerInfo} theme={theme} lang={settings.lang} layout={settings.headerLayout} />}
+        {headerInfo.hasHeader && <ResumeHeader headerInfo={headerInfo} theme={theme} lang={settings.lang} layout={settings.headerLayout} photoSrc={showPhoto ? photoDataUrl : undefined} />}
 
         {(() => {
           // 1. Two-Column Layout
@@ -340,7 +349,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
         })()}
       </>
     );
-  }, [headerInfo, cleaned, settings, markdownComponents, theme, uiLanguage]);
+  }, [headerInfo, cleaned, settings, markdownComponents, theme, uiLanguage, photoDataUrl, showPhoto]);
 
   const isEn = uiLanguage === 'en';
 

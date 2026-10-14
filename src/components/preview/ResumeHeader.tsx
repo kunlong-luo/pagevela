@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { parseBasicInfoMetadata, BasicInfoItem } from '../../lib/preview-utils';
 import type { ResumeHeaderLayout } from '../../types';
+import { isSafeResumePhotoDataUrl } from '../../lib/resume-photo';
 
 interface ResumeHeaderProps {
   headerInfo: {
@@ -17,6 +18,7 @@ interface ResumeHeaderProps {
   theme: any;
   lang?: 'zh' | 'en';
   layout?: ResumeHeaderLayout;
+  photoSrc?: string;
 }
 
 const GitHubIcon = ({ className }: { className?: string }) => (
@@ -51,7 +53,7 @@ function hostnameMatches(url: URL | null, domain: string): boolean {
   return hostname === normalizedDomain || hostname.endsWith(`.${normalizedDomain}`);
 }
 
-export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme, lang = 'zh', layout = 'split' }: ResumeHeaderProps) {
+export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme, lang = 'zh', layout = 'split', photoSrc }: ResumeHeaderProps) {
   const basicInfoItems = useMemo(() => {
     return parseBasicInfoMetadata(headerInfo.experience, lang);
   }, [headerInfo.experience, lang]);
@@ -77,14 +79,18 @@ export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme
     }
   };
 
+  const portrait = isSafeResumePhotoDataUrl(photoSrc) ? photoSrc : undefined;
+
   return (
-    <div className="border-b border-gray-200/80 pb-5 mb-5">
+    <div className="relative border-b border-gray-200/80 pb-5 mb-5">
       <div className={layout === 'centered'
         ? 'flex flex-col items-center gap-2 text-center'
         : layout === 'stacked'
           ? 'flex flex-col items-start gap-2'
           : 'flex flex-row items-start justify-between gap-5'}>
-        <div className={layout === 'split' ? 'flex-1 min-w-0 space-y-2' : 'w-full min-w-0 space-y-2'}>
+        <div className={layout === 'split'
+          ? 'flex-1 min-w-0 space-y-2'
+          : `w-full min-w-0 space-y-2 ${portrait ? 'pr-[30mm]' : ''}`}>
           {/* Candidate Name */}
           <h1 className="text-3xl font-black text-gray-900 tracking-tight">
             {headerInfo.name}
@@ -244,7 +250,23 @@ export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme
             })}
           </div>
         )}
+        {portrait && layout === 'split' && (
+          <img
+            src={portrait}
+            alt={lang === 'en' ? 'Resume portrait' : '简历证件照'}
+            className="h-[34mm] w-[25.5mm] shrink-0 rounded-[2px] border border-gray-200 bg-white object-cover"
+            decoding="sync"
+          />
+        )}
       </div>
+      {portrait && layout !== 'split' && (
+        <img
+          src={portrait}
+          alt={lang === 'en' ? 'Resume portrait' : '简历证件照'}
+          className="absolute right-0 top-0 h-[34mm] w-[25.5mm] rounded-[2px] border border-gray-200 bg-white object-cover"
+          decoding="sync"
+        />
+      )}
     </div>
   );
 });

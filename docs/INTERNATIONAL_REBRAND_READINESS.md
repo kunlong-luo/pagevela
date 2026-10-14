@@ -4,7 +4,7 @@
 >
 > Tracking: [International rebrand issue #202](https://github.com/kunlong-luo/resume-craft/issues/202).
 >
-> Audit snapshot: 2026-10-13, based on `main` at `7a718ea9`. Refresh this audit against current main before implementing the rename.
+> Original audit began 2026-10-13. The planning branch was synchronized with the **released v2.6.0 main** at `676fbe1f` on 2026-10-14; this does **not** imply current legal/domain clearance. Rerun user-visible brand-string and domain-migration audits immediately before executing any rename.
 
 ## 1. Business / product direction
 

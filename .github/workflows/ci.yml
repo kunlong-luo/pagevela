@@ -89,6 +89,15 @@ jobs:
       - name: Run full Chromium E2E suite
         run: pnpm exec playwright test --project=chromium
 
+      - name: Upload fictional A4 print proof for visual review
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: chinese-a4-print-proof
+          path: test-results/**/chinese-a4-print-proof.pdf
+          if-no-files-found: warn
+          retention-days: 7
+
   e2e-cross-browser:
     name: e2e-cross-browser
     needs: quality

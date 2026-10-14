@@ -1,4 +1,29 @@
-# Resume Craft v2.5.0
+# Resume Craft v2.6.0
+
+**Published:** 2026-10-14 · [GitHub Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0) · [Live Demo](https://kunlong-luo.github.io/resume-craft/)
+
+## Highlights / 本次更新
+
+- **Chinese-market portrait support / 国内简历证件照**: Optional local PNG, JPEG or WebP upload, 3:4 crop and JPEG downscaling. Displays the portrait in the top-right résumé header for supported Chinese-market layouts; international résumés remain photo-free by default.
+- **Complete portable workspace / 完整工作区备份**: Export and restore all resume profiles, drafts and job-description text as a versioned `.json` file, including photos associated with their original profiles. Restores require explicit confirmation and replace destination workspace data.
+- **Interrupted-save settings recovery / 刷新恢复**: Recover pending per-profile layout/market changes if a browser reload interrupts the IndexedDB autosave debounce. Recovery markers contain settings only, never resume text or portraits, and are cleared after matching successful writes.
+- **Regression coverage**: Chromium, Firefox/WebKit critical flows, cross-origin workspace transfer, multi-profile portrait isolation, PDF download smoke tests and restore/cancel behavior.
+
+## Important privacy and compatibility notes / 隐私与兼容说明
+
+- **No account or cloud migration.** All résumé content remains local to the browser. Moving to another browser, device or hostname requires the **manual** workspace JSON export/import flow.
+- The exported workspace file is **not encrypted** and can contain personal details, drafts, job descriptions and photos. Keep it private, and do not delete the original data until the import is verified.
+- Existing single-resume JSON backups remain supported independently of the new full-workspace format. The stable internal workspace file version is `resume-craft-workspace-v1`.
+- Existing GitHub Pages URL, product name, and legacy share-link formats remain unchanged. This release **does not change the public domain or brand**.
+- The **ATS PDF** print-to-PDF flow uses browser printing for selectable text. The **Quick PDF** direct-download option is rasterized; choose ATS PDF for online job systems.
+
+Read the bilingual [workspace transfer guide](./docs/WORKSPACE_TRANSFER.md) before migrating between browser origins.
+
+---
+
+## Previous Releases
+
+### Resume Craft v2.5.0
 
 ## Highlights
 
@@ -31,7 +56,7 @@ Release: https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0
 
 ---
 
-# Previous Releases
+#### Earlier history
 
 ### Resume Craft v2.4.1
 
