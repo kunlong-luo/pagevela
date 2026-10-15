@@ -1,10 +1,12 @@
 <p align="center">
-  <img src=".github/assets/readme-banner.svg" alt="Resume Craft — Markdown Resume Builder" width="100%" />
+  <img src=".github/assets/readme-banner.svg" alt="Pagevela — Markdown Resume Builder" width="100%" />
 </p>
 
-<h1 align="center">🚀 Resume Craft</h1>
+<h1 align="center">🚀 Pagevela</h1>
 
 <h3 align="center">Local-first Markdown Resume Builder</h3>
+
+> **Brand staging:** Pagevela is the chosen global brand. The current v2.6.0 live deployment and historical GitHub releases may still display their original identity until trademark review and the staged migration are complete.
 
 <p align="center">
   Build and tailor A4 or US Letter resumes with Markdown, structured forms, ATS checks, and direct PDF export.
@@ -25,7 +27,7 @@
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License" /></a>
 </p>
 
-> **Resume Craft** is for job seekers and developers who want to spend less time fighting Word layouts. It combines Markdown, structured forms, and a live A4 / US Letter preview in a local-first workflow that works without an account.
+> **Pagevela** is for job seekers and developers who want to spend less time fighting Word layouts. It combines Markdown, structured forms, and a live A4 / US Letter preview in a local-first workflow that works without an account.
 >
 > **Markdown ↔ Form · A4 / US Letter Preview · ATS Checks · Auto Fit · PDF Export · Local-first · PWA**
 >
@@ -46,13 +48,13 @@ See the published [v2.6.0 GitHub Release](https://github.com/kunlong-luo/resume-
 
 ---
 
-## 💡 Why Choose Resume Craft?
+## 💡 Why Choose Pagevela?
 
-When creating resumes, candidates frequently suffer from **Word layout nightmares**, **PDF export font corruptions**, **unwanted 1.1-page spills**, and **multi-device font distortion**. Resume Craft provides an end-to-end engineered solution:
+When creating resumes, candidates frequently suffer from **Word layout nightmares**, **PDF export font corruptions**, **unwanted 1.1-page spills**, and **multi-device font distortion**. Pagevela provides an end-to-end engineered solution:
 
 ```
 +-----------------------------------------------------------------------------------+
-|                                  RESUME CRAFT                                     |
+|                                  PAGEVELA                                     |
 |                                                                                   |
 |  [ Structured Form ] <=========( Real-Time AST Bi-Sync )=========> [ Markdown ]   |
 |          |                                                             |          |
@@ -83,7 +85,7 @@ When creating resumes, candidates frequently suffer from **Word layout nightmare
 * **Paper Boundary Indicators**: Preview and print support A4 and US Letter, with page boundaries matched to the current market and paper settings.
 
 ### 3. ✨ Local PDF / File / Raw Text Import
-* **Local PDF extraction**: Select a PDF with a text layer and PDF.js extracts the text entirely in the browser; the file is not uploaded to a Resume Craft server.
+* **Local PDF extraction**: Select a PDF with a text layer and PDF.js extracts the text entirely in the browser; the file is not uploaded to a Pagevela server.
 * **Machine-readability check**: Before import, the app summarizes text extraction quality plus detected email, phone, and common section headings as an ATS-readability proxy. It is not a guarantee or score from any specific ATS.
 * **Smart normalization**: Extracted PDF text, `.txt` files, and pasted raw text are locally converted into editable Markdown with contact, experience, and skills structure.
 * **Current limits**: Image-only/scanned PDFs are not OCR'd yet. Password-protected PDFs or files without a usable text layer are rejected with a fallback suggestion.
@@ -211,7 +213,7 @@ Open `http://localhost:3000` in your browser to start editing.
 
 ## 📈 PDF Download & Print Guide
 
-Resume Craft provides two export paths:
+Pagevela provides two export paths:
 
 1. **ATS PDF (default, recommended)**: click **ATS PDF** or press **Ctrl/Cmd + P**, then choose **Save as PDF** in the browser print flow. Where supported by the browser, this preserves searchable/selectable text and is the preferred path for job applications and ATS parsing.
 2. **Quick PDF (fallback)**: uses `html2canvas-pro + jsPDF` to rasterize the currently selected paper canvas into an image-based PDF. It is useful for fast downloads, visual sharing, or environments where browser printing is blocked, but it is not the preferred ATS submission format.
@@ -228,7 +230,7 @@ While editing, use the current A4 / US Letter paper boundaries and **1-Click Aut
 
 ## 🔐 Privacy & Security Boundaries
 
-Resume Craft is local-first, but local-first does not mean that every stored or shared value is cryptographically encrypted.
+Pagevela is local-first, but local-first does not mean that every stored or shared value is cryptographically encrypted.
 
 - Core resumes, profiles, drafts / automatic backups, and JD text are stored in this browser's IndexedDB; small UI preferences such as theme, language, and layout remain in `localStorage`.
 - The project does not provide an application backend for persisting resume content.
