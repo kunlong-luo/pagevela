@@ -39,7 +39,7 @@ test('clear local data is scoped and requires confirmation', async ({ page }) =>
   const dialog = await openHelp(page);
   await dialog.getByRole('button', { name: 'Privacy' }).click();
   await dialog.getByRole('button', { name: 'Clear local data…' }).click();
-  await expect(dialog.getByText('Delete all local Resume Craft data?')).toBeVisible();
+  await expect(dialog.getByText('Delete all local Pagevela data?')).toBeVisible();
   await Promise.all([
     page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
     dialog.getByRole('button', { name: 'Delete permanently' }).click(),

@@ -1,6 +1,8 @@
-# Transfer all resumes to a new browser or website
+# Pagevela — transfer all resumes to a new browser or website
 
-> This guide covers **Complete Workspace** backups available in Resume Craft v2.6.0. The public brand and GitHub Pages domain have **not changed**. The workflow can also transfer between browsers or devices; it does not move data automatically.
+> **Brand staging notice:** Pagevela is the selected worldwide product name. The original production website and GitHub Pages domain **have not changed**; a Pagevela destination site has **not been deployed**. This guide documents **Complete Workspace** backups introduced in the project's historical v2.6.0 release. It describes the future user-initiated transfer workflow, not an automatic migration or an instruction to leave the current production site.
+
+简体中文提示：**Pagevela** 是未来统一展示的产品名称，目前尚无新站点可以导入。请保留旧网站的数据与原始备份，勿因看到本指南就清除浏览器数据。
 
 Your resume content is stored primarily in browser-local IndexedDB. Browsers do **not** automatically copy this data to a different website origin (domain, scheme or port), browser profile or device.
 

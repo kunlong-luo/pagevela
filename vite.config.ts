@@ -21,8 +21,8 @@ export default defineConfig(() => {
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.svg'],
         devOptions: { enabled: false },
         manifest: {
-          name: 'Resume Craft - Markdown Resume Builder',
-          short_name: 'Resume Craft',
+          name: 'Pagevela - Markdown Resume Builder',
+          short_name: 'Pagevela',
           description: 'A local-first Markdown resume builder with A4 / US Letter preview, multi-market workflows, ATS checks, and PDF export.',
           theme_color: '#4F46E5',
           background_color: '#070a13',

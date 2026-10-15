@@ -153,7 +153,7 @@ export const storage = {
   },
 
   /**
-   * Clear only Resume Craft-owned local data. Never call localStorage.clear(),
+   * Clear only app-owned local data. Never call localStorage.clear(),
    * because another app may share the same origin during development/self-hosting.
    */
   clearAllResumeData(): boolean {

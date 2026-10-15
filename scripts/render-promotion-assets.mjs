@@ -1,6 +1,9 @@
 /**
  * Produce pixel-perfect, editable-in-code promotional layouts around actual
  * Playwright screenshots. We never synthesize, alter or fabricate UI contents.
+ * Pagevela is staged; the existing origin and resume-craft-* artifact filenames
+ * stay intact for workflow and URL compatibility. Do not publish new branded
+ * promotional assets until the launch gates are explicitly approved.
  */
 import { createCanvas, loadImage } from '@napi-rs/canvas';
 import { readFile, writeFile } from 'node:fs/promises';
@@ -45,8 +48,8 @@ function background(x, w, h) {
 }
 function brand(x, left, top, darkText = true) {
   roundRect(x, left, top, 42, 42, 13, indigo);
-  text(x, 'RC', left + 9, top + 28, 16, '#FFFFFF', 800);
-  text(x, 'RESUME CRAFT', left + 56, top + 27, 20, darkText ? dark : '#FFFFFF', 800);
+  text(x, 'P', left + 14, top + 28, 17, '#FFFFFF', 800);
+  text(x, 'Pagevela', left + 56, top + 27, 20, darkText ? dark : '#FFFFFF', 800);
 }
 function screenshotFrame(x, left, top, w, h) {
   x.save();
