@@ -1,6 +1,22 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('landing-to-editor navigation', () => {
+  test('first paint shows the welcome layout at root and editor layout for direct links', async ({ page }) => {
+    // Keep the server-rendered skeleton visible by preventing React hydration.
+    await page.route('**/src/main.tsx*', (route) => route.abort());
+
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('data-startup-route', 'landing');
+    await expect(page.locator('.startup-welcome')).toBeVisible();
+    await expect(page.locator('.startup-welcome-heading')).toHaveText('Pagevela');
+    await expect(page.locator('.startup-workspace')).toBeHidden();
+
+    await page.goto('/?page=editor');
+    await expect(page.locator('html')).toHaveAttribute('data-startup-route', 'editor');
+    await expect(page.locator('.startup-welcome')).toBeHidden();
+    await expect(page.locator('.startup-workspace')).toBeVisible();
+  });
+
   test('opens the marketing page at root and returns from editor through browser history', async ({ page }) => {
     await page.addInitScript(() => {
       window.localStorage.setItem('resume-onboarding-v1-complete', '1');
