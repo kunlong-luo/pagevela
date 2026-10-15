@@ -23,7 +23,8 @@ Do not treat an exact search yielding zero results as authorization to use or re
 - [ ] Review relevant Nice classes **9 and 42**, and evaluate whether **35, 41 and other adjacent categories** are relevant to actual planned services; classes alone do not decide confusion.
 - [ ] Inspect EUIPO, UKIPO, Canada (CIPO) and China (CNIPA) depending on actual launch/registration plan, including unregistered commercial use.
 - [ ] Inspect software/career products, app marketplaces, Product Hunt and social handles. Do not assume handle ownership from a search result.
-- [ ] Confirm English naming, capitalization, pronunciation and Chinese-market localization without continuing the legacy Chinese brand; get explicit owner sign-off.
+- [x] The owner approved the worldwide product name and capitalization **Pagevela** for both languages (2026-10-15); no separate Chinese brand.
+- [ ] Validate pronunciation, cultural associations and localized copy before launch.
 - [ ] **Only with separate owner authorization** purchase a domain following fresh price and rights review. Naming approval alone does not authorize a purchase. No automatic DNS, redirect or existing GitHub Pages custom-domain modification.
 
 ## Separate HTTPS-origin rehearsal — remaining matrix
