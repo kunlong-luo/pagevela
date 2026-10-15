@@ -25,6 +25,9 @@ describe('Pagevela global brand staging', () => {
       'src/components/landing/LandingNavbar.tsx',
       'src/components/landing/LandingFooter.tsx',
       'src/components/landing/LandingFeatures.tsx',
+      'src/components/landing/LandingPrivacy.tsx',
+      'src/components/landing/showcaseData.ts',
+      'src/components/EditorWorkspace.tsx',
       'vite.config.ts',
       'README.md',
       'README.zh-CN.md',
@@ -39,6 +42,8 @@ describe('Pagevela global brand staging', () => {
     expect(source('index.html')).toContain('property="og:site_name" content="Pagevela"');
     expect(source('index.html')).toContain('name="apple-mobile-web-app-title" content="Pagevela"');
     expect(source('vite.config.ts')).toContain("short_name: 'Pagevela'");
+    expect(source('src/components/landing/LandingNavbar.tsx')).toContain('{PRODUCT_NAME}');
+    expect(source('src/components/landing/LandingFooter.tsx')).toContain('{PRODUCT_NAME}');
   });
 
   it('retains the real production origin until separate migration approval', () => {
