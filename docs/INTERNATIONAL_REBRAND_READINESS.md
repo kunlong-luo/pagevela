@@ -1,6 +1,6 @@
 # International rebrand readiness (working document)
 
-> Status: **preparation only, not a production rebrand**. No new brand or domain is approved. The working direction is to introduce a distinctive new international English name while retiring the legacy Chinese-facing product name from all future public branding. Pagevela is the leading candidate for a single international identity, but is not yet approved. Do not substitute candidate names into user-facing pages yet.
+> Status: **preparation only; no production rebrand**. The owner **approved Pagevela as the single global product name on 2026-10-15** for both English and Chinese UI, with the same spelling. The old Chinese-facing product name is to be retired from future public branding. **Trademark/legal clearance, domain purchase and public rollout are NOT approved.** Do not change user-facing live pages, DNS, or GitHub Pages settings based on this naming decision.
 >
 > Tracking: [International rebrand issue #202](https://github.com/kunlong-luo/resume-craft/issues/202).
 >
@@ -8,7 +8,9 @@
 
 ## Naming decision update — 2026-10-15
 
-The owner has **rejected continued use of the legacy Chinese brand**. The previously proposed dual-brand strategy is superseded. Plan one approved new brand for international and Chinese-language experiences, with localized copy rather than a second brand name. **Pagevela remains a preferred candidate, not an approved trademark or live product rename.** Legacy domain, URLs, storage, encrypted-share AAD and backward compatibility must be preserved for existing users until a safe migration is tested; preserving technical constants does not mean using the old name in new UI or marketing.
+The owner has **rejected continued use of the legacy Chinese brand**. The previously proposed dual-brand strategy is superseded. Plan one approved new brand for international and Chinese-language experiences, with localized copy rather than a second brand name. **Pagevela is the owner's approved global naming choice, but it is not a legally cleared trademark or an approved live deployment.** Legacy domain, URLs, storage, encrypted-share AAD and backward compatibility must be preserved for existing users until a safe migration is tested; preserving technical constants does not mean using the old name in new UI or marketing.
+
+Canonical implementation checklist: [Pagevela brand implementation contract](./PAGEVELA_BRAND_IMPLEMENTATION_CONTRACT.md). Earlier dated tables in this document record historical research states, not the current name decision.
 
 ## 1. Business / product direction
 
@@ -78,7 +80,7 @@ This is a change to the **migration plan**, not a request to modify DNS or Pages
 ### Recommended decision sequence
 
 1. **Completed:** released **v2.6.0** on the existing GitHub Pages URL with portable workspace backups, Chinese photo support and recovery tests. The brand and domain were deliberately not changed.
-2. Select one internationally pronounceable name and only approve it after official mark/domain/handle checks, including neighboring spellings.
+2. **Completed (name choice only):** Owner selected **Pagevela** as the single worldwide product name on 2026-10-15; official near-mark/domain/handle clearance is still pending and blocks launch.
 3. Acquire the domain after explicit approval, enable a **second** production site, and rehearse import with non-sensitive test data.
 4. Integrate coherent bilingual brand assets/SEO for the international site, while retiring the legacy Chinese-facing name and retaining the old site's browser-data exporter.
 5. Only then announce a gradual international launch. November 2026 is a **target**, not a guaranteed completion date.
@@ -95,7 +97,7 @@ This is a change to the **migration plan**, not a request to modify DNS or Pages
 
 Sources/tools to use in the final hands-on clearance: [USPTO Trademark Search](https://www.uspto.gov/trademarks/search) including phonetic/look-alike variants; [WIPO Global Brand Database](https://www.wipo.int/en/web/global-brand-database); [ICANN Lookup](https://lookup.icann.org/en) (RDAP); chosen registrar's **live** checkout availability and renewals; regional official registers; app marketplaces and relevant social usernames.
 
-**Decision status**: Pagevela remains the **working creative preference**, not a cleared brand, domain or public wordmark. Do not make a GitHub repo or register domain on behalf of the project based on this document alone.
+**Decision status at the earlier research snapshot (superseded 2026-10-15)**: Pagevela was then a **working creative preference**, not a cleared brand, domain or public wordmark. Do not make a GitHub repo or register domain on behalf of the project based on this document alone.
 
 ### Two-site deployment safety: new observation
 
@@ -108,7 +110,8 @@ Launch design therefore keeps `https://kunlong-luo.github.io/resume-craft/` as a
 - [ ] Record trademark searches for each candidate, near-spelling and phonetic variants, in actual jurisdictions and relevant classes, with dates and official evidence links.
 - [ ] Confirm exact `.com` registration/availability at **registry RDAP and registrar checkout** (include annual renewal and brand impersonation risks), then check practical alternatives.
 - [ ] Search conflicting software, education, career-tool, app-store and social names; inspect handles, not only GitHub repositories.
-- [ ] Owner explicitly approves one international English name, written capitalization, single-name Chinese/English localization plan, and purchased domain.
+- [x] Owner approves the unified English/Chinese product name **Pagevela** and capitalization (2026-10-15).
+- [ ] Domain purchase, registration and hosting configuration receive separate explicit approval.
 - [ ] Keep old origin functioning; validate migration from old HTTPS origin into a separate production-like new HTTPS origin, including legacy encrypted share links and installed PWA.
 - [ ] Only **after** all above, create coherent international logo/SEO/canonical/PWA naming PR, stage side by side, and announce gradually.
 
@@ -138,9 +141,9 @@ During a public, unauthenticated **read-only** search through each site’s own 
 | [TMview](https://www.tmdn.org/tmview/) (EUIPO-coordinated public aggregation) | Public name query `PAGEVELA` | **No rows found** | TMview expressly states that it **does not constitute an official register and its data have no legal effect**. Independently search applicable EU/UK/national registers. |
 | Verisign `.com` RDAP | `pagevela.com` | **HTTP 404** again on 2026-10-15 | Registry did not return a domain object; **registrar checkout availability and price remain UNVERIFIED**. The fact that the domain is apparently unregistered does not grant trademark rights. |
 
-**Current candidate decision:** Pagevela remains a **working creative preference only**, now with useful **negative exact-wordmark search evidence** in three public trademark interfaces. It is **not approved for public use as a new brand** and is not guaranteed registerable or free of third-party rights. Do not confuse search result counts with a definitive legal analysis, and do not disclose fabricated clearance claims in marketing.
+**Historical 2026-10-15 search assessment (before owner's naming approval):** Pagevela was then a **working creative preference**, with useful **negative exact-wordmark search evidence** in three public trademark interfaces. It is **not approved for public use as a new brand** and is not guaranteed registerable or free of third-party rights. Do not confuse search result counts with a definitive legal analysis, and do not disclose fabricated clearance claims in marketing.
 
-**Outstanding sign-off before implementation:** dated near-name/phonetic queries and goods/service assessment (notably classes 9 and 42 and adjacent categories), WIPO and national registers beyond the one general search, real names in app stores and social networks, domain purchase checkout+renewal, owner approval and actual two-HTTPS-origin migration rehearsal. Save a contemporaneous official screenshot/export of any future clearance search for evidence. The new brand’s launch remains **blocked** until these are completed.
+**Outstanding sign-off before implementation:** dated near-name/phonetic queries and goods/service assessment (notably classes 9 and 42 and adjacent categories), WIPO and national registers beyond the one general search, real names in app stores and social networks, domain purchase checkout+renewal, separate deployment authorization and actual two-HTTPS-origin migration rehearsal. Save a contemporaneous official screenshot/export of any future clearance search for evidence. The new brand’s launch remains **blocked** until these are completed.
 
 ## 2.5 Live registrar result — 2026-10-15 (no checkout or purchase)
 
@@ -154,7 +157,7 @@ A **read-only live Namecheap search** for the exact [`pagevela.com`](https://www
 
 **No checkout, reservation, account, payment, DNS change or domain purchase occurred**; the cart subtotal remained $0.00 during the research session. This is stronger evidence than a registry RDAP 404, but it does not reserve the name and is not a guarantee the name can be registered later.
 
-**Outstanding before buying:** similarity/phonetic and market-use trademark clearance in target countries, final owner approval of Pagevela versus alternatives, then a fresh registrar/checkout check for total price, renewal terms, taxes and registrant conditions. **Do not change public branding now**. (Section 2.4 reflects evidence available before this registrar search; its older unverified-domain wording is superseded by this time-limited availability observation, not by a completed order.)
+**Outstanding before buying:** similarity/phonetic and market-use trademark clearance in target countries, owner's selected Pagevela name (already recorded), then a fresh registrar/checkout check for total price, renewal terms, taxes and registrant conditions. **Do not change public branding now**. (Section 2.4 reflects evidence available before this registrar search; its older unverified-domain wording is superseded by this time-limited availability observation, not by a completed order.)
 
 ## 3. Audit map of user-visible brand strings
 
@@ -217,7 +220,7 @@ A staged plan:
 ## 5. Work sequencing — reconciled against production v2.6.0
 
 1. **Already shipped on existing origin:** optional Chinese-market portraits, full-workspace export/import, cancel/overwrite consent, and interrupted-autosave recovery through merged [PR #207](https://github.com/kunlong-luo/resume-craft/pull/207) and [v2.6.0](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0). Standalone drafts #201/#204/#205 were superseded and closed; do not merge them again. Existing local-origin isolation tests in `e2e/portable-workspace.e2e.ts` use `localhost` and `127.0.0.1` and **are not live HTTPS migration tests**.
-2. **Pending legal/commercial clearance:** Check exact and confusingly similar marks (USPTO, WIPO and target regions), social/service names, and registrar cart availability/renewal for the shortlisted names. No candidate is approved or domain acquired. The **2026-10-15 Verisign RDAP recheck** still returned 404 for `pagevela.com` and `cverilo.com` and 200 for the registered `folivanta.com`; 404 does not mean guaranteed sale.
+2. **Pending legal/commercial clearance:** Check exact and confusingly similar marks (USPTO, WIPO and target regions), social/service names, and registrar cart availability/renewal for **Pagevela**. The owner has approved the *name choice* but no trademark clearance or domain acquisition has occurred. The **2026-10-15 Verisign RDAP recheck** still returned 404 for `pagevela.com` and `cverilo.com` and 200 for the registered `folivanta.com`; 404 does not mean guaranteed sale.
 3. **Pending independent new hosting:** After domain/name approval, deploy a separate HTTPS site. Keep the old GitHub Pages editor/exporter at `https://kunlong-luo.github.io/resume-craft/` fully accessible without redirecting visitors. Do not change its custom-domain setting, service-worker scope or local data keys during initial parallel operation.
 4. **Pending live migration rehearsal:** Run the *opt-in* Playwright test described below against the old and new real HTTPS URLs, plus manually inspect a long multi-page résumé, printed PDF, mobile layout, legacy encrypted share URLs and an **already-installed** PWA. Record screenshots and any exceptions using fictional data only. Test at least Chromium/Firefox/WebKit; the single opt-in test is designed to run in each project.
 5. **Pending branded release:** Once approved, centralize display names and artwork, update public metadata/SEO, manifest and screenshots **for the new origin only**, and verify current/legacy links. Publish clear export/import help and operate both sites in parallel before announcing a new canonical identity.
