@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { PRODUCT_NAME } from '../lib/brand';
 import { SEO_COPY } from '../lib/seo';
+import { en } from '../i18n/locales/en';
+import { zh } from '../i18n/locales/zh';
 
 // Staging guardrails: cosmetic rebranding must never silently modify storage,
 // encrypted share protocol constants, or the legacy production origin.
@@ -14,6 +16,10 @@ describe('Pagevela global brand staging', () => {
     expect(PRODUCT_NAME).toBe('Pagevela');
     expect(SEO_COPY.en.title).toContain(PRODUCT_NAME);
     expect(SEO_COPY.zh.title).toContain(PRODUCT_NAME);
+    expect(en.header.title).toBe(PRODUCT_NAME);
+    expect(zh.header.title).toBe(PRODUCT_NAME);
+    expect(en.errors.reset).toContain(PRODUCT_NAME);
+    expect(zh.errors.reset).toContain(PRODUCT_NAME);
     expect(SEO_COPY.en.title).not.toMatch(/Resume Craft|简匠/);
     expect(SEO_COPY.zh.title).not.toMatch(/Resume Craft|简匠/);
   });
@@ -25,6 +31,12 @@ describe('Pagevela global brand staging', () => {
       'src/components/landing/LandingNavbar.tsx',
       'src/components/landing/LandingFooter.tsx',
       'src/components/landing/LandingFeatures.tsx',
+      'src/components/layout/HelpLegalModal.tsx',
+      'src/components/modals/SupportProjectModal.tsx',
+      'src/components/modals/RawTextImportModal.tsx',
+      'src/data.ts',
+      'src/i18n/locales/en.ts',
+      'src/i18n/locales/zh.ts',
       'src/components/landing/LandingPrivacy.tsx',
       'src/components/landing/showcaseData.ts',
       'src/components/EditorWorkspace.tsx',
