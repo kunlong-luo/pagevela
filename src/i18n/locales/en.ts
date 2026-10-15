@@ -18,7 +18,7 @@ export const en: TranslationSchema = {
     clear: 'Clear',
   },
   header: {
-    title: 'Resume Craft',
+    title: 'Pagevela',
     subtitle: 'Open-source resume builder',
     aiChecker: 'Resume Check',
     rawImporter: 'Import Resume',
@@ -191,7 +191,7 @@ export const en: TranslationSchema = {
     backupCopy: 'Copy Resume Text Backup',
     backupCopied: 'Resume Text Backup Copied',
     reload: 'Reload and Retry',
-    reset: 'Reset Resume Craft Local Data',
-    confirmReset: 'Clear Resume Craft local resume data and reset the app? Back up your resume text first.',
+    reset: 'Reset Pagevela Local Data',
+    confirmReset: 'Clear Pagevela local resume data and reset the app? Back up your resume text first.',
   }
 };
