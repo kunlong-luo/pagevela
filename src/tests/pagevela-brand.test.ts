@@ -65,7 +65,10 @@ describe('Pagevela global brand staging', () => {
     expect(source('metadata.json')).toContain('"name": "Pagevela"');
     expect(source('README.md')).not.toContain('PAGEVELA');
     expect(source('README.zh-CN.md')).not.toContain('PAGEVELA');
-    expect(source('docs/PROMOTION_MEDIA.md')).toContain('feat/pagevela-brand-staging-20261015');
+    expect(source('docs/PROMOTION_MEDIA.md')).toContain('Use workflow from');
+    expect(source('docs/PROMOTION_MEDIA.md')).toContain('select \`main\`');
+    expect(source('docs/PAGEVELA_STAGING.md')).toContain('Live on the existing origin');
+    expect(source('docs/WORKSPACE_TRANSFER.md')).toContain('No separate new-domain Pagevela site exists yet');
     expect(source('.github/workflows/capture-promotion-media.yml')).toContain('workflow_dispatch:');
     expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'Pagevela'");
     expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'P', left + 14");
