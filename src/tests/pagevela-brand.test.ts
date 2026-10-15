@@ -62,7 +62,7 @@ describe('Pagevela global brand staging', () => {
     expect(source('index.html')).toContain('name="apple-mobile-web-app-title" content="Pagevela"');
     expect(source('vite.config.ts')).toContain("short_name: 'Pagevela'");
     expect(source('metadata.json')).toContain('"name": "Pagevela"');
-    expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'PAGEVELA'");
+    expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'Pagevela'");
     expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'P', left + 14");
     expect(source('src/components/landing/LandingNavbar.tsx')).toContain('{PRODUCT_NAME}');
     expect(source('src/components/landing/LandingFooter.tsx')).toContain('{PRODUCT_NAME}');
