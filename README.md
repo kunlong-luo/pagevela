@@ -54,7 +54,7 @@ When creating resumes, candidates frequently suffer from **Word layout nightmare
 
 ```
 +-----------------------------------------------------------------------------------+
-|                                  PAGEVELA                                     |
+|                                   Pagevela                                    |
 |                                                                                   |
 |  [ Structured Form ] <=========( Real-Time AST Bi-Sync )=========> [ Markdown ]   |
 |          |                                                             |          |
