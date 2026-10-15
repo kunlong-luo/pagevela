@@ -1,6 +1,8 @@
-# Resume Craft — real promotional media capture
+# Pagevela — real promotional media capture
 
-This is a repeatable Playwright browser capture of the **real Resume Craft UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
+This is a repeatable Playwright browser capture of the **real application UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
+
+**Brand-staging warning (2026-10-15):** Pagevela-branded screenshots or footage must be captured from a build of the Pagevela staging branch, not attributed to the original production v2.6.0 website. No new Pagevela HTTPS site is live yet. Existing artifact filenames retain historical `resume-craft-*` identifiers for workflow compatibility; these filenames are **not public brand names**. Review the actual rendered words before publishing any social content.
 
 ## Downloadable files
 
