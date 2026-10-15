@@ -1,6 +1,6 @@
 # Pagevela — English documentation
 
-Pagevela is the approved global product name; the deployed v2.6.0 site may still show the legacy name while migration validation is pending.
+The existing GitHub Pages website now displays Pagevela following [PR #210](https://github.com/kunlong-luo/resume-craft/pull/210). Historical v2.6.0 release artifacts and the repository slug retain their original identifiers. Trademark clearance and any move to a separate domain are still pending.
 
 The English documentation is now the default [README.md](./README.md).
 
