@@ -229,7 +229,7 @@ describe('resume store state consistency', () => {
     expect(state.settings.marketRegion).toBe('cn');
     expect(state.settings.paperSize).toBe('a4');
     expect(state.settings.dateStyle).toBe('cn-dot');
-    expect(state.markdown).toContain('Resume Craft 中文通用 Demo');
+    expect(state.markdown).toContain('Pagevela 中文通用 Demo');
     expect(state.profiles[0].templateId).toBe('cn_demo');
     expect(state.profiles[0].settings.lang).toBe('zh');
     expect(state.profiles[0].settings.marketRegion).toBe('cn');
