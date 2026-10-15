@@ -1,6 +1,8 @@
-# Releasing Resume Craft
+# Releasing Pagevela
 
-Resume Craft publishes stable releases only. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
+Pagevela publishes stable releases only.
+
+> **Brand staging:** This guide documents future releases; the current production version and its historical notes retain their original release identity. PR #210 must remain unmerged until trademark, new-host migration and launch gates are approved. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
 
 ## Versioning
 
