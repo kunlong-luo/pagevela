@@ -1,6 +1,6 @@
 # Code of Conduct
 
-Resume Craft aims to be a welcoming, constructive open-source community.
+Pagevela aims to be a welcoming, constructive open-source community.
 
 ## Expected behavior
 
@@ -31,4 +31,4 @@ Maintainers may edit or remove comments, close or lock conversations, reject con
 
 ## Scope
 
-This code applies in the repository and in other project spaces when someone is representing Resume Craft.
+This code applies in the repository and in other project spaces when someone is representing Pagevela.

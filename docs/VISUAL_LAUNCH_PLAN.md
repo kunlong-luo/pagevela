@@ -1,5 +1,7 @@
-# Resume Craft — visual launch and first-run activation plan
+# Pagevela — visual launch and first-run activation plan
 
+> **Brand migration context (2026-10-15):** Pagevela is the globally approved product-name choice. Existing task checkmarks below document previous work; they do **not** mean a Pagevela production website, logo, new domain or migration test has been approved.
+>
 > Goal: improve the first impression and first-edit activation **without** blocking the existing editor or making unverified conversion claims.
 
 ## Stage 1 — reusable launch assets (this PR)

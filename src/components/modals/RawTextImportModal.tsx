@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { PRODUCT_NAME } from '../../lib/brand';
 import { createPortal } from 'react-dom';
 import { AlertTriangle, ArrowRight, Check, Clipboard, FileCode2, FileInput, FileText, Loader2, ScanText, ShieldCheck, Trash2, Upload, Wand2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -170,8 +171,8 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
             setSelectedFile(null);
             setFileError(
               isEn
-                ? 'This Resume Craft backup is invalid or unsupported.'
-                : '此 Resume Craft 备份无效、已损坏或版本不受支持。',
+                ? `This ${PRODUCT_NAME} backup is invalid or unsupported.`
+                : `此 ${PRODUCT_NAME} 备份无效、已损坏或版本不受支持。`,
             );
             return;
           }
@@ -725,7 +726,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
                   <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
                   <div>
                     <span className="block text-xs font-bold text-emerald-800 dark:text-emerald-200">
-                      {isEn ? 'Full Resume Craft backup detected' : '已识别 Resume Craft 完整备份'}
+                      {isEn ? `Full ${PRODUCT_NAME} backup detected` : `已识别 ${PRODUCT_NAME} 完整备份`}
                     </span>
                     <span className="mt-0.5 block text-[10px] leading-relaxed text-emerald-700/80 dark:text-emerald-300/80">
                       {isEn

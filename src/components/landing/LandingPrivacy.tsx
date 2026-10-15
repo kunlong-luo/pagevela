@@ -1,4 +1,5 @@
 import React from 'react';
+import { PRODUCT_NAME } from '../../lib/brand';
 import { ShieldCheck, Check, X } from 'lucide-react';
 import { PRIVACY_COMPARISONS } from './showcaseData';
 
@@ -42,10 +43,10 @@ export function LandingPrivacy({ isEn }: LandingPrivacyProps) {
             </ul>
           </div>
 
-          {/* Resume Craft Local-First */}
+          {/* Pagevela Local-First */}
           <div className="p-6 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800">
             <div className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-3">
-              {isEn ? 'Resume Craft (Local-First Design)' : 'Resume Craft 简匠架构'}
+              {isEn ? `${PRODUCT_NAME} (Local-First Design)` : `${PRODUCT_NAME} 本地优先架构`}
             </div>
             <ul className="space-y-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
               {PRIVACY_COMPARISONS.map((item, idx) => (

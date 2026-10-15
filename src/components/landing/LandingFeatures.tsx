@@ -1,4 +1,5 @@
 import React from 'react';
+import { PRODUCT_NAME } from '../../lib/brand';
 import {
   FileText,
   Minimize2,
@@ -31,7 +32,7 @@ export function LandingFeatures({ isEn }: LandingFeaturesProps) {
             {isEn ? 'Designed for Clarity' : '专为求职者量身打造'}
           </span>
           <h2 className="mt-2 text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-            {isEn ? 'Six Core Pillars of Resume Craft' : '六大核心特色，告别排版焦虑'}
+            {isEn ? `Six Core Pillars of ${PRODUCT_NAME}` : '六大核心特色，告别排版焦虑'}
           </h2>
           <p className="mt-2.5 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
             {isEn

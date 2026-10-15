@@ -1,6 +1,8 @@
-# Resume Craft — real promotional media capture
+# Pagevela — real promotional media capture
 
-This is a repeatable Playwright browser capture of the **real Resume Craft UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
+This is a repeatable Playwright browser capture of the **real application UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
+
+**Brand-staging warning (2026-10-15):** Pagevela-branded screenshots or footage must be captured from a build of the Pagevela staging branch, not attributed to the original production v2.6.0 website. No new Pagevela HTTPS site is live yet. Existing artifact filenames retain historical `resume-craft-*` identifiers for workflow compatibility; these filenames are **not public brand names**. Review the actual rendered words before publishing any social content.
 
 ## Downloadable files
 
@@ -19,10 +21,21 @@ The GitHub Actions workflow **Capture Real Promotion Media** uploads a `resume-c
 
 ## Regenerate
 
-1. Open **Actions → Capture Real Promotion Media → Run workflow** after this workflow is on `main`, or push the feature branch configured in the workflow.
-2. Wait for capture, then open the run summary.
-3. Under **Artifacts**, download `resume-craft-promotion-media`.
-4. Review the generated PNGs and MP4 **before** posting: cropping, fonts, clear sample data, export menu visibility, and accurate UX after code changes.
+1. In GitHub, open **Actions → Capture Real Promotion Media → Run workflow**. In the **Use workflow from** branch selector choose `feat/pagevela-brand-staging-20261015`, **not** `main`. This is an opt-in review run; it must not deploy or publish anything. The current workflow's automatic push trigger targets only `feat/promotion-media-v2`; commits to the Pagevela branch do **not** launch promotional capture automatically.
+2. After the selected-branch run finishes successfully, open that run's summary. Verify that the checked-out branch/commit is the intended Pagevela PR head, not the old deployed version.
+3. Download the `resume-craft-promotion-media` ZIP from **Artifacts**. The `resume-craft-*` ZIP/PNG/MP4 names are compatibility filenames, **not** visible branding and not a reason to rename them.
+4. Inspect the actual PNG/MP4 output against the checklist below. Keep all generated assets **private and unpublished** until separately approved for release; CI passing is not visual approval.
+
+### Manual visual acceptance — NOT YET COMPLETED
+
+- [ ] Browser screenshot shows **Pagevela** (same capitalization) in English and Chinese UI; no former public wordmark, old initials, cut-off text, or invented UI.
+- [ ] Social cover, landscape thumbnail (1280×720), gallery (1200×900), portrait tile (1080×1350), video intro/outro and MP4 overlay show **Pagevela / P** and readable text without clipping or font fallback artifacts.
+- [ ] The screenshot depicts an actual local Chromium browser session with only fictional sample content; no real names, contact details, upload payloads or private URLs are present.
+- [ ] Claims match tested features: the video may show the **export menu**, but that alone does not prove a PDF was successfully saved or accepted by an ATS.
+- [ ] Any displayed `kunlong-luo.github.io/resume-craft` address is explicitly understood as the **current working old-origin URL**; no new Pagevela hostname is claimed, linked or silently redirected.
+- [ ] The final logo/visual identity and commercial-use clearance are independently approved before public posting. Until then, these are **staging review artifacts**.
+
+**Evidence status (2026-10-15):** This document provides instructions and acceptance criteria only. No Pagevela-branch promotional capture, image inspection, publication or new-domain deployment is asserted here.
 
 The workflow runs a temporary local Vite server inside GitHub Actions. It does not save or read personal resumes and does not contact the public analytics origin.
 
