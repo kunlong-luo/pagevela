@@ -1,8 +1,8 @@
 # Pagevela — transfer all resumes to a new browser or website
 
-> **Brand staging notice:** Pagevela is the selected worldwide product name. The original production website and GitHub Pages domain **have not changed**; a Pagevela destination site has **not been deployed**. This guide documents **Complete Workspace** backups introduced in the project's historical v2.6.0 release. It describes the future user-initiated transfer workflow, not an automatic migration or an instruction to leave the current production site.
+> **Brand status (2026-10-15):** The existing GitHub Pages site now displays **Pagevela**, but its original hostname and browser storage origin are unchanged. **No separate new-domain Pagevela site exists yet.** This guide covers **Complete Workspace** backups introduced in historical v2.6.0 and explains any **future user-initiated** cross-origin transfer—not an automatic migration or something users need to do for this branding update.
 
-简体中文提示：**Pagevela** 是未来统一展示的产品名称，目前尚无新站点可以导入。请保留旧网站的数据与原始备份，勿因看到本指南就清除浏览器数据。
+简体中文提示：现有 GitHub Pages 网站已经显示 **Pagevela**，但网站域名及浏览器本地数据的归属地址均未改变。**目前没有需要迁移的独立新站点**。请保留现有简历及备份，不要因为品牌更新而清除浏览器数据。
 
 Your resume content is stored primarily in browser-local IndexedDB. Browsers do **not** automatically copy this data to a different website origin (domain, scheme or port), browser profile or device.
 
