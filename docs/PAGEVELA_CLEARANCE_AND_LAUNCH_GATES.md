@@ -1,6 +1,8 @@
 # Pagevela clearance and launch gates — 2026-10-15
 
-> **Candidate only; NOT approved.** This record supplements [INTERNATIONAL_REBRAND_READINESS.md](./INTERNATIONAL_REBRAND_READINESS.md) and issue #202. The owner explicitly rejected continued use of the legacy Chinese brand on 2026-10-15. Retire it in the eventual approved rollout; do not treat this as legal approval of Pagevela. Do not change production name, DNS, canonical URLs, manifest names, local storage keys, or the original GitHub Pages origin based on this record.
+> **Owner-approved name selection (2026-10-15), NOT trademark-cleared or approved for public launch.** This record supplements [INTERNATIONAL_REBRAND_READINESS.md](./INTERNATIONAL_REBRAND_READINESS.md) and issue #202. The owner explicitly rejected continued use of the legacy Chinese brand on 2026-10-15. Retire it in the eventual approved rollout. The owner now selected **Pagevela** as the single English/Chinese name; this is not legal clearance or consent to purchase a domain. Do not change production name, DNS, canonical URLs, manifest names, local storage keys, or the original GitHub Pages origin based on this record.
+
+Implementation decisions: [Pagevela brand implementation contract](./PAGEVELA_BRAND_IMPLEMENTATION_CONTRACT.md).
 
 ## Evidence and limits
 
@@ -22,7 +24,7 @@ Do not treat an exact search yielding zero results as authorization to use or re
 - [ ] Inspect EUIPO, UKIPO, Canada (CIPO) and China (CNIPA) depending on actual launch/registration plan, including unregistered commercial use.
 - [ ] Inspect software/career products, app marketplaces, Product Hunt and social handles. Do not assume handle ownership from a search result.
 - [ ] Confirm English naming, capitalization, pronunciation and Chinese-market localization without continuing the legacy Chinese brand; get explicit owner sign-off.
-- [ ] **Only with owner authorization** purchase a domain following fresh price and rights review. No automatic DNS, redirect or existing GitHub Pages custom-domain modification.
+- [ ] **Only with separate owner authorization** purchase a domain following fresh price and rights review. Naming approval alone does not authorize a purchase. No automatic DNS, redirect or existing GitHub Pages custom-domain modification.
 
 ## Separate HTTPS-origin rehearsal — remaining matrix
 
@@ -41,4 +43,4 @@ The opt-in Playwright scenario `e2e/rebrand-live-origins.e2e.ts` checks opt-in i
 
 ## Go / no-go decision
 
-**NO-GO** until: (1) name/mark review recorded and approved by owner, (2) domain acquisition explicitly authorized, (3) a separate live HTTPS site is deployed without replacing old-origin access, (4) the above matrix passes with evidence, and (5) rollback and documentation are approved. Keep v2.6.0 and the existing origin unchanged until those gates pass.
+**NO-GO** until: (1) mark similarity and market-use review recorded and cleared for intended rollout (the *name choice* is already approved), (2) domain acquisition explicitly authorized, (3) a separate live HTTPS site is deployed without replacing old-origin access, (4) the above matrix passes with evidence, and (5) rollback and documentation are approved. Keep v2.6.0 and the existing origin unchanged until those gates pass.
