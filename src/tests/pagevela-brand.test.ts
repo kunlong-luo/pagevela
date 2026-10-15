@@ -32,6 +32,7 @@ describe('Pagevela global brand staging', () => {
       'README.md',
       'README.zh-CN.md',
       'README.en.md',
+      'docs/WORKSPACE_TRANSFER.md',
       '.github/assets/readme-banner.svg',
       'public/og-card.svg',
     ];
@@ -59,5 +60,11 @@ describe('Pagevela global brand staging', () => {
     expect(shareUtils).toContain("'resume-craft-share-v3'");
     expect(source('vite.config.ts')).toContain("cacheName: 'resume-craft-pdf-tools'");
     expect(source('package.json')).toContain('"name": "resume-craft"');
+    expect(source('src/components/EditorWorkspace.tsx')).toContain(
+      "new BroadcastChannel('resume-craft:tabs:v1')",
+    );
+    expect(source('src/components/layout/Header.tsx')).toContain(
+      "window.addEventListener('resume-craft:open-backup'",
+    );
   });
 });
