@@ -8,6 +8,7 @@
 - Browser title, Open Graph/Twitter titles, app structured-data name and descriptions, Apple web-app title and PWA display labels.
 - Active README landing copy in English/Chinese, existing SVG banner and editable Open Graph artwork wordmark, plus static regression tests guarding brand consistency and old technical identifiers.
 - The same Latin-script wordmark **Pagevela** is displayed in Chinese UI; only supporting copy is localized.
+- The bilingual [workspace transfer guide](./WORKSPACE_TRANSFER.md) now explicitly says the old production origin is still live and a new Pagevela HTTPS destination has **not** been deployed; it does not imply data already moved.
 
 ## What deliberately does not change
 
@@ -23,8 +24,10 @@
 - [x] Owner has selected Pagevela (2026-10-15).
 - [ ] Review relevant similar marks and commercial uses in countries of intended launch; record trademark counsel conclusion if needed.
 - [ ] Confirm domain registration and separately authorize purchase, DNS and independent HTTPS deployment.
-- [ ] Run `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build` and GitHub Actions (including Chromium and Firefox/WebKit) on this PR.
+- [x] GitHub Actions CI #892 passed lint, typecheck, unit tests, build, full Chromium E2E, Firefox/WebKit PR E2E and final gate. Later commits require a fresh green run.
+- [ ] Re-validate full CI after the workspace-guide and regression-guard follow-up commits.
 - [ ] Verify both language variants display Pagevela on desktop/mobile, in SEO head, PWA install UI, error/notices and screenshots.
+- [x] Static diff audit: old-origin canonical/sitemap and existing data identifiers are unchanged. This is not a substitute for browser proof.
 - [ ] Confirm no original-origin redirect and no silent loss of old IndexedDB drafts.
 - [ ] Validate opt-in HTTPS-to-HTTPS workspace export/restore across independent old/new sites when a second site is actually available.
 - [ ] Validate legacy encrypted and unencrypted share links, PWA reinstall/update behavior, A4 and US Letter export, portrait backup and cancellation of import.
