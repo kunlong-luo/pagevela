@@ -49,7 +49,7 @@ function background(x, w, h) {
 function brand(x, left, top, darkText = true) {
   roundRect(x, left, top, 42, 42, 13, indigo);
   text(x, 'P', left + 14, top + 28, 17, '#FFFFFF', 800);
-  text(x, 'PAGEVELA', left + 56, top + 27, 20, darkText ? dark : '#FFFFFF', 800);
+  text(x, 'Pagevela', left + 56, top + 27, 20, darkText ? dark : '#FFFFFF', 800);
 }
 function screenshotFrame(x, left, top, w, h) {
   x.save();
