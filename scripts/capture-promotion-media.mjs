@@ -1,5 +1,7 @@
 /**
- * Capture a real Resume Craft browser session for promotion.
+ * Capture a real Pagevela browser session for future promotional review.
+ * The public production site is not yet rebranded; generated staging media
+ * is not authorized for publication before the brand launch gates pass.
  * Everything shown is seeded with fictional example data in a fresh browser.
  * No external accounts, analytics IDs, user resumes, or private URLs are used.
  *
