@@ -1,4 +1,6 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PRODUCT_NAME } from '../lib/brand';
 import { SEO_COPY } from '../lib/seo';
@@ -57,6 +59,23 @@ describe('Pagevela global brand staging', () => {
     expect(source('vite.config.ts')).toContain("short_name: 'Pagevela'");
     expect(source('src/components/landing/LandingNavbar.tsx')).toContain('{PRODUCT_NAME}');
     expect(source('src/components/landing/LandingFooter.tsx')).toContain('{PRODUCT_NAME}');
+  });
+
+  it('does not ship retired public brand names in production source modules', () => {
+    const sourceDir = fileURLToPath(new URL('../', import.meta.url));
+    const walk = (dir: string): string[] =>
+      readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+        if (entry.isDirectory()) {
+          return entry.name === 'tests' ? [] : walk(join(dir, entry.name));
+        }
+        return /\\.(?:ts|tsx|js|jsx)$/.test(entry.name) && !/\\.test\\./.test(entry.name)
+          ? [join(dir, entry.name)]
+          : [];
+      });
+
+    for (const file of walk(sourceDir)) {
+      expect(readFileSync(file, 'utf8'), file).not.toMatch(/Resume Craft|简匠/);
+    }
   });
 
   it('retains the real production origin until separate migration approval', () => {
