@@ -24,14 +24,15 @@
 - [x] Owner has selected Pagevela (2026-10-15).
 - [ ] Review relevant similar marks and commercial uses in countries of intended launch; record trademark counsel conclusion if needed.
 - [ ] Confirm domain registration and separately authorize purchase, DNS and independent HTTPS deployment.
-- [x] GitHub Actions CI #892 passed lint, typecheck, unit tests, build, full Chromium E2E, Firefox/WebKit PR E2E and final gate. Later commits require a fresh green run.
-- [ ] Re-validate full CI after the workspace-guide and regression-guard follow-up commits.
+- [x] **Latest fully verified pre-media-follow-up build CI #918 PASSED**: lint, typecheck, unit tests, production build, full Chromium E2E, Firefox/WebKit PR E2E and final gate.
+- [ ] Re-validate full CI after the subsequent README casing, opt-in media review documentation and new assertions; only the newest commit's run can close this checkbox.
 - [ ] Verify both language variants display Pagevela on desktop/mobile, in SEO head, PWA install UI, error/notices and screenshots.
 - [x] Static diff audit: old-origin canonical/sitemap and existing data identifiers are unchanged. This is not a substitute for browser proof.
+- [x] The README diagrams now use approved **Pagevela** capitalization (not all caps); generated promotional visuals are staged with the same user-visible name. Historical asset *filenames* stay as-is.
 - [ ] Confirm no original-origin redirect and no silent loss of old IndexedDB drafts.
 - [ ] Validate opt-in HTTPS-to-HTTPS workspace export/restore across independent old/new sites when a second site is actually available.
 - [ ] Validate legacy encrypted and unencrypted share links, PWA reinstall/update behavior, A4 and US Letter export, portrait backup and cancellation of import.
-- [ ] Review localization, accessible descriptions and final creative assets.
+- [ ] Review localization, accessible descriptions and final creative assets. New [promotion media checklist](./PROMOTION_MEDIA.md) defines a separate, opt-in workflow on the Pagevela branch; **no actual screenshot/video capture or human visual sign-off has been completed**.
 - [ ] Receive explicit approval for public release and rollback plan.
 
 **No-Go for deployment:** pass of local/PR CI alone does not clear the legal, domain, two-origin migration and installed PWA gates.
