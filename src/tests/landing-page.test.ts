@@ -81,15 +81,15 @@ describe('Landing Page & Router integration', () => {
 
 
 describe('Landing bilingual brand labels', () => {
-  it('uses 简匠 for Chinese and Resume Craft for English in the navbar and footer', () => {
+  it('uses the same global Pagevela identity in Chinese and English navigation', () => {
     const navbar = readFileSync(new URL('../components/landing/LandingNavbar.tsx', import.meta.url), 'utf8');
     const footer = readFileSync(new URL('../components/landing/LandingFooter.tsx', import.meta.url), 'utf8');
-    const expectedBrand = "{isEn ? 'Resume Craft' : '简匠'}";
+    const expectedBrand = '{PRODUCT_NAME}';
 
     expect(navbar).toContain(expectedBrand);
     expect(footer).toContain(expectedBrand);
-    expect(navbar).not.toContain('简匠 Resume Craft');
-    expect(footer).not.toContain('Resume Craft 简匠');
+    expect(navbar).not.toMatch(/Resume Craft|简匠/);
+    expect(footer).not.toMatch(/Resume Craft|简匠/);
   });
 });
 
@@ -104,7 +104,7 @@ describe('Landing GitHub Star entry points', () => {
     expect(hero).toContain('Star on GitHub');
     expect(hero).toContain('在 GitHub 点个 Star');
     expect(navbar).toContain(repositoryUrl);
-    expect(navbar).toContain('Star Resume Craft on GitHub');
+    expect(navbar).toContain('Star Pagevela on GitHub');
     expect(hero).toContain('rel="noopener noreferrer"');
     expect(navbar).toContain('rel="noopener noreferrer"');
   });
