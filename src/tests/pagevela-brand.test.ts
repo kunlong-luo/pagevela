@@ -68,8 +68,7 @@ describe('Pagevela global brand staging', () => {
         if (entry.isDirectory()) {
           return entry.name === 'tests' ? [] : walk(join(dir, entry.name));
         }
-        return /\\.(?:ts|tsx|js|jsx)$/.test(entry.name) && !/\\.test\\./.test(entry.name)
-          ? [join(dir, entry.name)]
+        return ['.ts', '.tsx', '.js', '.jsx'].some((ext) => entry.name.endsWith(ext)) && !entry.name.includes('.test.')
           : [];
       });
 
