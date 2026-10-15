@@ -2,7 +2,7 @@
 
 Pagevela publishes stable releases only.
 
-> **Brand staging:** This guide documents future releases; the current production version and its historical notes retain their original release identity. PR #210 must remain unmerged until trademark, new-host migration and launch gates are approved. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
+> **Brand status (2026-10-15):** The Pagevela display-name update from PR #210 is deployed on the existing GitHub Pages origin. The package version, historical v2.6.0 release archives, repository slug and old encrypted-share identifiers remain unchanged. Trademark clearance, a separate new hostname and cross-origin migration still require independent review. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
 
 ## Versioning
 
