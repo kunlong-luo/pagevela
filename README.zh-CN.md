@@ -6,7 +6,7 @@
 
 <h3 align="center">本地优先的 Markdown 简历编辑器</h3>
 
-> **品牌过渡说明：** Pagevela 已确定为全球统一产品名称。当前 v2.6.0 线上版本及历史发布记录可能仍显示原品牌；完成商标审查和分阶段迁移前不会直接切换线上域名。
+> **Pagevela 品牌更新（2026-10-15）：** 现有 GitHub Pages 网站已通过 [PR #210](https://github.com/kunlong-luo/resume-craft/pull/210) 启用 Pagevela 全球统一名称。历史 v2.6.0 发布文件及仓库路径仍保留原有技术标识。商标核验、新域名及跨站数据迁移尚未完成。
 
 <p align="center">
   实时 A4 / US Letter 预览、ATS 检查、中英双语、PDF 导出。
