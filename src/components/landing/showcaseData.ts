@@ -143,9 +143,9 @@ export interface FaqItem {
 
 export const FAQS: FaqItem[] = [
   {
-    qZh: 'Resume Craft 真的完全免费且没有水印吗？',
-    qEn: 'Is Resume Craft genuinely free with no watermarks?',
-    aZh: '是的，Resume Craft 基于 MIT 协议开源，两种 PDF 导出方式均免费且无水印；浏览器打印通常可保留可选择文字，快速导出为图片型 PDF。',
+    qZh: 'Pagevela 真的完全免费且没有水印吗？',
+    qEn: 'Is Pagevela genuinely free with no watermarks?',
+    aZh: '是的，Pagevela 基于 MIT 协议开源，两种 PDF 导出方式均免费且无水印；浏览器打印通常可保留可选择文字，快速导出为图片型 PDF。',
     aEn: 'Yes. Both PDF export paths are free and watermark-free. Browser print can preserve selectable text; the quick export is image-based.'
   },
   {
@@ -162,7 +162,7 @@ export const FAQS: FaqItem[] = [
   },
   {
     qZh: '支持在手机或平板设备上使用吗？',
-    qEn: 'Can I use Resume Craft on mobile devices or tablets?',
+    qEn: 'Can I use Pagevela on mobile devices or tablets?',
     aZh: '完全支持。具备响应式适配与双指手势支持，同时支持作为 PWA 安装至 iOS/Android 桌面，断网也可随时离线编写。',
     aEn: 'Yes. Fully responsive with mobile gesture switching, plus PWA installation support for offline drafting anywhere.'
   }
