@@ -2,7 +2,7 @@
 
 This is a repeatable Playwright browser capture of the **real application UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
 
-**Brand-staging warning (2026-10-15):** Pagevela-branded screenshots or footage must be captured from a build of the Pagevela staging branch, not attributed to the original production v2.6.0 website. No new Pagevela HTTPS site is live yet. Existing artifact filenames retain historical `resume-craft-*` identifiers for workflow compatibility; these filenames are **not public brand names**. Review the actual rendered words before publishing any social content.
+**Brand-release update (2026-10-15):** The **existing** production GitHub Pages origin now displays Pagevela after PR #210, but **no distinct custom-domain Pagevela HTTPS site** is deployed. The capture workflow can review the current `main` branch or an isolated staging branch. Existing `resume-craft-*` artifact filenames are compatibility identifiers rather than public brand names. Generated social PNGs and MP4s still need actual rendering, human visual review and separate posting approval.
 
 ## Downloadable files
 
@@ -21,8 +21,8 @@ The GitHub Actions workflow **Capture Real Promotion Media** uploads a `resume-c
 
 ## Regenerate
 
-1. In GitHub, open **Actions → Capture Real Promotion Media → Run workflow**. In the **Use workflow from** branch selector choose `feat/pagevela-brand-staging-20261015`, **not** `main`. This is an opt-in review run; it must not deploy or publish anything. The current workflow's automatic push trigger targets only `feat/promotion-media-v2`; commits to the Pagevela branch do **not** launch promotional capture automatically.
-2. After the selected-branch run finishes successfully, open that run's summary. Verify that the checked-out branch/commit is the intended Pagevela PR head, not the old deployed version.
+1. In GitHub, open **Actions → Capture Real Promotion Media → Run workflow**. For a current-brand screenshot, select `main` in **Use workflow from**; for pre-release experiments, use an explicitly selected isolated review branch. This is an **opt-in media capture**, not an automatic deployment or posting action. The workflow's automatic push trigger still targets only `feat/promotion-media-v2`.
+2. After the selected-branch run finishes successfully, open that run's summary. Verify that the checked-out branch/commit is the intended Pagevela build and that the screenshot does not show cached legacy branding.
 3. Download the `resume-craft-promotion-media` ZIP from **Artifacts**. The `resume-craft-*` ZIP/PNG/MP4 names are compatibility filenames, **not** visible branding and not a reason to rename them.
 4. Inspect the actual PNG/MP4 output against the checklist below. Keep all generated assets **private and unpublished** until separately approved for release; CI passing is not visual approval.
 
@@ -35,7 +35,7 @@ The GitHub Actions workflow **Capture Real Promotion Media** uploads a `resume-c
 - [ ] Any displayed `kunlong-luo.github.io/resume-craft` address is explicitly understood as the **current working old-origin URL**; no new Pagevela hostname is claimed, linked or silently redirected.
 - [ ] The final logo/visual identity and commercial-use clearance are independently approved before public posting. Until then, these are **staging review artifacts**.
 
-**Evidence status (2026-10-15):** This document provides instructions and acceptance criteria only. No Pagevela-branch promotional capture, image inspection, publication or new-domain deployment is asserted here.
+**Evidence status (2026-10-15):** This document provides instructions and acceptance criteria only. The product brand is live on the existing origin; **no fresh promotional capture, image inspection, new-domain deployment or social posting is asserted here.**
 
 The workflow runs a temporary local Vite server inside GitHub Actions. It does not save or read personal resumes and does not contact the public analytics origin.
 
