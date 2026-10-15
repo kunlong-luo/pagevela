@@ -6,7 +6,7 @@
 
 <h3 align="center">Local-first Markdown Resume Builder</h3>
 
-> **Brand staging:** Pagevela is the chosen global brand. The current v2.6.0 live deployment and historical GitHub releases may still display their original identity until trademark review and the staged migration are complete.
+> **Pagevela brand update (2026-10-15):** Pagevela now appears on the existing GitHub Pages website following [PR #210](https://github.com/kunlong-luo/resume-craft/pull/210). Historical v2.6.0 release artifacts and repository URLs retain their original identifiers. Trademark review, an optional new domain and any cross-origin user-data migration are separate, unfinished tasks.
 
 <p align="center">
   Build and tailor A4 or US Letter resumes with Markdown, structured forms, ATS checks, and direct PDF export.
