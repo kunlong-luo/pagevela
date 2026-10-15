@@ -18,8 +18,8 @@ describe('Pagevela global brand staging', () => {
     expect(SEO_COPY.zh.title).toContain(PRODUCT_NAME);
     expect(en.header.title).toBe(PRODUCT_NAME);
     expect(zh.header.title).toBe(PRODUCT_NAME);
-    expect(en.errors.reset).toContain(PRODUCT_NAME);
-    expect(zh.errors.reset).toContain(PRODUCT_NAME);
+    expect(en.errorBoundary.reset).toContain(PRODUCT_NAME);
+    expect(zh.errorBoundary.reset).toContain(PRODUCT_NAME);
     expect(SEO_COPY.en.title).not.toMatch(/Resume Craft|简匠/);
     expect(SEO_COPY.zh.title).not.toMatch(/Resume Craft|简匠/);
   });
