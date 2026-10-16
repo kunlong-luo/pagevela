@@ -30,7 +30,7 @@ export function getRouteFromLocation(locationOverride?: LocationLike): AppRoute 
   if (hash.includes('#/editor') || hash === '#editor') return 'editor';
   if (hash.includes('#/landing') || hash === '#landing' || hash === '#home') return 'landing';
 
-  // Check pathname (e.g. /editor or /resume-craft/editor)
+  // Check pathname (e.g. /editor or /pagevela/editor)
   if (pathname.endsWith('/editor')) return 'editor';
   if (pathname.endsWith('/landing')) return 'landing';
 
@@ -42,7 +42,7 @@ export function getRouteFromLocation(locationOverride?: LocationLike): AppRoute 
  * Creates the URL for a specific route while preserving base path.
  */
 export function buildRouteUrl(route: AppRoute, options?: { templateId?: string }, baseHref?: string): string {
-  const currentHref = baseHref ?? (typeof window !== 'undefined' ? window.location.href : 'https://kunlong-luo.github.io/resume-craft/');
+  const currentHref = baseHref ?? (typeof window !== 'undefined' ? window.location.href : 'https://kunlong-luo.github.io/pagevela/');
   const url = new URL(currentHref);
   
   if (route === 'editor') {

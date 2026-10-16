@@ -20,7 +20,7 @@ export function LandingFooter({ isEn }: LandingFooterProps) {
 
         <div className="flex items-center gap-6 font-semibold">
           <a
-            href="https://github.com/kunlong-luo/resume-craft"
+            href="https://github.com/kunlong-luo/pagevela"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white transition-colors flex items-center gap-1"
@@ -29,7 +29,7 @@ export function LandingFooter({ isEn }: LandingFooterProps) {
             <ExternalLink className="w-3 h-3" />
           </a>
           <a
-            href="https://github.com/kunlong-luo/resume-craft/issues"
+            href="https://github.com/kunlong-luo/pagevela/issues"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white transition-colors"
