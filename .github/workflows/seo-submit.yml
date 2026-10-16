@@ -18,9 +18,9 @@ jobs:
       - name: Submit sitemap URLs to IndexNow
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
-          SITEMAP_URL: https://kunlong-luo.github.io/resume-craft/sitemap.xml
+          SITEMAP_URL: https://kunlong-luo.github.io/pagevela/sitemap.xml
           SITE_HOST: kunlong-luo.github.io
-          KEY_LOCATION_BASE: https://kunlong-luo.github.io/resume-craft
+          KEY_LOCATION_BASE: https://kunlong-luo.github.io/pagevela
         run: |
           if [ -z "$INDEXNOW_KEY" ]; then
             echo "INDEXNOW_KEY is not configured; skipping IndexNow submission."

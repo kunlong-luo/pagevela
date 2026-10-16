@@ -17,7 +17,7 @@ Requirements:
 - pnpm 12.6.x (matching `package.json`)
 
 ```bash
-git clone https://github.com/kunlong-luo/resume-craft.git
+git clone https://github.com/kunlong-luo/pagevela.git
 cd resume-craft
 pnpm install
 pnpm dev
