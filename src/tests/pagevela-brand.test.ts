@@ -7,13 +7,13 @@ import { SEO_COPY } from '../lib/seo';
 import { en } from '../i18n/locales/en';
 import { zh } from '../i18n/locales/zh';
 
-// Staging guardrails: cosmetic rebranding must never silently modify storage,
-// encrypted share protocol constants, or the legacy production origin.
+// Branding guardrails: visual product naming must never silently change persisted
+// storage, encrypted share constants, or compatibility identifiers.
 function source(path: string): string {
   return readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
 }
 
-describe('Pagevela global brand staging', () => {
+describe('Pagevela public brand and compatibility', () => {
   it('uses the exact same product name in both locales', () => {
     expect(PRODUCT_NAME).toBe('Pagevela');
     expect(SEO_COPY.en.title).toContain(PRODUCT_NAME);
@@ -65,7 +65,12 @@ describe('Pagevela global brand staging', () => {
     expect(source('metadata.json')).toContain('"name": "Pagevela"');
     expect(source('README.md')).not.toContain('PAGEVELA');
     expect(source('README.zh-CN.md')).not.toContain('PAGEVELA');
-    expect(source('docs/PROMOTION_MEDIA.md')).toContain('feat/pagevela-brand-staging-20261015');
+    expect(source('docs/PROMOTION_MEDIA.md')).toContain('select `main`');
+    expect(source('docs/PAGEVELA_STAGING.md')).toContain('**Pagevela** is live at');
+    expect(source('docs/WORKSPACE_TRANSFER.md')).toContain('former `/resume-craft/`');
+    expect(source('README.en.md')).toContain('Pagevela is live');
+    expect(source('README.md')).toContain('https://kunlong-luo.github.io/pagevela/');
+    expect(source('README.zh-CN.md')).toContain('https://kunlong-luo.github.io/pagevela/');
     expect(source('.github/workflows/capture-promotion-media.yml')).toContain('workflow_dispatch:');
     expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'Pagevela'");
     expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'P', left + 14");

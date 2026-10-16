@@ -1,6 +1,6 @@
 # Pagevela — visual launch and first-run activation plan
 
-> **Brand migration context (2026-10-15):** Pagevela is the globally approved product-name choice. Existing task checkmarks below document previous work; they do **not** mean a Pagevela production website, logo, new domain or migration test has been approved.
+> **Pagevela is live:** The public brand and repo are at https://kunlong-luo.github.io/pagevela/ and https://github.com/kunlong-luo/pagevela. Historical stage checkmarks below do not establish review/approval of current screenshots, promotional videos, final logo or trademark rights. The old `/resume-craft/` Pages URL is not redirected.
 >
 > Goal: improve the first impression and first-edit activation **without** blocking the existing editor or making unverified conversion claims.
 
@@ -35,4 +35,4 @@
 - `pnpm typecheck`, `pnpm lint`, unit tests, Vite build and protected Chromium/Firefox/WebKit E2E must pass.
 - Screenshots/video of real interaction remain a manual capture task; do not represent a drawing as a capture.
 
-Related: [#115](https://github.com/kunlong-luo/resume-craft/issues/115), [live app](https://kunlong-luo.github.io/resume-craft/).
+Related: [#115](https://github.com/kunlong-luo/pagevela/issues/115), [live app](https://kunlong-luo.github.io/pagevela/).

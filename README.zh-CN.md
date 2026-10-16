@@ -6,7 +6,7 @@
 
 <h3 align="center">本地优先的 Markdown 简历编辑器</h3>
 
-> **品牌过渡说明：** Pagevela 已确定为全球统一产品名称。当前 v2.6.0 线上版本及历史发布记录可能仍显示原品牌；完成商标审查和分阶段迁移前不会直接切换线上域名。
+> **Pagevela 已正式上线：** 官网为 [https://kunlong-luo.github.io/pagevela/](https://kunlong-luo.github.io/pagevela/)，GitHub 仓库为 [kunlong-luo/pagevela](https://github.com/kunlong-luo/pagevela)。旧 `/resume-craft/` GitHub Pages 网址不再维护也不会自动跳转，请更新旧文章和演示链接。历史发布文件及简历本地数据/分享协议兼容标识保持不变；商标审核另行进行。
 
 <p align="center">
   实时 A4 / US Letter 预览、ATS 检查、中英双语、PDF 导出。
@@ -185,7 +185,7 @@
 ### 1. 克隆项目
 ```bash
 git clone https://github.com/kunlong-luo/pagevela.git
-cd resume-craft
+cd pagevela
 ```
 
 ### 2. 安装依赖

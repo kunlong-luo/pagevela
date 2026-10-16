@@ -1,40 +1,29 @@
-# Pagevela brand staging — review checklist
+# Pagevela — rollout status and remaining quality gates
 
-> **Not deployed.** Owner-selected global product name: **Pagevela**, for both English and Chinese interfaces. This feature branch is deliberately a **draft PR**. Name selection is not trademark clearance, domain ownership, permission to switch production, or approval of final logo design.
+> **Published on GitHub Pages:** The product name **Pagevela** is live at https://kunlong-luo.github.io/pagevela/ and the GitHub repository was renamed to https://github.com/kunlong-luo/pagevela. The user explicitly selected **Option A** on 2026-10-16: the former `/resume-craft/` website path is no longer supported and **must not be restored or redirected**. This choice does not assert trademark clearance.
 
-## What changes in this branch
+## Completed
 
-- English/Chinese user-visible product wordmarks, navigation/footer, FAQ/feature names, privacy panel, multi-tab warning and first-paint startup initial.
-- Browser title, Open Graph/Twitter titles, app structured-data name and descriptions, Apple web-app title and PWA display labels.
-- Active README landing copy in English/Chinese, existing SVG banner and editable Open Graph artwork wordmark, plus static regression tests guarding brand consistency and old technical identifiers.
-- The same Latin-script wordmark **Pagevela** is displayed in Chinese UI; only supporting copy is localized.
-- The bilingual [workspace transfer guide](./WORKSPACE_TRANSFER.md) now explicitly says the old production origin is still live and a new Pagevela HTTPS destination has **not** been deployed; it does not imply data already moved.
+- [x] Pagevela is the English and Chinese display name.
+- [x] Owner approved PR #210 publication; production brand launched in October 2026.
+- [x] GitHub project renamed from `kunlong-luo/resume-craft` to `kunlong-luo/pagevela`.
+- [x] GitHub Pages is serving the Pagevela welcome homepage from `/pagevela/`.
+- [x] PR #218 corrected current canonical/OG URLs, sitemap, robots, active repository links and SEO workflows for the renamed Pages path.
+- [x] Old Pages redirect was **declined** (Option A); no user-site redirect repository is required.
 
-## What deliberately does not change
+## Compatibility preserved intentionally
 
-- **Existing production origin** `https://kunlong-luo.github.io/resume-craft/`, canonical, OG URL/image link, robots and sitemap. No new hostname exists or is configured.
-- **GitHub repository** `kunlong-luo/resume-craft`, its paths, package identifier, historical released tags, v2.6.0 release notes and promotion playbook for that historical release.
-- **Encryption protocol AAD** `resume-craft-share-v2` and `resume-craft-share-v3`; old encrypted shares must remain usable.
-- IndexedDB database, storage keys, workspace backup file/schema/version, cross-tab BroadcastChannel identity, event names and PDF-tool Workbox cache key. Display names must not become storage migrations.
-- Historical blog/commit/release archives that correctly reflect their originally published brand.
-- A new logo, trademark symbols or claims of registered rights; current paper-themed icons remain provisional until visual identity review.
+- Existing IndexedDB database names, localStorage keys, encrypted-share protocol AAD `resume-craft-share-v2` / `resume-craft-share-v3`, workspace backup schemas, PWA PDF cache key and cross-tab identifiers remain unchanged.
+- `github.io/pagevela/` and the retired `github.io/resume-craft/` path share the same HTTPS **origin**, but PWA service-worker scopes and saved/installed launch URLs can differ. Do not assume old installed PWAs continue working.
+- Historical v2.6.0 release artifacts and original publication records are historical documents, not a requirement to keep promoting outdated URLs.
+- The prepared redirect source files under `docs/legacy-pages-redirect/site/` are **inactive reference material only**. Do not deploy them without a new explicit owner decision.
 
-## Required approval and quality gates
+## Remaining checks
 
-- [x] Owner has selected Pagevela (2026-10-15).
-- [ ] Review relevant similar marks and commercial uses in countries of intended launch; record trademark counsel conclusion if needed.
-- [ ] Confirm domain registration and separately authorize purchase, DNS and independent HTTPS deployment.
-- [x] **Latest fully verified pre-media-follow-up build CI #918 PASSED**: lint, typecheck, unit tests, production build, full Chromium E2E, Firefox/WebKit PR E2E and final gate.
-- [ ] Re-validate full CI after the subsequent README casing, opt-in media review documentation and new assertions; only the newest commit's run can close this checkbox.
-- [ ] Verify both language variants display Pagevela on desktop/mobile, in SEO head, PWA install UI, error/notices and screenshots.
-- [x] Static diff audit: old-origin canonical/sitemap and existing data identifiers are unchanged. This is not a substitute for browser proof.
-- [x] The README diagrams now use approved **Pagevela** capitalization (not all caps); generated promotional visuals are staged with the same user-visible name. Historical asset *filenames* stay as-is.
-- [ ] Confirm no original-origin redirect and no silent loss of old IndexedDB drafts.
-- [ ] Validate opt-in HTTPS-to-HTTPS workspace export/restore across independent old/new sites when a second site is actually available.
-- [ ] Validate legacy encrypted and unencrypted share links, PWA reinstall/update behavior, A4 and US Letter export, portrait backup and cancellation of import.
-- [ ] Review localization, accessible descriptions and final creative assets. New [promotion media checklist](./PROMOTION_MEDIA.md) defines a separate, opt-in workflow on the Pagevela branch; **no actual screenshot/video capture or human visual sign-off has been completed**.
-- [ ] Receive explicit approval for public release and rollback plan.
+- [ ] Review relevant near-mark/trademark registrations before making commercial exclusivity claims.
+- [ ] Check fresh installation, installed-PWA handling, existing IndexedDB drafts, templates, PDF export and fictional encrypted/plain share links on the *current* site.
+- [ ] Re-capture **real UI screenshots** from current `main`, confirm visible Pagevela branding and actual `/pagevela/` links, and review each PNG, video, crop, accessibility label and product listing before publishing.
+- [ ] Update controllable external article/demo URLs, profile descriptions, launch directories (including Product Hunt) and social links. An old Pages URL can return 404.
+- [ ] Avoid any custom-domain/DNS change unless separately approved.
 
-**No-Go for deployment:** pass of local/PR CI alone does not clear the legal, domain, two-origin migration and installed PWA gates.
-
-Tracking: [global brand decision #202](https://github.com/kunlong-luo/resume-craft/issues/202); [readiness PR #203](https://github.com/kunlong-luo/resume-craft/pull/203). This staging PR stays separate from the earlier documentation-only readiness work.
+Media: [PROMOTION_MEDIA.md](./PROMOTION_MEDIA.md). Data export/backups: [WORKSPACE_TRANSFER.md](./WORKSPACE_TRANSFER.md). Tracking: [#202](https://github.com/kunlong-luo/pagevela/issues/202).
