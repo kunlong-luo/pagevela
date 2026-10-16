@@ -91,11 +91,11 @@ describe('Pagevela global brand staging', () => {
     }
   });
 
-  it('retains the real production origin until separate migration approval', () => {
+  it('uses the renamed live Pages path without changing user-data identifiers', () => {
     expect(source('index.html')).toContain(
-      'rel="canonical" href="https://kunlong-luo.github.io/resume-craft/"',
+      'rel="canonical" href="https://kunlong-luo.github.io/pagevela/"',
     );
-    expect(source('public/sitemap.xml')).toContain('https://kunlong-luo.github.io/resume-craft/');
+    expect(source('public/sitemap.xml')).toContain('https://kunlong-luo.github.io/pagevela/');
   });
 
   it('does not break legacy share decryption or client-side cache identities', () => {
