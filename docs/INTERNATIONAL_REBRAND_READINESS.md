@@ -1,5 +1,7 @@
 # International rebrand readiness (working document)
 
+> **Historical archive (2026-10-16):** This document records the **pre-launch** research and decisions as they were documented. **Pagevela is now live** at https://kunlong-luo.github.io/pagevela/ and https://github.com/kunlong-luo/pagevela. Any instructions below saying the rename has not launched, that `/resume-craft/` is the live site, or that an old-site redirect is required are **superseded**. The owner chose not to redirect the retired Pages path. Use [PAGEVELA_STAGING.md](./PAGEVELA_STAGING.md) and [channel-refresh/README.md](./channel-refresh/README.md) for current status. Historical trademark observations do not establish clearance.
+
 > Status: **preparation only; no production rebrand**. The owner **approved Pagevela as the single global product name on 2026-10-15** for both English and Chinese UI, with the same spelling. The old Chinese-facing product name is to be retired from future public branding. **Trademark/legal clearance, domain purchase and public rollout are NOT approved.** Do not change user-facing live pages, DNS, or GitHub Pages settings based on this naming decision.
 >
 > Tracking: [International rebrand issue #202](https://github.com/kunlong-luo/resume-craft/issues/202).
