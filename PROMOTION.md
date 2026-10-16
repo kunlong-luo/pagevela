@@ -1,12 +1,14 @@
 # Resume Craft v2.6.0 Promotion Playbook
 
+**Historical planning document:** v2.6.0 was published as Resume Craft on 2026-10-14. **Do not post the original campaign copy as-is.** New/edited posts must use **Pagevela**, [the current demo](https://kunlong-luo.github.io/pagevela/) and [new repo](https://github.com/kunlong-luo/pagevela), with real Pagevela screenshots from the current site. Do not replace existing historical release archives or claim historical posts had the new branding.
+
 **Published on 2026-10-14.** For ready-to-review Xiaohongshu, Douyin and Reddit launch copy, filming notes and accurate privacy disclosures, see the [v2.6.0 social launch kit](./docs/V2_6_0_SOCIAL_LAUNCH_KIT.md). These are drafts; all external posts require human review and platform-specific publication.
 
 This document keeps promotion practical, measurable, and non-spammy. Automation prepares material and previews posts; a human reviews and publishes anything that reaches an external community.
 
 ## Goal
 
-Validate whether Resume Craft solves a real problem for:
+Validate whether Pagevela solves a real problem for:
 
 1. Developers and technical job seekers who prefer Markdown.
 2. International applicants who need A4 / US Letter and market-aware resume defaults.
@@ -42,7 +44,7 @@ The first promotion cycle is for learning, not maximizing raw impressions.
 
 ### Days 1-2 — Release verification
 
-- Verify the live demo, [v2.6.0 release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0), social preview card, README, local profile upgrades, complete-workspace backup, and mobile layout.
+- Verify the live demo, [v2.6.0 release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.6.0), social preview card, README, local profile upgrades, complete-workspace backup, and mobile layout.
 - Confirm existing v2.5.0 users still find their local profiles, drafts and preferences after the v2.6.0 same-origin update; do not clear the original browser's site data.
 - Capture one clean desktop screenshot and one mobile screenshot.
 - Prepare one short demo GIF/video showing: edit -> preview -> Target Market -> ATS check -> PDF.
@@ -65,7 +67,7 @@ Use channels where the product itself is directly relevant.
 
 Suggested title:
 
-> Show HN: Resume Craft – a local-first Markdown resume builder with ATS checks
+> Show HN: Pagevela – a local-first Markdown resume builder with ATS checks
 
 **Developer communities**
 - Share a technical breakdown rather than a generic advertisement.
@@ -106,7 +108,7 @@ After the first cycle:
 Every post should answer four things:
 
 1. **Problem** — what is annoying today?
-2. **Difference** — what does Resume Craft do differently?
+2. **Difference** — what does Pagevela do differently?
 3. **Proof** — what can a user try immediately?
 4. **Ask** — request feedback on a specific workflow.
 
@@ -164,7 +166,7 @@ Next experiment
 Current behavior:
 
 - reads the public sitemap;
-- includes the current `/resume-craft/` page;
+- includes the current `/pagevela/` page;
 - previews at most one cross-post;
 - does not publish to any social account;
 - has no social credentials enabled.

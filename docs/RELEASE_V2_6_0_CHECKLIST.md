@@ -1,5 +1,7 @@
 # Resume Craft v2.6.0 — release acceptance checklist
 
+> **Historical release record — 2026-10-14.** This records the original v2.6.0 shipment under Resume Craft. **The current Pagevela product is at https://kunlong-luo.github.io/pagevela/; the old `/resume-craft/` Pages path is retired (no redirect).** Legacy URLs and names inside this checklist are retained only as evidence of the original release, not as current links to share.
+>
 > **Published release record — 2026-10-14.** v2.6.0 has shipped on the existing GitHub Pages origin with the Resume Craft / 简匠 name unchanged. This file retains the preflight checklist as an audit reference; the future international domain/brand migration is separate.
 >
 > The maintainer confirmed the final manual release checks before merging PR #207. Automated CI, build, Pages deployment and GitHub Release are independently verified below. Detailed manual checks that cannot be independently rechecked from CI remain unchecked as evidence placeholders; an unchecked historical item is not an assertion that the release has not shipped.

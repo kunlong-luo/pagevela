@@ -138,7 +138,7 @@ jobs:
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git tag -a "${TAG}" -m "Resume Craft ${TAG}"
+            git tag -a "${TAG}" -m "Pagevela ${TAG}"
             git push origin "${TAG}"
           fi
 
@@ -176,5 +176,5 @@ jobs:
             echo "Release ${TAG} already exists; refreshing assets."
             gh release upload "${TAG}" "${ASSETS[@]}" --clobber
           else
-            gh release create "${TAG}" "${ASSETS[@]}"               --verify-tag               --title "Resume Craft ${TAG}"               --generate-notes               --latest
+            gh release create "${TAG}" "${ASSETS[@]}"               --verify-tag               --title "Pagevela ${TAG}"               --generate-notes               --latest
           fi
