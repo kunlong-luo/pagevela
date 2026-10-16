@@ -1,4 +1,4 @@
-# Pagevela — Promotion Playbook (historical v2.6.0 plan)
+# Resume Craft v2.6.0 Promotion Playbook
 
 **Historical planning document:** v2.6.0 was published as Resume Craft on 2026-10-14. **Do not post the original campaign copy as-is.** New/edited posts must use **Pagevela**, [the current demo](https://kunlong-luo.github.io/pagevela/) and [new repo](https://github.com/kunlong-luo/pagevela), with real Pagevela screenshots from the current site. Do not replace existing historical release archives or claim historical posts had the new branding.
 
