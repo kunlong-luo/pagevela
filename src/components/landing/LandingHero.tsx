@@ -88,7 +88,7 @@ export function LandingHero({
         {/* Small tertiary action: support the open-source project without displacing the resume CTA. */}
         <div className="mt-4 flex justify-center">
           <a
-            href="https://github.com/kunlong-luo/resume-craft"
+            href="https://github.com/kunlong-luo/pagevela"
             target="_blank"
             rel="noopener noreferrer"
             data-testid="landing-github-star"
