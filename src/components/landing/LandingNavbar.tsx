@@ -96,7 +96,7 @@ export function LandingNavbar({
           {/* Low-friction GitHub Star link, also accessible on mobile. */}
           <Tooltip content={isEn ? 'Star Pagevela on GitHub' : '在 GitHub 上为 Pagevela 点 Star'} side="bottom">
             <a
-              href="https://github.com/kunlong-luo/resume-craft"
+              href="https://github.com/kunlong-luo/pagevela"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={isEn ? 'Star Pagevela on GitHub' : '在 GitHub 上为 Pagevela 点 Star'}
