@@ -113,6 +113,17 @@
   html::-webkit-scrollbar {
     display: none;
   }
+
+  /* Some browsers expose the root page scrollbar through body instead of html.
+   * Keep the landing page scrollable while hiding that extra right-edge rail. */
+  body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .preview-scrollbar {
