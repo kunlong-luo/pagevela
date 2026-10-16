@@ -1,6 +1,22 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('landing-to-editor navigation', () => {
+  test('hides the browser-edge scrollbar while keeping welcome-page scrolling', async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 640 });
+    await page.goto('/');
+
+    const original = await page.evaluate(() => ({
+      scrollbarWidth: getComputedStyle(document.documentElement).scrollbarWidth,
+      scrollHeight: document.documentElement.scrollHeight,
+      viewportHeight: document.documentElement.clientHeight,
+    }));
+    expect(original.scrollbarWidth).toBe('none');
+    expect(original.scrollHeight).toBeGreaterThan(original.viewportHeight);
+
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  });
+
   test('first paint shows the welcome layout at root and editor layout for direct links', async ({ page }) => {
     // Keep the server-rendered skeleton visible by preventing React hydration.
     await page.route('**/src/main.tsx*', (route) => route.abort());
