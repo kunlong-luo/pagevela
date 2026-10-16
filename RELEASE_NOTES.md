@@ -1,6 +1,8 @@
 # Resume Craft v2.6.0
 
-**Published:** 2026-10-14 · [GitHub Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0) · [Live Demo](https://kunlong-luo.github.io/resume-craft/)
+> **Current project name (2026-10-16): Pagevela.** This is the archived October 14 release record under the former brand. For the current product visit [Pagevela](https://kunlong-luo.github.io/pagevela/) or [GitHub](https://github.com/kunlong-luo/pagevela). The retired `/resume-craft/` Pages path is not redirected. Existing v2.6.0 binaries, artifact filenames, version tags and checksums are unchanged.
+
+**Published:** 2026-10-14 · [GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.6.0) · [Live Demo](https://kunlong-luo.github.io/pagevela/)
 
 ## Highlights / 本次更新
 
@@ -14,7 +16,7 @@
 - **No account or cloud migration.** All résumé content remains local to the browser. Moving to another browser, device or hostname requires the **manual** workspace JSON export/import flow.
 - The exported workspace file is **not encrypted** and can contain personal details, drafts, job descriptions and photos. Keep it private, and do not delete the original data until the import is verified.
 - Existing single-resume JSON backups remain supported independently of the new full-workspace format. The stable internal workspace file version is `resume-craft-workspace-v1`.
-- Existing GitHub Pages URL, product name, and legacy share-link formats remain unchanged. This release **does not change the public domain or brand**.
+- **At the time v2.6.0 was published (2026-10-14)** the public product still used the Resume Craft name and old Pages path. The product was **subsequently renamed to Pagevela**; the current website URL is above. Historical share protocol formats remain compatible, but an old URL pointing at `/resume-craft/` is not redirected.
 - The **ATS PDF** print-to-PDF flow uses browser printing for selectable text. The **Quick PDF** direct-download option is rasterized; choose ATS PDF for online job systems.
 
 Read the bilingual [workspace transfer guide](./docs/WORKSPACE_TRANSFER.md) before migrating between browser origins.
@@ -52,7 +54,7 @@ Read the bilingual [workspace transfer guide](./docs/WORKSPACE_TRANSFER.md) befo
 
 v2.5.0 is a feature release introducing the independent product landing page, dual-route navigation, and seamless first-visit onboarding activation.
 
-Release: https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0
+Release: https://github.com/kunlong-luo/pagevela/releases/tag/v2.5.0
 
 ---
 
@@ -63,4 +65,4 @@ Release: https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0
 - Sanitized all built-in demo contact identities with explicit placeholders.
 - Added regression test suite preventing accidental inclusion of realistic third-party contacts.
 - Verified US contact line parsing without orphaned punctuation.
-- Release: https://github.com/kunlong-luo/resume-craft/releases/tag/v2.4.1
+- Release: https://github.com/kunlong-luo/pagevela/releases/tag/v2.4.1
