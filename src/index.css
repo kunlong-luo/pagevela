@@ -103,26 +103,15 @@
    */
   /* Scrollbars are opt-in. Avoid universal * / *:hover rules because they
    * trigger style invalidation across the whole app on pointer movement. */
+  /* Hide the unnecessary browser-edge scrollbar chrome without disabling
+   * document scrolling (the welcome page still has multiple sections). */
   html {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(148, 163, 184, 0.24) transparent;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   html::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  html::-webkit-scrollbar-track,
-  html::-webkit-scrollbar-corner {
-    background: transparent;
-  }
-
-  html::-webkit-scrollbar-thumb {
-    background-color: rgba(148, 163, 184, 0.24);
-    border-radius: 9999px;
-    border: 1.5px solid transparent;
-    background-clip: content-box;
+    display: none;
   }
 }
 
