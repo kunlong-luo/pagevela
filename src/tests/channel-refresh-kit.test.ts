@@ -29,7 +29,7 @@ describe('Pagevela channel refresh kit', () => {
     expect(intro).toContain('未确认发布记录');
     expect(intro).toContain('ref=producthunt');
     expect(read('ASSETS.md')).toContain('真实产品截图');
-    expect(read('FAQ_AND_REPLIES.md')).toContain('不保证');
+    expect(read('FAQ_AND_REPLIES.md')).toContain('不能保证');
   });
 
   it('includes a reusable fallback for unlisted platforms', () => {
