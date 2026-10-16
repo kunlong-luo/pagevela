@@ -1,7 +1,8 @@
 /**
  * Capture a real Pagevela browser session for future promotional review.
- * The public production site is not yet rebranded; generated staging media
- * is not authorized for publication before the brand launch gates pass.
+ * The public Pagevela site is live at https://kunlong-luo.github.io/pagevela/.
+ * Generated media is for human visual review; capture does not publish to
+ * third-party networks or certify screenshots for unrestricted use.
  * Everything shown is seeded with fictional example data in a fresh browser.
  * No external accounts, analytics IDs, user resumes, or private URLs are used.
  *
