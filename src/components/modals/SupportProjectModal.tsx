@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { PRODUCT_NAME } from '../../lib/brand';
 import { ExternalLink, Star, X } from 'lucide-react';
 import { SUPPORT_REPO_URL } from '../../lib/support-prompt';
 import { useDialogFocus } from '../../hooks/useDialogFocus';
@@ -63,13 +64,13 @@ export function SupportProjectModal({
               id="support-project-title"
               className="text-xl font-black tracking-tight text-slate-950 dark:text-white"
             >
-              {isEn ? 'Enjoying Resume Craft?' : '喜欢 Resume Craft 吗？'}
+              {isEn ? `Enjoying ${PRODUCT_NAME}?` : `喜欢 ${PRODUCT_NAME} 吗？`}
             </h2>
 
             <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-slate-600 dark:text-slate-300">
               {isEn
-                ? 'You have just finished a PDF export flow. Resume Craft is free and open source; if it helped, a GitHub Star supports continued improvements and helps more people discover the project.'
-                : '你刚刚完成了一次 PDF 导出流程。Resume Craft 是免费开源项目；如果它对你有帮助，欢迎在 GitHub 点一个 Star，支持项目持续改进，也让更多人发现它。'}
+                ? `You have just finished a PDF export flow. ${PRODUCT_NAME} is free and open source; if it helped, a GitHub Star supports continued improvements and helps more people discover the project.`
+                : `你刚刚完成了一次 PDF 导出流程。${PRODUCT_NAME} 是免费开源项目；如果它对你有帮助，欢迎在 GitHub 点一个 Star，支持项目持续改进，也让更多人发现它。`}
             </p>
           </div>
 

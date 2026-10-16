@@ -1,6 +1,8 @@
-# Resume Craft — real promotional media capture
+# Pagevela — real promotional media capture
 
-This is a repeatable Playwright browser capture of the **real Resume Craft UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
+This is a repeatable Playwright browser capture of the **real application UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
+
+**Current-brand media (2026-10-16):** Pagevela is live at https://kunlong-luo.github.io/pagevela/. Capture real UI and marketing screenshots from current `main` (or an explicitly reviewed experiment), not the retired `/resume-craft/` website. Old `resume-craft-*` artifact filenames are workflow compatibility details, **not visible public branding**. Validate URLs, layout and Pagevela wordmark in actual rendered images before posting; no screenshot or video is automatically published.
 
 ## Downloadable files
 
@@ -19,10 +21,21 @@ The GitHub Actions workflow **Capture Real Promotion Media** uploads a `resume-c
 
 ## Regenerate
 
-1. Open **Actions → Capture Real Promotion Media → Run workflow** after this workflow is on `main`, or push the feature branch configured in the workflow.
-2. Wait for capture, then open the run summary.
-3. Under **Artifacts**, download `resume-craft-promotion-media`.
-4. Review the generated PNGs and MP4 **before** posting: cropping, fonts, clear sample data, export menu visibility, and accurate UX after code changes.
+1. In GitHub, open **Actions → Capture Real Promotion Media → Run workflow**. In **Use workflow from**, select `main` for real current-brand captures. A workflow run produces review artifacts; it does **not** publish a social post. The workflow's automatic push trigger is limited to its designated development branch.
+2. After the run succeeds, inspect its commit/branch and visually confirm the current Pagevela branding and live URL.
+3. Download the `resume-craft-promotion-media` ZIP from **Artifacts**. The `resume-craft-*` ZIP/PNG/MP4 names are compatibility filenames, **not** visible branding and not a reason to rename them.
+4. Inspect the actual PNG/MP4 output against the checklist below. Keep all generated assets **private and unpublished** until separately approved for release; CI passing is not visual approval.
+
+### Manual visual acceptance — NOT YET COMPLETED
+
+- [ ] Browser screenshot shows **Pagevela** (same capitalization) in English and Chinese UI; no former public wordmark, old initials, cut-off text, or invented UI.
+- [ ] Social cover, landscape thumbnail (1280×720), gallery (1200×900), portrait tile (1080×1350), video intro/outro and MP4 overlay show **Pagevela / P** and readable text without clipping or font fallback artifacts.
+- [ ] The screenshot depicts an actual local Chromium browser session with only fictional sample content; no real names, contact details, upload payloads or private URLs are present.
+- [ ] Claims match tested features: the video may show the **export menu**, but that alone does not prove a PDF was successfully saved or accepted by an ATS.
+- [ ] Every displayed web address and CTA points to `https://kunlong-luo.github.io/pagevela/`; any old `/resume-craft/` screenshot or Product Hunt link must be replaced.
+- [ ] The final logo/visual identity and commercial-use clearance are independently approved before public posting. Until then, these are **staging review artifacts**.
+
+**Evidence status:** This document specifies a repeatable capture and quality-review workflow; it does **not** assert that fresh screenshots or videos have been captured, visually approved or posted.
 
 The workflow runs a temporary local Vite server inside GitHub Actions. It does not save or read personal resumes and does not contact the public analytics origin.
 

@@ -2,7 +2,7 @@
 
 > Status: **validation implementation — Simple Analytics is loaded only after privacy checks and uses a fixed, metadata-free event allowlist**
 
-Resume Craft is local-first. Product measurement should answer a small number of product questions without collecting resume content, job descriptions, contact details, share payloads, or persistent user identifiers.
+Pagevela is local-first. Product measurement should answer a small number of product questions without collecting resume content, job descriptions, contact details, share payloads, or persistent user identifiers.
 
 ## 1. Product questions
 
@@ -22,7 +22,7 @@ These are non-negotiable:
 
 - Never send resume Markdown, rendered resume text, JD text, names, email addresses, phone numbers, profile names, filenames, or free-form user input.
 - Never send share payloads, access codes, or any URL query/hash values.
-- Analytics paths must use `location.pathname` only. New Resume Craft shares keep payloads in `location.hash`, while legacy links may use `location.search`; neither query nor fragment content may be sent.
+- Analytics paths must use `location.pathname` only. New Pagevela share links keep payloads in `location.hash`, while legacy links may use `location.search`; neither query nor fragment content may be sent.
 - No cookies, advertising identifiers, cross-site identifiers, fingerprinting, or persistent analytics user IDs.
 - No session replay or DOM/text capture.
 - Event names must come from a fixed allowlist in source code; never construct analytics event names from user content.
@@ -35,7 +35,7 @@ These are non-negotiable:
 
 Phase 1 uses Simple Analytics because it provides aggregate pageviews and explicit custom events without cookies, localStorage-based visitor IDs, IP storage, or browser fingerprinting.
 
-Resume Craft adds stricter application-side rules on top:
+The app adds stricter application-side rules on top:
 
 - analytics events are hard-coded in `src/lib/analytics.ts`
 - Do Not Track is respected; when DNT is enabled, the analytics script is not loaded at all
@@ -56,7 +56,7 @@ If the dashboard shows events but **0 pageviews / visitors**, do not treat the f
 4. If the script and request work, inspect dashboard site settings and aggregation before changing implementation. Script-level `ignore-metrics=session` removes ephemeral page-load identifiers; it does not by itself disable pageview counts.
 5. Repeat one non-sensitive smoke check after deployment. Existing events without pageviews do not establish a reliable historical conversion rate.
 
-Resume Craft starts the pageview request before asynchronous IndexedDB migration/bootstrap to reduce missing visits from short-lived page loads. It still honors the official-host and Do Not Track gates and strips share payloads from reported paths.
+The app starts the pageview request before asynchronous IndexedDB migration/bootstrap to reduce missing visits from short-lived page loads. It still honors the official-host and Do Not Track gates and strips share payloads from reported paths.
 
 GitHub Discussions remains the qualitative feedback channel. A richer tool such as Umami can be reconsidered later only if aggregate evidence shows a genuine need for deeper funnels.
 

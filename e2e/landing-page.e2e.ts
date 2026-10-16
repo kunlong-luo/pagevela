@@ -1,6 +1,22 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('landing-to-editor navigation', () => {
+  test('first paint shows the welcome layout at root and editor layout for direct links', async ({ page }) => {
+    // Keep the server-rendered skeleton visible by preventing React hydration.
+    await page.route('**/src/main.tsx*', (route) => route.abort());
+
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('data-startup-route', 'landing');
+    await expect(page.locator('.startup-welcome')).toBeVisible();
+    await expect(page.locator('.startup-welcome-heading')).toHaveText('Pagevela');
+    await expect(page.locator('.startup-workspace')).toBeHidden();
+
+    await page.goto('/?page=editor');
+    await expect(page.locator('html')).toHaveAttribute('data-startup-route', 'editor');
+    await expect(page.locator('.startup-welcome')).toBeHidden();
+    await expect(page.locator('.startup-workspace')).toBeVisible();
+  });
+
   test('opens the marketing page at root and returns from editor through browser history', async ({ page }) => {
     await page.addInitScript(() => {
       window.localStorage.setItem('resume-onboarding-v1-complete', '1');
@@ -40,18 +56,23 @@ test.describe('landing-to-editor navigation', () => {
       window.localStorage.setItem('resume_ui_language', 'en');
     });
     await page.goto('/');
-    await expect(page).toHaveTitle('Resume Craft — Free Markdown Resume Builder | Local-First');
+    await expect(page).toHaveTitle('Pagevela — Local-First Resume Builder');
+    await expect(page.getByRole('banner').getByText('Pagevela', { exact: true })).toBeVisible();
+    await expect(page.getByRole('contentinfo').getByText('Pagevela', { exact: true })).toBeVisible();
+    await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute('content', 'Pagevela');
     await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'en_US');
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /local-first/);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /browser by default/);
 
     await page.getByRole('button', { name: 'Toggle language' }).click();
-    await expect(page).toHaveTitle('Resume Craft 简匠 — 免费开源 Markdown 简历编辑器');
+    await expect(page).toHaveTitle('Pagevela — 本地优先的简历编辑器');
+    await expect(page.getByRole('banner').getByText('Pagevela', { exact: true })).toBeVisible();
+    await expect(page.getByRole('contentinfo').getByText('Pagevela', { exact: true })).toBeVisible();
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
     await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'zh_CN');
 
     await page.getByRole('button', { name: 'Toggle language' }).click();
-    await expect(page).toHaveTitle('Resume Craft — Free Markdown Resume Builder | Local-First');
-    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', 'Resume Craft — Free Markdown Resume Builder | Local-First');
+    await expect(page).toHaveTitle('Pagevela — Local-First Resume Builder');
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', 'Pagevela — Local-First Resume Builder');
   });
 
   test('English marketing copy uses English demo and template descriptions', async ({ page }) => {
@@ -127,7 +148,7 @@ test.describe('landing-to-editor navigation', () => {
     const heroCta = page.getByTestId('landing-hero-cta');
     await expect(heroCta).toContainText('Start Building (Free)');
     await expect(page.locator('#showcase').getByRole('button', { name: /Open in editor/i })).toHaveCount(0);
-    await expect(page.getByRole('button', { name: 'Open Resume Craft Editor' })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Open Pagevela Editor' })).toHaveCount(0);
 
     await heroCta.click();
     await expect(page).toHaveURL(/\?page=editor/);

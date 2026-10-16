@@ -1,6 +1,8 @@
 # Support
 
-Resume Craft is maintained as a free and open-source project.
+Pagevela is maintained as a free and open-source project.
+
+> **Brand transition:** Pagevela is the globally selected product name; the existing v2.6.0 production site and repository URLs have not been migrated.
 
 Before asking for help:
 

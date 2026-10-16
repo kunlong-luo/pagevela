@@ -1,4 +1,5 @@
 import React from 'react';
+import { PRODUCT_NAME } from '../../lib/brand';
 import { Globe2, Sun, Moon } from 'lucide-react';
 import { ThemeMode } from '../../types';
 import { Tooltip } from '../ui/Tooltip';
@@ -34,11 +35,11 @@ export function LandingNavbar({
         {/* Zone 1: Brand Wordmark */}
         <div className="flex items-center gap-3 shrink-0">
           <div className="w-9 h-9 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 rounded-xl text-white flex items-center justify-center font-black text-sm shadow-md shadow-indigo-500/20">
-            RC
+            P
           </div>
           <div className="flex items-baseline gap-2">
             <span className="hidden sm:inline font-black text-base tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
-              {isEn ? 'Resume Craft' : '简匠'}
+              {PRODUCT_NAME}
             </span>
             <span className="text-[11px] font-medium text-slate-400 hidden lg:inline whitespace-nowrap">
               {isEn ? 'Private, Professional Resume Builder' : '本地私密 · 结构化简历构建工具'}
@@ -93,12 +94,12 @@ export function LandingNavbar({
           </button>
 
           {/* Low-friction GitHub Star link, also accessible on mobile. */}
-          <Tooltip content={isEn ? 'Star Resume Craft on GitHub' : '在 GitHub 上为简匠点 Star'} side="bottom">
+          <Tooltip content={isEn ? 'Star Pagevela on GitHub' : '在 GitHub 上为 Pagevela 点 Star'} side="bottom">
             <a
-              href="https://github.com/kunlong-luo/resume-craft"
+              href="https://github.com/kunlong-luo/pagevela"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={isEn ? 'Star Resume Craft on GitHub' : '在 GitHub 上为简匠点 Star'}
+              aria-label={isEn ? 'Star Pagevela on GitHub' : '在 GitHub 上为 Pagevela 点 Star'}
               className="flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-all cursor-pointer"
             >
               <GithubIcon className="w-4 h-4" />

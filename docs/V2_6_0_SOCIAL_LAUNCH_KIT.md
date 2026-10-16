@@ -1,18 +1,18 @@
 # 简匠 / Resume Craft v2.6.0 上线推广素材
 
-> 2026-10-14 正式发布。以下是**待人工审核和发布的草稿**，未自动发布到任何外部平台。配图须是 v2.6.0 真实界面、使用虚构简历资料。
+> **历史背景：** v2.6.0 于 2026-10-14 以「简匠 / Resume Craft」名称发布。**现行品牌为 Pagevela**；以下仅是待人工审核的文案草稿，并非已经发布的帖子。再次使用前必须改用 Pagevela 名称、当前真实页面截图及最新链接；不得将历史发布日期误称为 Pagevela 新版发布日期，或使用个人真实简历截图。
 
-在线地址：https://kunlong-luo.github.io/resume-craft/
-GitHub：https://github.com/kunlong-luo/resume-craft
-Release：https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0
+在线地址：https://kunlong-luo.github.io/pagevela/
+GitHub：https://github.com/kunlong-luo/pagevela
+Release：https://github.com/kunlong-luo/pagevela/releases/tag/v2.6.0
 
 ## 小红书（新版功能主帖）
 
-**标题：** 简匠更新啦｜中文简历能加证件照了
+**标题：** Pagevela 更新啦｜中文简历能加证件照了
 
 **正文：**
 
-之前有朋友问我：中文简历怎么不能放证件照？现在简匠 v2.6.0 终于支持了！
+之前有朋友问我：中文简历怎么不能放证件照？现在Pagevela（原简匠）v2.6.0 终于支持了！
 
 📷 **证件照**：选择 PNG、JPEG 或 WebP，直接在浏览器里裁剪成 3:4，可放到中文简历的顶部右侧。
 📝 **双模式编辑**：可以填表单，也可以改 Markdown，同时预览 A4 / US Letter 排版。
@@ -25,22 +25,22 @@ Release：https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0
 
 注意：完整备份 JSON **未经加密**，可能包含姓名、联系方式和照片，不要公开上传。
 
-#简历制作 #简匠 #求职工具 #开源项目 #Markdown #简历模板
+#简历制作 #Pagevela #求职工具 #开源项目 #Markdown #简历模板
 
 **建议四张图：** 1. 版本更新封面；2. 中文 A4 页头右侧证件照真实预览；3. 上传裁剪前后真实界面；4. 备份导入/导出真实界面（保留隐私提示）。
 
 ## 抖音（20–30 秒）
 
-**标题：** 中文简历终于能加证件照了｜简匠 v2.6
+**标题：** 中文简历终于能加证件照了｜Pagevela（原简匠）v2.6
 
 **配音 / 字幕：**
 - 0–4 秒：「还在 Word 里手动调整简历排版吗？」
-- 4–10 秒：「这是简匠，一个无需注册、优先保存在浏览器本地的简历编辑器。」
+- 4–10 秒：「这是 Pagevela，一个无需注册、优先保存在浏览器本地的简历编辑器。」
 - 10–17 秒：「新版可以上传照片，裁剪成 3 比 4，放在中文简历右上方。」
 - 17–23 秒：「还能切换 Markdown 和表单，把多份简历一起备份。」
 - 23–28 秒：「v2.6.0 已上线，欢迎体验并反馈。」
 
-**视频简介：** 简匠 Resume Craft 更新啦：本地证件照裁剪、中文 A4 预览、完整工作区备份、保存稳定性优化。开源、无需注册。完整 JSON 备份未加密，请妥善保管。#简历 #求职 #Markdown #开源
+**视频简介：** Pagevela（原简匠 / Resume Craft） 更新啦：本地证件照裁剪、中文 A4 预览、完整工作区备份、保存稳定性优化。开源、无需注册。完整 JSON 备份未加密，请妥善保管。#简历 #求职 #Markdown #开源
 
 画面使用真实 v2.6.0 页面，9:16 录制；不要把 AI 绘制的假编辑器当作产品截图。
 
@@ -60,8 +60,8 @@ There is A4 / US Letter preview, ATS-oriented guidance and two PDF paths: select
 
 Privacy caveat: the full-workspace JSON file is **unencrypted** and may contain resumes and saved photos. Keep it private; the app does not automatically sync across devices.
 
-Demo: https://kunlong-luo.github.io/resume-craft/
-Source: https://github.com/kunlong-luo/resume-craft
+Demo: https://kunlong-luo.github.io/pagevela/
+Source: https://github.com/kunlong-luo/pagevela
 
 I'd appreciate feedback on portrait header layout, backup UX and printing. Please review subreddit rules before posting; don't request upvotes.
 

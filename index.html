@@ -3,35 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resume Craft — Free Markdown Resume Builder | Local-First</title>
-    <meta name="description" content="Build resumes with Markdown or forms, live A4/US Letter previews, basic ATS-oriented checks, Auto Fit and PDF export. Free, open source and local-first." />
-    <meta name="keywords" content="Resume Craft, 简匠简历, Markdown简历, 简历编辑器, A4简历, US Letter Resume, ATS简历, 英文简历, 简历生成器, Markdown Resume Builder" />
-    <link rel="canonical" href="https://kunlong-luo.github.io/resume-craft/" />
+    <title>Pagevela — Local-First Resume Builder</title>
+    <meta name="description" content="Create and edit resumes with forms or Markdown. Preview A4 and US Letter pages, then export. Your resume content stays in your browser by default." />
+    <meta name="keywords" content="Pagevela, Markdown简历, 简历编辑器, A4简历, US Letter Resume, ATS简历, 英文简历, 简历生成器, Markdown Resume Builder" />
+    <link rel="canonical" href="https://kunlong-luo.github.io/pagevela/" />
     
     <!-- OpenGraph Social Cards -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Resume Craft 简匠简历" />
-    <meta property="og:url" content="https://kunlong-luo.github.io/resume-craft/" />
-    <meta property="og:title" content="Resume Craft — Free Markdown Resume Builder | Local-First" />
+    <meta property="og:site_name" content="Pagevela" />
+    <meta property="og:url" content="https://kunlong-luo.github.io/pagevela/" />
+    <meta property="og:title" content="Pagevela — Local-First Resume Builder" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:description" content="Build resumes with Markdown or forms, live A4/US Letter previews, basic ATS-oriented checks, Auto Fit and PDF export. Free, open source and local-first." />
-    <meta property="og:image" content="https://kunlong-luo.github.io/resume-craft/og-card.png" />
+    <meta property="og:description" content="Create and edit resumes with forms or Markdown. Preview A4 and US Letter pages, then export. Your resume content stays in your browser by default." />
+    <meta property="og:image" content="https://kunlong-luo.github.io/pagevela/og-card.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
 
     <!-- Twitter / X Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Resume Craft — Free Markdown Resume Builder | Local-First" />
-    <meta name="twitter:description" content="Build resumes with Markdown or forms, live A4/US Letter previews, basic ATS-oriented checks, Auto Fit and PDF export. Free, open source and local-first." />
-    <meta name="twitter:image" content="https://kunlong-luo.github.io/resume-craft/og-card.png" />
+    <meta name="twitter:title" content="Pagevela — Local-First Resume Builder" />
+    <meta name="twitter:description" content="Create and edit resumes with forms or Markdown. Preview A4 and US Letter pages, then export. Your resume content stays in your browser by default." />
+    <meta name="twitter:image" content="https://kunlong-luo.github.io/pagevela/og-card.png" />
 
     <!-- Schema.org Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Resume Craft",
-      "url": "https://kunlong-luo.github.io/resume-craft/",
+      "name": "Pagevela",
+      "url": "https://kunlong-luo.github.io/pagevela/",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "All",
       "description": "Free, open-source, local-first resume builder with Markdown and form editing, A4/US Letter previews, basic ATS-oriented checks, and PDF export.",
@@ -58,7 +58,25 @@
     <meta name="theme-color" content="#4F46E5" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Resume Craft" />
+    <meta name="apple-mobile-web-app-title" content="Pagevela" />
+    <script>
+      // Match the public router before React hydrates: the root always opens
+      // the welcome page, while explicit editor deep links keep their own preview.
+      (() => {
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const page = params.get('page') || params.get('view') || params.get('route');
+          const hash = window.location.hash.toLowerCase();
+          const path = window.location.pathname.replace(/\/$/, '');
+          const isEditor = page === 'editor' ||
+            (page !== 'landing' && page !== 'home' &&
+              (hash.includes('#/editor') || hash === '#editor' || path.endsWith('/editor')));
+          document.documentElement.dataset.startupRoute = isEditor ? 'editor' : 'landing';
+        } catch {
+          document.documentElement.dataset.startupRoute = 'landing';
+        }
+      })();
+    </script>
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234F46E5'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z'/%3E%3C/svg%3E" />
   </head>
   <body class="bg-[#070a13] text-slate-100">
@@ -66,13 +84,37 @@
       <div class="startup-shell" aria-hidden="true">
         <div class="startup-topbar">
           <div class="startup-brand">
-            <div class="startup-logo">RC</div>
-            <div class="startup-brand-line startup-shimmer"></div>
+            <div class="startup-logo">P</div>
+            <div class="startup-brand-name">Pagevela</div>
             <div class="startup-chip startup-shimmer"></div>
           </div>
           <div class="startup-actions">
             <div class="startup-icon startup-shimmer"></div>
             <div class="startup-button startup-shimmer"></div>
+          </div>
+        </div>
+        <div class="startup-welcome">
+          <div class="startup-welcome-hero">
+            <div class="startup-welcome-tag startup-shimmer"></div>
+            <div class="startup-welcome-heading">Pagevela</div>
+            <div class="startup-welcome-description startup-shimmer"></div>
+            <div class="startup-welcome-description short startup-shimmer"></div>
+            <div class="startup-welcome-cta startup-shimmer"></div>
+          </div>
+          <div class="startup-welcome-showcase">
+            <div class="startup-welcome-showcase-header startup-shimmer"></div>
+            <div class="startup-welcome-showcase-grid">
+              <div class="startup-welcome-showcase-panel">
+                <div class="startup-welcome-previewline startup-shimmer"></div>
+                <div class="startup-welcome-previewline startup-shimmer"></div>
+                <div class="startup-welcome-previewline short startup-shimmer"></div>
+              </div>
+              <div class="startup-welcome-showcase-panel">
+                <div class="startup-welcome-previewline startup-shimmer"></div>
+                <div class="startup-welcome-previewline startup-shimmer"></div>
+                <div class="startup-welcome-previewline short startup-shimmer"></div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="startup-toolbar">
@@ -145,7 +187,7 @@
           color:white; font-size:11px; font-weight:900;
           box-shadow: 0 6px 16px rgba(79,70,229,.18);
         }
-        .startup-brand-line { width: 96px; height: 12px; border-radius: 6px; }
+        .startup-brand-name { font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
         .startup-chip { width: 68px; height: 24px; border-radius: 8px; }
         .startup-icon { width: 30px; height: 30px; border-radius: 9px; }
         .startup-button { width: 92px; height: 30px; border-radius: 10px; }
@@ -183,7 +225,37 @@
           background-size:200% 100%; animation:startup-shimmer 1.35s ease-in-out infinite;
         }
         @keyframes startup-shimmer { from { background-position:200% 0; } to { background-position:-200% 0; } }
+        /* A cold visit should look like the welcome page, not the editor. */
+        .startup-welcome {
+          flex: 1; min-height: 0; overflow: hidden;
+          display: flex; flex-direction: column; align-items: center;
+          padding: clamp(24px, 5vh, 60px) 20px 0; box-sizing: border-box; gap: 30px;
+        }
+        .startup-welcome-hero { width: min(100%, 680px); display:flex; align-items:center; flex-direction:column; gap:15px; }
+        .startup-welcome-tag { width: 155px; height: 22px; border-radius: 11px; }
+        .startup-welcome-heading { font-size: clamp(28px, 5vw, 44px); font-weight: 900; letter-spacing: -.04em; }
+        .startup-welcome-description { height: 15px; width: min(100%, 510px); border-radius: 8px; }
+        .startup-welcome-description.short { width: min(75%, 380px); }
+        .startup-welcome-cta { margin-top: 8px; width: 192px; height: 46px; border-radius: 14px; }
+        .startup-welcome-showcase {
+          width: min(100%, 880px); min-height: 180px; flex: 1;
+          border: 1px solid var(--startup-border); border-radius: 20px 20px 0 0;
+          background: var(--startup-panel); box-shadow: 0 20px 50px rgba(15,23,42,.09);
+          padding: 24px; box-sizing: border-box;
+        }
+        .startup-welcome-showcase-header { width: 165px; height: 16px; border-radius: 8px; margin-bottom: 24px; }
+        .startup-welcome-showcase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: 100%; }
+        .startup-welcome-showcase-panel { min-height: 150px; border-radius: 12px; background: var(--startup-soft); padding: 20px; }
+        .startup-welcome-previewline { height: 13px; margin-bottom: 19px; border-radius: 8px; }
+        .startup-welcome-previewline.short { width: 68%; }
+        html:not([data-startup-route="editor"]) .startup-toolbar,
+        html:not([data-startup-route="editor"]) .startup-workspace { display: none; }
+        html[data-startup-route="editor"] .startup-welcome { display: none; }
         @media (max-width: 767px) {
+          .startup-welcome { padding: 36px 14px 0; gap: 26px; }
+          .startup-welcome-showcase { padding: 18px; }
+          .startup-welcome-showcase-grid { grid-template-columns: 1fr; }
+          .startup-welcome-showcase-panel + .startup-welcome-showcase-panel { display: none; }
           .startup-topbar { height:48px; flex-basis:48px; padding:0 12px; }
           .startup-toolbar { padding:0 12px; overflow:hidden; }
           .startup-brand-line { width:72px; }

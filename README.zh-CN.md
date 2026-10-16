@@ -1,31 +1,33 @@
 <p align="center">
-  <img src=".github/assets/readme-banner.svg" alt="Resume Craft — Markdown Resume Builder" width="100%" />
+  <img src=".github/assets/readme-banner.svg" alt="Pagevela — Markdown Resume Builder" width="100%" />
 </p>
 
-<h1 align="center">🚀 简匠</h1>
+<h1 align="center">🚀 Pagevela</h1>
 
 <h3 align="center">本地优先的 Markdown 简历编辑器</h3>
+
+> **Pagevela 已正式上线：** 官网为 [https://kunlong-luo.github.io/pagevela/](https://kunlong-luo.github.io/pagevela/)，GitHub 仓库为 [kunlong-luo/pagevela](https://github.com/kunlong-luo/pagevela)。旧 `/resume-craft/` GitHub Pages 网址不再维护也不会自动跳转，请更新旧文章和演示链接。历史发布文件及简历本地数据/分享协议兼容标识保持不变；商标审核另行进行。
 
 <p align="center">
   实时 A4 / US Letter 预览、ATS 检查、中英双语、PDF 导出。
 </p>
 
 <p align="center">
-  <a href="https://kunlong-luo.github.io/resume-craft/"><strong>在线体验</strong></a>
+  <a href="https://kunlong-luo.github.io/pagevela/"><strong>在线体验</strong></a>
   ·
   <a href="./README.md">English</a>
   ·
-  <a href="https://github.com/kunlong-luo/resume-craft/discussions">反馈 / Discussions</a>
+  <a href="https://github.com/kunlong-luo/pagevela/discussions">反馈 / Discussions</a>
   ·
-  <a href="https://github.com/kunlong-luo/resume-craft/releases/latest">Latest Release</a>
+  <a href="https://github.com/kunlong-luo/pagevela/releases/latest">Latest Release</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/kunlong-luo/resume-craft/actions/workflows/ci.yml"><img src="https://github.com/kunlong-luo/resume-craft/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/kunlong-luo/pagevela/actions/workflows/ci.yml"><img src="https://github.com/kunlong-luo/pagevela/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License" /></a>
 </p>
 
-> **Resume Craft** 面向希望摆脱 Word 排版负担的求职者和开发者。它把 Markdown 的高效编辑、结构化表单和 A4 / US Letter 实时预览放在同一个本地优先工作流里，无需注册即可开始制作简历。
+> **Pagevela** 面向希望摆脱 Word 排版负担的求职者和开发者。它把 Markdown 的高效编辑、结构化表单和 A4 / US Letter 实时预览放在同一个本地优先工作流里，无需注册即可开始制作简历。
 >
 > **Markdown ↔ Form · A4 / US Letter Preview · ATS Checks · Auto Fit · PDF Export · Local-first · PWA**
 >
@@ -42,17 +44,17 @@
 
 **隐私提示：** 完整工作区 JSON **未经加密**，可能包含姓名、联系方式、照片和求职信息，请勿公开分享。切换浏览器或域名不会自动迁移数据；导入成功前请保留原网站数据。详见[完整工作区迁移指南](./docs/WORKSPACE_TRANSFER.md)。
 
-查看已发布的 [v2.6.0 正式版本](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0) 和[详细更新说明](./RELEASE_NOTES.md)。上一版：[v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0)。
+查看已发布的 [v2.6.0 正式版本](https://github.com/kunlong-luo/pagevela/releases/tag/v2.6.0) 和[详细更新说明](./RELEASE_NOTES.md)。上一版：[v2.5.0 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.5.0)。
 
 ---
 
-## 💡 为什么选择 Resume Craft？
+## 💡 为什么选择 Pagevela？
 
-在传统的简历制作中，求职者常常面临 **Word 对齐地狱**、**PDF 导出乱码错位**、**“1.1 页”尴尬超页** 以及 **跨设备字体变形** 等痛点。Resume Craft 针对这些问题构建了一整套极客级解决方案：
+在传统的简历制作中，求职者常常面临 **Word 对齐地狱**、**PDF 导出乱码错位**、**“1.1 页”尴尬超页** 以及 **跨设备字体变形** 等痛点。Pagevela 针对这些问题构建了一整套极客级解决方案：
 
 ```
 +-----------------------------------------------------------------------------------+
-|                                  RESUME CRAFT                                     |
+|                                   Pagevela                                    |
 |                                                                                   |
 |  [ 可视化结构表单 ] <==========( 实时双向 AST 引擎 )==========> [ Markdown 源码 ]    |
 |          |                                                             |          |
@@ -83,7 +85,7 @@
 * **纸张边界提示**：预览与打印支持 A4 与 US Letter，并根据当前目标市场与纸张设置展示对应分页边界。
 
 ### 3. ✨ PDF / 文件 / 纯文本本地导入
-* **PDF 本地提取**：可直接选择带文本层的 PDF，使用 PDF.js 在浏览器本地提取文字；文件不会上传到 Resume Craft 服务器。
+* **PDF 本地提取**：可直接选择带文本层的 PDF，使用 PDF.js 在浏览器本地提取文字；文件不会上传到 Pagevela 服务器。
 * **机器可读性检查**：导入 PDF 前会展示文本提取质量、邮箱/电话与常见章节识别情况，作为 ATS 可读性的代理参考；它不代表任何具体 ATS 的最终评分或通过保证。
 * **智能规整**：PDF 提取文本、`.txt` 与直接粘贴的杂乱文本会由本地轻量算法识别姓名、联系方式、工作经历与技能模块，并规整为可继续编辑的 Markdown。
 * **边界说明**：扫描件 / 纯图片 PDF 暂不做 OCR；带密码保护或缺少可用文本层的 PDF 会提示改用其他导出版本或纯文本粘贴。
@@ -182,8 +184,8 @@
 
 ### 1. 克隆项目
 ```bash
-git clone https://github.com/kunlong-luo/resume-craft.git
-cd resume-craft
+git clone https://github.com/kunlong-luo/pagevela.git
+cd pagevela
 ```
 
 ### 2. 安装依赖
@@ -212,7 +214,7 @@ pnpm dev
 
 ## 📈 PDF 下载与打印指南
 
-Resume Craft 提供两条导出路径：
+Pagevela 提供两条导出路径：
 
 1. **ATS PDF（默认、推荐）**：点击顶部 **“ATS PDF”**，或使用 **Ctrl/Cmd + P** 调起浏览器原生打印流程，然后选择 **Save as PDF / 另存为 PDF**。浏览器生成的 PDF 在支持的情况下会保留可搜索、可选择的文本，更适合正式投递与 ATS 解析。
 2. **快速 PDF（备用）**：使用 `html2canvas-pro + jsPDF` 将当前纸张画布渲染成图片型 PDF，适合快速下载、视觉分享或浏览器打印受限时使用。该路径会把页面内容光栅化，不建议作为 ATS 投递的首选。
@@ -248,7 +250,7 @@ Resume Craft 提供两条导出路径：
 
 ## 🔐 隐私与安全边界
 
-Resume Craft 采用本地优先架构，但“本地优先”不等于“所有数据都经过加密”。
+Pagevela 采用本地优先架构，但“本地优先”不等于“所有数据都经过加密”。
 
 - 核心简历、Profiles、Draft / 自动备份与 JD 文本保存在当前浏览器的 IndexedDB 中；主题、语言、布局等轻量偏好保存在 `localStorage`。
 - 项目本身不提供用于持久化简历内容的应用后端。
@@ -256,7 +258,7 @@ Resume Craft 采用本地优先架构，但“本地优先”不等于“所有�
 - 产品使用 Simple Analytics 统计少量匿名聚合指标（开始编辑、导出、ATS 匹配、Auto Fit、分享、PWA 安装与反馈入口）；事件只有固定事件名，不附带 metadata。尊重 Do Not Track，开启 DNT 时不会加载统计脚本；不发送简历、JD、联系方式、文件名、分享参数或访问口令，也不启用会话回放/指纹识别。
 - 新分享链接把载荷放在 URL fragment 中，不会作为请求查询参数发送给托管站点；旧版 `?share=` 链接仍兼容。公开分享不提供内容加密；密码保护分享在浏览器本地加密，密码不写入链接。
 - 不要在 Issue、PR、测试数据或截图中提交真实简历、访问令牌、密码或其他敏感信息。
-- 产品建议与使用反馈可前往 [GitHub Discussions](https://github.com/kunlong-luo/resume-craft/discussions)；不会自动附带任何简历内容。
+- 产品建议与使用反馈可前往 [GitHub Discussions](https://github.com/kunlong-luo/pagevela/discussions)；不会自动附带任何简历内容。
 - 安全问题请按照 [SECURITY.md](SECURITY.md) 的私密报告流程处理。
 
 ---

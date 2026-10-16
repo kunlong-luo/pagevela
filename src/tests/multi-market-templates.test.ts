@@ -114,7 +114,7 @@ describe('Phase 6: Multi-Market Template Center & Starter Data', () => {
       expect(demo.defaultPaperSize).toBe('a4');
       expect(demo.dateStyle).toBe('cn-dot');
       expect(demo.suggestedLang).toBe('zh');
-      expect(demo.content).toContain('Resume Craft 中文通用 Demo');
+      expect(demo.content).toContain('Pagevela 中文通用 Demo');
       expect(demo.content).toContain('## 工作经历');
     });
 

@@ -1,31 +1,33 @@
 <p align="center">
-  <img src=".github/assets/readme-banner.svg" alt="Resume Craft — Markdown Resume Builder" width="100%" />
+  <img src=".github/assets/readme-banner.svg" alt="Pagevela — Markdown Resume Builder" width="100%" />
 </p>
 
-<h1 align="center">🚀 Resume Craft</h1>
+<h1 align="center">🚀 Pagevela</h1>
 
 <h3 align="center">Local-first Markdown Resume Builder</h3>
+
+> **Pagevela is live:** The official website is [https://kunlong-luo.github.io/pagevela/](https://kunlong-luo.github.io/pagevela/) and the repository is [kunlong-luo/pagevela](https://github.com/kunlong-luo/pagevela). The former `/resume-craft/` Pages URL is not supported or redirected; update old article/demo links. Historical release artifacts and internal data/share compatibility identifiers remain unchanged. Trademark review is separate from the deployed project name.
 
 <p align="center">
   Build and tailor A4 or US Letter resumes with Markdown, structured forms, ATS checks, and direct PDF export.
 </p>
 
 <p align="center">
-  <a href="https://kunlong-luo.github.io/resume-craft/"><strong>Live Demo</strong></a>
+  <a href="https://kunlong-luo.github.io/pagevela/"><strong>Live Demo</strong></a>
   ·
   <a href="./README.zh-CN.md">简体中文</a>
   ·
-  <a href="https://github.com/kunlong-luo/resume-craft/discussions">Feedback / Discussions</a>
+  <a href="https://github.com/kunlong-luo/pagevela/discussions">Feedback / Discussions</a>
   ·
-  <a href="https://github.com/kunlong-luo/resume-craft/releases/latest">Latest Release</a>
+  <a href="https://github.com/kunlong-luo/pagevela/releases/latest">Latest Release</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/kunlong-luo/resume-craft/actions/workflows/ci.yml"><img src="https://github.com/kunlong-luo/resume-craft/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/kunlong-luo/pagevela/actions/workflows/ci.yml"><img src="https://github.com/kunlong-luo/pagevela/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License" /></a>
 </p>
 
-> **Resume Craft** is for job seekers and developers who want to spend less time fighting Word layouts. It combines Markdown, structured forms, and a live A4 / US Letter preview in a local-first workflow that works without an account.
+> **Pagevela** is for job seekers and developers who want to spend less time fighting Word layouts. It combines Markdown, structured forms, and a live A4 / US Letter preview in a local-first workflow that works without an account.
 >
 > **Markdown ↔ Form · A4 / US Letter Preview · ATS Checks · Auto Fit · PDF Export · Local-first · PWA**
 >
@@ -42,17 +44,17 @@
 
 **Important:** A new browser, device or site origin does not automatically have access to your existing resumes. Export your old workspace and verify the destination import before deleting anything. [Workspace transfer guide](./docs/WORKSPACE_TRANSFER.md).
 
-See the published [v2.6.0 GitHub Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0) and [full release notes](./RELEASE_NOTES.md). Previous: [v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0).
+See the published [v2.6.0 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.6.0) and [full release notes](./RELEASE_NOTES.md). Previous: [v2.5.0 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.5.0).
 
 ---
 
-## 💡 Why Choose Resume Craft?
+## 💡 Why Choose Pagevela?
 
-When creating resumes, candidates frequently suffer from **Word layout nightmares**, **PDF export font corruptions**, **unwanted 1.1-page spills**, and **multi-device font distortion**. Resume Craft provides an end-to-end engineered solution:
+When creating resumes, candidates frequently suffer from **Word layout nightmares**, **PDF export font corruptions**, **unwanted 1.1-page spills**, and **multi-device font distortion**. Pagevela provides an end-to-end engineered solution:
 
 ```
 +-----------------------------------------------------------------------------------+
-|                                  RESUME CRAFT                                     |
+|                                   Pagevela                                    |
 |                                                                                   |
 |  [ Structured Form ] <=========( Real-Time AST Bi-Sync )=========> [ Markdown ]   |
 |          |                                                             |          |
@@ -83,7 +85,7 @@ When creating resumes, candidates frequently suffer from **Word layout nightmare
 * **Paper Boundary Indicators**: Preview and print support A4 and US Letter, with page boundaries matched to the current market and paper settings.
 
 ### 3. ✨ Local PDF / File / Raw Text Import
-* **Local PDF extraction**: Select a PDF with a text layer and PDF.js extracts the text entirely in the browser; the file is not uploaded to a Resume Craft server.
+* **Local PDF extraction**: Select a PDF with a text layer and PDF.js extracts the text entirely in the browser; the file is not uploaded to a Pagevela server.
 * **Machine-readability check**: Before import, the app summarizes text extraction quality plus detected email, phone, and common section headings as an ATS-readability proxy. It is not a guarantee or score from any specific ATS.
 * **Smart normalization**: Extracted PDF text, `.txt` files, and pasted raw text are locally converted into editable Markdown with contact, experience, and skills structure.
 * **Current limits**: Image-only/scanned PDFs are not OCR'd yet. Password-protected PDFs or files without a usable text layer are rejected with a fallback suggestion.
@@ -181,8 +183,8 @@ When creating resumes, candidates frequently suffer from **Word layout nightmare
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/kunlong-luo/resume-craft.git
-cd resume-craft
+git clone https://github.com/kunlong-luo/pagevela.git
+cd pagevela
 ```
 
 ### 2. Install Dependencies
@@ -211,7 +213,7 @@ Open `http://localhost:3000` in your browser to start editing.
 
 ## 📈 PDF Download & Print Guide
 
-Resume Craft provides two export paths:
+Pagevela provides two export paths:
 
 1. **ATS PDF (default, recommended)**: click **ATS PDF** or press **Ctrl/Cmd + P**, then choose **Save as PDF** in the browser print flow. Where supported by the browser, this preserves searchable/selectable text and is the preferred path for job applications and ATS parsing.
 2. **Quick PDF (fallback)**: uses `html2canvas-pro + jsPDF` to rasterize the currently selected paper canvas into an image-based PDF. It is useful for fast downloads, visual sharing, or environments where browser printing is blocked, but it is not the preferred ATS submission format.
@@ -228,7 +230,7 @@ While editing, use the current A4 / US Letter paper boundaries and **1-Click Aut
 
 ## 🔐 Privacy & Security Boundaries
 
-Resume Craft is local-first, but local-first does not mean that every stored or shared value is cryptographically encrypted.
+Pagevela is local-first, but local-first does not mean that every stored or shared value is cryptographically encrypted.
 
 - Core resumes, profiles, drafts / automatic backups, and JD text are stored in this browser's IndexedDB; small UI preferences such as theme, language, and layout remain in `localStorage`.
 - The project does not provide an application backend for persisting resume content.
@@ -236,7 +238,7 @@ Resume Craft is local-first, but local-first does not mean that every stored or 
 - The product uses Simple Analytics for a small set of anonymous aggregate signals (editing, export, ATS matching, Auto Fit, sharing, PWA installation, and feedback intent). Events contain only a fixed event name and no metadata. Do Not Track is respected and the analytics script is not loaded when DNT is enabled; resume, JD, contact, filename, share-payload, and access-code content are never sent, and session replay/fingerprinting are not used.
 - New share URLs keep the payload in the URL fragment so it is not sent to the hosting server as a request query; legacy `?share=` links remain compatible. Public links are not content-encrypted; password-protected shares are encrypted locally in the browser, and the password is never placed in the link.
 - Do not include real resume data, tokens, passwords, or other sensitive information in issues, pull requests, test fixtures, or screenshots.
-- Product feedback and ideas can go to [GitHub Discussions](https://github.com/kunlong-luo/resume-craft/discussions); no resume content is attached automatically.
+- Product feedback and ideas can go to [GitHub Discussions](https://github.com/kunlong-luo/pagevela/discussions); no resume content is attached automatically.
 - Report security issues through the private process described in [SECURITY.md](SECURITY.md).
 
 ---

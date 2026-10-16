@@ -18,14 +18,14 @@ jobs:
         uses: tgagor/action-crosspost@4fca5f19e42f652d76dd3b12b334f29494bef30b # v1
         with:
           dry-run: true
-          feed-url: https://kunlong-luo.github.io/resume-craft/sitemap.xml
+          feed-url: https://kunlong-luo.github.io/pagevela/sitemap.xml
           since: '7'
           since-unit: days
           limit: '1'
           failure-strategy: continue
           lastmod-required: error
           filter-urls: |
-            /resume-craft/
+            /pagevela/
           message: |
             {description}
             {url}

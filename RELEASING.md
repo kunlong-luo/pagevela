@@ -1,6 +1,8 @@
-# Releasing Resume Craft
+# Releasing Pagevela
 
-Resume Craft publishes stable releases only. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
+Pagevela publishes stable releases only.
+
+> **Live Pagevela release status:** PR #210 was merged and the public project was renamed to `kunlong-luo/pagevela`; the published site is https://kunlong-luo.github.io/pagevela/. Historical v2.6.0 archives and internal data/share keys stay unchanged. The old `/resume-craft/` Pages URL is not redirected, by owner choice. Trademark review and optional future custom domains are separate. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
 
 ## Versioning
 

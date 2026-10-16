@@ -1,4 +1,5 @@
 import React from 'react';
+import { PRODUCT_NAME } from '../../lib/brand';
 import { ExternalLink } from 'lucide-react';
 
 interface LandingFooterProps {
@@ -11,15 +12,15 @@ export function LandingFooter({ isEn }: LandingFooterProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="w-6 h-6 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-lg text-white flex items-center justify-center font-black text-[10px]">
-            RC
+            P
           </div>
-          <span className="font-bold text-slate-200">{isEn ? 'Resume Craft' : '简匠'}</span>
+          <span className="font-bold text-slate-200">{PRODUCT_NAME}</span>
           <span>· MIT License · Open Source</span>
         </div>
 
         <div className="flex items-center gap-6 font-semibold">
           <a
-            href="https://github.com/kunlong-luo/resume-craft"
+            href="https://github.com/kunlong-luo/pagevela"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white transition-colors flex items-center gap-1"
@@ -28,7 +29,7 @@ export function LandingFooter({ isEn }: LandingFooterProps) {
             <ExternalLink className="w-3 h-3" />
           </a>
           <a
-            href="https://github.com/kunlong-luo/resume-craft/issues"
+            href="https://github.com/kunlong-luo/pagevela/issues"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white transition-colors"

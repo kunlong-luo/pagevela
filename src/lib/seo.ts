@@ -1,16 +1,17 @@
+import { PRODUCT_NAME } from './brand';
 // Public product metadata only: never derive SEO content from resumes or share URLs.
 export type SeoLanguage = 'en' | 'zh';
 
 export const SEO_COPY = {
   en: {
-    title: 'Resume Craft — Free Markdown Resume Builder | Local-First',
-    description: 'Build resumes with Markdown or forms, live A4/US Letter previews, basic ATS-oriented checks, Auto Fit and PDF export. Free, open source and local-first.',
+    title: `${PRODUCT_NAME} — Local-First Resume Builder`,
+    description: 'Create and edit resumes with forms or Markdown. Preview A4 and US Letter pages, then export. Your resume content stays in your browser by default.',
     locale: 'en_US',
     documentLanguage: 'en',
   },
   zh: {
-    title: 'Resume Craft 简匠 — 免费开源 Markdown 简历编辑器',
-    description: '简匠是一款免费开源、本地优先的简历编辑器，支持 Markdown 与表单双向编辑、A4 / US Letter 实时预览、ATS 规则检查、Auto Fit 和 PDF 导出。',
+    title: `${PRODUCT_NAME} — 本地优先的简历编辑器`,
+    description: '使用表单或 Markdown 制作简历，预览 A4 与 US Letter 排版并导出。简历内容默认保存在浏览器本地。',
     locale: 'zh_CN',
     documentLanguage: 'zh-CN',
   },

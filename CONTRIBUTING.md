@@ -1,6 +1,6 @@
-# Contributing to Resume Craft
+# Contributing to Pagevela
 
-Thanks for helping improve Resume Craft. Contributions of all sizes are welcome.
+Thanks for helping improve Pagevela. Contributions of all sizes are welcome.
 
 ## Before you start
 
@@ -14,10 +14,10 @@ Thanks for helping improve Resume Craft. Contributions of all sizes are welcome.
 Requirements:
 
 - Node.js 24
-- pnpm 11.27.x
+- pnpm 12.6.x (matching `package.json`)
 
 ```bash
-git clone https://github.com/kunlong-luo/resume-craft.git
+git clone https://github.com/kunlong-luo/pagevela.git
 cd resume-craft
 pnpm install
 pnpm dev
@@ -51,7 +51,7 @@ Recommended commit prefixes follow Conventional Commits where practical: `feat:`
 
 ## Dependency update policy
 
-Resume Craft tracks stable dependency releases only.
+Pagevela tracks stable dependency releases only.
 
 - Prefer the newest stable release available when upgrading a dependency.
 - Stable SemVer releases and the npm `latest` / `stable` channels are allowed.

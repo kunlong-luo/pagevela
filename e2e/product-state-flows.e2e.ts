@@ -150,7 +150,7 @@ test.describe('product state flows', () => {
     });
   });
 
-  test('restores a full Resume Craft backup exactly through the regular import UI', async ({ page }) => {
+  test('restores a full Pagevela backup exactly through the regular import UI', async ({ page }) => {
     await page.goto('/?page=editor');
 
     await page.getByRole('button', { name: /More actions|更多操作/ }).click();
@@ -197,7 +197,7 @@ test.describe('product state flows', () => {
     });
 
     await expect(page.getByText('resume-craft-full-backup.JSON')).toBeVisible();
-    await expect(page.getByText(/Full Resume Craft backup detected|已识别 Resume Craft 完整备份/)).toBeVisible();
+    await expect(page.getByText(/Full Pagevela backup detected|已识别 Pagevela 完整备份/)).toBeVisible();
 
     await page.getByRole('button', { name: /Import This File|确认导入/ }).click();
 
