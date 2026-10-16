@@ -1,5 +1,7 @@
 # Pagevela clearance and launch gates — 2026-10-15
 
+> **Historical archive (2026-10-16):** This document records the **pre-launch** research and decisions as they were documented. **Pagevela is now live** at https://kunlong-luo.github.io/pagevela/ and https://github.com/kunlong-luo/pagevela. Any instructions below saying the rename has not launched, that `/resume-craft/` is the live site, or that an old-site redirect is required are **superseded**. The owner chose not to redirect the retired Pages path. Use [PAGEVELA_STAGING.md](./PAGEVELA_STAGING.md) and [channel-refresh/README.md](./channel-refresh/README.md) for current status. Historical trademark observations do not establish clearance.
+
 > **Owner-approved name selection (2026-10-15), NOT trademark-cleared or approved for public launch.** This record supplements [INTERNATIONAL_REBRAND_READINESS.md](./INTERNATIONAL_REBRAND_READINESS.md) and issue #202. The owner explicitly rejected continued use of the legacy Chinese brand on 2026-10-15. Retire it in the eventual approved rollout. The owner now selected **Pagevela** as the single English/Chinese name; this is not legal clearance or consent to purchase a domain. Do not change production name, DNS, canonical URLs, manifest names, local storage keys, or the original GitHub Pages origin based on this record.
 
 Implementation decisions: [Pagevela brand implementation contract](./PAGEVELA_BRAND_IMPLEMENTATION_CONTRACT.md).
