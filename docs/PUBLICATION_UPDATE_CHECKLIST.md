@@ -1,5 +1,7 @@
 # Pagevela public listings and media update checklist
 
+> **Platform-by-platform ready-to-copy pack:** [中外媒体逐个平台修改包](./channel-refresh/README.md) · [进度表 CSV](./channel-refresh/TRACKER.csv) · [截图与封面要求](./channel-refresh/ASSETS.md). This is a source repository preparation, not external publication.
+
 Current public identity (verified 2026-10-16):
 - **Brand:** Pagevela (formerly Resume Craft / 简匠).
 - **App:** https://kunlong-luo.github.io/pagevela/
