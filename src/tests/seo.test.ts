@@ -15,7 +15,7 @@ describe('public product metadata', () => {
     expect(indexHtml).toContain(`name="twitter:title" content="${SEO_COPY.en.title}"`);
     expect(indexHtml).toContain(`name="twitter:description" content="${SEO_COPY.en.description}"`);
     expect(indexHtml).toContain('property="og:locale" content="en_US"');
-    expect(indexHtml).toContain('rel="canonical" href="https://kunlong-luo.github.io/resume-craft/"');
+    expect(indexHtml).toContain('rel="canonical" href="https://kunlong-luo.github.io/pagevela/"');
   });
 
   it('switches only fixed public metadata when UI language changes', () => {

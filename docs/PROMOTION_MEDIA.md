@@ -2,7 +2,7 @@
 
 This is a repeatable Playwright browser capture of the **real application UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
 
-**Brand-release update (2026-10-15):** The **existing** production GitHub Pages origin now displays Pagevela after PR #210, but **no distinct custom-domain Pagevela HTTPS site** is deployed. The capture workflow can review the current `main` branch or an isolated staging branch. Existing `resume-craft-*` artifact filenames are compatibility identifiers rather than public brand names. Generated social PNGs and MP4s still need actual rendering, human visual review and separate posting approval.
+**Current-brand media (2026-10-16):** Pagevela is live at https://kunlong-luo.github.io/pagevela/. Capture real UI and marketing screenshots from current `main` (or an explicitly reviewed experiment), not the retired `/resume-craft/` website. Old `resume-craft-*` artifact filenames are workflow compatibility details, **not visible public branding**. Validate URLs, layout and Pagevela wordmark in actual rendered images before posting; no screenshot or video is automatically published.
 
 ## Downloadable files
 
@@ -21,8 +21,8 @@ The GitHub Actions workflow **Capture Real Promotion Media** uploads a `resume-c
 
 ## Regenerate
 
-1. In GitHub, open **Actions → Capture Real Promotion Media → Run workflow**. For a current-brand screenshot, select `main` in **Use workflow from**; for pre-release experiments, use an explicitly selected isolated review branch. This is an **opt-in media capture**, not an automatic deployment or posting action. The workflow's automatic push trigger still targets only `feat/promotion-media-v2`.
-2. After the selected-branch run finishes successfully, open that run's summary. Verify that the checked-out branch/commit is the intended Pagevela build and that the screenshot does not show cached legacy branding.
+1. In GitHub, open **Actions → Capture Real Promotion Media → Run workflow**. In **Use workflow from**, select `main` for real current-brand captures. A workflow run produces review artifacts; it does **not** publish a social post. The workflow's automatic push trigger is limited to its designated development branch.
+2. After the run succeeds, inspect its commit/branch and visually confirm the current Pagevela branding and live URL.
 3. Download the `resume-craft-promotion-media` ZIP from **Artifacts**. The `resume-craft-*` ZIP/PNG/MP4 names are compatibility filenames, **not** visible branding and not a reason to rename them.
 4. Inspect the actual PNG/MP4 output against the checklist below. Keep all generated assets **private and unpublished** until separately approved for release; CI passing is not visual approval.
 
@@ -32,10 +32,10 @@ The GitHub Actions workflow **Capture Real Promotion Media** uploads a `resume-c
 - [ ] Social cover, landscape thumbnail (1280×720), gallery (1200×900), portrait tile (1080×1350), video intro/outro and MP4 overlay show **Pagevela / P** and readable text without clipping or font fallback artifacts.
 - [ ] The screenshot depicts an actual local Chromium browser session with only fictional sample content; no real names, contact details, upload payloads or private URLs are present.
 - [ ] Claims match tested features: the video may show the **export menu**, but that alone does not prove a PDF was successfully saved or accepted by an ATS.
-- [ ] Any displayed `kunlong-luo.github.io/resume-craft` address is explicitly understood as the **current working old-origin URL**; no new Pagevela hostname is claimed, linked or silently redirected.
+- [ ] Every displayed web address and CTA points to `https://kunlong-luo.github.io/pagevela/`; any old `/resume-craft/` screenshot or Product Hunt link must be replaced.
 - [ ] The final logo/visual identity and commercial-use clearance are independently approved before public posting. Until then, these are **staging review artifacts**.
 
-**Evidence status (2026-10-15):** This document provides instructions and acceptance criteria only. The product brand is live on the existing origin; **no fresh promotional capture, image inspection, new-domain deployment or social posting is asserted here.**
+**Evidence status:** This document specifies a repeatable capture and quality-review workflow; it does **not** assert that fresh screenshots or videos have been captured, visually approved or posted.
 
 The workflow runs a temporary local Vite server inside GitHub Actions. It does not save or read personal resumes and does not contact the public analytics origin.
 

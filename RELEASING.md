@@ -2,7 +2,7 @@
 
 Pagevela publishes stable releases only.
 
-> **Brand status (2026-10-15):** The Pagevela display-name update from PR #210 is deployed on the existing GitHub Pages origin. The package version, historical v2.6.0 release archives, repository slug and old encrypted-share identifiers remain unchanged. Trademark clearance, a separate new hostname and cross-origin migration still require independent review. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
+> **Live Pagevela release status:** PR #210 was merged and the public project was renamed to `kunlong-luo/pagevela`; the published site is https://kunlong-luo.github.io/pagevela/. Historical v2.6.0 archives and internal data/share keys stay unchanged. The old `/resume-craft/` Pages URL is not redirected, by owner choice. Trademark review and optional future custom domains are separate. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
 
 ## Versioning
 

@@ -6,24 +6,24 @@
 
 <h3 align="center">本地优先的 Markdown 简历编辑器</h3>
 
-> **Pagevela 品牌更新（2026-10-15）：** 现有 GitHub Pages 网站已通过 [PR #210](https://github.com/kunlong-luo/resume-craft/pull/210) 启用 Pagevela 全球统一名称。历史 v2.6.0 发布文件及仓库路径仍保留原有技术标识。商标核验、新域名及跨站数据迁移尚未完成。
+> **Pagevela 已正式上线：** 官网为 [https://kunlong-luo.github.io/pagevela/](https://kunlong-luo.github.io/pagevela/)，GitHub 仓库为 [kunlong-luo/pagevela](https://github.com/kunlong-luo/pagevela)。旧 `/resume-craft/` GitHub Pages 网址不再维护也不会自动跳转，请更新旧文章和演示链接。历史发布文件及简历本地数据/分享协议兼容标识保持不变；商标审核另行进行。
 
 <p align="center">
   实时 A4 / US Letter 预览、ATS 检查、中英双语、PDF 导出。
 </p>
 
 <p align="center">
-  <a href="https://kunlong-luo.github.io/resume-craft/"><strong>在线体验</strong></a>
+  <a href="https://kunlong-luo.github.io/pagevela/"><strong>在线体验</strong></a>
   ·
   <a href="./README.md">English</a>
   ·
-  <a href="https://github.com/kunlong-luo/resume-craft/discussions">反馈 / Discussions</a>
+  <a href="https://github.com/kunlong-luo/pagevela/discussions">反馈 / Discussions</a>
   ·
-  <a href="https://github.com/kunlong-luo/resume-craft/releases/latest">Latest Release</a>
+  <a href="https://github.com/kunlong-luo/pagevela/releases/latest">Latest Release</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/kunlong-luo/resume-craft/actions/workflows/ci.yml"><img src="https://github.com/kunlong-luo/resume-craft/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/kunlong-luo/pagevela/actions/workflows/ci.yml"><img src="https://github.com/kunlong-luo/pagevela/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License" /></a>
 </p>
 
@@ -44,7 +44,7 @@
 
 **隐私提示：** 完整工作区 JSON **未经加密**，可能包含姓名、联系方式、照片和求职信息，请勿公开分享。切换浏览器或域名不会自动迁移数据；导入成功前请保留原网站数据。详见[完整工作区迁移指南](./docs/WORKSPACE_TRANSFER.md)。
 
-查看已发布的 [v2.6.0 正式版本](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0) 和[详细更新说明](./RELEASE_NOTES.md)。上一版：[v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0)。
+查看已发布的 [v2.6.0 正式版本](https://github.com/kunlong-luo/pagevela/releases/tag/v2.6.0) 和[详细更新说明](./RELEASE_NOTES.md)。上一版：[v2.5.0 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.5.0)。
 
 ---
 
@@ -184,8 +184,8 @@
 
 ### 1. 克隆项目
 ```bash
-git clone https://github.com/kunlong-luo/resume-craft.git
-cd resume-craft
+git clone https://github.com/kunlong-luo/pagevela.git
+cd pagevela
 ```
 
 ### 2. 安装依赖
@@ -258,7 +258,7 @@ Pagevela 采用本地优先架构，但“本地优先”不等于“所有数�
 - 产品使用 Simple Analytics 统计少量匿名聚合指标（开始编辑、导出、ATS 匹配、Auto Fit、分享、PWA 安装与反馈入口）；事件只有固定事件名，不附带 metadata。尊重 Do Not Track，开启 DNT 时不会加载统计脚本；不发送简历、JD、联系方式、文件名、分享参数或访问口令，也不启用会话回放/指纹识别。
 - 新分享链接把载荷放在 URL fragment 中，不会作为请求查询参数发送给托管站点；旧版 `?share=` 链接仍兼容。公开分享不提供内容加密；密码保护分享在浏览器本地加密，密码不写入链接。
 - 不要在 Issue、PR、测试数据或截图中提交真实简历、访问令牌、密码或其他敏感信息。
-- 产品建议与使用反馈可前往 [GitHub Discussions](https://github.com/kunlong-luo/resume-craft/discussions)；不会自动附带任何简历内容。
+- 产品建议与使用反馈可前往 [GitHub Discussions](https://github.com/kunlong-luo/pagevela/discussions)；不会自动附带任何简历内容。
 - 安全问题请按照 [SECURITY.md](SECURITY.md) 的私密报告流程处理。
 
 ---

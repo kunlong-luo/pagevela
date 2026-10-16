@@ -6,24 +6,24 @@
 
 <h3 align="center">Local-first Markdown Resume Builder</h3>
 
-> **Pagevela brand update (2026-10-15):** Pagevela now appears on the existing GitHub Pages website following [PR #210](https://github.com/kunlong-luo/resume-craft/pull/210). Historical v2.6.0 release artifacts and repository URLs retain their original identifiers. Trademark review, an optional new domain and any cross-origin user-data migration are separate, unfinished tasks.
+> **Pagevela is live:** The official website is [https://kunlong-luo.github.io/pagevela/](https://kunlong-luo.github.io/pagevela/) and the repository is [kunlong-luo/pagevela](https://github.com/kunlong-luo/pagevela). The former `/resume-craft/` Pages URL is not supported or redirected; update old article/demo links. Historical release artifacts and internal data/share compatibility identifiers remain unchanged. Trademark review is separate from the deployed project name.
 
 <p align="center">
   Build and tailor A4 or US Letter resumes with Markdown, structured forms, ATS checks, and direct PDF export.
 </p>
 
 <p align="center">
-  <a href="https://kunlong-luo.github.io/resume-craft/"><strong>Live Demo</strong></a>
+  <a href="https://kunlong-luo.github.io/pagevela/"><strong>Live Demo</strong></a>
   ·
   <a href="./README.zh-CN.md">简体中文</a>
   ·
-  <a href="https://github.com/kunlong-luo/resume-craft/discussions">Feedback / Discussions</a>
+  <a href="https://github.com/kunlong-luo/pagevela/discussions">Feedback / Discussions</a>
   ·
-  <a href="https://github.com/kunlong-luo/resume-craft/releases/latest">Latest Release</a>
+  <a href="https://github.com/kunlong-luo/pagevela/releases/latest">Latest Release</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/kunlong-luo/resume-craft/actions/workflows/ci.yml"><img src="https://github.com/kunlong-luo/resume-craft/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/kunlong-luo/pagevela/actions/workflows/ci.yml"><img src="https://github.com/kunlong-luo/pagevela/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License" /></a>
 </p>
 
@@ -44,7 +44,7 @@
 
 **Important:** A new browser, device or site origin does not automatically have access to your existing resumes. Export your old workspace and verify the destination import before deleting anything. [Workspace transfer guide](./docs/WORKSPACE_TRANSFER.md).
 
-See the published [v2.6.0 GitHub Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.6.0) and [full release notes](./RELEASE_NOTES.md). Previous: [v2.5.0 Release](https://github.com/kunlong-luo/resume-craft/releases/tag/v2.5.0).
+See the published [v2.6.0 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.6.0) and [full release notes](./RELEASE_NOTES.md). Previous: [v2.5.0 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.5.0).
 
 ---
 
@@ -183,8 +183,8 @@ When creating resumes, candidates frequently suffer from **Word layout nightmare
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/kunlong-luo/resume-craft.git
-cd resume-craft
+git clone https://github.com/kunlong-luo/pagevela.git
+cd pagevela
 ```
 
 ### 2. Install Dependencies
@@ -238,7 +238,7 @@ Pagevela is local-first, but local-first does not mean that every stored or shar
 - The product uses Simple Analytics for a small set of anonymous aggregate signals (editing, export, ATS matching, Auto Fit, sharing, PWA installation, and feedback intent). Events contain only a fixed event name and no metadata. Do Not Track is respected and the analytics script is not loaded when DNT is enabled; resume, JD, contact, filename, share-payload, and access-code content are never sent, and session replay/fingerprinting are not used.
 - New share URLs keep the payload in the URL fragment so it is not sent to the hosting server as a request query; legacy `?share=` links remain compatible. Public links are not content-encrypted; password-protected shares are encrypted locally in the browser, and the password is never placed in the link.
 - Do not include real resume data, tokens, passwords, or other sensitive information in issues, pull requests, test fixtures, or screenshots.
-- Product feedback and ideas can go to [GitHub Discussions](https://github.com/kunlong-luo/resume-craft/discussions); no resume content is attached automatically.
+- Product feedback and ideas can go to [GitHub Discussions](https://github.com/kunlong-luo/pagevela/discussions); no resume content is attached automatically.
 - Report security issues through the private process described in [SECURITY.md](SECURITY.md).
 
 ---

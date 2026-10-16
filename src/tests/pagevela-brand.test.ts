@@ -7,13 +7,13 @@ import { SEO_COPY } from '../lib/seo';
 import { en } from '../i18n/locales/en';
 import { zh } from '../i18n/locales/zh';
 
-// Staging guardrails: cosmetic rebranding must never silently modify storage,
-// encrypted share protocol constants, or the legacy production origin.
+// Branding guardrails: visual product naming must never silently change persisted
+// storage, encrypted share constants, or compatibility identifiers.
 function source(path: string): string {
   return readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
 }
 
-describe('Pagevela global brand staging', () => {
+describe('Pagevela public brand and compatibility', () => {
   it('uses the exact same product name in both locales', () => {
     expect(PRODUCT_NAME).toBe('Pagevela');
     expect(SEO_COPY.en.title).toContain(PRODUCT_NAME);
@@ -65,10 +65,12 @@ describe('Pagevela global brand staging', () => {
     expect(source('metadata.json')).toContain('"name": "Pagevela"');
     expect(source('README.md')).not.toContain('PAGEVELA');
     expect(source('README.zh-CN.md')).not.toContain('PAGEVELA');
-    expect(source('docs/PROMOTION_MEDIA.md')).toContain('Use workflow from');
     expect(source('docs/PROMOTION_MEDIA.md')).toContain('select `main`');
-    expect(source('docs/PAGEVELA_STAGING.md')).toContain('Live on the existing origin');
-    expect(source('docs/WORKSPACE_TRANSFER.md')).toContain('No separate new-domain Pagevela site exists yet');
+    expect(source('docs/PAGEVELA_STAGING.md')).toContain('**Pagevela** is live at');
+    expect(source('docs/WORKSPACE_TRANSFER.md')).toContain('former `/resume-craft/`');
+    expect(source('README.en.md')).toContain('Pagevela is live');
+    expect(source('README.md')).toContain('https://kunlong-luo.github.io/pagevela/');
+    expect(source('README.zh-CN.md')).toContain('https://kunlong-luo.github.io/pagevela/');
     expect(source('.github/workflows/capture-promotion-media.yml')).toContain('workflow_dispatch:');
     expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'Pagevela'");
     expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'P', left + 14");
@@ -94,11 +96,19 @@ describe('Pagevela global brand staging', () => {
     }
   });
 
-  it('retains the real production origin until separate migration approval', () => {
+  it('uses the renamed live Pages path without changing user-data identifiers', () => {
     expect(source('index.html')).toContain(
-      'rel="canonical" href="https://kunlong-luo.github.io/resume-craft/"',
+      'rel="canonical" href="https://kunlong-luo.github.io/pagevela/"',
     );
-    expect(source('public/sitemap.xml')).toContain('https://kunlong-luo.github.io/resume-craft/');
+    expect(source('public/sitemap.xml')).toContain('https://kunlong-luo.github.io/pagevela/');
+    expect(source('public/robots.txt')).toContain('https://kunlong-luo.github.io/pagevela/sitemap.xml');
+    expect(source('index.html')).toContain('property="og:url" content="https://kunlong-luo.github.io/pagevela/"');
+    expect(source('index.html')).toContain('property="og:image" content="https://kunlong-luo.github.io/pagevela/og-card.png"');
+    expect(source('index.html')).not.toContain('kunlong-luo.github.io/resume-craft/');
+    expect(source('.github/workflows/seo-submit.yml')).toContain('https://kunlong-luo.github.io/pagevela/sitemap.xml');
+    expect(source('.github/workflows/promote.yml')).toContain('/pagevela/');
+    expect(source('src/components/landing/LandingNavbar.tsx')).toContain('https://github.com/kunlong-luo/pagevela');
+    expect(source('src/components/landing/LandingFooter.tsx')).toContain('https://github.com/kunlong-luo/pagevela');
   });
 
   it('does not break legacy share decryption or client-side cache identities', () => {

@@ -1,6 +1,6 @@
 # Pagevela — English documentation
 
-The existing GitHub Pages website now displays Pagevela following [PR #210](https://github.com/kunlong-luo/resume-craft/pull/210). Historical v2.6.0 release artifacts and the repository slug retain their original identifiers. Trademark clearance and any move to a separate domain are still pending.
+**Pagevela is live:** https://kunlong-luo.github.io/pagevela/ · [GitHub repository](https://github.com/kunlong-luo/pagevela). This is the current brand and project path; historical v2.6.0 release artifacts and local resume compatibility identifiers are intentionally unchanged. The old `/resume-craft/` Pages URL is no longer supported and is not redirected.
 
 The English documentation is now the default [README.md](./README.md).
 
