@@ -4,6 +4,8 @@ test.describe('landing-to-editor navigation', () => {
   test('hides the browser-edge scrollbar while keeping welcome-page scrolling', async ({ page }) => {
     await page.setViewportSize({ width: 1024, height: 640 });
     await page.goto('/');
+    // Wait for React to replace the viewport-sized startup shell with the long landing page.
+    await expect(page.locator('#faq')).toBeVisible();
 
     const original = await page.evaluate(() => ({
       scrollbarWidth: getComputedStyle(document.documentElement).scrollbarWidth,
