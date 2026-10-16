@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,follow">
+  <meta name="referrer" content="no-referrer">
+  <title>Pagevela — 网站地址已更新</title>
+  <script id="legacy-pagevela-redirect">
+(function () {
+  'use strict';
+  var location = window.location;
+  var prefix = '/resume-craft';
+  var current = location.pathname;
+
+  // Never intercept unrelated user-site paths.
+  if (current !== prefix && current.indexOf(prefix + '/') !== 0) return;
+
+  var suffix = current.slice(prefix.length).replace(/^\/+/, '');
+  var destination = new URL('/pagevela/', location.origin);
+
+  // GitHub Pages does not rewrite /pagevela/editor to the single-page app.
+  if (suffix === 'editor' || suffix === 'editor/') {
+    var params = new URLSearchParams(location.search);
+    if (!params.has('page') && !params.has('view') && !params.has('route')) {
+      params.set('page', 'editor');
+    }
+    destination.search = params.toString();
+  } else {
+    // Preserve exact old asset links where the new Pages site has equivalents.
+    if (/^(?:assets\/.+|[^/]+\.(?:png|svg|ico|webmanifest|json|xml|txt|js|css|woff2?))$/i.test(suffix)) {
+      destination.pathname = '/pagevela/' + suffix;
+    }
+    destination.search = location.search;
+  }
+
+  // IMPORTANT: encrypted and legacy resume shares may live in the fragment.
+  destination.hash = location.hash;
+  location.replace(destination.href);
+})();
+  </script>
+  <style>
+    body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f8fafc;color:#142047;font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif}
+    main{margin:24px;padding:32px;max-width:540px;border:1px solid #e2e8f0;border-radius:18px;background:white;box-shadow:0 18px 40px #14204712}
+    h1{font-size:25px;margin:0 0 12px}
+    p{color:#475569}a{color:#4f46e5;font-weight:700}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Pagevela</h1>
+    <p>你访问的旧路径正在尝试跳转到新网页。如未自动跳转，请点击下面的链接。</p>
+    <p><a href="https://kunlong-luo.github.io/pagevela/">进入 Pagevela 新网站 →</a></p>
+    <p>Pagevela now lives at the new address. If this page does not redirect automatically, please use the link above.</p>
+  </main>
+</body>
+</html>
