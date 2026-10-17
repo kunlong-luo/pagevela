@@ -70,6 +70,19 @@ test.describe('first-run onboarding', () => {
     await expect(tour).toHaveCount(0);
   });
 
+  test('starts a guided resume in two clicks from the welcome page', async ({ page }) => {
+    await page.goto('/');
+    await page.getByTestId('landing-hero-cta').click();
+    const chooser = page.getByRole('dialog', { name: /Getting started tour|新手引导/ });
+    await expect(chooser).toBeVisible();
+    await chooser.getByTestId('onboarding-fast-choice').click();
+    await expect(chooser).toBeHidden();
+    await expect(page.locator('#editor-pane')).toBeVisible();
+    await expect.poll(() => page.evaluate(() =>
+      window.localStorage.getItem('resume-onboarding-v1-complete'),
+    )).toBe('1');
+  });
+
   test('choosing a template on the welcome page skips the start chooser', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('button', { name: /Use Template|使用该模板/ }).first().click();
