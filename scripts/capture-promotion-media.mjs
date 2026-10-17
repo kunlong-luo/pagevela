@@ -232,7 +232,7 @@ async function run() {
       '',
       '## 教育背景',
       '### 示例大学 | 计算机科学 | 2020 – 2024',
-    ].join('\\n');
+    ].join('\n');
     const zhContext = await browser.newContext({
       viewport: { width: 1600, height: 900 },
       deviceScaleFactor: 1,
