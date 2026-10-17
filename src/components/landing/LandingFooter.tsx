@@ -1,5 +1,5 @@
 import React from 'react';
-import { PRODUCT_NAME } from '../../lib/brand';
+import { getProductDisplayName } from '../../lib/brand';
 import { ExternalLink } from 'lucide-react';
 
 interface LandingFooterProps {
@@ -14,7 +14,7 @@ export function LandingFooter({ isEn }: LandingFooterProps) {
           <div className="w-6 h-6 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-lg text-white flex items-center justify-center font-black text-[10px]">
             P
           </div>
-          <span className="font-bold text-slate-200">{PRODUCT_NAME}</span>
+          <span className="font-bold text-slate-200">{getProductDisplayName(isEn ? 'en' : 'zh')}</span>
           <span>· MIT License · Open Source</span>
         </div>
 

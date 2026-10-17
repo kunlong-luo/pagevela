@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { PRODUCT_NAME } from '../lib/brand';
+import { PRODUCT_NAME, PRODUCT_NAME_ZH, getProductDisplayName } from '../lib/brand';
 import { SEO_COPY } from '../lib/seo';
 import { en } from '../i18n/locales/en';
 import { zh } from '../i18n/locales/zh';
@@ -14,14 +14,18 @@ function source(path: string): string {
 }
 
 describe('Pagevela public brand and compatibility', () => {
-  it('uses the exact same product name in both locales', () => {
+  it('shows 页帆 in Chinese UI and Pagevela in English while retaining compatibility names', () => {
     expect(PRODUCT_NAME).toBe('Pagevela');
     expect(SEO_COPY.en.title).toContain(PRODUCT_NAME);
     expect(SEO_COPY.zh.title).toContain(PRODUCT_NAME);
+    expect(PRODUCT_NAME_ZH).toBe('页帆');
+    expect(getProductDisplayName('en')).toBe(PRODUCT_NAME);
+    expect(getProductDisplayName('zh')).toBe(PRODUCT_NAME_ZH);
+    expect(SEO_COPY.zh.title).toContain(PRODUCT_NAME_ZH);
     expect(en.header.title).toBe(PRODUCT_NAME);
-    expect(zh.header.title).toBe(PRODUCT_NAME);
+    expect(zh.header.title).toBe(PRODUCT_NAME_ZH);
     expect(en.errorBoundary.reset).toContain(PRODUCT_NAME);
-    expect(zh.errorBoundary.reset).toContain(PRODUCT_NAME);
+    expect(zh.errorBoundary.reset).toContain(PRODUCT_NAME_ZH);
     expect(SEO_COPY.en.title).not.toMatch(/Resume Craft|简匠/);
     expect(SEO_COPY.zh.title).not.toMatch(/Resume Craft|简匠/);
   });
@@ -74,8 +78,10 @@ describe('Pagevela public brand and compatibility', () => {
     expect(source('.github/workflows/capture-promotion-media.yml')).toContain('workflow_dispatch:');
     expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'Pagevela'");
     expect(source('scripts/render-promotion-assets.mjs')).toContain("text(x, 'P', left + 14");
-    expect(source('src/components/landing/LandingNavbar.tsx')).toContain('{PRODUCT_NAME}');
-    expect(source('src/components/landing/LandingFooter.tsx')).toContain('{PRODUCT_NAME}');
+    expect(source('src/components/landing/LandingNavbar.tsx')).toContain("getProductDisplayName(isEn ? 'en' : 'zh')");
+    expect(source('src/components/landing/LandingFooter.tsx')).toContain("getProductDisplayName(isEn ? 'en' : 'zh')");
+    expect(source('index.html')).toContain('resume_ui_language');
+    expect(source('index.html')).toContain('class="startup-brand-zh">页帆');
   });
 
   it('does not ship retired public brand names in production source modules', () => {
@@ -109,6 +115,10 @@ describe('Pagevela public brand and compatibility', () => {
     expect(source('.github/workflows/promote.yml')).toContain('/pagevela/');
     expect(source('src/components/landing/LandingNavbar.tsx')).toContain('https://github.com/kunlong-luo/pagevela');
     expect(source('src/components/landing/LandingFooter.tsx')).toContain('https://github.com/kunlong-luo/pagevela');
+    const help = source('src/components/layout/HelpLegalModal.tsx');
+    expect(help).toContain('https://github.com/kunlong-luo/pagevela/discussions');
+    expect(help).toContain('kunlong-luo/pagevela</span>');
+    expect(help).not.toContain('github.com/kunlong-luo/resume-craft');
   });
 
   it('does not break legacy share decryption or client-side cache identities', () => {
