@@ -143,7 +143,10 @@ test.describe('international responsive UX', () => {
     });
     await expectInsideViewport(dock, 390, 844);
 
-    await dock.getByRole('button', { name: /Open mobile download options|打开移动端下载选项/ }).click();
+    // The dock now exports the default ATS PDF immediately; advanced formats
+    // remain reachable via the separate header chevron.
+    await expect(dock.getByRole('button', { name: /Export ATS PDF|导出 ATS PDF/ })).toBeVisible();
+    await page.getByRole('button', { name: /Choose PDF export mode|选择 PDF 下载方式/ }).click();
     const dockDownloadDialog = page.getByRole('dialog', {
       name: /Download options|下载选项/,
     });
@@ -169,8 +172,9 @@ test.describe('international responsive UX', () => {
     await page.mouse.click(6, 6);
     await expect(resumeSwitcher).toBeHidden();
 
+    await expect(page.getByRole('button', { name: /Export ATS PDF|导出 ATS PDF/ }).first()).toBeVisible();
     await page.getByRole('button', {
-      name: /Open header download options|打开顶部下载选项/,
+      name: /Choose PDF export mode|选择 PDF 下载方式/,
     }).click();
     const downloadDialog = page.getByRole('dialog', {
       name: /Download options|下载选项/,
