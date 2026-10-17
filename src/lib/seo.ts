@@ -1,4 +1,4 @@
-import { PRODUCT_NAME } from './brand';
+import { PRODUCT_NAME, getProductDisplayName } from './brand';
 // Public product metadata only: never derive SEO content from resumes or share URLs.
 export type SeoLanguage = 'en' | 'zh';
 
@@ -10,7 +10,7 @@ export const SEO_COPY = {
     documentLanguage: 'en',
   },
   zh: {
-    title: `${PRODUCT_NAME} — 本地优先的简历编辑器`,
+    title: `${getProductDisplayName('zh')}（${PRODUCT_NAME}） — 本地优先的简历编辑器`,
     description: '使用表单或 Markdown 制作简历，预览 A4 与 US Letter 排版并导出。简历内容默认保存在浏览器本地。',
     locale: 'zh_CN',
     documentLanguage: 'zh-CN',
