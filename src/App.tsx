@@ -96,7 +96,11 @@ export default function App() {
   const navigateTo = useCallback((route: AppRoute, options?: { templateId?: string }) => {
     setCurrentRoute(route);
     if (options?.templateId) {
+      // The user already chose a complete starting template on the welcome page.
+      // Enter editing directly rather than showing a second start chooser.
       useResumeStore.getState().applyTemplate(options.templateId);
+      storage.set(STORAGE_KEYS.ONBOARDING_COMPLETE, '1');
+      storage.remove(STORAGE_KEYS.ONBOARDING_FIRST_VISIT);
     }
     const nextUrl = buildRouteUrl(route, options);
     if (typeof window !== 'undefined' && nextUrl && window.location.href !== nextUrl) {
