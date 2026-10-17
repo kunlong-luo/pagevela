@@ -35,7 +35,24 @@
 
 ---
 
-## 🆕 What's New in v2.6.0
+## 🆕 Pagevela v2.7.0 — A simpler way to get started
+
+This release completes the public rename from **Resume Craft** to **Pagevela** (displayed as **页帆** in Chinese), and improves the path from the welcome page to a finished resume.
+
+- **Clear first-run experience:** Choose a template and begin editing in fewer steps, without repeating onboarding.
+- **Better mobile PDF access:** The primary PDF action is easier to find on narrow screens; use the ATS/browser-print path for selectable text.
+- **Real bilingual product captures:** Automated welcome-page and editor screenshots cover Chinese and English interfaces.
+- **Refreshed tooling:** Tested production and development dependency updates are included.
+
+🎬 [Watch the new 26-second Pagevela demo](https://youtu.be/z3RNFD4s-kk) · [Try Pagevela](https://kunlong-luo.github.io/pagevela/) · [Capture and promotion media guide](./docs/PROMOTION_MEDIA.md)
+
+**Moving from an old browser origin?** Drafts remain local. Export your workspace and verify the new site's import before deleting the old copy; see the [workspace transfer guide](./docs/WORKSPACE_TRANSFER.md).
+
+See the [v2.7.0 release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.7.0), [full release notes](./RELEASE_NOTES.md), and [changelog](./CHANGELOG.md).
+
+---
+
+## 📦 Previously in v2.6.0
 
 - **China-market resume portraits:** Optional 3:4 ID-style photo crop and top-right preview, stored locally with the relevant resume profile.
 - **Complete workspace migration:** Back up and restore all profiles, drafts, job-description text and locally stored photos using a versioned JSON file. The file is **not encrypted**; keep it private.
