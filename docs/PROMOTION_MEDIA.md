@@ -2,12 +2,14 @@
 
 This is a repeatable Playwright browser capture of the **real application UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
 
-**Current-brand media (2026-10-16):** Pagevela is live at https://kunlong-luo.github.io/pagevela/. Capture real UI and marketing screenshots from current `main` (or an explicitly reviewed experiment), not the retired `/resume-craft/` website. Old `resume-craft-*` artifact filenames are workflow compatibility details, **not visible public branding**. Validate URLs, layout and Pagevela wordmark in actual rendered images before posting; no screenshot or video is automatically published.
+**Current-brand media (2026-10-16):** Pagevela is live at https://kunlong-luo.github.io/pagevela/. Capture real UI and marketing screenshots from current `main` (or an explicitly reviewed experiment), not the retired `/resume-craft/` website. Old `resume-craft-*` artifact filenames are workflow compatibility details, **not visible public branding**. The display wordmark is **页帆** when the interface is Chinese and **Pagevela** when English; the product repository remains `kunlong-luo/pagevela`. Validate URLs, layout and Pagevela wordmark in actual rendered images before posting; no screenshot or video is automatically published.
 
 ## Downloadable files
 
 The GitHub Actions workflow **Capture Real Promotion Media** uploads a `resume-craft-promotion-media` ZIP artifact (30-day retention) containing:
 
+- `pagevela-welcome-zh.png` and `pagevela-editor-zh.png`: **real Chinese 页帆** welcome page and editor (fictional sample content).
+- `pagevela-welcome-en.png` and `pagevela-editor-en.png`: **real English Pagevela** welcome page and editor, copied without visual alteration from the original Chromium captures.
 - `resume-craft-product-screenshot.png`: real desktop app in split editing / preview layout.
 - `resume-craft-markdown-preview.png`: genuine source editor after typing a new resume bullet.
 - `resume-craft-download-options.png`: real app with export options (or the unchanged app if the menu is unavailable).
@@ -28,14 +30,15 @@ The GitHub Actions workflow **Capture Real Promotion Media** uploads a `resume-c
 
 ### Manual visual acceptance — NOT YET COMPLETED
 
-- [ ] Browser screenshot shows **Pagevela** (same capitalization) in English and Chinese UI; no former public wordmark, old initials, cut-off text, or invented UI.
+- [ ] Browser screenshots show **页帆** on the Chinese welcome page and **Pagevela** on the English welcome page; editors are actual Chromium captures with fictional example resumes, not AI-generated controls.
+- [ ] Test the language toggle and welcome → editor path after each UI update; do not represent these assets as current if the live product UI has changed.
 - [ ] Social cover, landscape thumbnail (1280×720), gallery (1200×900), portrait tile (1080×1350), video intro/outro and MP4 overlay show **Pagevela / P** and readable text without clipping or font fallback artifacts.
 - [ ] The screenshot depicts an actual local Chromium browser session with only fictional sample content; no real names, contact details, upload payloads or private URLs are present.
 - [ ] Claims match tested features: the video may show the **export menu**, but that alone does not prove a PDF was successfully saved or accepted by an ATS.
 - [ ] Every displayed web address and CTA points to `https://kunlong-luo.github.io/pagevela/`; any old `/resume-craft/` screenshot or Product Hunt link must be replaced.
 - [ ] The final logo/visual identity and commercial-use clearance are independently approved before public posting. Until then, these are **staging review artifacts**.
 
-**Evidence status:** This document specifies a repeatable capture and quality-review workflow; it does **not** assert that fresh screenshots or videos have been captured, visually approved or posted.
+**Evidence status:** This document specifies a repeatable capture and quality-review workflow; it does **not** assert that fresh screenshots or videos have been captured, visually approved or posted. The additional bilingual screenshots are produced only when the refreshed workflow is run successfully from an approved branch; this documentation change does not itself produce or publish images.
 
 The workflow runs a temporary local Vite server inside GitHub Actions. It does not save or read personal resumes and does not contact the public analytics origin.
 
