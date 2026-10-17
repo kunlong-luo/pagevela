@@ -212,7 +212,7 @@ export const zh: TranslationSchema = {
     clear: '清空',
   },
   header: {
-    title: 'Pagevela',
+    title: '页帆',
     subtitle: '开源简历编辑与排版工具',
     aiChecker: '简历检查',
     rawImporter: '导入简历',
@@ -385,7 +385,7 @@ export const zh: TranslationSchema = {
     backupCopy: '复制简历文本备份',
     backupCopied: '已复制简历文本备份',
     reload: '刷新页面重试',
-    reset: '重置 Pagevela 本地简历数据',
-    confirmReset: '确定要清空 Pagevela 的本地简历数据并重置吗？建议先备份当前简历文本。',
+    reset: '重置页帆本地简历数据',
+    confirmReset: '确定要清空页帆的本地简历数据并重置吗？建议先备份当前简历文本。'
   }
 };
