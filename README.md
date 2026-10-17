@@ -35,9 +35,9 @@
 
 ---
 
-## 🆕 Pagevela v2.7.0 — A simpler way to get started
+## 🆕 What's New in v2.7.0
 
-This release completes the public rename from **Resume Craft** to **Pagevela** (displayed as **页帆** in Chinese), and improves the path from the welcome page to a finished resume.
+This release completes the public rename to **Pagevela** (displayed as **页帆** in Chinese), and improves the path from the welcome page to a finished resume.
 
 - **Clear first-run experience:** Choose a template and begin editing in fewer steps, without repeating onboarding.
 - **Better mobile PDF access:** The primary PDF action is easier to find on narrow screens; use the ATS/browser-print path for selectable text.
