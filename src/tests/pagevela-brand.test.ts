@@ -115,6 +115,10 @@ describe('Pagevela public brand and compatibility', () => {
     expect(source('.github/workflows/promote.yml')).toContain('/pagevela/');
     expect(source('src/components/landing/LandingNavbar.tsx')).toContain('https://github.com/kunlong-luo/pagevela');
     expect(source('src/components/landing/LandingFooter.tsx')).toContain('https://github.com/kunlong-luo/pagevela');
+    const help = source('src/components/layout/HelpLegalModal.tsx');
+    expect(help).toContain('https://github.com/kunlong-luo/pagevela/discussions');
+    expect(help).toContain('kunlong-luo/pagevela</span>');
+    expect(help).not.toContain('github.com/kunlong-luo/resume-craft');
   });
 
   it('does not break legacy share decryption or client-side cache identities', () => {
