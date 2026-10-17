@@ -21,7 +21,8 @@ describe('public version consistency', () => {
     expect(read('README.md')).toContain(`## 🆕 What's New in v${version}`);
     expect(read('README.zh-CN.md')).toContain(`## 🆕 v${version} 更新`);
     expect(read('RELEASE_NOTES.md')).toMatch(new RegExp(`^# Resume Craft v${version.replaceAll('.', '\\.')}\\n`));
-    expect(read('PROMOTION.md')).toContain(`# Resume Craft v${version} Promotion Playbook`);
+    expect(read('PROMOTION.md')).toContain('# Resume Craft v2.6.0 Promotion Playbook');
+    expect(read('PROMOTION.md')).toContain('Historical planning document:');
     expect(read('RELEASE_NOTES.md')).toContain(`releases/tag/v${version}`);
   });
 });
