@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { PRODUCT_NAME } from '../../lib/brand';
+import { PRODUCT_NAME, getProductDisplayName } from '../../lib/brand';
 import { AnimatePresence, motion } from 'motion/react';
 import {
   AlertTriangle,
@@ -36,6 +36,7 @@ type Tab = 'guide' | 'privacy' | 'license';
 export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
   const { uiLanguage } = useResumeStore();
   const isEn = uiLanguage === 'en';
+  const displayName = getProductDisplayName(uiLanguage);
   const [activeTab, setActiveTab] = useState<Tab>('guide');
   const [confirmClear, setConfirmClear] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -202,7 +203,7 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
                 <div className="rounded-xl border border-emerald-200/70 bg-emerald-50/60 p-3.5 dark:border-emerald-800/60 dark:bg-emerald-950/40">
                   <h3 className="flex items-center gap-1.5 text-xs font-bold text-emerald-900 dark:text-emerald-300"><Shield className="h-4 w-4" />{isEn ? 'Local-first by default' : '默认本地优先'}</h3>
                   <p className="mt-1 text-[11px] leading-relaxed text-emerald-800/90 dark:text-emerald-300/90">
-                    {isEn ? `${PRODUCT_NAME} stores your working resume data locally in this browser by default. Editing does not require an account or a backend that persists your resume content.` : `${PRODUCT_NAME} 默认将正在编辑的简历数据保存在当前浏览器本地。编辑无需账号，也不依赖用于持久化简历内容的后端。`}
+                    {isEn ? `${PRODUCT_NAME} stores your working resume data locally in this browser by default. Editing does not require an account or a backend that persists your resume content.` : `${displayName} 默认将正在编辑的简历数据保存在当前浏览器本地。编辑无需账号，也不依赖用于持久化简历内容的后端。`}
                   </p>
                 </div>
 
@@ -219,7 +220,7 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
                     <div className="flex-1">
                       <h4 className="text-xs font-black text-rose-800 dark:text-rose-300">{isEn ? 'Clear local data' : '清空本地数据'}</h4>
                       <p className="mt-1 text-[11px] leading-relaxed text-rose-700/90 dark:text-rose-300/80">
-                        {isEn ? `Permanently removes ${PRODUCT_NAME} resume data and preferences stored by this browser. Export anything you want to keep first. This cannot be undone.` : `永久删除当前浏览器中由 ${PRODUCT_NAME} 保存的简历数据和偏好设置。请先导出需要保留的内容；此操作无法撤销。`}
+                        {isEn ? `Permanently removes ${PRODUCT_NAME} resume data and preferences stored by this browser. Export anything you want to keep first. This cannot be undone.` : `永久删除当前浏览器中由 ${displayName} 保存的简历数据和偏好设置。请先导出需要保留的内容；此操作无法撤销。`}
                       </p>
 
                       {!confirmClear ? (
@@ -228,7 +229,7 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
                         </button>
                       ) : (
                         <div className="mt-3 rounded-lg border border-rose-300 bg-white p-3 dark:border-rose-800 dark:bg-slate-900">
-                          <div className="flex items-center gap-2 text-[11px] font-bold text-rose-700 dark:text-rose-300"><AlertTriangle className="h-4 w-4" />{isEn ? `Delete all local ${PRODUCT_NAME} data?` : `确定删除全部 ${PRODUCT_NAME} 本地数据？`}</div>
+                          <div className="flex items-center gap-2 text-[11px] font-bold text-rose-700 dark:text-rose-300"><AlertTriangle className="h-4 w-4" />{isEn ? `Delete all local ${PRODUCT_NAME} data?` : `确定删除全部 ${displayName} 本地数据？`}</div>
                           <div className="mt-2 flex gap-2">
                             <button type="button" onClick={() => setConfirmClear(false)} className="rounded-lg border border-slate-300 px-3 py-1.5 text-[11px] font-bold dark:border-slate-700">{isEn ? 'Cancel' : '取消'}</button>
                             <button type="button" onClick={clearLocalData} className="rounded-lg bg-rose-600 px-3 py-1.5 text-[11px] font-bold text-white hover:bg-rose-700">{isEn ? 'Delete permanently' : '永久删除'}</button>
@@ -249,11 +250,11 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
             {activeTab === 'license' && (
               <motion.div key="license" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-3.5">
                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/50">
-                  <h3 className="text-sm font-black">{PRODUCT_NAME}</h3>
+                  <h3 className="text-sm font-black">{displayName}</h3>
                   <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">{isEn ? 'Free and open-source under the MIT License.' : '基于 MIT License 免费开源。'}</p>
                 </div>
-                <a href="https://github.com/kunlong-luo/resume-craft" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded-xl border border-indigo-200 p-3 text-xs font-bold text-indigo-600 hover:bg-indigo-50 dark:border-indigo-800 dark:text-indigo-400 dark:hover:bg-indigo-950/30">
-                  <span>kunlong-luo/resume-craft</span><ExternalLink className="h-4 w-4" />
+                <a href="https://github.com/kunlong-luo/pagevela" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded-xl border border-indigo-200 p-3 text-xs font-bold text-indigo-600 hover:bg-indigo-50 dark:border-indigo-800 dark:text-indigo-400 dark:hover:bg-indigo-950/30">
+                  <span>kunlong-luo/pagevela</span><ExternalLink className="h-4 w-4" />
                 </a>
               </motion.div>
             )}
@@ -263,7 +264,7 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
         <footer className="flex items-center justify-between border-t border-slate-200/80 bg-slate-50/80 px-5 py-3 text-xs dark:border-slate-800 dark:bg-slate-900/80">
           <span className="font-mono text-[10px] text-slate-400 dark:text-slate-500">{PRODUCT_NAME} v{__APP_VERSION__}</span>
           <div className="flex items-center gap-2">
-            <a href="https://github.com/kunlong-luo/resume-craft/discussions" target="_blank" rel="noopener noreferrer" onClick={() => trackAnalyticsEvent('feedback_opened')} className="inline-flex items-center gap-1 px-3 py-1.5 font-bold text-indigo-600 hover:underline dark:text-indigo-400">{isEn ? 'Feedback' : '反馈'}<ExternalLink className="h-3 w-3" /></a>
+            <a href="https://github.com/kunlong-luo/pagevela/discussions" target="_blank" rel="noopener noreferrer" onClick={() => trackAnalyticsEvent('feedback_opened')} className="inline-flex items-center gap-1 px-3 py-1.5 font-bold text-indigo-600 hover:underline dark:text-indigo-400">{isEn ? 'Feedback' : '反馈'}<ExternalLink className="h-3 w-3" /></a>
             <button type="button" onClick={onClose} className="tactile-btn-primary tactile-btn-primary-hover rounded-lg px-4 py-1.5 font-bold text-white">{isEn ? 'Done' : '完成'}</button>
           </div>
         </footer>
