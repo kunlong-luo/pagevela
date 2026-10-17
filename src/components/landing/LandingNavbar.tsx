@@ -1,5 +1,5 @@
 import React from 'react';
-import { PRODUCT_NAME } from '../../lib/brand';
+import { getProductDisplayName } from '../../lib/brand';
 import { Globe2, Sun, Moon } from 'lucide-react';
 import { ThemeMode } from '../../types';
 import { Tooltip } from '../ui/Tooltip';
@@ -39,7 +39,7 @@ export function LandingNavbar({
           </div>
           <div className="flex items-baseline gap-2">
             <span className="hidden sm:inline font-black text-base tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
-              {PRODUCT_NAME}
+              {getProductDisplayName(isEn ? 'en' : 'zh')}
             </span>
             <span className="text-[11px] font-medium text-slate-400 hidden lg:inline whitespace-nowrap">
               {isEn ? 'Private, Professional Resume Builder' : '本地私密 · 结构化简历构建工具'}
