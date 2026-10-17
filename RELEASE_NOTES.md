@@ -21,7 +21,7 @@ Read [workspace transfer](./docs/WORKSPACE_TRANSFER.md), [promotion media](./doc
 
 ---
 
-## Historical release: Resume Craft v2.6.0
+# Resume Craft v2.6.0
 
 > **Current project name (2026-10-16): Pagevela.** This is the archived October 14 release record under the former brand. For the current product visit [Pagevela](https://kunlong-luo.github.io/pagevela/) or [GitHub](https://github.com/kunlong-luo/pagevela). The retired `/resume-craft/` Pages path is not redirected. Existing v2.6.0 binaries, artifact filenames, version tags and checksums are unchanged.
 
