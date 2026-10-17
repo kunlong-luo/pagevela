@@ -13,6 +13,8 @@
  *   resume-craft-download-options.png (real Chromium screenshot)
  *   resume-craft-demo.webm (real Chromium screen recording)
  *   resume-craft-social-cover.png (existing source-of-truth OG design)
+ *   pagevela-welcome-en.png / pagevela-editor-en.png (real English UI)
+ *   pagevela-welcome-zh.png / pagevela-editor-zh.png (real 页帆 UI)
  */
 import { chromium } from '@playwright/test';
 import { copyFile, mkdir, stat } from 'node:fs/promises';
@@ -207,6 +209,71 @@ async function run() {
     await pause(page, 1700);
     await page.keyboard.press('Escape');
     await hideEditorialCaption(page);
+
+    // Capture the *real* Chinese UI separately. The original video and
+    // English screenshots stay untouched for compatibility with existing kits.
+    const chineseMarkdown = [
+      '# 示例用户',
+      '前端开发工程师',
+      '',
+      '## 个人简介',
+      '专注于清晰、易用的网页体验。',
+      '',
+      '## 工作经历',
+      '### 示例科技 | 前端开发 | 2024.01 – 至今',
+      '- 开发易于使用的网页组件。',
+      '',
+      '## 项目经历',
+      '### 开源示例项目 | 开发者 | 2025',
+      '- 改善表单编辑与实时预览体验。',
+      '',
+      '## 技能',
+      '- React、TypeScript、CSS',
+      '',
+      '## 教育背景',
+      '### 示例大学 | 计算机科学 | 2020 – 2024',
+    ].join('\\n');
+    const zhContext = await browser.newContext({
+      viewport: { width: 1600, height: 900 },
+      deviceScaleFactor: 1,
+      colorScheme: 'light',
+      reducedMotion: 'reduce',
+      locale: 'zh-CN',
+    });
+    try {
+      const zhPage = await zhContext.newPage();
+      await zhPage.addInitScript((markdown) => {
+        localStorage.setItem('resume_ui_language', 'zh');
+        localStorage.setItem('resume-onboarding-v1-complete', '1');
+        localStorage.setItem('resume-markdown', markdown);
+        localStorage.setItem('resume-settings', JSON.stringify({
+          lang: 'zh', marketRegion: 'cn', paperSize: 'a4',
+          dateStyle: 'month-short', layoutMode: 'split',
+        }));
+      }, chineseMarkdown);
+      await zhPage.goto(BASE_URL, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      await zhPage.getByTestId('landing-hero-cta').waitFor({ state: 'visible', timeout: 15000 });
+      await zhPage.getByRole('banner').getByText('页帆', { exact: true })
+        .waitFor({ state: 'visible', timeout: 15000 });
+      await zhPage.screenshot({
+        path: resolve(MEDIA_DIR, 'pagevela-welcome-zh.png'),
+        animations: 'disabled',
+      });
+
+      await zhPage.getByTestId('landing-hero-cta').click();
+      await zhPage.waitForURL(/[?&]page=editor/, { timeout: 15000 });
+      await zhPage.locator('#editor-pane').waitFor({ state: 'visible', timeout: 15000 });
+      const zhPreview = zhPage.locator('#resume-print-content');
+      await zhPreview.waitFor({ state: 'visible', timeout: 15000 });
+      await zhPreview.getByText('示例用户').first()
+        .waitFor({ state: 'visible', timeout: 15000 });
+      await zhPage.screenshot({
+        path: resolve(MEDIA_DIR, 'pagevela-editor-zh.png'),
+        animations: 'disabled',
+      });
+    } finally {
+      await zhContext.close();
+    }
   } finally {
     await context.close();
     await browser.close();
@@ -217,6 +284,13 @@ async function run() {
   await copyFile(resolve(process.cwd(), 'public/og-card.png'),
     resolve(MEDIA_DIR, 'resume-craft-social-cover.png'));
 
+  // Modern, descriptive filenames for the existing *real* English captures.
+  // Retain old resume-craft-* artifact names for downstream compatibility.
+  await copyFile(resolve(MEDIA_DIR, 'resume-craft-latest-landing.png'),
+    resolve(MEDIA_DIR, 'pagevela-welcome-en.png'));
+  await copyFile(resolve(MEDIA_DIR, 'resume-craft-product-screenshot.png'),
+    resolve(MEDIA_DIR, 'pagevela-editor-en.png'));
+
   for (const file of [
     'resume-craft-latest-landing.png',
     'resume-craft-product-screenshot.png',
@@ -224,6 +298,10 @@ async function run() {
     'resume-craft-download-options.png',
     'resume-craft-demo.webm',
     'resume-craft-social-cover.png',
+    'pagevela-welcome-en.png',
+    'pagevela-editor-en.png',
+    'pagevela-welcome-zh.png',
+    'pagevela-editor-zh.png',
   ]) {
     const result = await stat(resolve(MEDIA_DIR, file));
     if (result.size < 1000) throw new Error(`Media file too small: ${file}`);
