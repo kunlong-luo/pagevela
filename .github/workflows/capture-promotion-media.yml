@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - feat/promotion-media-v2
-      # One-time QA of the bilingual real-UI capture PR; remove after artifact review.
-      - feat/pagevela-bilingual-real-captures-20261017
   workflow_dispatch:
 
 permissions:
