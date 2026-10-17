@@ -60,6 +60,29 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Pagevela" />
     <script>
+      // Resolve the interface language before React loads so the welcome shell does not
+      // flash an English name for users whose interface language is Chinese.
+      (() => {
+        let lang = 'en';
+        try {
+          const saved = localStorage.getItem('resume_ui_language');
+          if (saved === 'zh' || saved === 'en') {
+            lang = saved;
+          } else {
+            const legacy = JSON.parse(localStorage.getItem('resume-settings') || 'null');
+            const previous = legacy && legacy.lang;
+            lang = previous === 'zh' || previous === 'en'
+              ? previous
+              : (navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en';
+          }
+        } catch {
+          lang = (navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en';
+        }
+        document.documentElement.dataset.startupLanguage = lang;
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      })();
+    </script>
+    <script>
       // Match the public router before React hydrates: the root always opens
       // the welcome page, while explicit editor deep links keep their own preview.
       (() => {
@@ -85,7 +108,7 @@
         <div class="startup-topbar">
           <div class="startup-brand">
             <div class="startup-logo">P</div>
-            <div class="startup-brand-name">Pagevela</div>
+            <div class="startup-brand-name"><span class="startup-brand-en">Pagevela</span><span class="startup-brand-zh">页帆</span></div>
             <div class="startup-chip startup-shimmer"></div>
           </div>
           <div class="startup-actions">
@@ -96,7 +119,7 @@
         <div class="startup-welcome">
           <div class="startup-welcome-hero">
             <div class="startup-welcome-tag startup-shimmer"></div>
-            <div class="startup-welcome-heading">Pagevela</div>
+            <div class="startup-welcome-heading"><span class="startup-brand-en">Pagevela</span><span class="startup-brand-zh">页帆</span></div>
             <div class="startup-welcome-description startup-shimmer"></div>
             <div class="startup-welcome-description short startup-shimmer"></div>
             <div class="startup-welcome-cta startup-shimmer"></div>
@@ -145,6 +168,8 @@
       </div>
       <style>
         html, body, #root { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+        html[data-startup-language="zh"] .startup-brand-en { display: none; }
+        html:not([data-startup-language="zh"]) .startup-brand-zh { display: none; }
         .startup-shell {
           --startup-bg: #f8fafc;
           --startup-panel: #ffffff;
