@@ -244,6 +244,8 @@ async function run() {
       const zhPage = await zhContext.newPage();
       await zhPage.addInitScript((markdown) => {
         localStorage.setItem('resume_ui_language', 'zh');
+        // Fold the app's own page-height inspector so it does not cover preview text.
+        localStorage.setItem('height-guard-collapsed', 'true');
         localStorage.setItem('resume-onboarding-v1-complete', '1');
         localStorage.setItem('resume-markdown', markdown);
         localStorage.setItem('resume-settings', JSON.stringify({
