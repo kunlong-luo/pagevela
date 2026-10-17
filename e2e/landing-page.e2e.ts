@@ -21,18 +21,32 @@ test.describe('landing-to-editor navigation', () => {
 
   test('first paint shows the welcome layout at root and editor layout for direct links', async ({ page }) => {
     // Keep the server-rendered skeleton visible by preventing React hydration.
+    await page.addInitScript(() => window.localStorage.setItem('resume_ui_language', 'en'));
     await page.route('**/src/main.tsx*', (route) => route.abort());
 
     await page.goto('/');
     await expect(page.locator('html')).toHaveAttribute('data-startup-route', 'landing');
     await expect(page.locator('.startup-welcome')).toBeVisible();
-    await expect(page.locator('.startup-welcome-heading')).toHaveText('Pagevela');
+    await expect(page.locator('html')).toHaveAttribute('data-startup-language', 'en');
+    await expect(page.locator('.startup-welcome-heading .startup-brand-en')).toBeVisible();
+    await expect(page.locator('.startup-welcome-heading .startup-brand-zh')).toBeHidden();
     await expect(page.locator('.startup-workspace')).toBeHidden();
 
     await page.goto('/?page=editor');
     await expect(page.locator('html')).toHaveAttribute('data-startup-route', 'editor');
     await expect(page.locator('.startup-welcome')).toBeHidden();
     await expect(page.locator('.startup-workspace')).toBeVisible();
+  });
+
+  test('shows 页帆 in the welcome shell before hydration for Chinese UI', async ({ page }) => {
+    await page.addInitScript(() => window.localStorage.setItem('resume_ui_language', 'zh'));
+    await page.route('**/src/main.tsx*', (route) => route.abort());
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('data-startup-language', 'zh');
+    await expect(page.locator('.startup-brand-zh')).toHaveCount(2);
+    await expect(page.locator('.startup-welcome-heading .startup-brand-zh')).toBeVisible();
+    await expect(page.locator('.startup-welcome-heading .startup-brand-en')).toBeHidden();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
   });
 
   test('opens the marketing page at root and returns from editor through browser history', async ({ page }) => {
@@ -82,9 +96,9 @@ test.describe('landing-to-editor navigation', () => {
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /browser by default/);
 
     await page.getByRole('button', { name: 'Toggle language' }).click();
-    await expect(page).toHaveTitle('Pagevela — 本地优先的简历编辑器');
-    await expect(page.getByRole('banner').getByText('Pagevela', { exact: true })).toBeVisible();
-    await expect(page.getByRole('contentinfo').getByText('Pagevela', { exact: true })).toBeVisible();
+    await expect(page).toHaveTitle('页帆（Pagevela） — 本地优先的简历编辑器');
+    await expect(page.getByRole('banner').getByText('页帆', { exact: true })).toBeVisible();
+    await expect(page.getByRole('contentinfo').getByText('页帆', { exact: true })).toBeVisible();
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
     await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'zh_CN');
 

@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { readActiveMarkdown } from './helpers/indexeddb';
 
 test.describe('first-run onboarding', () => {
-  test('guides a first-time user through three steps and loads the example only by choice', async ({
+  test('lets a first-time user select an example immediately', async ({
     page,
   }) => {
     await page.goto('/?page=editor');
@@ -12,27 +12,10 @@ test.describe('first-run onboarding', () => {
     });
     await expect(tour).toBeVisible();
 
-    await expect(
-      page.getByRole('heading', {
-        name: /Step 1.*Edit your resume here|第一步.*从这里编辑简历/,
-      }),
-    ).toBeVisible();
-
-    await page.getByRole('button', { name: /Next|下一步/ }).click();
-
-    await expect(
-      page.getByRole('heading', {
-        name: /Step 2.*Adjust layout and tools here|第二步.*调整排版与工具/,
-      }),
-    ).toBeVisible();
-
-    await page.getByRole('button', { name: /Next|下一步/ }).click();
-
-    await expect(
-      page.getByRole('heading', {
-        name: /Step 3.*How would you like to start|第三步.*你想从哪里开始/,
-      }),
-    ).toBeVisible();
+    await expect(tour.getByRole('heading', {
+      name: /How would you like to start|你想从哪里开始/,
+    })).toBeVisible();
+    await expect(tour.getByRole('button', { name: /Next|下一步/ })).toHaveCount(0);
 
     await page
       .getByRole('button', {
@@ -71,10 +54,10 @@ test.describe('first-run onboarding', () => {
     await expect(tour.getByText(/No sign-up|无需注册/)).toBeVisible();
     await expect(tour.getByText(/Saved in your browser|保存在当前浏览器/)).toBeVisible();
 
-    await tour.getByTestId('onboarding-quick-start').click();
     await expect(tour.getByRole('heading', {
-      name: /Step 3.*How would you like to start|第三步.*你想从哪里开始/,
+      name: /How would you like to start|你想从哪里开始/,
     })).toBeVisible();
+    await expect(tour.getByTestId('onboarding-fast-choice')).toBeFocused();
 
     await tour.getByRole('button', {
       name: /Start completely blank|从完全空白简历开始/,
@@ -85,6 +68,29 @@ test.describe('first-run onboarding', () => {
     await page.reload();
     await expect.poll(() => readActiveMarkdown(page)).toBe('');
     await expect(tour).toHaveCount(0);
+  });
+
+  test('starts a guided resume in two clicks from the welcome page', async ({ page }) => {
+    await page.goto('/');
+    await page.getByTestId('landing-hero-cta').click();
+    const chooser = page.getByRole('dialog', { name: /Getting started tour|新手引导/ });
+    await expect(chooser).toBeVisible();
+    await chooser.getByTestId('onboarding-fast-choice').click();
+    await expect(chooser).toBeHidden();
+    await expect(page.locator('#editor-pane')).toBeVisible();
+    await expect.poll(() => page.evaluate(() =>
+      window.localStorage.getItem('resume-onboarding-v1-complete'),
+    )).toBe('1');
+  });
+
+  test('choosing a template on the welcome page skips the start chooser', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('button', { name: /Use Template|使用该模板/ }).first().click();
+    await expect(page.locator('#editor-pane')).toBeVisible();
+    await expect(page.getByRole('dialog', { name: /Getting started tour|新手引导/ })).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() =>
+      window.localStorage.getItem('resume-onboarding-v1-complete'),
+    )).toBe('1');
   });
 
   test('can replay the onboarding from the help center', async ({ page }) => {
@@ -120,9 +126,6 @@ test.describe('first-run onboarding', () => {
   }) => {
     await page.goto('/?page=editor');
 
-    await page.getByRole('button', { name: /Next|下一步/ }).click();
-    await page.getByRole('button', { name: /Next|下一步/ }).click();
-
     await page
       .getByRole('button', {
         name: /Import an existing resume|导入已有简历/,
@@ -143,11 +146,11 @@ test.describe('first-run onboarding', () => {
     });
     await expect(tour).toBeVisible();
 
-    await expect(
-      page.getByRole('button', { name: /Next|下一步/ }),
-    ).toBeFocused();
+    await expect(tour.getByTestId('onboarding-fast-choice')).toBeFocused();
 
-    await page.getByRole('button', { name: /Next|下一步/ }).click();
+    await tour.getByRole('button', {
+      name: /View optional walkthrough|查看可选操作教程/,
+    }).click();
 
     await expect(
       page.getByRole('heading', {
@@ -219,9 +222,6 @@ test.describe('first-run onboarding', () => {
     page,
   }) => {
     await page.goto('/?page=editor');
-
-    await page.getByRole('button', { name: /Next|下一步/ }).click();
-    await page.getByRole('button', { name: /Next|下一步/ }).click();
 
     await page
       .getByRole('button', {

@@ -26,7 +26,10 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
   const { settings, uiLanguage, applyTemplate, replaceDocument } = useResumeStore();
   const isEn = uiLanguage === 'en';
   const isResumeEn = settings.lang === 'en';
-  const [step, setStep] = useState(0);
+  const isFirstRun = storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1';
+  // A first visit should offer a start choice, not force three tutorial screens.
+  // Replaying the tutorial from Help still begins at the first teaching step.
+  const [step, setStep] = useState(() => isFirstRun ? 2 : 0);
   const [targetRect, setTargetRect] = useState<Rect | null>(null);
   const [pendingReplacement, setPendingReplacement] = useState<'example' | 'starter' | 'blank' | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -47,18 +50,20 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
           : '顶部工具栏集中为模板库、智能单页、排版、样式和视图控制。顶部 中 / EN 只切换应用界面；简历语言和目标市场在“排版”中独立设置。',
       },
       {
-        title: isEn ? 'Step 3 · How would you like to start?' : '第三步 · 你想从哪里开始？',
+        title: isFirstRun
+          ? (isEn ? 'How would you like to start?' : '你想从哪里开始？')
+          : (isEn ? 'Step 3 · How would you like to start?' : '第三步 · 你想从哪里开始？'),
         body: isEn
           ? 'Choose a full example, a guided starter, a completely blank resume, or import an existing one.'
           : '你可以选择完整示例、带基础结构的起始简历、完全空白简历，或者导入已有简历。',
       },
     ],
-    [isEn],
+    [isEn, isFirstRun],
   );
 
   useEffect(() => {
     if (!isOpen) return;
-    setStep(0);
+    setStep(storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1' ? 2 : 0);
     setPendingReplacement(null);
   }, [isOpen]);
 
@@ -101,7 +106,9 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
     if (!isOpen) return;
 
     const panel = panelRef.current;
-    const firstControl = panel?.querySelector<HTMLElement>(
+    const firstControl = (isFirstRun && step === 2
+      ? panel?.querySelector<HTMLElement>('[data-testid="onboarding-fast-choice"]')
+      : null) ?? panel?.querySelector<HTMLElement>(
       'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
     );
     firstControl?.focus();
@@ -139,7 +146,7 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, step, onClose]);
+  }, [isOpen, step, onClose, isFirstRun]);
 
   if (!isOpen) return null;
 
@@ -148,9 +155,6 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
     storage.remove(STORAGE_KEYS.ONBOARDING_FIRST_VISIT);
     onClose();
   };
-
-  const isFirstRun =
-    storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1';
 
   const applyExample = () => {
     applyTemplate(isResumeEn ? 'us_swe' : 'ai_backend');
@@ -242,7 +246,7 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
         className="fixed top-4 right-4 z-10 flex items-center gap-1.5 rounded-xl border border-white/20 bg-slate-900/80 px-3 py-2 text-xs font-bold text-white hover:bg-slate-800"
       >
         <X className="w-3.5 h-3.5" />
-        {isFirstRun ? (isEn ? 'Skip tour' : '跳过引导') : (isEn ? 'Close tour' : '关闭引导')}
+        {isFirstRun ? (isEn ? 'Start without choosing' : '暂不选择，直接编辑') : (isEn ? 'Close tour' : '关闭引导')}
       </button>
 
       <div
@@ -265,7 +269,9 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
             </div>
             <div className="min-w-0">
               <div className="mb-1 text-[10px] font-black uppercase tracking-[0.18em] text-indigo-500">
-                {isEn ? `Getting started · ${step + 1}/3` : `快速上手 · ${step + 1}/3`}
+                {isFirstRun && step === 2
+                  ? (isEn ? 'Quick start' : '快速开始')
+                  : (isEn ? `Getting started · ${step + 1}/3` : `快速上手 · ${step + 1}/3`)}
               </div>
               <h2 className="text-base font-black text-slate-900 dark:text-white">
                 {current.title}
@@ -276,7 +282,7 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
             </div>
           </div>
 
-          {step === 0 && (
+          {(step === 0 || (isFirstRun && step === 2)) && (
             <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-500 dark:text-slate-400">
               <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
                 {isEn ? 'No sign-up' : '无需注册'}
@@ -367,7 +373,9 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
                 className="mb-0.5 inline-flex w-fit items-center gap-1 text-[11px] font-bold text-slate-500 hover:text-indigo-600 dark:text-slate-400"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
-                {isEn ? 'Back to tools' : '返回上一步'}
+                {isFirstRun
+                  ? (isEn ? 'View optional walkthrough' : '查看可选操作教程')
+                  : (isEn ? 'Back to tools' : '返回上一步')}
               </button>
               <button
                 type="button"
@@ -384,6 +392,7 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
 
               <button
                 type="button"
+                data-testid="onboarding-fast-choice"
                 onClick={keepStarter}
                 className="rounded-2xl border border-slate-200 dark:border-slate-700 p-3.5 text-left transition hover:border-slate-400"
               >

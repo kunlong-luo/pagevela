@@ -1,4 +1,4 @@
-import { PRODUCT_NAME } from '../lib/brand';
+import { getProductDisplayName } from '../lib/brand';
 import React, { useRef, useEffect, useState, useCallback, Suspense, lazy } from 'react';
 import { Editor } from './Editor';
 import { Preview } from './preview/Preview';
@@ -241,7 +241,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
       if (warned) return;
       warned = true;
       showToast?.({
-        title: uiLanguage === 'en' ? `${PRODUCT_NAME} is open in another tab` : `检测到另一个 ${PRODUCT_NAME} 标签页`,
+        title: uiLanguage === 'en' ? `${getProductDisplayName('en')} is open in another tab` : `检测到另一个 ${getProductDisplayName('zh')} 标签页`,
         message: uiLanguage === 'en'
           ? 'Avoid editing the same resume in multiple tabs at once. Local writes are serialized, but the latest edit can still replace older state.'
           : '请避免在多个标签页同时编辑同一份简历。写入会串行处理，但较新的编辑仍可能覆盖较旧状态。',
