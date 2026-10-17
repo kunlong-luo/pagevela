@@ -81,10 +81,10 @@ describe('Landing Page & Router integration', () => {
 
 
 describe('Landing bilingual brand labels', () => {
-  it('uses the same global Pagevela identity in Chinese and English navigation', () => {
+  it('selects a localized brand name in landing navigation and footer', () => {
     const navbar = readFileSync(new URL('../components/landing/LandingNavbar.tsx', import.meta.url), 'utf8');
     const footer = readFileSync(new URL('../components/landing/LandingFooter.tsx', import.meta.url), 'utf8');
-    const expectedBrand = '{PRODUCT_NAME}';
+    const expectedBrand = "getProductDisplayName(isEn ? 'en' : 'zh')";
 
     expect(navbar).toContain(expectedBrand);
     expect(footer).toContain(expectedBrand);
