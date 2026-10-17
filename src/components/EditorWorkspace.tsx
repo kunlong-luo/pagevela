@@ -487,8 +487,8 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
 
             <button
               type="button"
-              onClick={() => window.dispatchEvent(new CustomEvent('resume-craft:open-pdf-menu'))}
-              aria-label={uiLanguage === 'en' ? 'Open mobile download options' : '打开移动端下载选项'}
+              onClick={handleExportVectorPrint}
+              aria-label={uiLanguage === 'en' ? 'Export ATS PDF' : '导出 ATS PDF'}
               className="min-h-11 flex items-center justify-center gap-1.5 px-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-all cursor-pointer active:scale-[0.98] shadow-md shadow-emerald-950/20"
             >
               <Printer className="w-4 h-4 shrink-0" />
