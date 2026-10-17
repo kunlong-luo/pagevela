@@ -1,8 +1,7 @@
 # Pagevela — English documentation
 
-**Pagevela is live:** https://kunlong-luo.github.io/pagevela/ · [GitHub repository](https://github.com/kunlong-luo/pagevela). This is the current brand and project path; historical v2.6.0 release artifacts and local resume compatibility identifiers are intentionally unchanged. The old `/resume-craft/` Pages URL is no longer supported and is not redirected.
+**Pagevela is live. Current version:** v2.7.0 · [Live demo](https://kunlong-luo.github.io/pagevela/) · [GitHub repository](https://github.com/kunlong-luo/pagevela) · [26-second YouTube demo](https://youtu.be/z3RNFD4s-kk).
 
-The English documentation is now the default [README.md](./README.md).
+The default [README.md](./README.md) is the full English documentation; [README.zh-CN.md](./README.zh-CN.md) is the Chinese edition.
 
-- [Read the English README](./README.md)
-- [阅读简体中文说明](./README.zh-CN.md)
+Pagevela was previously published under an older project name. The retired `/resume-craft/` Pages path is not redirected; moving between origins requires a verified local workspace export/import. Historical v2.6.0 artifacts and internal compatibility keys remain unchanged.

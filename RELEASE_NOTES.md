@@ -1,3 +1,26 @@
+# Pagevela v2.7.0
+
+**Release date:** 2026-10-17 · [GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.7.0) · [Live demo](https://kunlong-luo.github.io/pagevela/) · [Product video](https://youtu.be/z3RNFD4s-kk)
+
+## Highlights / 更新亮点
+
+- **Brand / 品牌：** Complete public rename from Resume Craft to **Pagevela**; Chinese UI uses **页帆**. Official site and repository now use the `/pagevela/` path.
+- **First-run flow / 快速开始：** A simpler welcome-to-editor flow, two-click entry, and no redundant tutorial when a template has already been selected.
+- **Mobile PDF / 移动端导出：** Easier access to the primary ATS/browser-print PDF action on mobile.
+- **Product imagery / 真实界面展示：** Automated English and Chinese captures of the welcome page and editor for honest product demonstrations.
+- **Dependencies / 依赖：** Tested maintenance updates to production and development packages, including Vite, Playwright and Vitest.
+
+## Compatibility and privacy / 兼容与隐私
+
+- Resume content remains primarily **local to each browser origin**. The new Pages path does not automatically carry over drafts from the old `/resume-craft/` origin. Back up and verify imports before retiring any old browser data.
+- Existing workspace JSON formats, application data keys, and historical release archives are preserved for compatibility; do not rename those internal identifiers just to match the new marketing name.
+- Full workspace JSON exports are **not encrypted** and can include personally identifying résumé content, so handle them privately.
+- The ATS/browser-print PDF route supports selectable text; the alternative quick-download PDF may be rasterized depending on the chosen mode.
+
+Read [workspace transfer](./docs/WORKSPACE_TRANSFER.md), [promotion media](./docs/PROMOTION_MEDIA.md) and the [full changelog](./CHANGELOG.md).
+
+---
+
 # Resume Craft v2.6.0
 
 > **Current project name (2026-10-16): Pagevela.** This is the archived October 14 release record under the former brand. For the current product visit [Pagevela](https://kunlong-luo.github.io/pagevela/) or [GitHub](https://github.com/kunlong-luo/pagevela). The retired `/resume-craft/` Pages path is not redirected. Existing v2.6.0 binaries, artifact filenames, version tags and checksums are unchanged.
