@@ -30,6 +30,7 @@ interface EditorWorkspaceProps {
 
 export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: EditorWorkspaceProps) {
   const [mobileTab, setMobileTab] = useState<'editor' | 'preview'>('editor');
+  const [mobileTextEditing, setMobileTextEditing] = useState(false);
 
   const {
     uiLanguage,
@@ -386,6 +387,16 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
           {(!isMobile || mobileTab === 'editor') && (
             <section 
               id="editor-pane" 
+              onFocusCapture={(event) => {
+                const target = event.target;
+                if (target instanceof HTMLTextAreaElement || (target instanceof HTMLInputElement && !['checkbox', 'radio', 'file', 'range', 'button'].includes(target.type))) {
+                  setMobileTextEditing(true);
+                }
+              }}
+              onBlurCapture={(event) => {
+                const next = event.relatedTarget;
+                if (!(next instanceof HTMLElement) || !event.currentTarget.contains(next)) setMobileTextEditing(false);
+              }}
               style={{
                 width: !isMobile ? (layoutMode === 'split' ? `${splitRatio}%` : layoutMode === 'editor' ? '100%' : '0%') : '100%'
               }}
@@ -446,7 +457,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
           </Suspense>
         </main>
 
-        {isMobile && (
+        {isMobile && !mobileTextEditing && (
           <nav
             aria-label={uiLanguage === 'en' ? 'Mobile workspace actions' : '移动端工作区操作'}
             className="md:hidden fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100vw-1rem)] max-w-md bg-slate-950/92 dark:bg-slate-800/95 border border-white/10 backdrop-blur-xl shadow-2xl rounded-2xl p-1.5 grid grid-cols-3 gap-1.5 text-xs font-bold text-white animate-in fade-in slide-in-from-bottom-3 duration-200"
