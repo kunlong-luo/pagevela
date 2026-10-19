@@ -135,7 +135,7 @@ test('US market defaults to no portrait and allows explicitly hiding or showing 
     name: 'photo.png', mimeType: 'image/png', buffer: TINY_PNG,
   });
   await expect(page.locator('img[alt="Resume portrait preview"]'))
-    .toHaveAttribute('src', /^data:image\\/jpeg;base64,/);
+    .toHaveAttribute('src', /^data:image\/jpeg;base64,/);
   await page.getByRole('button', { name: 'Apply 3:4 crop' }).click();
   await expect(printedPhoto).toHaveCount(1);
 
