@@ -116,3 +116,36 @@ test('China-market portrait stays inside the A4 page and Quick PDF is downloadab
   expect(pdfBytes.length).toBeGreaterThan(5_000);
   expect(pdfBytes.subarray(0, 5).toString('ascii')).toBe('%PDF-');
 });
+
+
+test('US market defaults to no portrait and allows explicitly hiding or showing a saved photo', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('resume-onboarding-v1-complete', '1');
+    localStorage.setItem('resume_ui_language', 'en');
+    localStorage.setItem('resume-settings', JSON.stringify({ lang: 'en', marketRegion: 'us' }));
+  });
+  await page.goto('/?page=editor');
+  await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
+
+  const printedPhoto = page.locator('#resume-print-content img[alt="Resume portrait"]');
+  await expect(printedPhoto).toHaveCount(0);
+  await expect(page.getByText('Photos are not typically recommended', { exact: false })).toBeVisible();
+
+  await page.locator('input[aria-label="Choose resume photo"]').setInputFiles({
+    name: 'photo.png', mimeType: 'image/png', buffer: TINY_PNG,
+  });
+  await expect(page.locator('img[alt="Resume portrait preview"]'))
+    .toHaveAttribute('src', /^data:image\/jpeg;base64,/);
+  await page.getByRole('button', { name: 'Apply 3:4 crop' }).click();
+  await expect(printedPhoto).toHaveCount(1);
+
+  const visibility = page.getByRole('checkbox', { name: 'Show photo on resume' });
+  await visibility.uncheck();
+  await expect(printedPhoto).toHaveCount(0);
+  await expect(page.locator('img[alt="Resume portrait preview"]')).toHaveCount(1);
+
+  await page.reload();
+  await expect(printedPhoto).toHaveCount(0);
+  await visibility.check();
+  await expect(printedPhoto).toHaveCount(1);
+});
