@@ -106,3 +106,90 @@ test('Chinese A4 portrait print preserves selectable PDF text and physical page 
   // Uploadable CI artifact: fictional test data only, never user's resumes.
   await writeFile(testInfo.outputPath('chinese-a4-print-proof.pdf'), pdfBytes);
 });
+
+
+test('long fictional Chinese resume with portrait exports multiple A4 print pages', async ({ page, browserName }, testInfo) => {
+  test.skip(browserName !== 'chromium', 'Playwright PDF printing requires Chromium');
+  test.setTimeout(120_000);
+  await page.addInitScript(() => {
+    localStorage.setItem('resume-onboarding-v1-complete', '1');
+    localStorage.setItem('resume_ui_language', 'zh');
+    localStorage.setItem('resume-settings', JSON.stringify({
+      lang: 'zh', marketRegion: 'cn', paperSize: 'a4',
+    }));
+  });
+  await page.goto('/?page=editor');
+  await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
+  await page.locator('input[aria-label="选择简历证件照"]').setInputFiles({
+    name: 'fictional-portrait.png', mimeType: 'image/png', buffer: SAMPLE_PORTRAIT,
+  });
+  await expect(page.locator('img[alt="简历证件照预览"]'))
+    .toHaveAttribute('src', /^data:image\/jpeg;base64,/);
+  await page.getByRole('button', { name: '应用 3:4 裁剪' }).click();
+  await page.getByRole('button', {
+    name: /^(Markdown source editor|Markdown 源码编辑模式)$/,
+  }).click();
+
+  const sample = [
+    '# 示例候选人',
+    '软件工程师',
+    '邮箱：demo@example.invalid',
+    '',
+    '## 工作经历',
+    ...Array.from({ length: 32 }, (_, i) => [
+      '### 虚构项目 ' + (i + 1),
+      '- 负责示例系统的需求分析、设计和测试，记录清晰的交付结果。',
+      '- 使用 TypeScript、React 和自动化测试改进演示流程。',
+      '',
+    ]).flat(),
+    '## 最后章节',
+    '这是长简历分页测试的结束标记。',
+  ].join('\n');
+  await page.locator('#markdown-textarea').fill(sample);
+  await expect(page.locator('#resume-print-content').getByRole('heading', {
+    name: '最后章节',
+  })).toBeAttached();
+  await expect(page.locator('#resume-print-content img[alt="简历证件照"]')).toHaveCount(1);
+
+  await page.evaluate(() => {
+    const original = document.getElementById('resume-print-content');
+    if (!original) throw new Error('No print content found');
+    document.body.replaceChildren(original.cloneNode(true));
+    document.body.className = '';
+    document.body.style.margin = '0';
+    document.body.style.padding = '0';
+  });
+  await page.emulateMedia({ media: 'print' });
+  await page.evaluate(async () => { await document.fonts.ready; });
+  const bytes = await page.pdf({
+    format: 'A4',
+    preferCSSPageSize: true,
+    printBackground: true,
+    margin: { top: '0', right: '0', bottom: '0', left: '0' },
+  });
+  expect(bytes.subarray(0, 5).toString('ascii')).toBe('%PDF-');
+  const { getDocument } = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  const task = getDocument({ data: new Uint8Array(bytes), useSystemFonts: true });
+  const pdf = await task.promise;
+  try {
+    expect(pdf.numPages).toBeGreaterThan(1);
+    const pagesText: string[] = [];
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const p = await pdf.getPage(i);
+      const [, , width, height] = p.view;
+      expect(width).toBeGreaterThan(594);
+      expect(width).toBeLessThan(597);
+      expect(height).toBeGreaterThan(840);
+      expect(height).toBeLessThan(843);
+      const content = await p.getTextContent();
+      pagesText.push(content.items.map(item => ('str' in item ? item.str : '')).join('').replace(/\s+/g, ''));
+    }
+    expect(pagesText.join('')).toContain('示例候选人');
+    expect(pagesText.join('')).toContain('最后章节');
+    expect(pagesText.join('')).toContain('结束标记');
+    expect(pagesText.at(-1)).toContain('结束标记');
+  } finally {
+    await task.destroy();
+  }
+  await writeFile(testInfo.outputPath('chinese-a4-multipage-print-proof.pdf'), bytes);
+});

@@ -94,7 +94,9 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: chinese-a4-print-proof
-          path: test-results/**/chinese-a4-print-proof.pdf
+          path: |
+            test-results/**/chinese-a4-print-proof.pdf
+            test-results/**/chinese-a4-multipage-print-proof.pdf
           if-no-files-found: warn
           retention-days: 7
 
