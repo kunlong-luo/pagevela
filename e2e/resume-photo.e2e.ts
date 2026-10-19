@@ -149,3 +149,39 @@ test('US market defaults to no portrait and allows explicitly hiding or showing 
   await visibility.check();
   await expect(printedPhoto).toHaveCount(1);
 });
+
+
+test('photo remains attached to profile while switching visual styles', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('resume-onboarding-v1-complete', '1');
+    localStorage.setItem('resume_ui_language', 'en');
+    localStorage.setItem('resume-settings', JSON.stringify({ lang: 'en', marketRegion: 'cn' }));
+  });
+  await page.goto('/?page=editor');
+  await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
+  const originalMarkdown = await readActiveMarkdown(page);
+
+  await page.locator('input[aria-label="Choose resume photo"]').setInputFiles({
+    name: 'portrait.png', mimeType: 'image/png', buffer: TINY_PNG,
+  });
+  await expect(page.locator('img[alt="Resume portrait preview"]'))
+    .toHaveAttribute('src', /^data:image\/jpeg;base64,/);
+  await page.getByRole('button', { name: 'Apply 3:4 crop' }).click();
+
+  const printed = page.locator('#resume-print-content img[alt="Resume portrait"]');
+  await expect(printed).toHaveCount(1);
+  const savedImage = await printed.getAttribute('src');
+
+  await page.locator('#resume-main-toolbar')
+    .getByRole('button', { name: 'Open style settings' }).click();
+  const styles = page.getByRole('dialog', { name: 'Style' });
+  for (const name of [/Chinese Classic/, /Modern Two-Column/]) {
+    await styles.getByRole('button', { name }).click();
+    await expect(printed).toHaveAttribute('src', savedImage!);
+    await expect.poll(() => readActiveMarkdown(page)).toBe(originalMarkdown);
+  }
+  await styles.getByRole('button', { name: 'Close Style' }).click();
+  await page.reload();
+  await expect(printed).toHaveAttribute('src', savedImage!);
+  await expect.poll(() => readActiveMarkdown(page)).toBe(originalMarkdown);
+});
