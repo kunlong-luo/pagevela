@@ -13,7 +13,7 @@ for (const locale of ['zh', 'en'] as const) {
       const markdown = page.getByRole('button', { name: locale === 'zh' ? 'Markdown 源码编辑模式' : 'Markdown source editor' });
       await expect(form).toBeVisible();
       await expect(markdown).toBeVisible();
-      await expect(markdown.locator('span:visible')).toHaveText(locale === 'zh' ? '源码' : 'Markdown');
+      await expect(markdown.locator('span:visible')).toHaveText(locale === 'zh' ? '源码' : 'Code');
       const left = await form.boundingBox();
       const right = await markdown.boundingBox();
       expect(left).not.toBeNull();
