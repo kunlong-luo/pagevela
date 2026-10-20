@@ -1,10 +1,10 @@
 import { expect, test, type Page } from '@playwright/test';
 
 async function expectOverlayAboveMobileDock(page: Page, selector: string) {
-  const nav = page.getByRole('navigation', { name: 'Mobile workspace actions' });
+  const nav = page.locator('nav[aria-label="Mobile workspace actions"], nav[aria-label="移动端工作区操作"]');
   await expect(nav).toBeVisible();
   await expect.poll(async () => page.evaluate((overlaySelector) => {
-    const dock = document.querySelector('nav[aria-label="Mobile workspace actions"]');
+    const dock = document.querySelector('nav[aria-label="Mobile workspace actions"], nav[aria-label="移动端工作区操作"]');
     if (!dock) return false;
     const bounds = dock.getBoundingClientRect();
     const hit = document.elementFromPoint(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
