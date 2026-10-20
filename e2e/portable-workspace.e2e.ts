@@ -29,8 +29,13 @@ test('portable workspace export and confirmed restore survive reload', async ({ 
   });
   await page.goto('/?page=editor');
   await expect.poll(() => readActiveMarkdown(page)).not.toBeNull();
+  // IndexedDB can become readable before the lazy editor/header has mounted
+  // and registered the backup custom-event listener. Await the real editor.
+  await expect(page.locator('#editor-pane')).toBeVisible();
+  await expect(page.locator('#resume-main-toolbar')).toBeVisible();
   await page.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
   const modal = page.getByRole('dialog', { name: 'Resume Management' });
+  await expect(modal).toBeVisible();
   await modal.getByRole('button', { name: 'Backup', exact: true }).click();
 
   const [download] = await Promise.all([
