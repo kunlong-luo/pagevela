@@ -1,3 +1,4 @@
+import { MOBILE_SHEET_SCRIM } from '../ui/MobileSheetBackdrop';
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
@@ -78,7 +79,7 @@ export function SettingsPopover({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-[120] cursor-default bg-slate-900/10 backdrop-blur-[0.5px] dark:bg-black/40"
+            className={`fixed inset-0 z-[120] cursor-default ${MOBILE_SHEET_SCRIM} sm:bg-slate-900/10 sm:backdrop-blur-[0.5px] dark:sm:bg-black/40`}
             onClick={onClose}
           />
           <motion.div
