@@ -380,7 +380,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
 
         <main 
           ref={containerRef}
-          className="flex-1 flex flex-col md:flex-row overflow-hidden relative pb-[calc(4.75rem+env(safe-area-inset-bottom))] md:pb-0"
+          className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden relative"
         >
           {(!isMobile || mobileTab === 'editor') && (
             <section 
@@ -455,12 +455,13 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
           </Suspense>
         </main>
 
-        {/* The dock must stay below the header (z-40) and portaled dialogs. */}
+        {/* Mobile actions are an in-flow footer. The preview viewport ends above them,
+            rather than being covered by a fixed overlay with estimated padding. */}
         {isMobile && !mobileTextEditing && (
           <nav
             aria-label={uiLanguage === 'en' ? 'Mobile workspace actions' : '移动端工作区操作'}
-            className="md:hidden fixed left-1/2 -translate-x-1/2 z-30 w-[calc(100vw-1rem)] max-w-md bg-slate-950/92 dark:bg-slate-800/95 border border-white/10 backdrop-blur-xl shadow-2xl rounded-2xl p-1.5 grid grid-cols-3 gap-1.5 text-xs font-bold text-white animate-in fade-in slide-in-from-bottom-3 duration-200"
-            style={{ bottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}
+            className="md:hidden relative z-30 shrink-0 mx-auto w-[calc(100vw-1rem)] max-w-md bg-slate-950/92 dark:bg-slate-800/95 border border-white/10 backdrop-blur-xl shadow-2xl rounded-2xl p-1.5 grid grid-cols-3 gap-1.5 text-xs font-bold text-white animate-in fade-in slide-in-from-bottom-3 duration-200"
+            style={{ marginTop: '0.5rem', marginBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}
           >
             <button
               type="button"
