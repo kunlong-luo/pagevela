@@ -36,7 +36,7 @@ test('mobile header menus and template dialog stack over fixed Edit/Preview/Down
   await page.getByRole('button', { name: 'Open resume switcher' }).click();
 
   await page.getByRole('button', { name: 'Browse resume templates' }).click();
-  const templateDialog = page.getByRole('dialog', { name: /Content Template Library|Choose a template/i });
+  const templateDialog = page.getByRole('dialog', { name: 'Choose a content template' });
   await expect(templateDialog).toBeVisible();
   await expectOverlayAboveMobileDock(page, '[role="dialog"][aria-modal="true"]');
 });
