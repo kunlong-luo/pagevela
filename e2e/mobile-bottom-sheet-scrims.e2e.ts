@@ -5,7 +5,7 @@ async function expectDimmedScrim(scrim: Locator, page: Page) {
   const dimmed = await scrim.evaluate(element => {
     const style = getComputedStyle(element);
     return {
-      hasBlur: style.backdropFilter !== 'none' || style.webkitBackdropFilter !== 'none',
+      hasBlur: style.backdropFilter !== 'none',
       transparent: style.backgroundColor === 'rgba(0, 0, 0, 0)' || style.backgroundColor === 'transparent',
       rect: element.getBoundingClientRect().toJSON(),
     };
