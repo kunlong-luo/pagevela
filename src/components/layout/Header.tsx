@@ -1,5 +1,6 @@
+import { useDialogFocus } from '../../hooks/useDialogFocus';
 import { MobileSheetBackdrop } from '../ui/MobileSheetBackdrop';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { 
   ClipboardCheck, 
   Database, 
@@ -83,17 +84,15 @@ export function Header({
   const isEn = lang === 'en';
   const [isRawTextModalOpen, setIsRawTextModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const quickActionsDialogRef = useRef<HTMLDivElement>(null);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { isInstallable, triggerInstall } = usePWAInstall();
 
-  useEffect(() => {
-    if (!isMobileMenuOpen) return;
-    const onEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setIsMobileMenuOpen(false);
-    };
-    document.addEventListener('keydown', onEscape);
-    return () => document.removeEventListener('keydown', onEscape);
-  }, [isMobileMenuOpen]);
+  useDialogFocus({
+    isOpen: isMobileMenuOpen,
+    dialogRef: quickActionsDialogRef,
+    onClose: () => setIsMobileMenuOpen(false),
+  });
 
   useEffect(() => {
     const openImport = () => setIsRawTextModalOpen(true);
@@ -437,6 +436,7 @@ export function Header({
             breakpoint="md"
           />
           <div
+            ref={quickActionsDialogRef}
             id="mobile-quick-actions"
             role="dialog"
             aria-modal="true"
