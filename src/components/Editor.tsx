@@ -319,7 +319,7 @@ export const Editor = React.memo(function Editor() {
             type="button"
             onClick={() => setActiveMode('form')}
             aria-label={isUiEn ? 'Form editor' : '表单编辑模式'}
-            className={`relative flex items-center gap-1 max-[359px]:gap-1 max-[359px]:px-2 px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+            className={`relative flex items-center min-h-10 sm:min-h-0 gap-1 max-[359px]:gap-1 max-[359px]:px-2 px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               activeMode === 'form'
                 ? 'text-indigo-700 dark:text-indigo-300 font-extrabold'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
