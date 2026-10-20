@@ -215,7 +215,7 @@ export const ResumeHeader = React.memo(function ResumeHeader({ headerInfo, theme
               } else if (hasGithubCom && parsedUrl) {
                 href = parsedUrl.href;
                 const cleanHandle = parsedUrl.pathname.replace(/^\//, '').replace(/\/$/, '').trim();
-                displayText = mdLinkMatch?.[1]?.trim() || cleanHandle || 'GitHub';
+                displayText = mdLinkMatch?.[1]?.trim() || (rawUrl.startsWith('https://') ? parsedUrl.href.replace(/\/$/, '') : cleanHandle || 'GitHub');
               } else if (isUrl && parsedUrl) {
                 href = parsedUrl.href;
                 if (mdLinkMatch?.[1]) {
