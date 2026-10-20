@@ -4,7 +4,6 @@ import { useResumeStore } from '../../store/useResumeStore';
 import { useShallow } from 'zustand/react/shallow';
 import { smartAutoFit } from '../../lib/preview-utils';
 import { Tooltip } from '../ui/Tooltip';
-import { LanguageToggle } from '../toolbar/LanguageToggle';
 import { ToolbarSelectors } from '../toolbar/ToolbarSelectors';
 import { LayoutModeToggle } from '../toolbar/LayoutModeToggle';
 import { LayoutDrawer } from '../toolbar/LayoutDrawer';
@@ -67,11 +66,9 @@ export function Toolbar() {
   }, [updateSetting]);
 
   return (
-    <div id="resume-main-toolbar" className="flex items-center justify-start md:justify-between px-2 sm:px-6 py-1.5 bg-white/80 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/90 relative z-20 gap-2 shadow-[0_1px_2px_rgba(15,23,42,0.02)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.3)] w-full min-w-0 overflow-x-auto scrollbar-none overscroll-x-contain touch-pan-x transition-colors duration-200">
-      {/* Left Area: Language + Template Library */}
+    <div id="resume-main-toolbar" className="flex items-center justify-between px-2 sm:px-6 py-1.5 bg-white/80 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/90 relative z-20 gap-2 shadow-[0_1px_2px_rgba(15,23,42,0.02)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.3)] w-full min-w-0 overflow-visible md:overflow-x-auto md:overscroll-x-contain scrollbar-none transition-colors duration-200">
+      {/* Global UI language now lives beside Theme in Header. */}
       <div className="flex items-center gap-1.5 text-xs shrink-0">
-        <LanguageToggle />
-        <div className="w-px h-4 bg-slate-200 dark:bg-slate-800 mx-0.5 shrink-0" />
         <ToolbarSelectors
           onOpenTemplateCenter={() => setIsTemplateCenterOpen(true)}
           isOpen={isTemplateCenterOpen}
@@ -107,7 +104,7 @@ export function Toolbar() {
             aria-haspopup="dialog"
             aria-expanded={isLayoutOpen}
             aria-label={isEn ? 'Open layout settings' : '打开排版设置'}
-            className={`flex h-9 md:h-8 items-center justify-center gap-1 px-2.5 rounded-lg text-xs font-bold border transition-all cursor-pointer shrink-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+            className={`flex h-11 md:h-8 items-center justify-center gap-1 px-2.5 rounded-lg text-xs font-bold border transition-all cursor-pointer shrink-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               isLayoutOpen
                 ? 'bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-500/20'
                 : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200/90 dark:border-slate-700 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-750'
@@ -130,7 +127,7 @@ export function Toolbar() {
             aria-haspopup="dialog"
             aria-expanded={isStyleOpen}
             aria-label={isEn ? 'Open style settings' : '打开样式设置'}
-            className={`flex h-9 md:h-8 items-center justify-center gap-1 px-2.5 rounded-lg text-xs font-bold border transition-all cursor-pointer shrink-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+            className={`flex h-11 md:h-8 items-center justify-center gap-1 px-2.5 rounded-lg text-xs font-bold border transition-all cursor-pointer shrink-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               isStyleOpen
                 ? 'bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-500/20'
                 : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200/90 dark:border-slate-700 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-750'
@@ -142,9 +139,9 @@ export function Toolbar() {
           </button>
         </Tooltip>
 
-        <div className="w-px h-4 bg-slate-200 dark:bg-slate-800 mx-0.5 shrink-0" />
+        <div className="hidden md:block w-px h-4 bg-slate-200 dark:bg-slate-800 mx-0.5 shrink-0" />
 
-        {/* Layout Mode Toggle Group */}
+        {/* Layout Mode Toggle Group (desktop only; mobile uses the persistent Edit/Preview dock) */}
         <div className="hidden md:block">
           <LayoutModeToggle />
         </div>
