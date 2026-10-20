@@ -52,18 +52,19 @@ export function SectionHeader({
 
   return (
     <div 
-      className={`flex items-center justify-between px-5 py-3.5 bg-gradient-to-r cursor-pointer select-none transition-all duration-300 ${
+      data-testid="resume-section-header"
+      className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3 px-3 sm:px-5 py-3.5 bg-gradient-to-r cursor-pointer select-none transition-all duration-300 ${
         isExpanded 
           ? 'from-indigo-50/40 to-slate-50 dark:from-indigo-950/30 dark:to-slate-900/60 border-b border-indigo-100/40 dark:border-indigo-900/40 hover:from-indigo-50/60 hover:to-slate-100/60 dark:hover:from-indigo-950/50 dark:hover:to-slate-900/80' 
           : 'from-slate-50/80 to-slate-100/30 dark:from-slate-850/60 dark:to-slate-900/40 border-b border-slate-200/40 dark:border-slate-800 dark:hover:from-slate-800 dark:hover:to-slate-800/80 hover:from-slate-100/60 hover:to-slate-100/90'
       }`} 
       onClick={onToggle}
     >
-      <div className="flex items-center gap-3 min-w-0">
+      <div className="flex flex-1 items-center gap-2 sm:gap-3 min-w-0 w-full sm:w-auto">
         <div className={`p-2 rounded-lg border ${theme.iconBg} ${theme.iconColor} ${theme.border} shrink-0 flex items-center justify-center shadow-2xs`}>
           <Icon className="w-5 h-5" />
         </div>
-        <div className="min-w-0 flex flex-col justify-center">
+        <div className="min-w-0 flex-1 flex flex-col justify-center">
           <div className="flex items-center gap-2 min-w-0 flex-wrap sm:flex-nowrap">
             <input 
               type="text"
@@ -75,7 +76,7 @@ export function SectionHeader({
               onChange={(e) => onTitleChange(e.target.value)}
               aria-label={isEn ? 'Edit resume section heading' : '编辑简历模块标题'}
               placeholder={isEn ? 'Section Title' : '模块标题'}
-              className="font-bold text-sm text-slate-800 dark:text-slate-100 bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-100/50 dark:focus:ring-indigo-900/50 px-1 py-0.5 rounded transition-all w-36 sm:w-48 md:w-56"
+              className="font-bold text-sm text-slate-800 dark:text-slate-100 bg-transparent border-b border-transparent hover:border-slate-300 dark:hover:border-slate-600 focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-100/50 dark:focus:ring-indigo-900/50 px-1 py-0.5 rounded transition-all w-full min-w-0 sm:w-48 md:w-56"
             />
           </div>
           {displaySubtitle && (
@@ -86,10 +87,12 @@ export function SectionHeader({
         </div>
       </div>
       
-      <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
+      <div data-testid="resume-section-actions" className="flex items-center justify-end gap-1.5 shrink-0 w-full sm:w-auto border-t border-slate-200/50 dark:border-slate-700/50 sm:border-0 pt-1.5 sm:pt-0" onClick={(e) => e.stopPropagation()}>
         {onApplySpacing && (
           <Tooltip content={t.formatSpacing} side="top">
             <button
+              type="button"
+              aria-label={t.formatSpacing}
               onClick={onApplySpacing}
               className="p-1.5 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 rounded transition-all active:scale-90 duration-150 cursor-pointer"
             >
