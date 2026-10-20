@@ -111,7 +111,7 @@ export function Toolbar() {
             }`}
           >
             <SlidersHorizontal className={`w-3.5 h-3.5 shrink-0 ${isLayoutOpen ? 'text-white' : 'text-indigo-500'}`} aria-hidden="true" />
-            <span className="hidden xl:inline">{isEn ? 'Layout' : '排版'}</span>
+            <span className="inline md:hidden xl:inline">{isEn ? 'Layout' : '排版'}</span>
             <ChevronDown className={`w-3 h-3 shrink-0 transition-transform duration-200 ${isLayoutOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
           </button>
         </Tooltip>
@@ -134,7 +134,7 @@ export function Toolbar() {
             }`}
           >
             <Palette className={`w-3.5 h-3.5 shrink-0 ${isStyleOpen ? 'text-white' : 'text-indigo-500'}`} aria-hidden="true" />
-            <span className="hidden xl:inline">{isEn ? 'Style' : '样式'}</span>
+            <span className="inline md:hidden xl:inline">{isEn ? 'Style' : '样式'}</span>
             <ChevronDown className={`w-3 h-3 shrink-0 transition-transform duration-200 ${isStyleOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
           </button>
         </Tooltip>
