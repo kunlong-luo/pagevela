@@ -355,6 +355,22 @@
   background-color: rgba(129, 140, 248, 0.85) !important;
 }
 
+/* Chromium supports both scrollbar-width and ::-webkit-scrollbar.
+ * Non-auto standard properties take precedence over the 5px WebKit rail,
+ * so retain the browser-specific pseudo-element width when available.
+ * Firefox continues to use the standard 'thin' width and color above. */
+@supports selector(::-webkit-scrollbar) {
+  .workspace-scrollbar,
+  .workspace-scrollbar:hover,
+  .workspace-scrollbar:focus-within,
+  .dark .workspace-scrollbar,
+  .dark .workspace-scrollbar:hover,
+  .dark .workspace-scrollbar:focus-within {
+    scrollbar-width: auto !important;
+    scrollbar-color: auto !important;
+  }
+}
+
 
 @media (max-width: 767px) {
   /* Keep the editor readable and prevent iOS Safari from zooming the page when
