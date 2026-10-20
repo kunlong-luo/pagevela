@@ -155,8 +155,14 @@ describe('Phase 6: Multi-Market Template Center & Starter Data', () => {
           /(?:@163\.com|@gmail\.com|@fake-email\.com|alex-chen-ai|alexchen-dev|mayapatel-dev|marcus-cloud|marcusroy-ca|xiaomeng-zhao|linzy-ai-frontend|chenjie-ai-backend)/i,
         );
 
-        expect(template.content, template.id).not.toMatch(/github\.com\//i);
-        expect(template.content, template.id).not.toMatch(/linkedin\.com\/in\//i);
+        // Full HTTPS URLs are intentional; identities must remain safe fictional placeholders.
+        for (const match of template.content.matchAll(/https:\/\/github\.com\/([^\s·|｜]+)/gi)) {
+          expect(match[1], template.id).toBe('your-username');
+        }
+        for (const match of template.content.matchAll(/https:\/\/(?:www\.)?linkedin\.com\/in\/([^\s·|｜]+)/gi)) {
+          expect(match[1], template.id).toBe('your-profile');
+        }
+        expect(template.content, template.id).not.toMatch(/(?:GitHub|LinkedIn):\s*your-/i);
       }
     });
 
@@ -167,8 +173,8 @@ describe('Phase 6: Multi-Market Template Center & Starter Data', () => {
 
       expect(parsed.email).toBe('alex.chen@example.com');
       expect(parsed.city).toBe('San Francisco, CA');
-      expect(parsed.social).toContain('GitHub: your-username');
-      expect(parsed.social).toContain('LinkedIn: your-profile');
+      expect(parsed.social).toContain('https://github.com/your-username');
+      expect(parsed.social).toContain('https://www.linkedin.com/in/your-profile');
       expect(parsed.social).not.toMatch(/^\s*[()·]/);
     });
   });
