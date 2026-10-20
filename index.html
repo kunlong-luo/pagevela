@@ -111,7 +111,12 @@
             <div class="startup-brand-name"><span class="startup-brand-en">Pagevela</span><span class="startup-brand-zh">页帆</span></div>
             <div class="startup-chip startup-shimmer"></div>
           </div>
-          <div class="startup-actions">
+          <!-- Match the real welcome navbar rather than showing an editor-like toolbar. -->
+          <div class="startup-actions startup-landing-actions" aria-hidden="true">
+            <span class="startup-language-preview"><span class="startup-language-globe">◎</span><span class="startup-brand-en">中文</span><span class="startup-brand-zh">EN</span></span>
+            <span class="startup-theme-preview">◐</span>
+          </div>
+          <div class="startup-actions startup-editor-actions" aria-hidden="true">
             <div class="startup-icon startup-shimmer"></div>
             <div class="startup-button startup-shimmer"></div>
           </div>
@@ -227,6 +232,25 @@
         }
         .startup-brand-name { font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
         .startup-chip { width: 68px; height: 24px; border-radius: 8px; }
+        /* Pre-hydration landing navigation mirrors the product's real language/theme
+           controls. Decorative until React mounts; the hero CTA works without JS. */
+        .startup-landing-actions { display: none; }
+        .startup-language-preview, .startup-theme-preview {
+          display: inline-flex; align-items:center; justify-content:center;
+          min-height:31px; box-sizing:border-box; border:1px solid var(--startup-border);
+          border-radius:8px; background:var(--startup-panel); color:inherit;
+          font-size:12px; font-weight:700;
+        }
+        .startup-language-preview { gap:6px; padding:0 10px; }
+        .startup-language-globe { color:#6366f1; font-size:18px; line-height:1; }
+        .startup-theme-preview { width:31px; font-size:19px; }
+        html:not([data-startup-route="editor"]) .startup-topbar { height:64px; flex-basis:64px; padding-inline:16px; }
+        html:not([data-startup-route="editor"]) .startup-logo { width:36px; height:36px; border-radius:12px; }
+        html:not([data-startup-route="editor"]) .startup-chip,
+        html:not([data-startup-route="editor"]) .startup-editor-actions { display:none; }
+        html:not([data-startup-route="editor"]) .startup-landing-actions { display:flex; }
+        html[data-startup-route="editor"] .startup-landing-actions { display:none; }
+
         .startup-icon { width: 30px; height: 30px; border-radius: 9px; }
         .startup-button { width: 92px; height: 30px; border-radius: 10px; }
         .startup-toolbar {
@@ -322,6 +346,7 @@
           .startup-welcome-showcase-grid { grid-template-columns: 1fr; }
           .startup-welcome-showcase-panel + .startup-welcome-showcase-panel { display: none; }
           .startup-topbar { height:48px; flex-basis:48px; padding:0 12px; }
+          html:not([data-startup-route="editor"]) .startup-topbar { height:64px; flex-basis:64px; padding:0 16px; }
           .startup-toolbar { padding:0 12px; overflow:hidden; }
           .startup-brand-line { width:72px; }
           .startup-chip { display:none; }

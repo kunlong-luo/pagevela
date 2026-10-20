@@ -1,6 +1,7 @@
 import React from 'react';
 import { getProductDisplayName } from '../../lib/brand';
-import { Globe2, Sun, Moon } from 'lucide-react';
+import { Sun, Moon } from 'lucide-react';
+import { LanguageToggle } from '../ui/LanguageToggle';
 import { ThemeMode } from '../../types';
 import { Tooltip } from '../ui/Tooltip';
 
@@ -68,16 +69,8 @@ export function LandingNavbar({
 
         {/* Zone 3: Actions */}
         <div className="flex items-center gap-2 shrink-0">
-          {/* Language toggle */}
-          <button
-            type="button"
-            onClick={onToggleLanguage}
-            aria-label="Toggle language"
-            className="px-2.5 py-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-all flex items-center gap-1.5 cursor-pointer"
-          >
-            <Globe2 className="w-3.5 h-3.5 text-indigo-500" />
-            <span>{isEn ? '中文' : 'EN'}</span>
-          </button>
+          {/* Global language toggle, shared with the editor beside Theme. */}
+          <LanguageToggle isEn={isEn} onToggle={onToggleLanguage} />
 
           {/* Theme toggle */}
           <button

@@ -21,6 +21,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { ThemeMode } from '../../types';
 import { ProfileDropdown } from '../profile/ProfileDropdown';
 import { Tooltip } from '../ui';
+import { LanguageToggle } from '../ui/LanguageToggle';
 import { usePWAInstall } from '../../hooks/usePWAInstall';
 import { trackAnalyticsEvent } from '../../lib/analytics';
 import { PdfExportMenu } from '../header/PdfExportMenu';
@@ -59,6 +60,7 @@ export function Header({
     uiLanguage,
     themeMode,
     setThemeMode,
+    setUiLanguage,
   } = useResumeStore(
     useShallow((state) => ({
       lastSaved: state.lastSaved,
@@ -77,6 +79,7 @@ export function Header({
       uiLanguage: state.uiLanguage,
       themeMode: state.themeMode,
       setThemeMode: state.setThemeMode,
+      setUiLanguage: state.setUiLanguage,
     })),
   );
 
@@ -351,6 +354,10 @@ export function Header({
         </div>
         
         <div className="flex items-center gap-1.5 justify-end shrink-0">
+          <LanguageToggle
+            isEn={isEn}
+            onToggle={() => setUiLanguage(isEn ? 'zh' : 'en')}
+          />
           <Tooltip content={`${isEn ? 'Theme' : '主题'}: ${themeLabel}`} side="bottom">
             <button
               type="button"
@@ -466,13 +473,25 @@ export function Header({
                   <span>{isEn ? 'Return to Welcome Page' : '返回产品欢迎页'}</span>
                 </button>
               )}
-              <button
-                onClick={(e) => { toggleThemeMode(e); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
-              >
-                {themeMode === 'dark' ? <Moon className="w-4 h-4 text-indigo-400" /> : <Sun className="w-4 h-4 text-amber-500" />}
-                <span>{isEn ? 'Theme' : '外观主题'}: {themeLabel}</span>
-              </button>
+              <div className="flex min-w-0 items-center gap-2">
+                <LanguageToggle
+                  isEn={isEn}
+                  onToggle={() => {
+                    setUiLanguage(isEn ? 'zh' : 'en');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="min-h-12 w-full rounded-xl bg-slate-50 dark:bg-slate-800/70"
+                />
+                <button
+                  type="button"
+                  onClick={(e) => { toggleThemeMode(e); setIsMobileMenuOpen(false); }}
+                  className="min-h-12 min-w-12 inline-flex items-center justify-center gap-2.5 p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
+                  aria-label={`${isEn ? 'Theme' : '主题'}: ${themeLabel}`}
+                  title={`${isEn ? 'Theme' : '主题'}: ${themeLabel}`}
+                >
+                  {themeMode === 'dark' ? <Moon className="w-4 h-4 text-indigo-400" /> : <Sun className="w-4 h-4 text-amber-500" />}
+                </button>
+              </div>
 
               <button
                 onClick={() => { setIsCheckerOpen(!isCheckerOpen); setIsMobileMenuOpen(false); }}
