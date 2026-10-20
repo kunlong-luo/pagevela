@@ -55,14 +55,11 @@ test.describe('international market flows', () => {
     await expect(preview).toBeVisible();
     const originalPreviewText = await preview.textContent();
     expect(originalPreviewText).not.toBeNull();
-    const languageGroup = page.getByRole('group', { name: 'Interface language' });
-    await expect(languageGroup).toBeVisible();
-
-    await languageGroup
-      .getByRole('button', { name: 'Switch interface language to Chinese' })
-      .click();
-
-    await expect(page.getByRole('group', { name: '界面语言' })).toBeVisible();
+    const uiLanguageSwitch = page.getByRole('button', { name: 'Toggle language' });
+    await expect(uiLanguageSwitch).toBeVisible();
+    await expect(uiLanguageSwitch).toHaveText('中文');
+    await uiLanguageSwitch.click();
+    await expect(uiLanguageSwitch).toHaveText('EN');
     await expect.poll(() =>
       page.evaluate(() => window.localStorage.getItem('resume_ui_language')),
     ).toBe('zh');
@@ -107,7 +104,7 @@ test.describe('international market flows', () => {
     await page.goto('/?page=editor');
     await page.getByRole('button', { name: /Form editor|表单编辑/ }).click();
 
-    await expect(page.getByRole('group', { name: 'Interface language' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveText('中文');
     await expect(page.getByTestId('resume-section-title').first()).toHaveValue('Work Experience');
     await expect(page.locator('#resume-print-content h2').filter({ hasText: /^工作经历$/ })).toBeVisible();
 
@@ -137,7 +134,7 @@ test.describe('international market flows', () => {
     await page.goto('/?page=editor');
     await page.getByRole('button', { name: /Form editor|表单编辑/ }).click();
 
-    await expect(page.getByRole('group', { name: '界面语言' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveText('EN');
     await expect(page.getByTestId('resume-section-title').first()).toHaveValue('工作经历');
     await expect(page.locator('#resume-print-content h2').filter({ hasText: /^Work Experience$/ })).toBeVisible();
     await expect(page.getByRole('button').filter({ hasText: '工作经历' }).first()).toBeVisible();
@@ -175,10 +172,7 @@ test.describe('international market flows', () => {
       await expect(headingInputs.nth(index)).toHaveValue(heading);
     }
 
-    await page
-      .getByRole('group', { name: 'Interface language' })
-      .getByRole('button', { name: 'Switch interface language to Chinese' })
-      .click();
+    await page.getByRole('button', { name: 'Toggle language' }).click();
 
     for (const [index, heading] of ['个人优势', '工作经历', '教育背景'].entries()) {
       await expect(headingInputs.nth(index)).toHaveValue(heading);
@@ -193,10 +187,7 @@ test.describe('international market flows', () => {
     await expect.poll(() => readActiveMarkdown(page)).toBe(markdown);
     await expect(page.locator('#resume-print-content h2').filter({ hasText: /^Work Experience$/ })).toBeVisible();
 
-    await page
-      .getByRole('group', { name: '界面语言' })
-      .getByRole('button', { name: '将界面语言切换为英文' })
-      .click();
+    await page.getByRole('button', { name: 'Toggle language' }).click();
     await expect(headingInputs.nth(1)).toHaveValue('Work Experience');
     await expect.poll(() => readActiveMarkdown(page)).toBe(markdown);
   });
@@ -227,12 +218,9 @@ test.describe('international market flows', () => {
 
     await page.goto('/?page=editor');
 
-    await page
-      .getByRole('group', { name: 'Interface language' })
-      .getByRole('button', { name: 'Switch interface language to Chinese' })
-      .click();
+    await page.getByRole('button', { name: 'Toggle language' }).click();
 
-    await expect(page.getByRole('group', { name: '界面语言' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveText('EN');
     await expect.poll(() =>
       page.evaluate(() => JSON.parse(window.localStorage.getItem('resume-settings') || '{}').lang),
     ).toBe('en');
@@ -242,7 +230,7 @@ test.describe('international market flows', () => {
     await presentToggle.click();
 
     await expect.poll(() => readActiveMarkdown(page)).toContain('Present');
-    await expect(page.getByRole('group', { name: '界面语言' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveText('EN');
   });
 
   test('download menu keeps Chinese Canada market label on one line', async ({ page }) => {
