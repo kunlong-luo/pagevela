@@ -154,17 +154,18 @@ export function ProfileDropdown({ lang, isCompact }: ProfileDropdownProps) {
       </Tooltip>
 
       {/* Dropdown Menu - Level fixed with z-[100] and absolute left-0 */}
+      {isOpen && (
+        <MobileSheetBackdrop
+          onClose={() => {
+            setIsOpen(false);
+            setEditingId(null);
+            setConfirmDeleteId(null);
+          }}
+          label={isEn ? 'Close resume switcher' : '关闭简历切换器'}
+        />
+      )}
       <AnimatePresence>
         {isOpen && (
-          <>
-          <MobileSheetBackdrop
-            onClose={() => {
-              setIsOpen(false);
-              setEditingId(null);
-              setConfirmDeleteId(null);
-            }}
-            label={isEn ? 'Close resume switcher' : '关闭简历切换器'}
-          />
           <motion.div
             id="resume-profile-panel"
             role="dialog"
@@ -385,7 +386,6 @@ export function ProfileDropdown({ lang, isCompact }: ProfileDropdownProps) {
           </div>
 
         </motion.div>
-          </>
       )}
     </AnimatePresence>
     </div>
