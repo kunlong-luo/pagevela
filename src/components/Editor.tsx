@@ -772,7 +772,7 @@ export const Editor = React.memo(function Editor() {
             <textarea
               id="markdown-textarea"
               ref={textareaRef}
-              className="absolute inset-0 w-full h-full editor-font-base editor-textarea text-transparent focus:outline-none focus:ring-0 selection:bg-blue-100/60 dark:selection:bg-indigo-900/60"
+              className="absolute inset-0 w-full h-full editor-font-base editor-textarea workspace-scrollbar text-transparent focus:outline-none focus:ring-0 selection:bg-blue-100/60 dark:selection:bg-indigo-900/60"
               value={value}
               onChange={(e) => onChange(e.target.value)}
               onScroll={handleScroll}
