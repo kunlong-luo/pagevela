@@ -126,40 +126,6 @@
   }
 }
 
-.preview-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-  scrollbar-gutter: stable;
-}
-.preview-scrollbar:hover,
-.preview-scrollbar:focus-within {
-  scrollbar-color: rgba(148, 163, 184, 0.42) transparent;
-}
-.preview-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-.preview-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.preview-scrollbar::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 9999px;
-  border: 1.5px solid transparent;
-  background-clip: content-box;
-}
-.preview-scrollbar:hover::-webkit-scrollbar-thumb,
-.preview-scrollbar:focus-within::-webkit-scrollbar-thumb {
-  background-color: rgba(148, 163, 184, 0.42);
-}
-.preview-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(99, 102, 241, 0.72);
-}
-.dark .preview-scrollbar:hover,
-.dark .preview-scrollbar:focus-within {
-  scrollbar-color: rgba(148, 163, 184, 0.32) transparent;
-}
-
 /* Exquisite Smart Capsule Scrollbar Utility */
 .scrollbar-thin,
 .scrollbar-capsule {
@@ -332,6 +298,77 @@
 }
 .editor-pre::-webkit-scrollbar-thumb {
   background: transparent !important;
+}
+
+/*
+ * Pagevela workspace scrollbars: consistent 5px capsule in the form, Markdown
+ * source and document preview. Scope this to the three main scrolling surfaces
+ * so native scrollbars elsewhere (dialogs, menus and touch scrolling) remain intact.
+ * Firefox supports scrollbar-width: thin; WebKit/Chromium support 5px rails.
+ */
+.workspace-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(100, 116, 139, 0.28) transparent !important;
+  scrollbar-gutter: stable;
+}
+.workspace-scrollbar:hover,
+.workspace-scrollbar:focus-within {
+  scrollbar-color: rgba(100, 116, 139, 0.55) transparent !important;
+}
+.dark .workspace-scrollbar {
+  scrollbar-color: rgba(148, 163, 184, 0.3) transparent !important;
+}
+.dark .workspace-scrollbar:hover,
+.dark .workspace-scrollbar:focus-within {
+  scrollbar-color: rgba(148, 163, 184, 0.6) transparent !important;
+}
+.workspace-scrollbar::-webkit-scrollbar {
+  width: 5px !important;
+  height: 5px !important;
+}
+.workspace-scrollbar::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+.workspace-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 116, 139, 0.28) !important;
+  border: 1px solid transparent !important;
+  background-clip: content-box !important;
+  border-radius: 9999px !important;
+}
+.workspace-scrollbar:hover::-webkit-scrollbar-thumb,
+.workspace-scrollbar:focus-within::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 116, 139, 0.55) !important;
+}
+.workspace-scrollbar::-webkit-scrollbar-thumb:hover,
+.workspace-scrollbar::-webkit-scrollbar-thumb:active {
+  background-color: rgba(99, 102, 241, 0.8) !important;
+}
+.dark .workspace-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.3) !important;
+}
+.dark .workspace-scrollbar:hover::-webkit-scrollbar-thumb,
+.dark .workspace-scrollbar:focus-within::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.6) !important;
+}
+.dark .workspace-scrollbar::-webkit-scrollbar-thumb:hover,
+.dark .workspace-scrollbar::-webkit-scrollbar-thumb:active {
+  background-color: rgba(129, 140, 248, 0.85) !important;
+}
+
+/* Chromium supports both scrollbar-width and ::-webkit-scrollbar.
+ * Non-auto standard properties take precedence over the 5px WebKit rail,
+ * so retain the browser-specific pseudo-element width when available.
+ * Firefox continues to use the standard 'thin' width and color above. */
+@supports selector(::-webkit-scrollbar) {
+  .workspace-scrollbar,
+  .workspace-scrollbar:hover,
+  .workspace-scrollbar:focus-within,
+  .dark .workspace-scrollbar,
+  .dark .workspace-scrollbar:hover,
+  .dark .workspace-scrollbar:focus-within {
+    scrollbar-width: auto !important;
+    scrollbar-color: auto !important;
+  }
 }
 
 

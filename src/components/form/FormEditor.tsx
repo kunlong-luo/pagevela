@@ -42,7 +42,7 @@ export const FormEditor = React.memo(function FormEditor({ value, onChange, sett
   } = useFormEditor(value, onChange, settings, uiLanguage);
 
   return (
-    <div className="flex-1 overflow-y-auto bg-slate-50/50 dark:bg-slate-900/60 min-w-0 overflow-x-hidden flex flex-col">
+    <div className="workspace-scrollbar flex-1 overflow-y-auto bg-slate-50/50 dark:bg-slate-900/60 min-w-0 overflow-x-hidden flex flex-col">
       <QuickNav 
         sections={localModel.sections} 
         expandedSections={expandedSections} 
