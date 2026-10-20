@@ -4,12 +4,12 @@ async function expectUnifiedScrollbar(surface: Locator) {
   await expect(surface).toBeVisible();
   const style = await surface.evaluate(element => ({
     overflow: getComputedStyle(element).overflowY,
-    firefoxWidth: getComputedStyle(element).scrollbarWidth,
+    standardWidth: getComputedStyle(element).scrollbarWidth,
     webkitWidth: getComputedStyle(element, '::-webkit-scrollbar').width,
     trackColor: getComputedStyle(element, '::-webkit-scrollbar-track').backgroundColor,
   }));
   expect(['auto', 'scroll']).toContain(style.overflow);
-  expect(style.firefoxWidth).toBe('thin');
+  expect(style.standardWidth).toBe('auto'); // Let the Chromium-specific 5px rail win.
   expect(style.webkitWidth).toBe('5px');
   expect(style.trackColor).toBe('rgba(0, 0, 0, 0)');
 }
