@@ -1,3 +1,4 @@
+import { MobileSheetBackdrop } from '../ui/MobileSheetBackdrop';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -57,6 +58,20 @@ export function ProfileDropdown({ lang, isCompact }: ProfileDropdownProps) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, [isOpen]);
+
+  // Match PDF and settings sheets: Escape closes and returns focus.
+  useEffect(() => {
+    if (!isOpen) return;
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setIsOpen(false);
+      setEditingId(null);
+      setConfirmDeleteId(null);
+      dropdownRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
+    };
+    document.addEventListener('keydown', onEscape);
+    return () => document.removeEventListener('keydown', onEscape);
   }, [isOpen]);
 
   // Focus and select input text when entering edit mode
@@ -139,6 +154,16 @@ export function ProfileDropdown({ lang, isCompact }: ProfileDropdownProps) {
       </Tooltip>
 
       {/* Dropdown Menu - Level fixed with z-[100] and absolute left-0 */}
+      {isOpen && (
+        <MobileSheetBackdrop
+          onClose={() => {
+            setIsOpen(false);
+            setEditingId(null);
+            setConfirmDeleteId(null);
+          }}
+          label={isEn ? 'Close resume switcher' : '关闭简历切换器'}
+        />
+      )}
       <AnimatePresence>
         {isOpen && (
           <motion.div
