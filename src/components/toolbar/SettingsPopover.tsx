@@ -30,7 +30,10 @@ export function SettingsPopover({
     typeof window !== 'undefined' ? window.innerWidth < 640 : false,
   );
 
-  useDialogFocus({ isOpen, dialogRef, onClose });
+  // The portal is mounted only after its trigger position is measured.
+  // Delay focus trapping until the dialog element actually exists; otherwise
+  // the first Escape key press cannot close a newly opened mobile sheet.
+  useDialogFocus({ isOpen: isOpen && coords !== null, dialogRef, onClose });
 
   useEffect(() => {
     if (!isOpen) return;
