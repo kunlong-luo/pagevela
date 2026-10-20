@@ -1,3 +1,4 @@
+import { MobileSheetBackdrop } from '../ui/MobileSheetBackdrop';
 import React, { useEffect, useState } from 'react';
 import { 
   ClipboardCheck, 
@@ -84,6 +85,15 @@ export function Header({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { isInstallable, triggerInstall } = usePWAInstall();
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    document.addEventListener('keydown', onEscape);
+    return () => document.removeEventListener('keydown', onEscape);
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     const openImport = () => setIsRawTextModalOpen(true);
@@ -419,12 +429,19 @@ export function Header({
       {/* Mobile Drawer Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex flex-col justify-end animate-in fade-in duration-200"
-          onClick={() => setIsMobileMenuOpen(false)}
+          className="md:hidden fixed inset-0 z-50 flex flex-col justify-end animate-in fade-in duration-200"
         >
+          <MobileSheetBackdrop
+            onClose={() => setIsMobileMenuOpen(false)}
+            label={isEn ? 'Close quick actions backdrop' : '关闭快捷操作遮罩'}
+            breakpoint="md"
+          />
           <div
             id="mobile-quick-actions"
-            className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 rounded-t-3xl p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col gap-3 shadow-2xl max-h-[82dvh] overflow-y-auto overscroll-contain"
+            role="dialog"
+            aria-modal="true"
+            aria-label={isEn ? 'Quick Actions' : '快捷功能菜单'}
+            className="relative z-[100] bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 rounded-t-3xl p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col gap-3 shadow-2xl max-h-[82dvh] overflow-y-auto overscroll-contain"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
