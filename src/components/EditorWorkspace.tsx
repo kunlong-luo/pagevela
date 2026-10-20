@@ -35,7 +35,6 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
   const {
     uiLanguage,
     layoutMode,
-    paperSize,
     setLastSaved,
     isHelpLegalOpen,
     setIsHelpLegalOpen,
@@ -44,7 +43,6 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
     useShallow((state) => ({
       uiLanguage: state.uiLanguage,
       layoutMode: state.settings.layoutMode,
-      paperSize: state.settings.paperSize,
       setLastSaved: state.setLastSaved,
       isHelpLegalOpen: state.isHelpLegalOpen,
       setIsHelpLegalOpen: state.setIsHelpLegalOpen,
