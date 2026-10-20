@@ -32,7 +32,7 @@ Start writing your resume here.
 
 export const DEFAULT_MARKDOWN = `# 钟晨杰
 AI后端开发工程师 ｜ 智能体网关架构 ｜ 分布式系统研发
-+86 100 0000 0000 · chenjie.zhong@example.com · GitHub: your-username
++86 100 0000 0000 · chenjie.zhong@example.com · https://github.com/your-username
 7年工作经验 ｜ 本科 ｜ 29 ｜ 杭州 · 远程 ｜ 随时到岗
 
 ## 个人优势
@@ -161,7 +161,7 @@ export const TEMPLATES: ResumeTemplate[] = [
     suggestedLang: 'zh',
     content: `# 林智远
 AI前端工程师 ｜ React大模型应用架构 ｜ 全栈实战
-+86 100 0000 0000 · zhiyuan.lin@example.com · GitHub: your-username
++86 100 0000 0000 · zhiyuan.lin@example.com · https://github.com/your-username
 5年工作经验 ｜ 本科 ｜ 27 ｜ 杭州 · 上海 ｜ 随时到岗
 
 ## 个人优势
@@ -323,7 +323,7 @@ AI前端工程师 ｜ React大模型应用架构 ｜ 全栈实战
     suggestedLang: 'zh',
     content: `# 赵小萌
 2026届应届毕业生 ｜ 计算机科学与技术专业 ｜ 前端开发方向
-+86 100 0000 0000 · xiaomeng.zhao@example.com · GitHub: your-username
++86 100 0000 0000 · xiaomeng.zhao@example.com · https://github.com/your-username
 应届毕业生 ｜ 本科 ｜ 22 ｜ 杭州 · 上海 ｜ 在校生-寻实习
 
 ## 个人优势
@@ -375,7 +375,7 @@ AI前端工程师 ｜ React大模型应用架构 ｜ 全栈实战
     dateStyle: 'month-short',
     suggestedLang: 'en',
     content: `# Alex Chen
-San Francisco, CA · +1 415 555 0100 · alex.chen@example.com · GitHub: your-username · LinkedIn: your-profile
+San Francisco, CA · +1 415 555 0100 · alex.chen@example.com · https://github.com/your-username · https://www.linkedin.com/in/your-profile
 
 ## Summary
 Results-driven Senior Full-Stack & AI Systems Architect with 7+ years of experience engineering high-throughput distributed systems and generative AI applications. Spearheaded low-latency microservice architectures handling 15M+ daily requests with 99.99% availability. Deep expertise in Spring Cloud, Go, React/TypeScript, Kafka, and pgvector RAG retrieval pipelines.
@@ -423,7 +423,7 @@ Results-driven Senior Full-Stack & AI Systems Architect with 7+ years of experie
     dateStyle: 'month-short',
     suggestedLang: 'en',
     content: `# Maya Patel
-Seattle, WA · +1 206 555 0101 · maya.patel@example.com · LinkedIn: your-profile · GitHub: your-username
+Seattle, WA · +1 206 555 0101 · maya.patel@example.com · https://www.linkedin.com/in/your-profile · https://github.com/your-username
 
 ## Education
 
@@ -468,7 +468,7 @@ Seattle, WA · +1 206 555 0101 · maya.patel@example.com · LinkedIn: your-profi
     dateStyle: 'month-long',
     suggestedLang: 'en',
     content: `# Oliver Davies
-London, UK · +44 7700 900123 · oliver.davies@example.com · LinkedIn: your-profile
+London, UK · +44 7700 900123 · oliver.davies@example.com · https://www.linkedin.com/in/your-profile
 
 ## Professional Profile
 Accomplished Senior Full-Stack Engineer and Technical Lead with 8 years of commercial experience delivering enterprise web applications and scalable cloud backends. Proven track record in leading agile cross-functional engineering teams, architecting microservice platforms on AWS/Kubernetes, and championing modern React/TypeScript best practices.
@@ -510,7 +510,7 @@ Accomplished Senior Full-Stack Engineer and Technical Lead with 8 years of comme
     dateStyle: 'month-short',
     suggestedLang: 'en',
     content: `# Marcus Roy
-Toronto, ON · +1 416 555 0102 · marcus.roy@example.com · GitHub: your-username · LinkedIn: your-profile
+Toronto, ON · +1 416 555 0102 · marcus.roy@example.com · https://github.com/your-username · https://www.linkedin.com/in/your-profile
 
 ## Summary
 Senior Cloud Infrastructure & Data Platform Engineer with 6+ years of experience building resilient data pipelines and multi-cloud Kubernetes platforms. Proven success reducing cloud spend by 35% while scaling real-time analytics to 50TB+ daily ingestion volume across AWS and GCP.
@@ -546,7 +546,7 @@ Senior Cloud Infrastructure & Data Platform Engineer with 6+ years of experience
     dateStyle: 'month-short',
     suggestedLang: 'en',
     content: `# Alex Chen
-San Francisco, CA · Remote Worldwide · +1 415 555 0103 · alex.chen@example.com · GitHub: your-username
+San Francisco, CA · Remote Worldwide · +1 415 555 0103 · alex.chen@example.com · https://github.com/your-username
 
 ## Summary
 Senior Full-Stack & Distributed Systems Architect with 7+ years of experience leading international remote engineering teams. Track record of delivering scalable AI infrastructure, resilient cloud microservices, and modern web applications.

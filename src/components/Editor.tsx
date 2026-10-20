@@ -319,7 +319,7 @@ export const Editor = React.memo(function Editor() {
             type="button"
             onClick={() => setActiveMode('form')}
             aria-label={isUiEn ? 'Form editor' : '表单编辑模式'}
-            className={`relative flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+            className={`relative flex items-center min-h-10 sm:min-h-0 gap-1 max-[359px]:gap-1 max-[359px]:px-2 px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               activeMode === 'form'
                 ? 'text-indigo-700 dark:text-indigo-300 font-extrabold'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -354,7 +354,7 @@ export const Editor = React.memo(function Editor() {
               />
             )}
             <Code className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-            <span>Markdown</span>
+            <span className="md:hidden">{isUiEn ? 'Markdown' : '源码'}</span><span className="hidden md:inline">Markdown</span>
           </button>
         </div>
 
@@ -744,8 +744,8 @@ export const Editor = React.memo(function Editor() {
                     <button
                       onClick={() => {
                         const snippet = isResumeEn
-                          ? `\n# Your Name\nPosition: Senior Software Engineer | 5 Years Experience | San Francisco, CA\n+1 (555) 019-2834 | your.email@email.com | github.com/yourusername | linkedin.com/in/yourprofile\n`
-                          : `\n# 姓名\n意向岗位：高级前端工程师 ｜ 5年工作经验 ｜ 深圳\n13812345678 ｜ your.email@email.com ｜ github.com/yourgithub\n`;
+                          ? `\n# Your Name\nPosition: Senior Software Engineer | 5 Years Experience | San Francisco, CA\n+1 (555) 019-2834 | your.email@email.com | https://github.com/yourusername | https://www.linkedin.com/in/yourprofile\n`
+                          : `\n# 姓名\n意向岗位：高级前端工程师 ｜ 5年工作经验 ｜ 深圳\n13812345678 ｜ your.email@email.com ｜ https://github.com/yourgithub\n`;
                         insertMarkdown(snippet);
                         setIsSnippetsDropdownOpen(false);
                       }}
