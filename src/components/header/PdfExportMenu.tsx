@@ -1,3 +1,4 @@
+import { MobileSheetBackdrop } from '../ui/MobileSheetBackdrop';
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown, FileCode, FileDown, FileJson, FileText, Globe, Loader2, Printer } from 'lucide-react';
 import { useResumeStore } from '../../store/useResumeStore';
@@ -173,6 +174,11 @@ export function PdfExportMenu({
       </button>
 
       {isOpen && (
+        <>
+          <MobileSheetBackdrop
+            onClose={() => setIsOpen(false)}
+            label={isEn ? 'Close download options' : '关闭下载选项'}
+          />
         <div
           role="dialog"
           aria-label={isEn ? 'Download options' : '下载选项'}
@@ -332,6 +338,7 @@ export function PdfExportMenu({
             </button>
           </div>
         </div>
+        </>
       )}
     </div>
   );
