@@ -324,7 +324,7 @@ export const Editor = React.memo(function Editor() {
             type="button"
             onClick={() => setActiveMode('form')}
             aria-label={isUiEn ? 'Form editor' : '表单编辑模式'}
-            className={`relative flex items-center justify-center min-w-0 min-h-10 md:min-h-0 gap-1 px-1 md:px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+            className={`relative flex items-center justify-center min-w-0 h-11 min-h-11 md:h-auto md:min-h-0 gap-1 px-1 md:px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               activeMode === 'form'
                 ? 'text-indigo-700 dark:text-indigo-300 font-extrabold'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -345,7 +345,7 @@ export const Editor = React.memo(function Editor() {
             type="button"
             onClick={() => setActiveMode('markdown')}
             aria-label={isUiEn ? 'Markdown source editor' : 'Markdown 源码编辑模式'}
-            className={`relative flex items-center justify-center min-w-0 min-h-10 md:min-h-0 gap-1 px-1 md:px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+            className={`relative flex items-center justify-center min-w-0 h-11 min-h-11 md:h-auto md:min-h-0 gap-1 px-1 md:px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               activeMode === 'markdown'
                 ? 'text-indigo-700 dark:text-indigo-300 font-extrabold'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -370,7 +370,7 @@ export const Editor = React.memo(function Editor() {
           }}
           aria-label={isUiEn ? 'Auto fit to single page' : '单页自动适配'}
           title={isUiEn ? 'Auto fit to single page' : '智能单页适配'}
-          className="md:hidden min-w-0 min-h-10 flex items-center justify-center gap-1 rounded-xl border border-amber-200 bg-amber-50/80 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 font-bold text-xs whitespace-nowrap cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+          className="md:hidden min-w-0 h-11 min-h-11 flex items-center justify-center gap-1 rounded-xl border border-amber-200 bg-amber-50/80 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 font-bold text-xs whitespace-nowrap cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
         >
           <Zap className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
           <span>{isUiEn ? 'Fit' : '单页'}</span>
@@ -380,7 +380,7 @@ export const Editor = React.memo(function Editor() {
           onClick={() => setIsCheckerOpen(true)}
           aria-label={isUiEn ? 'Check resume ATS' : 'ATS 简历检查'}
           title={isUiEn ? 'Check resume ATS' : 'ATS 简历体检'}
-          className="md:hidden min-w-0 min-h-10 flex items-center justify-center gap-1 rounded-xl border border-indigo-200 bg-indigo-50/80 text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300 font-bold text-xs whitespace-nowrap cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          className="md:hidden min-w-0 h-11 min-h-11 flex items-center justify-center gap-1 rounded-xl border border-indigo-200 bg-indigo-50/80 text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300 font-bold text-xs whitespace-nowrap cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
         >
           <ClipboardCheck className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
           <span>{isUiEn ? 'Check' : '检查'}</span>
