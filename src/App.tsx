@@ -3,7 +3,9 @@ import { useResumeStore } from './store/useResumeStore';
 import { getSharePayloadFromLocation, parseSharePayload } from './lib/share-utils';
 import { getRouteFromLocation, buildRouteUrl, type AppRoute } from './lib/router';
 import { LandingPage } from './components/landing/LandingPage';
-import { EditorWorkspace } from './components/EditorWorkspace';
+// Keep the editor's larger component tree out of the welcome-page JavaScript.
+// Loading it only on the editor route also avoids eagerly evaluating its vendors.
+const EditorWorkspace = lazy(() => import('./components/EditorWorkspace').then(m => ({ default: m.EditorWorkspace })));
 import { storage, STORAGE_KEYS } from './lib/storage';
 import { trackAnalyticsEvent } from './lib/analytics';
 import { updateSiteSeo } from './lib/seo';
@@ -137,10 +139,22 @@ export default function App() {
 
   return (
     <div className="animate-fadeIn transition-opacity duration-300">
-      <EditorWorkspace
-        onNavigateToLanding={() => navigateTo('landing')}
-        initialOpenOnboarding={isFirstTimeOnboarding}
-      />
+      <Suspense
+        fallback={
+          <div
+            role="status"
+            aria-live="polite"
+            className="flex min-h-[100dvh] items-center justify-center bg-slate-50 text-slate-600 dark:bg-slate-950 dark:text-slate-300"
+          >
+            {uiLanguage === 'zh' ? '正在打开编辑器…' : 'Opening editor…'}
+          </div>
+        }
+      >
+        <EditorWorkspace
+          onNavigateToLanding={() => navigateTo('landing')}
+          initialOpenOnboarding={isFirstTimeOnboarding}
+        />
+      </Suspense>
     </div>
   );
 }

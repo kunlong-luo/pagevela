@@ -9,6 +9,7 @@ const reportOnly = process.argv.includes('--report-only');
 const KiB = 1024;
 const budgets = {
   appGzipKiB: 115,
+  landingAppGzipKiB: 45,
   vendorGzipKiB: 90,
   cssGzipKiB: 32,
   initialJsGzipKiB: 260,
@@ -51,6 +52,7 @@ const byName = (pattern) => files.filter((file) => pattern.test(file.name));
 const sum = (items, key) => items.reduce((total, item) => total + item[key], 0);
 
 const appChunks = byName(/^App-.*\.js$/);
+const editorChunks = byName(/^EditorWorkspace-.*\.js$/);
 const vendorChunks = byName(/^vendor-.*\.js$/);
 const cssFiles = files.filter((file) => file.name.endsWith('.css'));
 const pdfToolFiles = files.filter((file) =>
@@ -79,15 +81,18 @@ const precacheCandidates = files.filter(
 
 const metrics = {
   appGzipKiB: toKiB(sum(appChunks, 'gzip')),
+  landingAppGzipKiB: toKiB(sum(appChunks, 'gzip')),
   vendorGzipKiB: toKiB(sum(vendorChunks, 'gzip')),
   cssGzipKiB: toKiB(sum(cssFiles, 'gzip')),
   initialJsGzipKiB: toKiB(sum(initialJs, 'gzip')),
   precacheRawKiB: toKiB(sum(precacheCandidates, 'raw')),
 };
 
-console.log('\nResume Craft performance report');
+console.log('\nPagevela performance report');
 console.log('--------------------------------');
 console.log(`App JS gzip:          ${metrics.appGzipKiB.toFixed(1)} KiB / ${budgets.appGzipKiB} KiB`);
+console.log(`Welcome app gzip:     ${metrics.landingAppGzipKiB.toFixed(1)} KiB / ${budgets.landingAppGzipKiB} KiB`);
+console.log(`Editor route gzip:    ${fmt(sum(editorChunks, 'gzip'))} (loaded on demand)`);
 console.log(`Generic vendor gzip:  ${metrics.vendorGzipKiB.toFixed(1)} KiB / ${budgets.vendorGzipKiB} KiB`);
 console.log(`CSS gzip:             ${metrics.cssGzipKiB.toFixed(1)} KiB / ${budgets.cssGzipKiB} KiB`);
 console.log(`Initial JS gzip:      ${metrics.initialJsGzipKiB.toFixed(1)} KiB / ${budgets.initialJsGzipKiB} KiB`);
@@ -112,6 +117,10 @@ for (const [metric, value] of Object.entries(metrics)) {
   if (value > budget) {
     failures.push(`${metric}: ${value.toFixed(1)} KiB exceeds ${budget} KiB`);
   }
+}
+
+if (editorChunks.length === 0) {
+  failures.push('EditorWorkspace must be in a separate on-demand route chunk');
 }
 
 if (initialPdfTools.length > 0) {

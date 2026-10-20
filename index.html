@@ -104,7 +104,7 @@
   </head>
   <body class="bg-[#070a13] text-slate-100">
     <div id="root">
-      <div class="startup-shell" aria-hidden="true">
+      <div class="startup-shell">
         <div class="startup-topbar">
           <div class="startup-brand">
             <div class="startup-logo">P</div>
@@ -117,12 +117,25 @@
           </div>
         </div>
         <div class="startup-welcome">
+          <!-- Static, immediately readable welcome hero while IndexedDB loads.
+               It is replaced by the full interactive React welcome page on startup. -->
           <div class="startup-welcome-hero">
-            <div class="startup-welcome-tag startup-shimmer"></div>
-            <div class="startup-welcome-heading"><span class="startup-brand-en">Pagevela</span><span class="startup-brand-zh">页帆</span></div>
-            <div class="startup-welcome-description startup-shimmer"></div>
-            <div class="startup-welcome-description short startup-shimmer"></div>
-            <div class="startup-welcome-cta startup-shimmer"></div>
+            <div class="startup-welcome-tag">
+              <span class="startup-brand-en">No sign-up · Local-first · Free</span>
+              <span class="startup-brand-zh">无需注册 · 本地优先 · 免费使用</span>
+            </div>
+            <h1 class="startup-welcome-heading">
+              <span class="startup-brand-en">Build Resumes with <span class="startup-gradient-text">Flexible Editing &amp; Live Preview</span>.</span>
+              <span class="startup-brand-zh">打造专业求职简历，从未如此<span class="startup-gradient-text">纯粹高效</span>。</span>
+            </h1>
+            <p class="startup-welcome-description">
+              <span class="startup-brand-en">Edit with forms or Markdown, preview A4 / US Letter pages, and export PDF.</span>
+              <span class="startup-brand-zh">表单与 Markdown 双模式编辑，实时预览 A4 / US Letter，轻松导出 PDF。</span>
+            </p>
+            <a class="startup-welcome-cta" href="./?page=editor">
+              <span class="startup-brand-en">Start Building (Free)</span>
+              <span class="startup-brand-zh">免费开始制作</span>
+            </a>
           </div>
           <div class="startup-welcome-showcase">
             <div class="startup-welcome-showcase-header startup-shimmer"></div>
@@ -257,11 +270,38 @@
           padding: clamp(24px, 5vh, 60px) 20px 0; box-sizing: border-box; gap: 30px;
         }
         .startup-welcome-hero { width: min(100%, 680px); display:flex; align-items:center; flex-direction:column; gap:15px; }
-        .startup-welcome-tag { width: 155px; height: 22px; border-radius: 11px; }
-        .startup-welcome-heading { font-size: clamp(28px, 5vw, 44px); font-weight: 900; letter-spacing: -.04em; }
-        .startup-welcome-description { height: 15px; width: min(100%, 510px); border-radius: 8px; }
-        .startup-welcome-description.short { width: min(75%, 380px); }
-        .startup-welcome-cta { margin-top: 8px; width: 192px; height: 46px; border-radius: 14px; }
+        .startup-welcome-tag {
+          max-width: 100%; min-height: 26px; box-sizing: border-box;
+          display: inline-flex; align-items: center; justify-content: center;
+          border-radius: 999px; background: rgba(99,102,241,.1);
+          color: #4f46e5; padding: 5px 12px; font-size: 11px; font-weight: 700;
+        }
+        .startup-welcome-heading {
+          font-size: clamp(28px, 5vw, 44px); font-weight: 900;
+          letter-spacing: -.04em; text-align: center; line-height: 1.18;
+          margin: 0; max-width: 860px;
+        }
+        .startup-gradient-text {
+          background: linear-gradient(90deg,#4f46e5,#9333ea,#6366f1);
+          background-clip: text; color: transparent;
+        }
+        .startup-welcome-description {
+          width: min(100%, 680px); font-size: 15px;
+          line-height: 1.6; text-align: center; margin: 0;
+          color: #475569;
+        }
+        html[data-startup-theme="dark"] .startup-welcome-description { color: #cbd5e1; }
+        html[data-startup-theme="dark"] .startup-welcome-tag { color: #a5b4fc; }
+        .startup-welcome-cta {
+          display: inline-flex; justify-content: center; align-items: center;
+          margin-top: 8px; min-width: 192px; min-height: 46px;
+          border-radius: 14px; box-sizing: border-box; padding: 10px 22px;
+          background: #4f46e5; color: white; font-size: 14px;
+          font-weight: 800; text-decoration: none;
+          box-shadow: 0 8px 22px rgba(79,70,229,.2);
+        }
+        .startup-welcome-cta:hover { background: #4338ca; }
+        .startup-welcome-cta:focus-visible { outline: 3px solid #818cf8; outline-offset: 2px; }
         .startup-welcome-showcase {
           width: min(100%, 880px); min-height: 180px; flex: 1;
           border: 1px solid var(--startup-border); border-radius: 20px 20px 0 0;
