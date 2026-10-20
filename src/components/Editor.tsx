@@ -744,8 +744,8 @@ export const Editor = React.memo(function Editor() {
                     <button
                       onClick={() => {
                         const snippet = isResumeEn
-                          ? `\n# Your Name\nPosition: Senior Software Engineer | 5 Years Experience | San Francisco, CA\n+1 (555) 019-2834 | your.email@email.com | github.com/yourusername | linkedin.com/in/yourprofile\n`
-                          : `\n# 姓名\n意向岗位：高级前端工程师 ｜ 5年工作经验 ｜ 深圳\n13812345678 ｜ your.email@email.com ｜ github.com/yourgithub\n`;
+                          ? `\n# Your Name\nPosition: Senior Software Engineer | 5 Years Experience | San Francisco, CA\n+1 (555) 019-2834 | your.email@email.com | https://github.com/yourusername | https://www.linkedin.com/in/yourprofile\n`
+                          : `\n# 姓名\n意向岗位：高级前端工程师 ｜ 5年工作经验 ｜ 深圳\n13812345678 ｜ your.email@email.com ｜ https://github.com/yourgithub\n`;
                         insertMarkdown(snippet);
                         setIsSnippetsDropdownOpen(false);
                       }}
