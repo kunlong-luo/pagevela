@@ -23,7 +23,7 @@ test('mobile header menus and template dialog stack over fixed Edit/Preview/Down
   await page.getByRole('button', { name: 'Choose PDF export mode' }).click();
   await expect(page.getByRole('dialog', { name: 'Download options' })).toBeVisible();
   await expectOverlayAboveMobileDock(page, '[role="dialog"][aria-label="Download options"]');
-  await page.getByRole('button', { name: 'Choose PDF export mode' }).click();
+  await page.getByTestId('mobile-sheet-backdrop').click({ position: { x: 8, y: 8 } });
 
   await page.getByRole('button', { name: 'Open quick actions menu' }).click();
   await expect(page.locator('#mobile-quick-actions')).toBeVisible();
@@ -33,7 +33,7 @@ test('mobile header menus and template dialog stack over fixed Edit/Preview/Down
   await page.getByRole('button', { name: 'Open resume switcher' }).click();
   await expect(page.getByRole('dialog', { name: 'Resume switcher' })).toBeVisible();
   await expectOverlayAboveMobileDock(page, '#resume-profile-panel');
-  await page.getByRole('button', { name: 'Open resume switcher' }).click();
+  await page.getByTestId('mobile-sheet-backdrop').click({ position: { x: 8, y: 8 } });
 
   await page.getByRole('button', { name: 'Browse resume templates' }).click();
   const templateDialog = page.getByRole('dialog', { name: 'Choose a content template' });
@@ -50,7 +50,7 @@ test('mobile header menu overlays also cover the dock in Chinese at narrow width
   await page.goto('/?page=editor');
   await page.getByRole('button', { name: '选择 PDF 下载方式' }).click();
   await expectOverlayAboveMobileDock(page, '[role="dialog"][aria-label="下载选项"]');
-  await page.getByRole('button', { name: '选择 PDF 下载方式' }).click();
+  await page.getByTestId('mobile-sheet-backdrop').click({ position: { x: 8, y: 8 } });
 
   await page.getByRole('button', { name: '打开快捷功能菜单' }).click();
   await expectOverlayAboveMobileDock(page, '#mobile-quick-actions');

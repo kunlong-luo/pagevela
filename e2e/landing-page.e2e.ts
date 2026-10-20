@@ -43,7 +43,7 @@ test.describe('landing-to-editor navigation', () => {
     await page.route('**/src/main.tsx*', (route) => route.abort());
     await page.goto('/');
     await expect(page.locator('html')).toHaveAttribute('data-startup-language', 'zh');
-    await expect(page.locator('.startup-brand-zh')).toHaveCount(2);
+    await expect(page.locator('.startup-brand-name .startup-brand-zh')).toHaveText('页帆');
     await expect(page.locator('.startup-welcome-heading .startup-brand-zh')).toBeVisible();
     await expect(page.locator('.startup-welcome-heading .startup-brand-en')).toBeHidden();
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
