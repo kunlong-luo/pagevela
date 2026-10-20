@@ -9,6 +9,12 @@ interface LandingShowcaseProps {
 export function LandingShowcase({ isEn }: LandingShowcaseProps) {
   const [tab, setTab] = useState<'markdown' | 'form' | 'autofit' | 'ats'>('form');
   const sample = isEn ? SHOWCASE_DATA.en : SHOWCASE_DATA.zh;
+  const showcaseTabs = [
+    { id: 'form', mobile: isEn ? 'Form' : '表单', desktop: isEn ? 'Form' : '表单', label: isEn ? 'Form' : '表单' },
+    { id: 'markdown', mobile: isEn ? 'Code' : '源码', desktop: 'Markdown', label: 'Markdown' },
+    { id: 'autofit', mobile: isEn ? 'Fit' : '单页', desktop: isEn ? 'Auto Fit' : '智能单页', label: isEn ? 'Auto Fit' : '智能单页' },
+    { id: 'ats', mobile: isEn ? 'Check' : '检查', desktop: isEn ? 'ATS Check' : 'ATS 检查', label: isEn ? 'ATS Check' : 'ATS 检查' },
+  ] as const;
 
   return (
     <section id="showcase" className="scroll-mt-20 py-12 sm:py-16 bg-white/50 dark:bg-slate-900/40 border-y border-slate-200/70 dark:border-slate-800/70">
@@ -27,56 +33,29 @@ export function LandingShowcase({ isEn }: LandingShowcaseProps) {
             {isEn ? 'Illustrative preview with fictional resume content; scores and page measurements are examples.' : '以下为虚构简历的演示预览，评分与页数数值均为示例。'}
           </p>
 
-          {/* Interactive Mode Tabs */}
-          <div className="mt-6 inline-flex p-1 rounded-xl bg-slate-200/70 dark:bg-slate-800 border border-slate-300/50 dark:border-slate-700 max-w-full overflow-x-auto">
-            <button
-              type="button"
-              aria-pressed={tab === 'form'}
-              onClick={() => setTab('form')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                tab === 'form'
-                  ? 'bg-white dark:bg-indigo-600 text-slate-900 dark:text-white shadow-2xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              {isEn ? 'Form' : '表单'}
-            </button>
-            <button
-              type="button"
-              aria-pressed={tab === 'markdown'}
-              onClick={() => setTab('markdown')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                tab === 'markdown'
-                  ? 'bg-white dark:bg-indigo-600 text-slate-900 dark:text-white shadow-2xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              {isEn ? 'Markdown' : 'Markdown'}
-            </button>
-            <button
-              type="button"
-              aria-pressed={tab === 'autofit'}
-              onClick={() => setTab('autofit')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                tab === 'autofit'
-                  ? 'bg-white dark:bg-indigo-600 text-slate-900 dark:text-white shadow-2xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              {isEn ? 'Smart Auto Fit' : '智能单页 (Auto Fit)'}
-            </button>
-            <button
-              type="button"
-              aria-pressed={tab === 'ats'}
-              onClick={() => setTab('ats')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                tab === 'ats'
-                  ? 'bg-white dark:bg-indigo-600 text-slate-900 dark:text-white shadow-2xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              {isEn ? 'ATS Audit' : 'ATS 体检'}
-            </button>
+          {/* Match the editor's four short mobile actions; preserve readable desktop terms. */}
+          <div
+            data-testid="landing-showcase-tabs"
+            aria-label={isEn ? 'Resume preview modes' : '简历预览模式'}
+            className="mt-6 grid grid-cols-4 sm:inline-flex w-full sm:w-auto max-w-full gap-1 p-1 rounded-xl bg-slate-200/70 dark:bg-slate-800 border border-slate-300/50 dark:border-slate-700"
+          >
+            {showcaseTabs.map(({ id, mobile, desktop, label }) => (
+              <button
+                key={id}
+                type="button"
+                aria-label={label}
+                aria-pressed={tab === id}
+                onClick={() => setTab(id)}
+                className={`min-w-0 w-full sm:w-auto min-h-11 sm:min-h-9 flex items-center justify-center px-1 sm:px-3.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold whitespace-nowrap transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                  tab === id
+                    ? 'bg-white dark:bg-indigo-600 text-slate-900 dark:text-white shadow-2xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                <span className="sm:hidden">{mobile}</span>
+                <span className="hidden sm:inline">{desktop}</span>
+              </button>
+            ))}
           </div>
         </div>
 
@@ -89,7 +68,7 @@ export function LandingShowcase({ isEn }: LandingShowcaseProps) {
               <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
               <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
               <span className="ml-2 font-medium text-[11px] text-slate-500 dark:text-slate-400">
-                {isEn ? 'Resume Draft' : '个人求职简历.pdf'} · {tab === 'form' ? (isEn ? 'Form' : '表单') : tab === 'markdown' ? 'Markdown' : tab === 'autofit' ? (isEn ? 'Auto Fit' : '智能单页') : (isEn ? 'ATS Audit' : 'ATS 体检')}
+                {isEn ? 'Resume Draft' : '个人求职简历.pdf'} · {tab === 'form' ? (isEn ? 'Form' : '表单') : tab === 'markdown' ? 'Markdown' : tab === 'autofit' ? (isEn ? 'Auto Fit' : '智能单页') : (isEn ? 'ATS Check' : 'ATS 检查')}
               </span>
             </div>
             <div className="flex items-center gap-2">
