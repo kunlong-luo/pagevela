@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo, useDeferredValue } from 'r
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Copy, RotateCcw, Check, Bold, Italic, Link, List, ListOrdered, Table, Minus, Heading1, Heading2, Code, Scissors, Undo, Redo,
-  Layers, GraduationCap, Briefcase, ChevronsUp, ChevronsDown, Wand2, FolderKanban, User, ArrowUpDown
+  Layers, GraduationCap, Briefcase, ChevronsUp, ChevronsDown, Wand2, FolderKanban, User, ArrowUpDown, Zap, ClipboardCheck
 } from 'lucide-react';
 import { FormEditor } from './form/FormEditor';
 import { SectionSorter } from './layout/SectionSorter';
@@ -14,6 +14,8 @@ import { TEMPLATES } from '../data';
 import { autoFormatAndCleanResume } from '../lib/resume-auto-fixer';
 import { getWordCount } from '../lib/word-count';
 import { Tooltip } from './ui';
+import { smartAutoFit } from '../lib/preview-utils';
+import { trackAnalyticsEvent } from '../lib/analytics';
 
 function highlightInline(text: string): string {
   let parsed = text;
@@ -116,6 +118,7 @@ export const Editor = React.memo(function Editor() {
     currentTemplateId,
     applyTemplate,
     replaceDocument,
+    setIsCheckerOpen,
   } = useResumeStore(
     useShallow((state) => ({
       value: state.markdown,
@@ -130,6 +133,7 @@ export const Editor = React.memo(function Editor() {
       currentTemplateId: state.currentTemplateId,
       applyTemplate: state.applyTemplate,
       replaceDocument: state.replaceDocument,
+      setIsCheckerOpen: state.setIsCheckerOpen,
     })),
   );
 
@@ -310,16 +314,17 @@ export const Editor = React.memo(function Editor() {
   return (
     <div className="flex flex-col h-full bg-[#fdfdfd] dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 shadow-[inset_-4px_0_12px_rgb(0,0,0,0.02)] min-w-0 overflow-hidden">
       {/* Editor Header */}
-      <div className="mobile-editor-header flex items-center justify-between px-2.5 sm:px-6 py-1.5 sm:py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 gap-1.5 sm:gap-3 relative overflow-x-auto scrollbar-none flex-nowrap">
+      <div className="mobile-editor-header flex flex-col items-stretch md:flex-row md:items-center md:justify-between px-2.5 sm:px-6 py-1.5 sm:py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 gap-1.5 sm:gap-3 relative min-w-0 md:overflow-x-auto scrollbar-none">
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-indigo-600 dark:bg-indigo-500 rounded-r"></div>
         
-        {/* Toggle Mode Segmented Control: 表单 | Markdown */}
-        <div className="relative flex bg-slate-100 dark:bg-slate-800/90 p-0.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner shrink-0">
+        {/* One visible, four-action mobile row: Form / Source / Fit / Check. */}
+        <div data-testid="mobile-editor-primary-actions" className="grid grid-cols-4 gap-1 w-full min-w-0 md:flex md:w-auto md:shrink-0 md:gap-0">
+        <div className="relative col-span-2 grid grid-cols-2 md:flex min-w-0 bg-slate-100 dark:bg-slate-800/90 p-0.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner">
           <button
             type="button"
             onClick={() => setActiveMode('form')}
             aria-label={isUiEn ? 'Form editor' : '表单编辑模式'}
-            className={`relative flex items-center min-h-10 sm:min-h-0 gap-1 max-[359px]:gap-1 max-[359px]:px-2 px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+            className={`relative flex items-center justify-center min-w-0 min-h-10 md:min-h-0 gap-1 px-1 md:px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               activeMode === 'form'
                 ? 'text-indigo-700 dark:text-indigo-300 font-extrabold'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -340,7 +345,7 @@ export const Editor = React.memo(function Editor() {
             type="button"
             onClick={() => setActiveMode('markdown')}
             aria-label={isUiEn ? 'Markdown source editor' : 'Markdown 源码编辑模式'}
-            className={`relative flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+            className={`relative flex items-center justify-center min-w-0 min-h-10 md:min-h-0 gap-1 px-1 md:px-3 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
               activeMode === 'markdown'
                 ? 'text-indigo-700 dark:text-indigo-300 font-extrabold'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -354,12 +359,37 @@ export const Editor = React.memo(function Editor() {
               />
             )}
             <Code className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-            <span className="md:hidden">{isUiEn ? 'Markdown' : '源码'}</span><span className="hidden md:inline">Markdown</span>
+            <span className="md:hidden">{isUiEn ? 'Code' : '源码'}</span><span className="hidden md:inline">Markdown</span>
           </button>
         </div>
+        <button
+          type="button"
+          onClick={() => {
+            smartAutoFit(settings, (key, val) => updateSetting(key, val));
+            trackAnalyticsEvent('auto_fit_used');
+          }}
+          aria-label={isUiEn ? 'Auto fit to single page' : '单页自动适配'}
+          title={isUiEn ? 'Auto fit to single page' : '智能单页适配'}
+          className="md:hidden min-w-0 min-h-10 flex items-center justify-center gap-1 rounded-xl border border-amber-200 bg-amber-50/80 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 font-bold text-xs whitespace-nowrap cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+        >
+          <Zap className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+          <span>{isUiEn ? 'Fit' : '单页'}</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsCheckerOpen(true)}
+          aria-label={isUiEn ? 'Check resume ATS' : 'ATS 简历检查'}
+          title={isUiEn ? 'Check resume ATS' : 'ATS 简历体检'}
+          className="md:hidden min-w-0 min-h-10 flex items-center justify-center gap-1 rounded-xl border border-indigo-200 bg-indigo-50/80 text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300 font-bold text-xs whitespace-nowrap cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+        >
+          <ClipboardCheck className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+          <span>{isUiEn ? 'Check' : '检查'}</span>
+        </button>
+        </div>
 
+        {/* Secondary editing tools scroll separately on small screens, never hiding the primary four actions. */}
         {/* Right Toolset: 排序 | 折叠 | 规范 | 分页线 | 复制 | 重置 */}
-        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+        <div className="flex items-center gap-1 sm:gap-1.5 w-full md:w-auto min-w-0 shrink-0 overflow-x-auto md:overflow-visible scrollbar-none overscroll-x-contain">
           <Tooltip content={isUiEn ? 'Undo' : '撤销'} shortcut="Ctrl+Z">
             <button 
               type="button"

@@ -89,7 +89,7 @@ export function Toolbar() {
               trackAnalyticsEvent('auto_fit_used');
             }}
             aria-label={isEn ? 'Auto fit to single page' : '单页自动适配'}
-            className="flex h-9 md:h-8 items-center justify-center gap-1 px-2.5 rounded-lg text-xs font-bold border border-amber-200 dark:border-amber-900/60 bg-amber-50/70 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/60 text-amber-700 dark:text-amber-300 shadow-2xs transition-all cursor-pointer shrink-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+            className="hidden md:flex h-9 md:h-8 items-center justify-center gap-1 px-2.5 rounded-lg text-xs font-bold border border-amber-200 dark:border-amber-900/60 bg-amber-50/70 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/60 text-amber-700 dark:text-amber-300 shadow-2xs transition-all cursor-pointer shrink-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
           >
             <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" aria-hidden="true" />
             <span className="hidden xl:inline">{isEn ? 'Fit Page' : '单页'}</span>
