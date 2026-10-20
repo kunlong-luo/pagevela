@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { DEFAULT_MARKDOWN } from '../src/data';
 
 for (const lang of ['zh', 'en'] as const) {
   for (const width of [320, 375, 390]) {
@@ -64,6 +65,8 @@ test('template GitHub contact is a full clickable HTTPS URL in preview', async (
     localStorage.setItem('resume_ui_language', 'zh');
   });
   await page.goto('/?page=editor');
+  await page.getByRole('button', { name: 'Markdown 源码编辑模式' }).click();
+  await page.locator('#markdown-textarea').fill(DEFAULT_MARKDOWN);
   const github = page.locator('#resume-print-content a[href="https://github.com/your-username"]').first();
   await expect(github).toBeVisible();
   await expect(github).toHaveText('https://github.com/your-username');
