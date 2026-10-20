@@ -32,3 +32,34 @@ test('mobile editor fits the dynamic viewport and keeps primary actions reachabl
   await nav.getByRole('button', { name: /Preview/ }).click();
   await expect(page.locator('#preview-pane')).toBeVisible();
 });
+
+
+test('compact 320px mobile workspace keeps its three primary actions in view', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.addInitScript(() => {
+    localStorage.setItem('resume-onboarding-v1-complete', '1');
+    localStorage.setItem('resume_ui_language', 'en');
+  });
+  await page.goto('/?page=editor');
+
+  const nav = page.getByRole('navigation', { name: 'Mobile workspace actions' });
+  await expect(nav).toBeVisible();
+  const buttons = [
+    nav.getByRole('button', { name: 'Edit' }),
+    nav.getByRole('button', { name: /Preview/ }),
+    nav.getByRole('button', { name: 'Export ATS PDF' }),
+  ];
+  for (const button of buttons) {
+    await expect(button).toBeVisible();
+    const bounds = await button.boundingBox();
+    expect(bounds).not.toBeNull();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(320);
+    expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(568);
+  }
+
+  await buttons[1].click();
+  await expect(page.locator('#preview-pane')).toBeVisible();
+  await buttons[0].click();
+  await expect(page.locator('#editor-pane')).toBeVisible();
+});
