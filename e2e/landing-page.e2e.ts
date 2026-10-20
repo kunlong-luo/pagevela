@@ -118,7 +118,7 @@ test.describe('landing-to-editor navigation', () => {
     await expect(page.getByText('Chinese General Demo', { exact: true })).toHaveCount(0);
     await page.getByRole('button', { name: 'Form', exact: true }).click();
     await expect(page.getByText('Basic Info', { exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'ATS Audit' }).click();
+    await page.getByRole('button', { name: 'ATS Check' }).click();
     await expect(page.getByText('ATS rule check (example)')).toBeVisible();
   });
 
