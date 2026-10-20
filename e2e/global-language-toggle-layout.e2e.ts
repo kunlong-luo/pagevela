@@ -81,7 +81,12 @@ for (const lang of ['zh', 'en'] as const) {
     await expect(page.locator('html')).toHaveAttribute('data-startup-route', 'landing');
     await expect(page.locator('.startup-welcome-heading')).toContainText(lang === 'zh' ? '打造专业求职简历' : 'Build Resumes with');
     await expect(page.locator('.startup-landing-actions')).toBeVisible();
-    await expect(page.locator('.startup-landing-actions .startup-language-preview')).toHaveText(lang === 'zh' ? '◎EN' : '◎中文');
+    const previewLanguage = page.locator('.startup-landing-actions .startup-language-preview');
+    const visibleLocale = previewLanguage.locator(lang === 'zh' ? '.startup-brand-zh' : '.startup-brand-en');
+    const hiddenLocale = previewLanguage.locator(lang === 'zh' ? '.startup-brand-en' : '.startup-brand-zh');
+    await expect(visibleLocale).toBeVisible();
+    await expect(visibleLocale).toHaveText(lang === 'zh' ? 'EN' : '中文');
+    await expect(hiddenLocale).toBeHidden();
     await expect(page.locator('.startup-workspace')).toBeHidden();
     await expect(page.locator('.startup-toolbar')).toBeHidden();
     await expect(page.locator('.startup-welcome-cta')).toBeVisible();
