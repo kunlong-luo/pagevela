@@ -35,7 +35,6 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
   const {
     uiLanguage,
     layoutMode,
-    paperSize,
     setLastSaved,
     isHelpLegalOpen,
     setIsHelpLegalOpen,
@@ -44,7 +43,6 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
     useShallow((state) => ({
       uiLanguage: state.uiLanguage,
       layoutMode: state.settings.layoutMode,
-      paperSize: state.settings.paperSize,
       setLastSaved: state.setLastSaved,
       isHelpLegalOpen: state.isHelpLegalOpen,
       setIsHelpLegalOpen: state.setIsHelpLegalOpen,
@@ -488,12 +486,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
               }`}
             >
               <Eye className="w-4 h-4 shrink-0" />
-              <span className="flex min-w-0 flex-col items-start leading-none">
-                <span>{uiLanguage === 'en' ? 'Preview' : '预览'}</span>
-                <span className="mt-1 text-[9px] font-semibold opacity-70">
-                  {paperSize === 'letter' ? 'Letter' : 'A4'}
-                </span>
-              </span>
+              <span className="whitespace-nowrap">{uiLanguage === 'en' ? 'Preview' : '预览'}</span>
             </button>
 
             <button
