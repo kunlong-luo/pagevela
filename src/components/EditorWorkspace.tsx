@@ -455,10 +455,11 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
           </Suspense>
         </main>
 
+        {/* The dock must stay below the header (z-40) and portaled dialogs. */}
         {isMobile && !mobileTextEditing && (
           <nav
             aria-label={uiLanguage === 'en' ? 'Mobile workspace actions' : '移动端工作区操作'}
-            className="md:hidden fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100vw-1rem)] max-w-md bg-slate-950/92 dark:bg-slate-800/95 border border-white/10 backdrop-blur-xl shadow-2xl rounded-2xl p-1.5 grid grid-cols-3 gap-1.5 text-xs font-bold text-white animate-in fade-in slide-in-from-bottom-3 duration-200"
+            className="md:hidden fixed left-1/2 -translate-x-1/2 z-30 w-[calc(100vw-1rem)] max-w-md bg-slate-950/92 dark:bg-slate-800/95 border border-white/10 backdrop-blur-xl shadow-2xl rounded-2xl p-1.5 grid grid-cols-3 gap-1.5 text-xs font-bold text-white animate-in fade-in slide-in-from-bottom-3 duration-200"
             style={{ bottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}
           >
             <button
