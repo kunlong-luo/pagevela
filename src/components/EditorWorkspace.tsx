@@ -400,13 +400,13 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
               onClick={() => { setEditorMode('form'); setMobileTab('form'); window.dispatchEvent(new Event('resume-craft:close-editor-tools')); }}
               aria-label={uiLanguage === 'en' ? 'Form editor' : '表单编辑模式'}
               aria-pressed={mobileTab === 'form'}
-              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
+              className={`min-h-11 flex items-center justify-center gap-1 min-[390px]:gap-1.5 px-0.5 min-[390px]:px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
                 mobileTab === 'form'
                   ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
                   : 'text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700'
               }`}
             >
-              <Layers className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <Layers className="hidden min-[360px]:block w-4 h-4 shrink-0" aria-hidden="true" />
               <span>{uiLanguage === 'en' ? 'Form' : '表单'}</span>
             </button>
 
@@ -415,13 +415,13 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
               onClick={() => { setEditorMode('markdown'); setMobileTab('markdown'); window.dispatchEvent(new Event('resume-craft:close-editor-tools')); }}
               aria-label={uiLanguage === 'en' ? 'Markdown source editor' : 'Markdown 源码编辑模式'}
               aria-pressed={mobileTab === 'markdown'}
-              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
+              className={`min-h-11 flex items-center justify-center gap-1 min-[390px]:gap-1.5 px-0.5 min-[390px]:px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
                 mobileTab === 'markdown'
                   ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
                   : 'text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700'
               }`}
             >
-              <Code className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <Code className="hidden min-[360px]:block w-4 h-4 shrink-0" aria-hidden="true" />
               <span>{uiLanguage === 'en' ? 'Code' : '源码'}</span>
             </button>
 
@@ -430,13 +430,13 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
               onClick={() => { setMobileTab('preview'); window.dispatchEvent(new Event('resume-craft:close-editor-tools')); }}
               aria-label={uiLanguage === 'en' ? 'Preview' : '预览'}
               aria-pressed={mobileTab === 'preview'}
-              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
+              className={`min-h-11 flex items-center justify-center gap-1 min-[390px]:gap-1.5 px-0.5 min-[390px]:px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
                 mobileTab === 'preview'
                   ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
                   : 'text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700'
               }`}
             >
-              <Eye className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <Eye className="hidden min-[360px]:block w-4 h-4 shrink-0" aria-hidden="true" />
               <span>{uiLanguage === 'en' ? 'Preview' : '预览'}</span>
             </button>
           </nav>
