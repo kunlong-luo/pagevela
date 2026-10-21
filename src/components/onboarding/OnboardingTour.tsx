@@ -243,7 +243,8 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
       <button
         type="button"
         onClick={complete}
-        className="fixed top-4 right-4 z-10 flex items-center gap-1.5 rounded-xl border border-white/20 bg-slate-900/80 px-3 py-2 text-xs font-bold text-white hover:bg-slate-800"
+        data-testid="onboarding-skip"
+        className="fixed top-4 right-4 z-30 flex items-center gap-1.5 rounded-xl border border-white/20 bg-slate-900/80 px-3 py-2 text-xs font-bold text-white hover:bg-slate-800"
       >
         <X className="w-3.5 h-3.5" />
         {isFirstRun ? (isEn ? 'Start without choosing' : '暂不选择，直接编辑') : (isEn ? 'Close tour' : '关闭引导')}
@@ -256,7 +257,7 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
             : 'fixed left-1/2 bottom-6 z-10 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2'
         }
       >
-        <div ref={panelRef} className="rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 sm:p-6 shadow-2xl">
+        <div ref={panelRef} className={`rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 sm:p-6 shadow-2xl ${step === 2 ? "max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain workspace-scrollbar" : ""}`} >
           <div className="flex items-start gap-3">
             <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white">
               {step === 0 ? (
