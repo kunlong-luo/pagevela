@@ -204,6 +204,18 @@ export const Editor = React.memo(function Editor({ activeMode: controlledMode, o
   };
 
   const [copied, setCopied] = useState(false);
+  const [mobileToolsOpen, setMobileToolsOpen] = useState(false);
+  useEffect(() => {
+    const toggle = () => setMobileToolsOpen(open => !open);
+    const close = () => setMobileToolsOpen(false);
+    window.addEventListener('resume-craft:open-editor-tools', toggle);
+    window.addEventListener('resume-craft:close-editor-tools', close);
+    return () => {
+      window.removeEventListener('resume-craft:open-editor-tools', toggle);
+      window.removeEventListener('resume-craft:close-editor-tools', close);
+    };
+  }, []);
+
   const [localMode, setLocalMode] = useState<EditorMode>('form');
   const activeMode = controlledMode ?? localMode;
   const setActiveMode = (mode: EditorMode) => {
@@ -326,8 +338,14 @@ export const Editor = React.memo(function Editor({ activeMode: controlledMode, o
   return (
     <div className="flex flex-col h-full bg-[#fdfdfd] dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 shadow-[inset_-4px_0_12px_rgb(0,0,0,0.02)] min-w-0 overflow-hidden">
       {/* Editor Header */}
-      <div className="mobile-editor-header flex flex-col items-stretch md:flex-row md:items-center md:justify-between px-2.5 sm:px-6 py-1.5 sm:py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 gap-1.5 sm:gap-3 relative min-w-0 md:overflow-x-auto scrollbar-none">
+      <div className={`mobile-editor-header ${mobileToolsOpen ? 'flex' : 'hidden'} md:flex flex-col items-stretch md:flex-row md:items-center md:justify-between px-2.5 sm:px-6 py-1.5 sm:py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 gap-1.5 sm:gap-3 relative min-w-0 md:overflow-x-auto scrollbar-none`}>
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-indigo-600 dark:bg-indigo-500 rounded-r"></div>
+        <div className="md:hidden flex items-center justify-between w-full px-2 py-1 text-xs font-bold">
+          <span>{isUiEn ? 'Editing tools' : '编辑工具'}</span>
+          <button type="button" className="min-h-9 px-3 rounded-lg bg-slate-100 dark:bg-slate-800" onClick={() => setMobileToolsOpen(false)} aria-label={isUiEn ? 'Close editing tools' : '关闭编辑工具'}>
+            {isUiEn ? 'Done' : '完成'}
+          </button>
+        </div>
         
         {/* Mobile view switching lives in the in-flow footer; keep editing tools here. */}
         <div data-testid="mobile-editor-primary-actions" className="grid grid-cols-2 gap-1 w-full min-w-0 md:flex md:w-auto md:shrink-0 md:gap-0">
