@@ -285,10 +285,22 @@ test.describe('product state flows', () => {
     await expect(createDialog).toBeVisible();
     await createDialog.getByRole('button', { name: 'From Template' }).click();
 
-    const templateSelect = createDialog.getByRole('combobox');
-    await expect(templateSelect.locator('option[value="us_swe"]')).toHaveText(
-      '[Global] US Software Engineer (Resume)',
-    );
+    // Template selection uses the branded listbox, never the browser's native <select>.
+    await expect(createDialog.locator('select')).toHaveCount(0);
+    const templateSelect = createDialog.getByRole('button', {
+      name: '[Global] US Software Engineer (Resume)',
+    });
+    await expect(templateSelect).toBeVisible();
+    await templateSelect.click();
+    const templateMenu = page.getByRole('listbox');
+    await expect(templateMenu).toBeVisible();
+    await expect(templateMenu.getByRole('option', {
+      name: '[Global] US Software Engineer (Resume)',
+    })).toBeVisible();
+    await templateMenu.getByRole('option', {
+      name: '[Global] US Software Engineer (Resume)',
+    }).click();
+    await expect(templateMenu).toHaveCount(0);
 
     await createDialog.getByRole('button', { name: 'Create & Switch' }).click();
 
