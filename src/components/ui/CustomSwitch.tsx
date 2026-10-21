@@ -76,6 +76,7 @@ export const CustomSwitch: React.FC<CustomSwitchProps> = ({
       <button
         type="button"
         role="switch"
+        aria-label={typeof label === 'string' ? label : undefined}
         aria-checked={checked}
         aria-disabled={disabled}
         disabled={disabled}
