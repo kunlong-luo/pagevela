@@ -66,6 +66,26 @@ for (const language of ['zh', 'en'] as const) {
   }
 }
 
+test('editing tools opened from mobile preview switch to the usable form and preserve actions', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.addInitScript(() => {
+    localStorage.setItem('resume-onboarding-v1-complete', '1');
+    localStorage.setItem('resume_ui_language', 'en');
+  });
+  await page.goto('/?page=editor');
+  const nav = page.getByRole('navigation', { name: 'Mobile workspace actions' });
+  await nav.getByRole('button', { name: 'Preview' }).click();
+  await expect(page.locator('#resume-preview-wrapper')).toBeVisible();
+  await page.getByRole('button', { name: 'Open quick actions menu' }).click();
+  await page.locator('#mobile-quick-actions').getByRole('button', { name: 'Editing tools' }).click();
+
+  await expect(page.locator('#editor-pane')).toBeVisible();
+  await expect(nav.getByRole('button', { name: 'Form editor' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('button', { name: 'Auto fit to single page' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Check resume ATS' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Close editing tools' })).toBeVisible();
+});
+
 test('desktop retains source mode and auto fit in its toolbar', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.addInitScript(() => {
