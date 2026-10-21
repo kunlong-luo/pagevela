@@ -263,11 +263,16 @@ test.describe('international market flows', () => {
   });
 
   test('reset current template restores its market metadata and download label', async ({ page }) => {
+    // This flow crosses template selection, animated dialogs, and market settings;
+    // 20s for the entire flow is too tight for CI WebKit under load.
+    test.setTimeout(45_000);
     await page.goto('/?page=editor');
     await applyTemplate(page, 'Canadian Cloud & Data Engineer');
 
     let layout = await openLayout(page);
-    await layout.getByRole('button', { name: 'US', exact: true }).click();
+    const usMarket = layout.getByRole('button', { name: 'US', exact: true });
+    await usMarket.click();
+    await expect(usMarket).toHaveAttribute('aria-pressed', 'true');
     await layout.getByRole('button', { name: 'Close Layout' }).click();
 
     await expect.poll(() =>
