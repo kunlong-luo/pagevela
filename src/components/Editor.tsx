@@ -399,7 +399,6 @@ export const Editor = React.memo(function Editor({ activeMode: controlledMode, o
             trackAnalyticsEvent('auto_fit_used');
           }}
           aria-label={isUiEn ? 'Auto fit to single page' : '单页自动适配'}
-          title={isUiEn ? 'Auto fit to single page' : '智能单页适配'}
           className="md:hidden min-w-0 h-11 min-h-11 flex items-center justify-center gap-1 rounded-xl border border-amber-200 bg-amber-50/80 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300 font-bold text-xs whitespace-nowrap cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
         >
           <Zap className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
@@ -409,7 +408,6 @@ export const Editor = React.memo(function Editor({ activeMode: controlledMode, o
           type="button"
           onClick={() => setIsCheckerOpen(true)}
           aria-label={isUiEn ? 'Check resume ATS' : 'ATS 简历检查'}
-          title={isUiEn ? 'Check resume ATS' : 'ATS 简历体检'}
           className="md:hidden min-w-0 h-11 min-h-11 flex items-center justify-center gap-1 rounded-xl border border-indigo-200 bg-indigo-50/80 text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-300 font-bold text-xs whitespace-nowrap cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
         >
           <ClipboardCheck className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
