@@ -109,3 +109,37 @@ for (const lang of ['zh', 'en'] as const) {
     await expect(page.locator('.startup-workspace')).toBeVisible();
   });
 }
+
+for (const language of ['en', 'zh'] as const) {
+  test('welcome theme and editor color palette are accessible in ' + language, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 720 });
+    await page.addInitScript(lang => {
+      localStorage.setItem('resume_ui_language', lang);
+      localStorage.setItem('resume_theme_mode', 'light');
+      localStorage.setItem('resume-onboarding-v1-complete', '1');
+    }, language);
+    await page.goto('/');
+
+    const darkThemeLabel = language === 'en' ? 'Switch to dark theme' : '切换为深色主题';
+    await expect(page.getByRole('banner').getByRole('button', { name: darkThemeLabel })).toBeVisible();
+    await page.getByRole('banner').getByRole('button', { name: darkThemeLabel }).click();
+    const lightThemeLabel = language === 'en' ? 'Switch to light theme' : '切换为浅色主题';
+    await expect(page.getByRole('banner').getByRole('button', { name: lightThemeLabel })).toBeVisible();
+
+    await page.goto('/?page=editor');
+    await page.locator('#resume-main-toolbar').getByRole('button', {
+      name: language === 'en' ? 'Open style settings' : '打开样式设置',
+    }).click();
+    const dialog = page.getByRole('dialog', { name: language === 'en' ? 'Style' : '样式' });
+    await dialog.getByRole('button', {
+      name: language === 'en' ? 'Custom accent color' : '自定义强调色',
+    }).click();
+    const trigger = dialog.getByRole('button', { name: /^#[0-9a-f]{6}$/i });
+    await expect(trigger).toBeVisible();
+    await trigger.click();
+    await expect(page.getByText(language === 'en' ? 'Preset palette' : '预设调色板')).toBeVisible();
+    await expect(page.getByRole('button', {
+      name: language === 'en' ? 'Choose color from palette' : '从调色板选择颜色',
+    })).toBeVisible();
+  });
+}
