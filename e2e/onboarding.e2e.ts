@@ -2,6 +2,32 @@ import { expect, test } from '@playwright/test';
 import { readActiveMarkdown } from './helpers/indexeddb';
 
 test.describe('first-run onboarding', () => {
+
+  for (const language of ['zh', 'en'] as const) {
+    for (const width of [320, 390, 1280]) {
+      test(`skip chooser enters editing without losing resume: ${language} at ${width}px`, async ({ page }) => {
+        await page.setViewportSize({ width, height: width === 320 ? 568 : 700 });
+        await page.addInitScript(lang => localStorage.setItem('resume_ui_language', lang), language);
+        await page.goto('/?page=editor');
+        const tour = page.getByRole('dialog', { name: language === 'en' ? 'Getting started tour' : '新手引导' });
+        await expect(tour).toBeVisible();
+        const before = await readActiveMarkdown(page);
+        const skip = tour.getByTestId('onboarding-skip');
+        await expect(skip).toBeVisible();
+        await expect(skip).toHaveText(language === 'en' ? 'Start without choosing' : '暂不选择，直接编辑');
+        // A real click must hit the button, not the fixed fullscreen panel.
+        await skip.click();
+        await expect(tour).toHaveCount(0);
+        await expect(page.locator('#editor-pane')).toBeVisible();
+        await expect.poll(() => page.evaluate(() =>
+          localStorage.getItem('resume-onboarding-v1-complete'))).toBe('1');
+        await expect.poll(() => readActiveMarkdown(page)).toBe(before);
+        await page.reload();
+        await expect(page.getByRole('dialog', { name: /Getting started tour|新手引导/ })).toHaveCount(0);
+      });
+    }
+  }
+
   test('lets a first-time user select an example immediately', async ({
     page,
   }) => {
