@@ -204,7 +204,7 @@ export function MatrixTab({ currentMarkdown, currentSettings, onRestore, lang, s
     <div className="space-y-6 h-full flex flex-col text-slate-700 dark:text-slate-200">
       
       {/* Upper Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto pr-1 scrollbar-thin">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto pr-1 workspace-scrollbar">
         
         {/* Left Side: Versions List */}
         <div className="space-y-4 flex flex-col">
@@ -252,7 +252,7 @@ export function MatrixTab({ currentMarkdown, currentSettings, onRestore, lang, s
             </form>
           )}
 
-          <div className="space-y-3 flex-1 overflow-y-auto max-h-[350px] scrollbar-thin pr-0.5">
+          <div className="space-y-3 flex-1 overflow-y-auto max-h-[350px] workspace-scrollbar pr-0.5">
             {matrixVersions.map((version) => {
               const isSelectedForShare = selectedVersionIdForShare === version.id;
               
@@ -493,7 +493,7 @@ export function MatrixTab({ currentMarkdown, currentSettings, onRestore, lang, s
             </div>
 
             {/* Comparison Body */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/20 dark:bg-slate-950/40 scrollbar-thin">
+            <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/20 dark:bg-slate-950/40 workspace-scrollbar">
               {comparisonDiffs.diffList.every(d => d.status === 'identical') ? (
                 <div className="border border-emerald-100 dark:border-emerald-800 bg-emerald-50/20 dark:bg-emerald-950/20 rounded-xl p-8 text-center text-emerald-800 dark:text-emerald-300 flex flex-col items-center justify-center gap-2">
                   <Check className="w-8 h-8 text-emerald-500" />
