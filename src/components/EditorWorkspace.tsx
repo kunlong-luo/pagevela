@@ -33,6 +33,16 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
   const [mobileTab, setMobileTab] = useState<'form' | 'markdown' | 'preview'>('form');
   const [editorMode, setEditorMode] = useState<EditorMode>('form');
 
+  useEffect(() => {
+    const showEditingTools = () => {
+      if (window.innerWidth >= 768 || mobileTab !== 'preview') return;
+      setEditorMode('form');
+      setMobileTab('form');
+    };
+    window.addEventListener('resume-craft:open-editor-tools', showEditingTools);
+    return () => window.removeEventListener('resume-craft:open-editor-tools', showEditingTools);
+  }, [mobileTab]);
+
   const {
     uiLanguage,
     layoutMode,
