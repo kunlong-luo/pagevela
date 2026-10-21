@@ -29,6 +29,8 @@ test('Chinese resume photo is cropped locally, printed at upper right, and survi
   await expect(cropPreview).not.toHaveAttribute('src', /^blob:/);
 
   await page.getByRole('button', { name: '应用 3:4 裁剪' }).click();
+  // Crop controls disappear only after the photo's IndexedDB commit completes.
+  await expect(page.getByRole('slider', { name: '水平裁剪' })).toHaveCount(0);
   const printedPortrait = page.locator('#resume-print-content img[alt="简历证件照"]');
   await expect(printedPortrait).toHaveCount(1);
   await expect(printedPortrait).toHaveAttribute('src', /^data:image\/jpeg;base64,/);
