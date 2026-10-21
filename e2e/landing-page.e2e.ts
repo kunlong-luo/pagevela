@@ -95,14 +95,14 @@ test.describe('landing-to-editor navigation', () => {
     await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'en_US');
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /browser by default/);
 
-    await page.getByRole('button', { name: 'Toggle language' }).click();
+    await page.getByRole('button', { name: 'Switch interface to Chinese' }).click();
     await expect(page).toHaveTitle('页帆（Pagevela） — 本地优先的简历编辑器');
     await expect(page.getByRole('banner').getByText('页帆', { exact: true })).toBeVisible();
     await expect(page.getByRole('contentinfo').getByText('页帆', { exact: true })).toBeVisible();
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
     await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'zh_CN');
 
-    await page.getByRole('button', { name: 'Toggle language' }).click();
+    await page.getByRole('button', { name: '切换界面为英文' }).click();
     await expect(page).toHaveTitle('Pagevela — Local-First Resume Builder');
     await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', 'Pagevela — Local-First Resume Builder');
   });
@@ -205,7 +205,7 @@ test.describe('landing-to-editor navigation', () => {
     await page.goto('/');
 
     await expect(page.getByTestId('landing-nav-cta')).toHaveCount(0);
-    await expect(page.getByRole('button', { name: 'Toggle language' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Switch interface to Chinese' })).toBeVisible();
     const heroCta = page.getByTestId('landing-hero-cta');
     await expect(heroCta).toBeVisible();
     const box = await heroCta.boundingBox();

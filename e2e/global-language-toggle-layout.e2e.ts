@@ -8,13 +8,13 @@ test('editor global language button matches welcome and sits beside Theme on des
   });
   await page.goto('/');
 
-  const welcomeLanguage = page.getByRole('button', { name: 'Toggle language' });
+  const welcomeLanguage = page.getByRole('button', { name: 'Switch interface to Chinese' });
   await expect(welcomeLanguage).toHaveText('中文');
   const welcomeClass = await welcomeLanguage.getAttribute('class');
   await page.getByTestId('landing-hero-cta').click();
   await expect(page.locator('#editor-pane')).toBeVisible();
 
-  const editorLanguage = page.getByRole('button', { name: 'Toggle language' });
+  const editorLanguage = page.getByRole('button', { name: 'Switch interface to Chinese' });
   const theme = page.getByRole('button', { name: /^Theme:/ });
   await expect(editorLanguage).toBeVisible();
   await expect(theme).toBeVisible();
@@ -29,13 +29,14 @@ test('editor global language button matches welcome and sits beside Theme on des
   expect(themeBox!.x - languageBox!.x - languageBox!.width).toBeLessThanOrEqual(16);
 
   await editorLanguage.click();
-  await expect(editorLanguage).toHaveText('EN');
+  const chineseLanguageToggle = page.getByRole('button', { name: '切换界面为英文' });
+  await expect(chineseLanguageToggle).toHaveText('EN');
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
   await expect(page.getByRole('button', { name: /^主题:/ })).toBeVisible();
   await expect.poll(() => page.evaluate(() => localStorage.getItem('resume_ui_language'))).toBe('zh');
 
   await page.getByRole('button', { name: /^返回首页$/ }).click();
-  await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveText('EN');
+  await expect(page.getByRole('button', { name: '切换界面为英文' })).toHaveText('EN');
 });
 
 for (const width of [320, 390]) {
@@ -48,7 +49,7 @@ for (const width of [320, 390]) {
     await page.goto('/?page=editor');
 
     const header = page.getByRole('banner');
-    const headerLanguage = header.getByRole('button', { name: 'Toggle language' });
+    const headerLanguage = header.getByRole('button', { name: 'Switch interface to Chinese' });
     const headerTheme = header.getByRole('button', { name: /^Theme:/ });
     await expect(headerLanguage).toBeVisible();
     await expect(headerTheme).toBeVisible();
@@ -60,7 +61,7 @@ for (const width of [320, 390]) {
     await page.getByRole('button', { name: 'Open quick actions menu' }).click();
     const panel = page.locator('#mobile-quick-actions');
     await expect(panel).toBeVisible();
-    const language = panel.getByRole('button', { name: 'Toggle language' });
+    const language = panel.getByRole('button', { name: 'Switch interface to Chinese' });
     const theme = panel.getByRole('button', { name: /^Theme:/ });
     await expect(language).toHaveText('中文');
     await expect(theme).toBeVisible();
@@ -76,7 +77,7 @@ for (const width of [320, 390]) {
     await expect(panel).toBeHidden();
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
     await page.getByRole('button', { name: '打开快捷功能菜单' }).click();
-    await expect(panel.getByRole('button', { name: 'Toggle language' })).toHaveText('EN');
+    await expect(panel.getByRole('button', { name: '切换界面为英文' })).toHaveText('EN');
     await expect(panel.getByRole('button', { name: /^主题:/ })).toBeVisible();
   });
 }
@@ -106,5 +107,39 @@ for (const lang of ['zh', 'en'] as const) {
     await expect(page.locator('.startup-welcome')).toBeHidden();
     await expect(page.locator('.startup-landing-actions')).toBeHidden();
     await expect(page.locator('.startup-workspace')).toBeVisible();
+  });
+}
+
+for (const language of ['en', 'zh'] as const) {
+  test('welcome theme and editor color palette are accessible in ' + language, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 720 });
+    await page.addInitScript(lang => {
+      localStorage.setItem('resume_ui_language', lang);
+      localStorage.setItem('resume_theme_mode', 'light');
+      localStorage.setItem('resume-onboarding-v1-complete', '1');
+    }, language);
+    await page.goto('/');
+
+    const darkThemeLabel = language === 'en' ? 'Switch to dark theme' : '切换为深色主题';
+    await expect(page.getByRole('banner').getByRole('button', { name: darkThemeLabel })).toBeVisible();
+    await page.getByRole('banner').getByRole('button', { name: darkThemeLabel }).click();
+    const lightThemeLabel = language === 'en' ? 'Switch to light theme' : '切换为浅色主题';
+    await expect(page.getByRole('banner').getByRole('button', { name: lightThemeLabel })).toBeVisible();
+
+    await page.goto('/?page=editor');
+    await page.locator('#resume-main-toolbar').getByRole('button', {
+      name: language === 'en' ? 'Open style settings' : '打开样式设置',
+    }).click();
+    const dialog = page.getByRole('dialog', { name: language === 'en' ? 'Style' : '样式' });
+    await dialog.getByRole('button', {
+      name: language === 'en' ? 'Custom accent color' : '自定义强调色',
+    }).click();
+    const trigger = dialog.getByRole('button', { name: /^#[0-9a-f]{6}$/i });
+    await expect(trigger).toBeVisible();
+    await trigger.click();
+    await expect(page.getByText(language === 'en' ? 'Preset palette' : '预设调色板')).toBeVisible();
+    await expect(page.getByRole('button', {
+      name: language === 'en' ? 'Choose color from palette' : '从调色板选择颜色',
+    })).toBeVisible();
   });
 }

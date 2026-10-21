@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Pipette, Check, Palette } from 'lucide-react';
+import { useTranslation } from '../../i18n';
 
 export interface CustomColorPickerProps {
   id?: string;
@@ -36,6 +37,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
   className = '',
   size = 'sm',
 }) => {
+  const { lang } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [hexInput, setHexInput] = useState(value);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -166,7 +168,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
             className="w-56 bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl shadow-xl dark:shadow-[0_16px_36px_rgba(0,0,0,0.6)] p-3 animate-in fade-in zoom-in-95 duration-150"
           >
             <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
-              Preset Palette
+              {lang === 'en' ? 'Preset palette' : '预设调色板'}
             </div>
 
             {/* Presets Grid */}
@@ -213,7 +215,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
               <button
                 type="button"
                 onClick={() => nativeColorInputRef.current?.click()}
-                aria-label="Spectrum color picker"
+                aria-label={lang === 'en' ? 'Choose color from palette' : '从调色板选择颜色'}
                 className="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-md transition-colors shrink-0 cursor-pointer"
               >
                 <Pipette className="w-4 h-4" />

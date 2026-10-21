@@ -1,20 +1,25 @@
 import { readFileSync } from 'node:fs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { SEO_COPY, updateSiteSeo } from '../lib/seo';
+import { SEO_COPY, STATIC_SEO_COPY, updateSiteSeo } from '../lib/seo';
 
 const indexHtml = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
 
 afterEach(() => vi.unstubAllGlobals());
 
 describe('public product metadata', () => {
-  it('serves English metadata to crawlers before JavaScript loads', () => {
-    expect(indexHtml).toContain(`<title>${SEO_COPY.en.title}</title>`);
-    expect(indexHtml).toContain(`name="description" content="${SEO_COPY.en.description}"`);
-    expect(indexHtml).toContain(`property="og:title" content="${SEO_COPY.en.title}"`);
-    expect(indexHtml).toContain(`property="og:description" content="${SEO_COPY.en.description}"`);
-    expect(indexHtml).toContain(`name="twitter:title" content="${SEO_COPY.en.title}"`);
-    expect(indexHtml).toContain(`name="twitter:description" content="${SEO_COPY.en.description}"`);
+  it('serves a bilingual single-URL fallback to no-JavaScript search and social crawlers', () => {
+    expect(STATIC_SEO_COPY.title).toContain('Resume Builder');
+    expect(STATIC_SEO_COPY.title).toContain('中英简历编辑器');
+    expect(STATIC_SEO_COPY.description).toContain('forms or Markdown');
+    expect(STATIC_SEO_COPY.description).toContain('简历');
+    expect(indexHtml).toContain(`<title>${STATIC_SEO_COPY.title}</title>`);
+    expect(indexHtml).toContain(`name="description" content="${STATIC_SEO_COPY.description}"`);
+    expect(indexHtml).toContain(`property="og:title" content="${STATIC_SEO_COPY.title}"`);
+    expect(indexHtml).toContain(`property="og:description" content="${STATIC_SEO_COPY.description}"`);
+    expect(indexHtml).toContain(`name="twitter:title" content="${STATIC_SEO_COPY.title}"`);
+    expect(indexHtml).toContain(`name="twitter:description" content="${STATIC_SEO_COPY.description}"`);
     expect(indexHtml).toContain('property="og:locale" content="en_US"');
+    expect(indexHtml).toContain('property="og:locale:alternate" content="zh_CN"');
     expect(indexHtml).toContain('rel="canonical" href="https://kunlong-luo.github.io/pagevela/"');
   });
 
@@ -48,7 +53,7 @@ describe('public product metadata', () => {
   });
 
   it('never puts a resume, job description, or share payload into SEO text', () => {
-    expect(JSON.stringify(SEO_COPY)).not.toContain('private-resume-payload');
+    expect(JSON.stringify({ SEO_COPY, STATIC_SEO_COPY })).not.toContain('private-resume-payload');
     expect(JSON.stringify(SEO_COPY)).not.toContain('share=');
     expect(JSON.stringify(SEO_COPY)).not.toContain('?page=');
   });
