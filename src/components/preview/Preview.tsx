@@ -1,4 +1,5 @@
 import React, { forwardRef, useState, useEffect, useMemo, useDeferredValue } from 'react';
+import { createPortal } from 'react-dom';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ResumeSettings } from '../../types';
@@ -57,6 +58,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
 
   const [targetPageLimit, setTargetPageLimit] = useState<1 | 2 | 3>(1);
   const [isAutoFitting, setIsAutoFitting] = useState(false);
+  const [mobilePageDetailsOpen, setMobilePageDetailsOpen] = useState(false);
 
   const paperSpec = useMemo(() => getPaperSpec(settings.paperSize), [settings.paperSize]);
 
@@ -397,7 +399,15 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
               {isEn ? 'Page' : '整页'}
             </button>
           </div>
-          <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 min-w-[32px] text-right">
+          <button
+            type="button"
+            onClick={() => setMobilePageDetailsOpen(true)}
+            aria-label={isEn ? 'Page count and Auto Fit settings' : '页数与智能单页设置'}
+            className="sm:hidden min-h-9 rounded-lg border border-slate-200 dark:border-slate-700 px-2 text-[10px] font-bold text-slate-600 dark:text-slate-200 whitespace-nowrap"
+          >
+            {isEn ? `${metrics.actualPages}pg` : `${metrics.actualPages}页`}
+          </button>
+          <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 min-w-[32px] text-right hidden min-[390px]:inline">
             {Math.round(calculatedZoom * 100)}%
           </span>
         </div>
@@ -461,6 +471,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
         lang={uiLanguage} 
       />
 
+      <div className="hidden sm:block">
       <HeightGuard 
         metrics={metrics} 
         targetPageLimit={targetPageLimit} 
@@ -470,6 +481,36 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
         lang={uiLanguage}
         paperLabel={paperSpec.id === 'letter' ? (isEn ? 'Letter' : 'US Letter') : 'A4'}
       />
+      </div>
+      {mobilePageDetailsOpen && typeof document !== 'undefined' && createPortal(
+        <div className="fixed inset-0 z-[200] flex flex-col justify-end p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] sm:hidden" role="presentation">
+          <button
+            type="button"
+            aria-label={isEn ? 'Close page details backdrop' : '关闭页数详情遮罩'}
+            className="absolute inset-0 bg-slate-950/50"
+            onClick={() => setMobilePageDetailsOpen(false)}
+          />
+          <div role="dialog" aria-modal="true" aria-label={isEn ? 'Page count and Auto Fit settings' : '页数与智能单页设置'} className="relative z-10 w-full max-h-[82dvh] overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 p-3 shadow-2xl">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-bold">{isEn ? 'Page settings' : '页数与排版'}</span>
+              <button type="button" className="min-h-10 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs" onClick={() => setMobilePageDetailsOpen(false)}>
+                {isEn ? 'Done' : '完成'}
+              </button>
+            </div>
+            <HeightGuard
+              metrics={metrics}
+              targetPageLimit={targetPageLimit}
+              setTargetPageLimit={setTargetPageLimit}
+              onSmartAutoFit={handleSmartAutoFit}
+              isAutoFitting={isAutoFitting}
+              lang={uiLanguage}
+              paperLabel={paperSpec.id === 'letter' ? (isEn ? 'Letter' : 'US Letter') : 'A4'}
+              mobileSheet
+            />
+          </div>
+        </div>,
+        document.body,
+      )}
     </div>
   );
 }));
