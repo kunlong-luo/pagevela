@@ -13,6 +13,29 @@ for (const language of ['zh', 'en'] as const) {
       await expect(qrButton).toBeVisible();
       await expect(startButton).toBeVisible();
       await expect(heroStart).toBeVisible();
+
+      // All navbar actions have one shared height, radius and outlined shape.
+      const actions = page.getByTestId('landing-navbar-actions');
+      const languageToggle = actions.getByRole('button', {
+        name: language === 'en' ? 'Switch interface to Chinese' : '切换界面为英文',
+      });
+      const themeToggle = actions.getByRole('button', {
+        name: language === 'en' ? /Switch to (dark|light) theme/ : /切换为(浅色|深色)主题/,
+      });
+      const topActions = [languageToggle, themeToggle, qrButton, startButton];
+      if (width >= 640) {
+        topActions.push(actions.getByRole('link', { name: language === 'en' ? 'Star Pagevela on GitHub' : '在 GitHub 上为 Pagevela 点 Star' }));
+      }
+      for (const action of topActions) {
+        await expect(action).toBeVisible();
+        const geometry = await action.evaluate(element => {
+          const style = getComputedStyle(element);
+          return { height: element.getBoundingClientRect().height, radius: style.borderTopLeftRadius, border: style.borderTopWidth };
+        });
+        expect(geometry.height).toBe(36);
+        expect(geometry.radius).toBe('8px');
+        expect(geometry.border).toBe('1px');
+      }
       await expect(qrButton.locator('xpath=ancestor::header')).toBeVisible();
       await expect(page.locator('main [data-testid="landing-qr-trigger"]')).toHaveCount(0);
       const pageOverflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
