@@ -141,14 +141,18 @@ test('US market defaults to no portrait and allows explicitly hiding or showing 
   await page.getByRole('button', { name: 'Apply 3:4 crop' }).click();
   await expect(printedPhoto).toHaveCount(1);
 
-  const visibility = page.getByRole('checkbox', { name: 'Show photo on resume' });
-  await visibility.uncheck();
+  const visibility = page.getByRole('switch', { name: 'Show on resume' });
+  await expect(visibility).toHaveAttribute('aria-checked', 'true');
+  await visibility.click();
+  await expect(visibility).toHaveAttribute('aria-checked', 'false');
   await expect(printedPhoto).toHaveCount(0);
   await expect(page.locator('img[alt="Resume portrait preview"]')).toHaveCount(1);
 
   await page.reload();
   await expect(printedPhoto).toHaveCount(0);
-  await visibility.check();
+  await expect(visibility).toHaveAttribute('aria-checked', 'false');
+  await visibility.click();
+  await expect(visibility).toHaveAttribute('aria-checked', 'true');
   await expect(printedPhoto).toHaveCount(1);
 });
 
