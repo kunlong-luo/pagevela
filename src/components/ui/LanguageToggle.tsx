@@ -13,7 +13,7 @@ export function LanguageToggle({ isEn, onToggle, className = '' }: LanguageToggl
     <button
       type="button"
       onClick={onToggle}
-      aria-label="Toggle language"
+      aria-label={isEn ? 'Switch interface to Chinese' : '切换界面为英文'}
       title={isEn ? 'Switch interface to Chinese' : '切换界面为英文'}
       className={`px-2.5 py-1.5 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-all inline-flex items-center justify-center gap-1.5 cursor-pointer shrink-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${className}`}
     >
