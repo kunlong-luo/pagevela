@@ -1,5 +1,16 @@
 import { PRODUCT_NAME, getProductDisplayName } from './brand';
 // Public product metadata only: never derive SEO content from resumes or share URLs.
+/**
+ * One canonical GitHub Pages URL serves both languages. Social crawlers may not
+ * execute the runtime locale switch, so the static metadata must describe both
+ * audiences. Locale-specific document metadata is applied after boot.
+ */
+export const STATIC_SEO_COPY = {
+  title: `${PRODUCT_NAME}（${getProductDisplayName('zh')}）— Resume Builder / 中英简历编辑器`,
+  description: 'Build resumes with forms or Markdown, preview A4/US Letter, and export PDF. 中英双语简历编辑、排版与 PDF 导出；内容默认保存在浏览器本地。',
+  locale: 'en_US',
+} as const;
+
 export type SeoLanguage = 'en' | 'zh';
 
 export const SEO_COPY = {
