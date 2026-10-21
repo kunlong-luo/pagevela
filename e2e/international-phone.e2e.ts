@@ -17,7 +17,7 @@ test.describe('international contact phone', () => {
 
     const country = page.getByLabel('Country or region');
     await expect(country).toBeVisible();
-    await expect(country).toHaveValue('');
+    await expect(country).toContainText('Country / region');
 
     await page.evaluate(() => {
       const settings = JSON.parse(window.localStorage.getItem('resume-settings') || '{}');
@@ -28,7 +28,7 @@ test.describe('international contact phone', () => {
     });
     await page.reload();
 
-    await expect(page.getByLabel('Country or region')).toHaveValue('');
+    await expect(page.getByLabel('Country or region')).toContainText('Country / region');
   });
 
   test('normalizes a local UK number and resume check recognizes it', async ({
@@ -42,7 +42,9 @@ test.describe('international contact phone', () => {
     await expect(country).toBeVisible();
     await expect(phone).toBeVisible();
 
-    await country.selectOption('GB');
+    await country.click();
+    await page.getByRole('listbox').getByRole('option', { name: /United Kingdom.*\+44/ }).click();
+    await expect(country).toContainText('United Kingdom +44');
     await phone.fill('020 7946 0958');
     await phone.blur();
 
@@ -67,12 +69,13 @@ test.describe('international contact phone', () => {
     await page.goto('/?page=editor');
 
     const country = page.getByLabel('Country or region');
-    await country.selectOption('AU');
-    await expect(country).toHaveValue('AU');
+    await country.click();
+    await page.getByRole('listbox').getByRole('option', { name: /Australia.*\+61/ }).click();
+    await expect(country).toContainText('Australia +61');
 
     await page.reload();
 
-    await expect(page.getByLabel('Country or region')).toHaveValue('AU');
+    await expect(page.getByLabel('Country or region')).toContainText('Australia +61');
     await expect
       .poll(() =>
         page.evaluate(() => window.localStorage.getItem('resume-phone-regions') || ''),
@@ -91,7 +94,7 @@ test.describe('international contact phone', () => {
     await phone.fill('+852 91234567');
     await phone.blur();
 
-    await expect(country).toHaveValue('HK');
+    await expect(country).toContainText('+852');
     await expect(phone).toHaveValue('+852 9123 4567');
   });
 });
