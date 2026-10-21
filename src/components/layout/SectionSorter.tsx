@@ -91,7 +91,7 @@ export function SectionSorter({ markdown, onChange, lang = 'zh', contentLang = '
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-3.5 sm:p-5 space-y-3.5 bg-slate-50/40 dark:bg-slate-900/60 select-none">
+    <div className="flex-1 overflow-y-auto workspace-scrollbar p-3.5 sm:p-5 space-y-3.5 bg-slate-50/40 dark:bg-slate-900/60 select-none">
       {/* Header Info */}
       <div className="flex items-center justify-between gap-3 px-0.5">
         <div className="space-y-0.5">
