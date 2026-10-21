@@ -4,6 +4,8 @@ const VIEWPORTS = [
   { width: 320, height: 568, label: 'compact-mobile' },
   { width: 360, height: 800, label: 'small-mobile' },
   { width: 390, height: 844, label: 'mobile' },
+  { width: 640, height: 800, label: 'mobile-tablet-640' },
+  { width: 767, height: 900, label: 'mobile-tablet-767' },
   { width: 768, height: 900, label: 'tablet' },
   { width: 1024, height: 900, label: 'small-desktop' },
   { width: 1280, height: 900, label: 'desktop' },

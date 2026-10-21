@@ -360,12 +360,12 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
       {/* Zoom and Preview Toolbar */}
       <div className="flex flex-row items-center justify-between px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-50/95 dark:bg-slate-900/95 border-b border-slate-200/60 dark:border-slate-800/80 backdrop-blur-sm z-30 select-none print:hidden shrink-0 gap-2 transition-all">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="sm:hidden truncate text-[11px] font-black text-slate-500 dark:text-slate-400">
+          <span className="md:hidden truncate text-[11px] font-black text-slate-500 dark:text-slate-400">
             {paperSpec.id === 'letter'
               ? (isEn ? 'Letter Preview' : 'Letter 预览')
               : (isEn ? 'A4 Preview' : 'A4 预览')}
           </span>
-          <span className="hidden sm:inline text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+          <span className="hidden md:inline text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
             {isEn
               ? `Real-time Rendering Preview (${paperSpec.id === 'letter' ? 'US Letter' : 'A4'})`
               : `实时渲染预览 (${paperSpec.id === 'letter' ? 'US Letter 纸张' : 'A4 纸张'})`}
@@ -373,7 +373,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
         </div>
 
         <div className="flex shrink-0 items-center gap-2">
-          <div className="sm:hidden flex items-center rounded-lg border border-slate-200 bg-white/90 p-0.5 dark:border-slate-700 dark:bg-slate-800/90">
+          <div className="md:hidden flex items-center rounded-lg border border-slate-200 bg-white/90 p-0.5 dark:border-slate-700 dark:bg-slate-800/90">
             <button
               type="button"
               onClick={() => setZoomMode('fit-width')}
@@ -403,7 +403,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
             type="button"
             onClick={() => setMobilePageDetailsOpen(true)}
             aria-label={isEn ? 'Page count and Auto Fit settings' : '页数与智能单页设置'}
-            className="sm:hidden min-h-9 rounded-lg border border-slate-200 dark:border-slate-700 px-2 text-[10px] font-bold text-slate-600 dark:text-slate-200 whitespace-nowrap"
+            className="md:hidden min-h-9 rounded-lg border border-slate-200 dark:border-slate-700 px-2 text-[10px] font-bold text-slate-600 dark:text-slate-200 whitespace-nowrap"
           >
             {isEn ? `${metrics.actualPages}pg` : `${metrics.actualPages}页`}
           </button>
@@ -471,7 +471,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
         lang={uiLanguage} 
       />
 
-      <div className="hidden sm:block">
+      <div className="hidden md:block">
       <HeightGuard 
         metrics={metrics} 
         targetPageLimit={targetPageLimit} 
@@ -483,7 +483,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
       />
       </div>
       {mobilePageDetailsOpen && typeof document !== 'undefined' && createPortal(
-        <div className="fixed inset-0 z-[200] flex flex-col justify-end p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] sm:hidden" role="presentation">
+        <div className="fixed inset-0 z-[200] flex flex-col justify-end p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] md:hidden" role="presentation">
           <button
             type="button"
             aria-label={isEn ? 'Close page details backdrop' : '关闭页数详情遮罩'}

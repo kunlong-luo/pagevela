@@ -156,6 +156,7 @@ export function ProfileDropdown({ lang, isCompact }: ProfileDropdownProps) {
       {/* Dropdown Menu - Level fixed with z-[100] and absolute left-0 */}
       {isOpen && (
         <MobileSheetBackdrop
+          breakpoint="md"
           onClose={() => {
             setIsOpen(false);
             setEditingId(null);
@@ -174,7 +175,7 @@ export function ProfileDropdown({ lang, isCompact }: ProfileDropdownProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 450, damping: 30 }}
-            className="fixed inset-x-2 bottom-[max(0.5rem,env(safe-area-inset-bottom))] top-auto mt-0 w-auto max-h-[78dvh] sm:absolute sm:inset-x-auto sm:bottom-auto sm:left-0 sm:top-full sm:mt-1.5 sm:w-88 sm:max-h-none rounded-3xl sm:rounded-2xl bg-white dark:bg-slate-850 shadow-2xl border border-slate-200/90 dark:border-slate-750/90 z-[100] overflow-hidden"
+            className="fixed inset-x-2 bottom-[max(0.5rem,env(safe-area-inset-bottom))] top-auto mt-0 w-auto max-h-[78dvh] md:absolute md:inset-x-auto md:bottom-auto md:left-0 md:top-full md:mt-1.5 md:w-88 md:max-h-none rounded-3xl md:rounded-2xl bg-white dark:bg-slate-850 shadow-2xl border border-slate-200/90 dark:border-slate-750/90 z-[100] overflow-hidden"
           >
           {/* Header & 1-Click Actions Bar */}
           <div className="p-3 bg-slate-50/80 dark:bg-slate-800/70 border-b border-slate-100 dark:border-slate-800 space-y-2">
