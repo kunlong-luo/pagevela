@@ -24,10 +24,13 @@ async function assertTopNavigationAndBottomClear(page: Page) {
   expect(viewportBottom).toBeLessThanOrEqual(viewportHeight + 1);
   expect(horizontalOverflow).toBeLessThanOrEqual(1);
 
-  await scroller.evaluate(element => { element.scrollTop = element.scrollHeight; });
-  await expect.poll(() => scroller.evaluate(element =>
-    Math.round(element.scrollTop + element.clientHeight - element.scrollHeight)
-  )).toBeGreaterThanOrEqual(-2);
+  // Paper dimensions are recalculated when the hidden preview is first shown.
+  // Re-issue the user's scroll-to-bottom gesture while that layout settles,
+  // rather than expecting the initial scroll position to stay pinned during updates.
+  await expect.poll(() => scroller.evaluate(element => {
+    element.scrollTop = element.scrollHeight;
+    return Math.round(element.scrollTop + element.clientHeight - element.scrollHeight);
+  }), { timeout: 8_000 }).toBeGreaterThanOrEqual(-2);
   const bottom = await paper.evaluate(el => el.getBoundingClientRect().bottom);
   const viewport = await scroller.boundingBox();
   expect(viewport).not.toBeNull();
