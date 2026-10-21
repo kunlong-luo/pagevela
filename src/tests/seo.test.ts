@@ -10,7 +10,7 @@ describe('public product metadata', () => {
   it('serves a bilingual single-URL fallback to no-JavaScript search and social crawlers', () => {
     expect(STATIC_SEO_COPY.title).toContain('Resume Builder');
     expect(STATIC_SEO_COPY.title).toContain('中英简历编辑器');
-    expect(STATIC_SEO_COPY.description).toContain('browser');
+    expect(STATIC_SEO_COPY.description).toContain('forms or Markdown');
     expect(STATIC_SEO_COPY.description).toContain('简历');
     expect(indexHtml).toContain(`<title>${STATIC_SEO_COPY.title}</title>`);
     expect(indexHtml).toContain(`name="description" content="${STATIC_SEO_COPY.description}"`);
