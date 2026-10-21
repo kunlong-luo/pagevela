@@ -168,7 +168,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
             className="w-56 bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl shadow-xl dark:shadow-[0_16px_36px_rgba(0,0,0,0.6)] p-3 animate-in fade-in zoom-in-95 duration-150"
           >
             <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
-              Preset Palette
+              {lang === 'en' ? 'Preset palette' : '预设调色板'}
             </div>
 
             {/* Presets Grid */}
