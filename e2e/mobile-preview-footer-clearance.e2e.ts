@@ -72,7 +72,7 @@ for (const language of ['zh', 'en'] as const) {
       await dock.getByRole('button', { name: language === 'en' ? 'Preview' : '预览' }).click();
       await expectFooterOutsideScrollableContent(page);
       // Toggling tabs does not return the footer to a floating overlay.
-      await dock.getByRole('button', { name: language === 'en' ? 'Edit' : '编辑' }).click();
+      await dock.getByRole('button', { name: language === 'en' ? 'Form editor' : '表单编辑模式' }).click();
       await expect(page.locator('#editor-pane')).toBeVisible();
       await dock.getByRole('button', { name: language === 'en' ? 'Preview' : '预览' }).click();
       await expectFooterOutsideScrollableContent(page);
