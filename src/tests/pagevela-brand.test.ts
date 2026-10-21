@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PRODUCT_NAME, PRODUCT_NAME_ZH, getProductDisplayName } from '../lib/brand';
-import { SEO_COPY } from '../lib/seo';
+import { SEO_COPY, STATIC_SEO_COPY } from '../lib/seo';
 import { en } from '../i18n/locales/en';
 import { zh } from '../i18n/locales/zh';
 
@@ -62,7 +62,9 @@ describe('Pagevela public brand and compatibility', () => {
     for (const path of surfaces) {
       expect(source(path), path).not.toMatch(/Resume Craft|简匠/);
     }
-    expect(source('index.html')).toContain('<title>Pagevela — Local-First Resume Builder</title>');
+    expect(source('index.html')).toContain(`<title>${STATIC_SEO_COPY.title}</title>`);
+    expect(STATIC_SEO_COPY.title).toContain(PRODUCT_NAME);
+    expect(STATIC_SEO_COPY.title).toContain(PRODUCT_NAME_ZH);
     expect(source('index.html')).toContain('property="og:site_name" content="Pagevela"');
     expect(source('index.html')).toContain('name="apple-mobile-web-app-title" content="Pagevela"');
     expect(source('vite.config.ts')).toContain("short_name: 'Pagevela'");
