@@ -521,7 +521,7 @@ export function BackupDraftModal() {
             </AnimatePresence>
 
             {/* Modal Body Container */}
-            <div className="flex-1 overflow-y-auto p-0 sm:p-6 bg-white dark:bg-slate-900 scrollbar-thin">
+            <div className="flex-1 overflow-y-auto p-0 sm:p-6 bg-white dark:bg-slate-900 workspace-scrollbar">
               {activeTab === 'profiles' ? (
                 <ProfilesTab
                   lang={uiLanguage}
