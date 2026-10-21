@@ -11,7 +11,11 @@ import { StyleDrawer } from '../toolbar/StyleDrawer';
 import { TemplateCenterModal } from '../templates/TemplateCenterModal';
 import { trackAnalyticsEvent } from '../../lib/analytics';
 
-export function Toolbar() {
+interface ToolbarProps {
+  mobileMode?: 'form' | 'markdown' | 'preview';
+}
+
+export function Toolbar({ mobileMode = 'form' }: ToolbarProps) {
   const {
     settings,
     uiLanguage,
@@ -66,7 +70,7 @@ export function Toolbar() {
   }, [updateSetting]);
 
   return (
-    <div id="resume-main-toolbar" className="flex items-center justify-between px-2 sm:px-6 py-1.5 bg-white/80 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/90 relative z-20 gap-2 shadow-[0_1px_2px_rgba(15,23,42,0.02)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.3)] w-full min-w-0 overflow-visible md:overflow-x-auto md:overscroll-x-contain scrollbar-none transition-colors duration-200">
+    <div id="resume-main-toolbar" className={`${mobileMode === 'form' ? 'flex' : 'hidden'} md:flex items-center justify-between px-2 sm:px-6 py-1.5 bg-white/80 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/90 relative z-20 gap-2 shadow-[0_1px_2px_rgba(15,23,42,0.02)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.3)] w-full min-w-0 overflow-visible md:overflow-x-auto md:overscroll-x-contain scrollbar-none transition-colors duration-200`}>
       {/* Global UI language now lives beside Theme in Header. */}
       <div className="flex items-center gap-1.5 text-xs shrink-0">
         <ToolbarSelectors
@@ -138,6 +142,15 @@ export function Toolbar() {
             <ChevronDown className={`w-3 h-3 shrink-0 transition-transform duration-200 ${isStyleOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
           </button>
         </Tooltip>
+
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event('resume-craft:open-editor-tools'))}
+          aria-label={isEn ? 'More editing tools' : '更多编辑工具'}
+          className="md:hidden flex h-11 items-center justify-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700 px-2 text-xs font-bold text-slate-700 dark:text-slate-200"
+        >
+          <span>{isEn ? 'Tools' : '工具'}</span>
+        </button>
 
         <div className="hidden md:block w-px h-4 bg-slate-200 dark:bg-slate-800 mx-0.5 shrink-0" />
 
