@@ -426,7 +426,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
     <AnimatePresence>
       {isOpen && (
         <div 
-          className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 overflow-y-auto workspace-scrollbar"
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
