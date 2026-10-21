@@ -16,11 +16,13 @@ describe('mobile PDF entry points and view tabs', () => {
     expect(pdfMenu).toContain('onExportQuick');
   });
 
-  it('uses the compact header download and reserves the in-flow footer for three views', () => {
-    expect(workspace).toContain('<Header');
-    expect(workspace).toContain("onClick={() => { setEditorMode('form'); setMobileTab('form'); }}");
-    expect(workspace).toContain("onClick={() => { setEditorMode('markdown'); setMobileTab('markdown'); }}");
-    expect(workspace).toContain("onClick={() => setMobileTab('preview')}");
+  it('places compact PDF beside the top three-view switch, not in a bottom dock', () => {
+    expect(workspace).toContain('<PdfExportMenu');
+    expect(workspace).toContain('onExportAts={handleExportVectorPrint}');
+    expect(workspace).toContain('onExportQuick={handleExportDirectPDF}');
+    expect(workspace).toContain("setEditorMode('form'); setMobileTab('form')");
+    expect(workspace).toContain("setEditorMode('markdown'); setMobileTab('markdown')");
+    expect(workspace).toContain("setMobileTab('preview')");
     expect(workspace).not.toContain('onClick={handleExportVectorPrint}');
   });
 });
