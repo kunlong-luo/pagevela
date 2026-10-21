@@ -416,7 +416,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
       <div 
         ref={wrapperRef}
         id="resume-preview-wrapper" 
-        className="flex-1 overflow-y-auto p-2 sm:p-6 md:p-8 bg-slate-100/70 dark:bg-[#090d16] w-full flex justify-center items-start relative workspace-scrollbar"
+        className="flex-1 overflow-y-auto workspace-scrollbar p-2 sm:p-6 md:p-8 bg-slate-100/70 dark:bg-[#090d16] w-full flex justify-center items-start relative workspace-scrollbar"
       >
         <div 
           style={{
@@ -490,7 +490,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
             className="absolute inset-0 bg-slate-950/50"
             onClick={() => setMobilePageDetailsOpen(false)}
           />
-          <div role="dialog" aria-modal="true" aria-label={isEn ? 'Page count and Auto Fit settings' : '页数与智能单页设置'} className="relative z-10 w-full max-h-[82dvh] overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 p-3 shadow-2xl">
+          <div role="dialog" aria-modal="true" aria-label={isEn ? 'Page count and Auto Fit settings' : '页数与智能单页设置'} className="relative z-10 w-full max-h-[82dvh] overflow-y-auto workspace-scrollbar rounded-2xl bg-white dark:bg-slate-900 p-3 shadow-2xl">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-bold">{isEn ? 'Page settings' : '页数与排版'}</span>
               <button type="button" className="min-h-10 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs" onClick={() => setMobilePageDetailsOpen(false)}>
