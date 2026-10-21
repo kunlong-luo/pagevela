@@ -3,6 +3,7 @@ import { ImagePlus, Trash2 } from 'lucide-react';
 import type { MarketRegion } from '../../types';
 import { cropResumePhoto, isSafeResumePhotoDataUrl, validateResumePhotoFile } from '../../lib/resume-photo';
 import { useResumeStore } from '../../store/useResumeStore';
+import { activeResumePersistence } from '../../lib/resume-persistence';
 
 interface ResumePhotoEditorProps {
   lang: 'zh' | 'en';
@@ -101,14 +102,19 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
           selectionVersion.current !== startedVersion) return;
       setPhoto(dataUrl);
       updateSetting('showPhoto', true);
+      // The preview updates synchronously, but IndexedDB autosave is debounced.
+      // Do not report completion until the portrait survives an immediate reload.
+      await activeResumePersistence.flush();
+      if (useResumeStore.getState().activeProfileId !== startedForProfile ||
+          selectionVersion.current !== startedVersion) return;
       setPendingFile(null);
       setPreviewPhoto('');
     } catch {
       if (selectionVersion.current !== startedVersion ||
           useResumeStore.getState().activeProfileId !== startedForProfile) return;
       setError(isEn
-        ? 'This photo could not be processed. Try a different photo.'
-        : '无法处理这张图片，请换一张照片重试。');
+        ? 'This photo could not be processed or saved. Please try again.'
+        : '照片处理或本地保存失败，请重试。');
     } finally {
       setSaving(false);
     }
