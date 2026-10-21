@@ -38,12 +38,17 @@ for (const language of ['zh', 'en'] as const) {
       const actions = page.getByTestId('mobile-editor-primary-actions');
       const fit = actions.getByRole('button', { name: language === 'en' ? 'Auto fit to single page' : '单页自动适配' });
       const check = actions.getByRole('button', { name: language === 'en' ? 'Check resume ATS' : 'ATS 简历检查' });
+      await expect(actions).toBeHidden();
+      const tools = page.getByRole('button', { name: language === 'en' ? 'More editing tools' : '更多编辑工具' });
+      await expect(tools).toBeVisible();
+      await tools.click();
       await expect(fit).toBeVisible();
       await expect(check).toBeVisible();
       await expect(actions.getByRole('button')).toHaveCount(2);
       await expect(page.locator('#preview-pane')).toBeHidden();
 
       await tabs[1].click();
+      await expect(actions).toBeHidden();
       await expect(page.locator('#markdown-textarea')).toBeVisible();
       await expect(tabs[1]).toHaveAttribute('aria-pressed', 'true');
       await tabs[2].click();
@@ -52,6 +57,7 @@ for (const language of ['zh', 'en'] as const) {
       await tabs[0].click();
       await expect(page.locator('#editor-pane')).toBeVisible();
       await expect(tabs[0]).toHaveAttribute('aria-pressed', 'true');
+      await tools.click();
       await fit.click();
       await expect(fit).toBeEnabled();
       await check.click();
