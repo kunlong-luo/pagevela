@@ -149,7 +149,7 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
           ))}
         </nav>
 
-        <main className="max-h-[62vh] overflow-y-auto p-5 sm:p-6">
+        <main data-testid="help-dialog-scroller" className="min-h-0 max-h-[62vh] overflow-y-auto overscroll-contain workspace-scrollbar p-5 sm:p-6">
           <AnimatePresence mode="wait" initial={false}>
             {activeTab === 'guide' && (
               <motion.div key="guide" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
