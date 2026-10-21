@@ -27,7 +27,7 @@ export function SettingsPopover({
   const dialogRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState<{ top: number; right: number } | null>(null);
   const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth < 640 : false,
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false,
   );
 
   // The portal is mounted only after its trigger position is measured.
@@ -41,10 +41,10 @@ export function SettingsPopover({
     const updatePosition = () => {
       const trigger = triggerRef.current;
       if (!trigger) return;
-      const mobile = window.innerWidth < 640;
+      const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       const rect = trigger.getBoundingClientRect();
-      const panelWidth = window.innerWidth >= 640 ? 384 : 352;
+      const panelWidth = window.innerWidth >= 768 ? 384 : 352;
       const viewportPadding = 10;
       const maxRight = Math.max(
         viewportPadding,
@@ -82,7 +82,7 @@ export function SettingsPopover({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className={`fixed inset-0 z-[120] cursor-default ${MOBILE_SHEET_SCRIM} sm:bg-slate-900/10 sm:backdrop-blur-[0.5px] dark:sm:bg-black/40`}
+            className={`fixed inset-0 z-[120] cursor-default ${MOBILE_SHEET_SCRIM} md:bg-slate-900/10 md:backdrop-blur-[0.5px] dark:md:bg-black/40`}
             onClick={onClose}
           />
           <motion.div
@@ -111,7 +111,7 @@ export function SettingsPopover({
                   right: coords.right,
                   maxHeight: `calc(100vh - ${coords.top + 16}px)`,
                 }}
-            className="z-[130] flex w-auto max-w-[calc(100vw-1rem)] flex-col overflow-y-auto overscroll-contain rounded-3xl border border-slate-200/90 bg-white/98 p-4 shadow-[0_20px_48px_rgba(15,23,42,0.18)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/98 sm:w-[24rem] sm:max-w-[calc(100vw-1.25rem)] sm:rounded-2xl sm:p-5"
+            className="z-[130] flex w-auto max-w-[calc(100vw-1rem)] flex-col overflow-y-auto overscroll-contain rounded-3xl border border-slate-200/90 bg-white/98 p-4 shadow-[0_20px_48px_rgba(15,23,42,0.18)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/98 md:w-[24rem] md:max-w-[calc(100vw-1.25rem)] md:rounded-2xl md:p-5"
           >
             <div className="mb-4 flex items-start justify-between gap-4 border-b border-slate-100 pb-3 dark:border-slate-800">
               <div className="flex min-w-0 items-start gap-2.5">
