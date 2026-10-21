@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 for (const locale of ['zh', 'en'] as const) {
-  for (const width of [320, 375, 390]) {
+  for (const width of [320, 375, 390, 640, 767]) {
     test('mobile toolbar shows all three controls without hidden overflow: ' + locale + ' ' + width, async ({ page }) => {
       await page.setViewportSize({ width, height: 700 });
       await page.addInitScript(lang => {
