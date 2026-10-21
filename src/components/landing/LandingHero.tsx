@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { trackAnalyticsEvent } from '../../lib/analytics';
 import { GithubIcon } from './LandingNavbar';
-import { Zap, ArrowRight, CheckCircle2, Layout, ShieldCheck, Lock, Download } from 'lucide-react';
+import { LandingQrModal } from './LandingQrModal';
+import { Zap, ArrowRight, CheckCircle2, Layout, ShieldCheck, Lock, Download, QrCode } from 'lucide-react';
 
 interface LandingHeroProps {
   isEn: boolean;
@@ -16,7 +17,9 @@ export function LandingHero({
   lastSaved,
   onOpenEditor
 }: LandingHeroProps) {
+  const [isQrOpen, setIsQrOpen] = useState(false);
   return (
+    <>
     <section className="relative overflow-hidden pt-12 pb-16 sm:pt-16 sm:pb-24">
       {/* Background ambient lighting */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[540px] h-[320px] bg-gradient-to-tr from-indigo-500/15 via-purple-500/10 to-transparent blur-3xl pointer-events-none rounded-full" />
@@ -55,6 +58,17 @@ export function LandingHero({
 
         {/* Primary Call-to-actions */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <div className="flex w-full items-stretch gap-2 sm:w-auto">
+            <button
+              type="button"
+              data-testid="landing-qr-trigger"
+              onClick={() => setIsQrOpen(true)}
+              aria-label={isEn ? 'Show mobile QR code' : '显示手机扫码二维码'}
+              title={isEn ? 'Open on phone' : '手机扫码打开'}
+              className="flex min-h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-indigo-200 bg-white text-indigo-600 transition-colors hover:border-indigo-400 hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:border-indigo-800 dark:bg-slate-900 dark:text-indigo-300 dark:hover:bg-indigo-950/50"
+            >
+              <QrCode className="h-5 w-5" aria-hidden="true" />
+            </button>
           <button
             type="button"
             data-testid="landing-hero-cta"
@@ -62,7 +76,7 @@ export function LandingHero({
               if (!hasExistingResume) trackAnalyticsEvent('start_building_clicked');
               onOpenEditor();
             }}
-            className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer group"
+            className="min-w-0 flex-1 sm:flex-none px-4 sm:px-7 py-3.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/25 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer group"
           >
             {hasExistingResume ? <CheckCircle2 className="w-4 h-4 text-emerald-300" /> : <Zap className="w-4 h-4" />}
             <span>{hasExistingResume
@@ -70,6 +84,7 @@ export function LandingHero({
               : (isEn ? 'Start Building (Free)' : '免费开始制作')}</span>
             <ArrowRight className="w-4 h-4 ml-0.5 group-hover:translate-x-0.5 transition-transform" />
           </button>
+          </div>
           {hasExistingResume && lastSaved && (
             <span className="text-xs text-slate-500 dark:text-slate-400 sm:self-center">
               {isEn ? `Last saved: ${lastSaved}` : `上次保存：${lastSaved}`}
@@ -117,5 +132,7 @@ export function LandingHero({
         </div>
       </div>
     </section>
+    <LandingQrModal isOpen={isQrOpen} isEn={isEn} onClose={() => setIsQrOpen(false)} />
+    </>
   );
 }
