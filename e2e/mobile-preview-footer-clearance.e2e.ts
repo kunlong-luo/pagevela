@@ -1,89 +1,77 @@
 import { expect, test, type Page } from '@playwright/test';
 
-async function expectFooterOutsideScrollableContent(page: Page) {
-  const dock = page.locator('nav[aria-label="Mobile workspace actions"], nav[aria-label="移动端工作区操作"]');
+async function assertTopNavigationAndBottomClear(page: Page) {
+  const nav = page.locator('nav[aria-label="Mobile workspace actions"], nav[aria-label="移动端工作区操作"]');
   const scroller = page.locator('#resume-preview-wrapper');
   const paper = page.locator('#resume-print-content');
 
-  await expect(dock).toBeVisible();
+  await expect(nav).toBeVisible();
   await expect(scroller).toBeVisible();
   await expect(paper).toBeVisible();
 
-  const initial = await page.evaluate(() => {
-    const dock = document.querySelector('nav[aria-label="Mobile workspace actions"], nav[aria-label="移动端工作区操作"]');
-    const scroller = document.querySelector('#resume-preview-wrapper');
-    if (!dock || !scroller) throw new Error('Missing preview viewport or mobile actions');
-    const navRect = dock.getBoundingClientRect();
-    const scrollRect = scroller.getBoundingClientRect();
+  const { navBottom, scrollTop, viewportBottom, viewportHeight, horizontalOverflow } = await page.evaluate(() => {
+    const n = document.querySelector('nav[aria-label="Mobile workspace actions"], nav[aria-label="移动端工作区操作"]')!;
+    const scroller = document.querySelector('#resume-preview-wrapper')!;
     return {
-      dockPosition: getComputedStyle(dock).position,
-      dockTop: navRect.top,
-      dockBottom: navRect.bottom,
+      navBottom: n.getBoundingClientRect().bottom,
+      scrollTop: scroller.getBoundingClientRect().top,
+      viewportBottom: scroller.getBoundingClientRect().bottom,
       viewportHeight: innerHeight,
-      scrollBottom: scrollRect.bottom,
-      scrollHeight: scroller.scrollHeight,
-      scrollClientHeight: scroller.clientHeight,
-      documentWidth: document.documentElement.scrollWidth,
-      viewportWidth: innerWidth,
+      horizontalOverflow: document.documentElement.scrollWidth - innerWidth,
     };
   });
+  expect(navBottom).toBeLessThanOrEqual(scrollTop + 1);
+  expect(viewportBottom).toBeLessThanOrEqual(viewportHeight + 1);
+  expect(horizontalOverflow).toBeLessThanOrEqual(1);
 
-  expect(initial.dockPosition).not.toBe('fixed');
-  expect(initial.dockTop).toBeGreaterThanOrEqual(initial.scrollBottom - 1);
-  expect(initial.dockBottom).toBeLessThanOrEqual(initial.viewportHeight + 1);
-  expect(initial.documentWidth).toBeLessThanOrEqual(initial.viewportWidth + 1);
-  expect(initial.scrollClientHeight).toBeGreaterThan(0);
-
-  // The preview's own scroller, not the document, reaches the paper's bottom.
   await scroller.evaluate(element => { element.scrollTop = element.scrollHeight; });
   await expect.poll(() => scroller.evaluate(element =>
     Math.round(element.scrollTop + element.clientHeight - element.scrollHeight)
   )).toBeGreaterThanOrEqual(-2);
-  const bounds = await page.evaluate(() => {
-    const viewport = document.querySelector('#resume-preview-wrapper')!.getBoundingClientRect();
-    const paper = document.querySelector('#resume-print-content')!.getBoundingClientRect();
-    const dock = document.querySelector('nav[aria-label="Mobile workspace actions"], nav[aria-label="移动端工作区操作"]')!.getBoundingClientRect();
-    return {
-      paperBottom: paper.bottom,
-      viewportBottom: viewport.bottom,
-      dockTop: dock.top,
-      viewportTop: viewport.top,
-      paperTop: paper.top,
-    };
-  });
-  expect(bounds.paperBottom).toBeLessThanOrEqual(bounds.viewportBottom + 4);
-  expect(bounds.viewportBottom).toBeLessThanOrEqual(bounds.dockTop + 1);
-  expect(bounds.paperBottom).toBeLessThanOrEqual(bounds.dockTop + 4);
+  const bottom = await paper.evaluate(el => el.getBoundingClientRect().bottom);
+  const viewport = await scroller.boundingBox();
+  expect(viewport).not.toBeNull();
+  expect(bottom).toBeLessThanOrEqual(viewport!.y + viewport!.height + 4);
+
+  // No permanent height card floats over the mobile preview.
+  await expect(page.getByRole('button', { name: /Page count and Auto Fit settings|页数与智能单页设置/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Collapse A4 Height Guard|收起 A4 高度提醒/ })).toBeHidden();
 }
 
-for (const language of ['zh', 'en'] as const) {
+for (const lang of ['zh', 'en'] as const) {
   for (const size of [{ width: 320, height: 568 }, { width: 390, height: 700 }, { width: 390, height: 560 }]) {
-    test('mobile preview bottom stays above actions at ' + language + ' ' + size.width + 'x' + size.height, async ({ page }) => {
+    test('top nav does not overlap preview bottom: ' + lang + ' ' + size.width + 'x' + size.height, async ({ page }) => {
       await page.setViewportSize(size);
-      await page.addInitScript(lang => {
+      await page.addInitScript(language => {
         localStorage.setItem('resume-onboarding-v1-complete', '1');
-        localStorage.setItem('resume_ui_language', lang);
-      }, language);
+        localStorage.setItem('resume_ui_language', language);
+      }, lang);
       await page.goto('/?page=editor');
 
-      const dock = page.getByRole('navigation', {
-        name: language === 'en' ? 'Mobile workspace actions' : '移动端工作区操作',
+      const nav = page.getByRole('navigation', {
+        name: lang === 'en' ? 'Mobile workspace actions' : '移动端工作区操作',
       });
-      await dock.getByRole('button', { name: language === 'en' ? 'Preview' : '预览' }).click();
-      await expectFooterOutsideScrollableContent(page);
-      // Toggling tabs does not return the footer to a floating overlay.
-      await dock.getByRole('button', { name: language === 'en' ? 'Form editor' : '表单编辑模式' }).click();
+      await nav.getByRole('button', { name: lang === 'en' ? 'Preview' : '预览' }).click();
+      await assertTopNavigationAndBottomClear(page);
+      await nav.getByRole('button', { name: lang === 'en' ? 'Form editor' : '表单编辑模式' }).click();
       await expect(page.locator('#editor-pane')).toBeVisible();
-      await dock.getByRole('button', { name: language === 'en' ? 'Preview' : '预览' }).click();
-      await expectFooterOutsideScrollableContent(page);
+      await nav.getByRole('button', { name: lang === 'en' ? 'Preview' : '预览' }).click();
+      await assertTopNavigationAndBottomClear(page);
+
+      await page.getByRole('button', { name: lang === 'en' ? 'Page count and Auto Fit settings' : '页数与智能单页设置' }).click();
+      const sheet = page.getByRole('dialog', { name: lang === 'en' ? 'Page count and Auto Fit settings' : '页数与智能单页设置' });
+      await expect(sheet).toBeVisible();
+      await expect(sheet.getByRole('button', { name: /Auto-Fit to Page|自动缩合至一页|Smart Optimize Spacing|优化排版间距/ })).toBeVisible();
+      await sheet.getByRole('button', { name: lang === 'en' ? 'Done' : '完成' }).click();
+      await expect(sheet).toBeHidden();
     });
   }
 }
 
-test('desktop workspace remains split and has no mobile footer', async ({ page }) => {
+test('desktop remains split and has no mobile view navigation', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.addInitScript(() => localStorage.setItem('resume-onboarding-v1-complete', '1'));
   await page.goto('/?page=editor');
   await expect(page.locator('#resume-preview-wrapper')).toBeVisible();
-  await expect(page.locator('nav[aria-label="Mobile workspace actions"], nav[aria-label="移动端工作区操作"]')).toHaveCount(0);
+  await expect(page.getByRole('navigation', { name: /Mobile workspace actions|移动端工作区操作/ })).toHaveCount(0);
 });
