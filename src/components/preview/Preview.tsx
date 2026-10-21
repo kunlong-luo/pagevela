@@ -425,7 +425,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
             height: unscaledHeight ? `${unscaledHeight * calculatedZoom}px` : 'auto',
             position: 'relative',
           }}
-          className="resume-wrapper flex justify-center shrink-0 transition-all duration-200 print:block print:w-full print:max-w-full print:h-auto print:static"
+          className="resume-wrapper flex justify-center shrink-0 print:block print:w-full print:max-w-full print:h-auto print:static"
         >
           <div 
             ref={ref}
@@ -443,7 +443,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
               transform: `translateX(-50%) scale(${calculatedZoom})`,
               padding: `${pagePaddingMm}mm`,
             }}
-            className={`bg-white resume-content h-fit mx-auto print:shadow-none print:ring-0 print:m-0 print:w-full relative origin-top transition-all duration-300 print:relative print:left-auto print:top-auto print:transform-none print:max-w-full print:w-full ${fontClass} ${
+            className={`bg-white resume-content h-fit mx-auto print:shadow-none print:ring-0 print:m-0 print:w-full relative origin-top transition-shadow duration-200 print:relative print:left-auto print:top-auto print:transform-none print:max-w-full print:w-full ${fontClass} ${
               metrics.isOver 
                 ? 'shadow-[0_4px_24px_rgba(244,63,94,0.08),0_16px_40px_-6px_rgba(15,23,42,0.12),0_0_0_1.5px_rgba(244,63,94,0.4)] ring-1 ring-rose-400/30' 
                 : 'shadow-[0_4px_6px_-1px_rgba(0,0,0,0.02),0_12px_28px_-4px_rgba(15,23,42,0.06),0_24px_60px_-12px_rgba(15,23,42,0.08),0_0_0_1px_rgba(15,23,42,0.04)] ring-1 ring-black/5'
