@@ -42,7 +42,7 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
   const [hexInput, setHexInput] = useState(value);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
-  const nativeColorInputRef = useRef<HTMLInputElement>(null);
+  const customHexInputRef = useRef<HTMLInputElement>(null);
   const [popoverPos, setPopoverPos] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
@@ -202,7 +202,9 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
               <div className="relative flex-1">
                 <span className="absolute left-2 top-1.5 text-xs text-slate-400 font-mono">#</span>
                 <input
+                  ref={customHexInputRef}
                   type="text"
+                  aria-label={lang === 'en' ? 'Custom hex color' : '自定义十六进制颜色'}
                   value={hexInput.startsWith('#') ? hexInput.slice(1) : hexInput}
                   onChange={(e) => handleHexChange({ ...e, target: { ...e.target, value: `#${e.target.value}` } })}
                   placeholder="000000"
@@ -211,24 +213,13 @@ export const CustomColorPicker: React.FC<CustomColorPickerProps> = ({
                 />
               </div>
 
-              {/* Native color picker trigger disguised as Pipette/Picker button */}
               <button
                 type="button"
-                onClick={() => nativeColorInputRef.current?.click()}
-                aria-label={lang === 'en' ? 'Choose color from palette' : '从调色板选择颜色'}
+                onClick={() => { customHexInputRef.current?.focus(); customHexInputRef.current?.select(); }}
+                aria-label={lang === 'en' ? 'Edit custom hex color' : '编辑自定义十六进制颜色'}
                 className="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-md transition-colors shrink-0 cursor-pointer"
               >
                 <Pipette className="w-4 h-4" />
-                <input
-                  ref={nativeColorInputRef}
-                  type="color"
-                  value={value}
-                  onChange={(e) => {
-                    onChange(e.target.value);
-                    setHexInput(e.target.value);
-                  }}
-                  className="sr-only"
-                />
               </button>
             </div>
           </div>,

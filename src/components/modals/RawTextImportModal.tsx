@@ -1,3 +1,4 @@
+import { CustomSwitch } from '../ui/CustomSwitch';
 import React, { useState, useRef, useEffect } from 'react';
 import { PRODUCT_NAME } from '../../lib/brand';
 import { createPortal } from 'react-dom';
@@ -426,7 +427,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
     <AnimatePresence>
       {isOpen && (
         <div 
-          className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 overflow-y-auto workspace-scrollbar"
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
@@ -738,7 +739,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
               </div>
             ) : (
               <div className="mx-5 mb-3 rounded-xl border border-indigo-100 bg-indigo-50/50 p-2.5 dark:border-indigo-950/60 dark:bg-indigo-950/30">
-                <label className="flex items-center justify-between gap-2 cursor-pointer select-none">
+                <div className="flex items-center justify-between gap-2 select-none">
                   <div className="flex items-center gap-2 min-w-0">
                     <Wand2 className="h-4 w-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
                     <div className="min-w-0">
@@ -754,13 +755,13 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
                       </span>
                     </div>
                   </div>
-                  <input
-                    type="checkbox"
+                  <CustomSwitch
                     checked={autoAdaptToMarket}
-                    onChange={(e) => setAutoAdaptToMarket(e.target.checked)}
-                    className="h-4 w-4 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500/20 dark:border-slate-700"
+                    onChange={setAutoAdaptToMarket}
+                    label={isEn ? 'Auto-adapt' : '自动适配'}
+                    size="sm"
                   />
-                </label>
+                </div>
               </div>
             )}
 

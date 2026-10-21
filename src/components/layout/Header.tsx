@@ -454,7 +454,7 @@ export function Header({
             role="dialog"
             aria-modal="true"
             aria-label={isEn ? 'Quick Actions' : '快捷功能菜单'}
-            className="relative z-[100] bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 rounded-t-3xl p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col gap-3 shadow-2xl max-h-[82dvh] overflow-y-auto overscroll-contain workspace-scrollbar"
+            className="relative z-[100] bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 rounded-t-3xl p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col gap-3 shadow-2xl max-h-[82dvh] overflow-y-auto workspace-scrollbar overscroll-contain workspace-scrollbar"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
@@ -493,7 +493,6 @@ export function Header({
                   onClick={(e) => { toggleThemeMode(e); setIsMobileMenuOpen(false); }}
                   className="min-h-12 w-full inline-flex items-center justify-start gap-2.5 p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
                   aria-label={`${isEn ? 'Theme' : '主题'}: ${themeLabel}`}
-                  title={`${isEn ? 'Theme' : '主题'}: ${themeLabel}`}
                 >
                   {themeMode === 'dark' ? <Moon className="w-4 h-4 text-indigo-400 shrink-0" /> : themeMode === 'system' ? <Laptop className="w-4 h-4 text-indigo-500 shrink-0" /> : <Sun className="w-4 h-4 text-amber-500 shrink-0" />}
                   <span>{isEn ? 'Theme' : '主题'}</span>

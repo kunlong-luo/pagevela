@@ -1,16 +1,22 @@
 import { expect, test } from '@playwright/test';
 
 for (const language of ['zh', 'en'] as const) {
-  for (const width of [375, 1280]) {
+  for (const width of [320, 375, 768, 1024, 1280]) {
     test(`welcome QR opens scannable official link: ${language} at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 780 });
       await page.addInitScript(lang => localStorage.setItem('resume_ui_language', lang), language);
       await page.goto('/');
 
       const qrButton = page.getByTestId('landing-qr-trigger');
-      const startButton = page.getByTestId('landing-hero-cta');
+      const startButton = page.getByTestId('landing-navbar-start');
+      const heroStart = page.getByTestId('landing-hero-cta');
       await expect(qrButton).toBeVisible();
       await expect(startButton).toBeVisible();
+      await expect(heroStart).toBeVisible();
+      await expect(qrButton.locator('xpath=ancestor::header')).toBeVisible();
+      await expect(page.locator('main [data-testid="landing-qr-trigger"]')).toHaveCount(0);
+      const pageOverflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      expect(pageOverflow).toBeLessThanOrEqual(1);
       const qrPosition = await qrButton.boundingBox();
       const startPosition = await startButton.boundingBox();
       expect(qrPosition).not.toBeNull();

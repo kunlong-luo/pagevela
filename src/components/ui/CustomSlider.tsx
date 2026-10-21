@@ -160,6 +160,7 @@ export const CustomSlider: React.FC<CustomSliderProps> = ({
         <div
           role="slider"
           tabIndex={disabled ? -1 : 0}
+          aria-label={typeof label === 'string' ? label : undefined}
           aria-valuemin={min}
           aria-valuemax={max}
           aria-valuenow={clampedValue}

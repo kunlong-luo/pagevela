@@ -4,6 +4,8 @@ import type { MarketRegion } from '../../types';
 import { cropResumePhoto, isSafeResumePhotoDataUrl, validateResumePhotoFile } from '../../lib/resume-photo';
 import { useResumeStore } from '../../store/useResumeStore';
 import { activeResumePersistence } from '../../lib/resume-persistence';
+import { CustomSlider } from '../ui/CustomSlider';
+import { CustomSwitch } from '../ui/CustomSwitch';
 
 interface ResumePhotoEditorProps {
   lang: 'zh' | 'en';
@@ -134,15 +136,12 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
           </p>
         </div>
         {savedPhoto && !pendingFile && (
-          <label className="flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-300">
-            <input
-              type="checkbox"
-              checked={visible}
-              onChange={(event) => updateSetting('showPhoto', event.target.checked)}
-              aria-label={isEn ? 'Show photo on resume' : '在简历中显示照片'}
-            />
-            {isEn ? 'Show on resume' : '在简历中显示'}
-          </label>
+          <CustomSwitch
+            checked={visible}
+            onChange={(checked) => updateSetting('showPhoto', checked)}
+            label={isEn ? 'Show on resume' : '在简历中显示'}
+            size="sm"
+          />
         )}
       </div>
       {!isChina && (
@@ -196,14 +195,20 @@ export function ResumePhotoEditor({ lang, marketRegion }: ResumePhotoEditorProps
           </div>
           {pendingFile && (
             <div className="space-y-1.5">
-              <label className="block text-[10px] text-slate-500">
-                {isEn ? 'Horizontal crop position' : '水平裁剪位置'}
-                <input aria-label={isEn ? 'Horizontal crop' : '水平裁剪'} type="range" min="0" max="100" value={horizontal} onChange={e => setHorizontal(Number(e.target.value))} className="block w-full" />
-              </label>
-              <label className="block text-[10px] text-slate-500">
-                {isEn ? 'Vertical crop position' : '垂直裁剪位置'}
-                <input aria-label={isEn ? 'Vertical crop' : '垂直裁剪'} type="range" min="0" max="100" value={vertical} onChange={e => setVertical(Number(e.target.value))} className="block w-full" />
-              </label>
+              <CustomSlider
+                label={isEn ? 'Horizontal crop position' : '水平裁剪位置'}
+                value={horizontal}
+                onChange={setHorizontal}
+                valueDisplay={(v) => `${v}%`}
+                size="sm"
+              />
+              <CustomSlider
+                label={isEn ? 'Vertical crop position' : '垂直裁剪位置'}
+                value={vertical}
+                onChange={setVertical}
+                valueDisplay={(v) => `${v}%`}
+                size="sm"
+              />
               <button
                 type="button"
                 disabled={saving}

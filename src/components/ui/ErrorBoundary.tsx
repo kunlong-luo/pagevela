@@ -18,6 +18,7 @@ interface State {
   error: Error | null;
   errorInfo: ErrorInfo | null;
   copied: boolean;
+  confirmReset: boolean;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
@@ -26,10 +27,11 @@ export class ErrorBoundary extends Component<Props, State> {
     error: null,
     errorInfo: null,
     copied: false,
+    confirmReset: false,
   };
 
   public static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error, errorInfo: null, copied: false };
+    return { hasError: true, error, errorInfo: null, copied: false, confirmReset: false };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -56,12 +58,12 @@ export class ErrorBoundary extends Component<Props, State> {
   };
 
   private handleReset = () => {
-    const uiLanguage = storage.getString(STORAGE_KEYS.UI_LANGUAGE, 'zh');
-    const t = getErrorBoundaryTranslation(uiLanguage);
-    if (window.confirm(t.confirmReset)) {
-      storage.clearAllResumeData();
-      window.location.reload();
-    }
+    this.setState({ confirmReset: true });
+  };
+
+  private confirmResetData = () => {
+    storage.clearAllResumeData();
+    window.location.reload();
   };
 
   public render() {
@@ -88,7 +90,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 {this.state.error?.name || 'Error'}: {this.state.error?.message || t.title}
               </div>
               {this.state.errorInfo?.componentStack && (
-                <div className="text-[10px] text-slate-500 max-h-28 overflow-y-auto whitespace-pre-wrap font-mono">
+                <div className="text-[10px] text-slate-500 max-h-28 overflow-y-auto workspace-scrollbar whitespace-pre-wrap font-mono">
                   {this.state.errorInfo.componentStack}
                 </div>
               )}
@@ -115,13 +117,28 @@ export class ErrorBoundary extends Component<Props, State> {
               </div>
 
               <div className="pt-2 text-center">
-                <button
-                  onClick={this.handleReset}
-                  className="text-xs text-slate-400 hover:text-slate-200 underline inline-flex items-center gap-1.5 cursor-pointer transition-colors"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>{t.reset}</span>
-                </button>
+                {!this.state.confirmReset ? (
+                  <button
+                    type="button"
+                    onClick={this.handleReset}
+                    className="text-xs text-slate-400 hover:text-slate-200 underline inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>{t.reset}</span>
+                  </button>
+                ) : (
+                  <div role="group" aria-label={t.confirmReset} className="rounded-xl border border-amber-500/40 bg-amber-950/25 p-3">
+                    <p className="text-xs text-amber-100">{t.confirmReset}</p>
+                    <div className="mt-3 flex justify-center gap-2">
+                      <button type="button" onClick={() => this.setState({ confirmReset: false })} className="rounded-lg border border-slate-600 px-3 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700">
+                        {uiLanguage === 'en' ? 'Cancel' : '取消'}
+                      </button>
+                      <button type="button" onClick={this.confirmResetData} className="rounded-lg bg-rose-600 px-3 py-2 text-xs font-bold text-white hover:bg-rose-500">
+                        {t.reset}
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

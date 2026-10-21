@@ -113,7 +113,7 @@ export function SettingsPopover({
                   right: coords.right,
                   maxHeight: `calc(100vh - ${coords.top + 16}px)`,
                 }}
-            className="z-[130] flex w-auto max-w-[calc(100vw-1rem)] flex-col overflow-y-auto overscroll-contain rounded-3xl border border-slate-200/90 bg-white/98 p-4 shadow-[0_20px_48px_rgba(15,23,42,0.18)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/98 md:w-[24rem] md:max-w-[calc(100vw-1.25rem)] md:rounded-2xl md:p-5"
+            className="z-[130] flex w-auto max-w-[calc(100vw-1rem)] flex-col overflow-y-auto workspace-scrollbar overscroll-contain rounded-3xl border border-slate-200/90 bg-white/98 p-4 shadow-[0_20px_48px_rgba(15,23,42,0.18)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/98 md:w-[24rem] md:max-w-[calc(100vw-1.25rem)] md:rounded-2xl md:p-5"
           >
             <div className="mb-4 flex items-start justify-between gap-4 border-b border-slate-100 pb-3 dark:border-slate-800">
               <div className="flex min-w-0 items-start gap-2.5">

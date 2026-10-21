@@ -65,6 +65,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
         themeMode={themeMode}
         onToggleLanguage={toggleLanguage}
         onToggleTheme={toggleTheme}
+        onOpenEditor={onOpenEditor}
       />
 
       {/* 2. Hero Section */}

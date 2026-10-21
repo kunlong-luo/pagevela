@@ -96,7 +96,7 @@ export function ProfilesTab({ lang, showToast }: ProfilesTabProps) {
   const compareTarget = profiles.find(p => p.id === compareTargetId);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
+    <div className="flex-1 overflow-y-auto workspace-scrollbar p-4 sm:p-6 space-y-5">
       {/* Clean Sub-Header */}
       <div className="flex items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800/80 flex-wrap">
         <div className="flex items-center gap-2.5">
@@ -347,7 +347,7 @@ export function ProfilesTab({ lang, showToast }: ProfilesTabProps) {
                 <div className="p-2 bg-indigo-50 dark:bg-indigo-950/60 text-xs font-bold text-indigo-700 dark:text-indigo-300 border-b border-indigo-100 dark:border-indigo-900">
                   {isEn ? 'Current Active' : '当前激活'}: {activeProfile.name}
                 </div>
-                <div className="p-3 font-mono text-[11px] overflow-y-auto whitespace-pre-wrap bg-slate-50/50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 flex-1">
+                <div className="p-3 font-mono text-[11px] overflow-y-auto workspace-scrollbar whitespace-pre-wrap bg-slate-50/50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 flex-1">
                   {activeProfile.markdown}
                 </div>
               </div>
@@ -356,7 +356,7 @@ export function ProfilesTab({ lang, showToast }: ProfilesTabProps) {
                 <div className="p-2 bg-purple-50 dark:bg-purple-950/60 text-xs font-bold text-purple-700 dark:text-purple-300 border-b border-purple-100 dark:border-purple-900">
                   {isEn ? 'Compared Profile' : '对比目标'}: {compareTarget.name}
                 </div>
-                <div className="p-3 font-mono text-[11px] overflow-y-auto whitespace-pre-wrap bg-slate-50/50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 flex-1">
+                <div className="p-3 font-mono text-[11px] overflow-y-auto workspace-scrollbar whitespace-pre-wrap bg-slate-50/50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 flex-1">
                   {compareTarget.markdown}
                 </div>
               </div>

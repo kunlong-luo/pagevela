@@ -138,8 +138,15 @@ for (const language of ['en', 'zh'] as const) {
     await expect(trigger).toBeVisible();
     await trigger.click();
     await expect(page.getByText(language === 'en' ? 'Preset palette' : '预设调色板')).toBeVisible();
-    await expect(page.getByRole('button', {
-      name: language === 'en' ? 'Choose color from palette' : '从调色板选择颜色',
-    })).toBeVisible();
+    const customHex = page.getByRole('textbox', {
+      name: language === 'en' ? 'Custom hex color' : '自定义十六进制颜色',
+    });
+    const editHex = page.getByRole('button', {
+      name: language === 'en' ? 'Edit custom hex color' : '编辑自定义十六进制颜色',
+    });
+    await expect(customHex).toBeVisible();
+    await expect(editHex).toBeVisible();
+    await editHex.click();
+    await expect(customHex).toBeFocused();
   });
 }
