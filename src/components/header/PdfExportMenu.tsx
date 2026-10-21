@@ -183,7 +183,7 @@ export function PdfExportMenu({
         <div
           role="dialog"
           aria-label={isEn ? 'Download options' : '下载选项'}
-          className="fixed inset-x-2 bottom-[max(0.5rem,env(safe-area-inset-bottom))] top-auto z-[100] mt-0 max-h-[80dvh] w-auto overflow-y-auto overscroll-contain rounded-3xl border border-slate-200 bg-white p-2.5 shadow-2xl dark:border-slate-700 dark:bg-slate-900 md:absolute md:inset-x-auto md:bottom-auto md:right-0 md:top-full md:mt-2 md:max-h-none md:w-80 md:overflow-visible md:rounded-2xl md:p-2"
+          className="fixed inset-x-2 bottom-[max(0.5rem,env(safe-area-inset-bottom))] top-auto z-[100] mt-0 max-h-[80dvh] w-auto overflow-y-auto overscroll-contain workspace-scrollbar rounded-3xl border border-slate-200 bg-white p-2.5 shadow-2xl dark:border-slate-700 dark:bg-slate-900 md:absolute md:inset-x-auto md:bottom-auto md:right-0 md:top-full md:mt-2 md:max-h-none md:w-80 md:overflow-visible md:rounded-2xl md:p-2"
         >
           {/* Target market & paper badge */}
           <div className="mb-2 flex flex-wrap items-center justify-between gap-1.5 rounded-xl bg-indigo-50/70 px-2.5 py-1.5 dark:bg-indigo-950/40">
