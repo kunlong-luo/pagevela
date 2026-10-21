@@ -5,6 +5,7 @@ import { BLANK_MARKDOWN, TEMPLATES } from '../../data';
 import { getMarketProfile, resolveDefaultPaperSize } from '../../lib/market-profile';
 import { getTemplatePresentation } from '../../lib/template-presentation';
 import { useDialogFocus } from '../../hooks/useDialogFocus';
+import { CustomSelect } from '../ui/CustomSelect';
 
 interface NewProfileModalProps {
   isOpen: boolean;
@@ -125,7 +126,7 @@ export function NewProfileModal({ isOpen, onClose, lang }: NewProfileModalProps)
         </div>
 
         {/* Content Form */}
-        <form onSubmit={handleCreate} className="p-5 space-y-4 overflow-y-auto flex-1">
+        <form onSubmit={handleCreate} className="p-5 space-y-4 overflow-y-auto workspace-scrollbar flex-1">
           {/* Creation Mode Choice */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
@@ -197,28 +198,28 @@ export function NewProfileModal({ isOpen, onClose, lang }: NewProfileModalProps)
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
                 {isEn ? 'Choose Template' : '选择标杆模板'}
               </label>
-              <select
+              <CustomSelect
                 value={selectedTemplateId}
-                onChange={(e) => {
-                  setSelectedTemplateId(e.target.value);
-                  const t = TEMPLATES.find(x => x.id === e.target.value);
-                  if (t) {
-                    const presentation = getTemplatePresentation(t, presentationLang);
+                onChange={(nextValue) => {
+                  setSelectedTemplateId(nextValue);
+                  const template = TEMPLATES.find(t => t.id === nextValue);
+                  if (template) {
+                    const presentation = getTemplatePresentation(template, presentationLang);
                     setName(presentation.name);
                     setTargetRole(presentation.category);
                   }
                 }}
-                className="w-full text-xs font-semibold px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
-              >
-                {TEMPLATES.map(t => {
-                  const presentation = getTemplatePresentation(t, presentationLang);
-                  return (
-                    <option key={t.id} value={t.id}>
-                      [{presentation.category}] {presentation.name}
-                    </option>
-                  );
+                options={TEMPLATES.map(template => {
+                  const presentation = getTemplatePresentation(template, presentationLang);
+                  return {
+                    value: template.id,
+                    label: `[${presentation.category}] ${presentation.name}`,
+                  };
                 })}
-              </select>
+                className="w-full"
+                triggerClassName="w-full !h-auto min-h-10 !justify-between"
+                size="md"
+              />
             </div>
           )}
 
