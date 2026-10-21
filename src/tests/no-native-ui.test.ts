@@ -50,6 +50,9 @@ describe('design system: no browser-native visible controls or tooltip bubbles',
         }
         if (ts.isCallExpression(node)) {
           const target = node.expression.getText(source);
+          if (/\.(?:showModal|showPicker)$/.test(target)) {
+            error(node, 'do not invoke a native dialog or picker popup');
+          }
           if (/^(?:window\.|globalThis\.)?(?:alert|prompt|confirm)$/.test(target) &&
               !(target === 'confirm' && /useConfirm\s*\(/.test(code))) {
             error(node, 'replace native dialog with project confirmation UI');
