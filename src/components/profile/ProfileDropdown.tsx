@@ -226,7 +226,7 @@ export function ProfileDropdown({ lang, isCompact }: ProfileDropdownProps) {
           </div>
 
           {/* Profile List: 1-Click to Switch */}
-          <div className="max-h-[50dvh] sm:max-h-64 overflow-y-auto overscroll-contain workspace-scrollbar p-1.5 space-y-0.5">
+          <div className="max-h-[50dvh] sm:max-h-64 overflow-y-auto workspace-scrollbar overscroll-contain workspace-scrollbar p-1.5 space-y-0.5">
             {profiles.map((p) => {
               const isActive = p.id === activeProfileId;
               const isEditing = editingId === p.id;
