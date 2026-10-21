@@ -1,6 +1,6 @@
 import { getProductDisplayName } from '../lib/brand';
 import React, { useRef, useEffect, useState, useCallback, Suspense, lazy } from 'react';
-import { Editor } from './Editor';
+import { Editor, type EditorMode } from './Editor';
 import { Preview } from './preview/Preview';
 import { Header } from './layout/Header';
 import { Toolbar } from './layout/Toolbar';
@@ -9,7 +9,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { useResumeActions } from '../hooks/useResumeActions';
 import { useToast } from './ui/Toast';
 import { smartAutoFit } from '../lib/preview-utils';
-import { Edit3, Eye, Printer } from 'lucide-react';
+import { Layers, Code, Eye } from 'lucide-react';
 import { Tooltip } from './ui/Tooltip';
 import { markSupportPrompt, recordCompletedPdfExportFlowAndShouldPrompt } from '../lib/support-prompt';
 import { trackAnalyticsEvent } from '../lib/analytics';
@@ -29,8 +29,8 @@ interface EditorWorkspaceProps {
 }
 
 export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: EditorWorkspaceProps) {
-  const [mobileTab, setMobileTab] = useState<'editor' | 'preview'>('editor');
-  const [mobileTextEditing, setMobileTextEditing] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'form' | 'markdown' | 'preview'>('form');
+  const [editorMode, setEditorMode] = useState<EditorMode>('form');
 
   const {
     uiLanguage,
@@ -382,19 +382,9 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
           ref={containerRef}
           className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden relative"
         >
-          {(!isMobile || mobileTab === 'editor') && (
+          {(!isMobile || mobileTab !== 'preview') && (
             <section 
               id="editor-pane" 
-              onFocusCapture={(event) => {
-                const target = event.target;
-                if (target instanceof HTMLTextAreaElement || (target instanceof HTMLInputElement && !['checkbox', 'radio', 'file', 'range', 'button'].includes(target.type))) {
-                  setMobileTextEditing(true);
-                }
-              }}
-              onBlurCapture={(event) => {
-                const next = event.relatedTarget;
-                if (!(next instanceof HTMLElement) || !event.currentTarget.contains(next)) setMobileTextEditing(false);
-              }}
               style={{
                 width: !isMobile ? (layoutMode === 'split' ? `${splitRatio}%` : layoutMode === 'editor' ? '100%' : '0%') : '100%'
               }}
@@ -404,7 +394,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
                 !isMobile && layoutMode === 'preview' ? 'hidden' : 'w-full'
               } border-r border-slate-200/90 dark:border-slate-800`}
             >
-              <Editor />
+              <Editor activeMode={editorMode} onModeChange={setEditorMode} />
             </section>
           )}
 
@@ -434,30 +424,30 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
             </Tooltip>
           )}
 
-          {(!isMobile || mobileTab === 'preview') && (
-            <section 
+          <section 
               id="preview-pane" 
               style={{
                 width: !isMobile ? (layoutMode === 'split' ? `${100 - splitRatio}%` : layoutMode === 'preview' ? '100%' : '0%') : '100%'
               }}
-              className={`h-full flex-1 min-w-0 ${
-                !isMobile && layoutMode === 'editor' ? 'hidden' : 'flex'
-              } flex-col bg-slate-100/70 dark:bg-slate-950/70 relative z-0`}
+              className={`h-full min-w-0 flex-col bg-slate-100/70 dark:bg-slate-950/70 relative z-0 ${
+                (isMobile ? mobileTab !== 'preview' : layoutMode === 'editor')
+                  ? 'hidden'
+                  : 'flex flex-1'
+              }`}
             >
               <Preview 
                 ref={contentRef} 
               />
             </section>
-          )}
 
           <Suspense fallback={null}>
             <ResumeChecker />
           </Suspense>
         </main>
 
-        {/* Mobile actions are an in-flow footer. The preview viewport ends above them,
-            rather than being covered by a fixed overlay with estimated padding. */}
-        {isMobile && !mobileTextEditing && (
+        {/* Three mobile view tabs live in document flow, below the scrollable content.
+            Download remains accessible from the header's dedicated PDF menu. */}
+        {isMobile && (
           <nav
             aria-label={uiLanguage === 'en' ? 'Mobile workspace actions' : '移动端工作区操作'}
             className="md:hidden relative z-30 shrink-0 mx-auto w-[calc(100vw-1rem)] max-w-md bg-slate-950/92 dark:bg-slate-800/95 border border-white/10 backdrop-blur-xl shadow-2xl rounded-2xl p-1.5 grid grid-cols-3 gap-1.5 text-xs font-bold text-white animate-in fade-in slide-in-from-bottom-3 duration-200"
@@ -465,40 +455,47 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
           >
             <button
               type="button"
-              onClick={() => setMobileTab('editor')}
-              aria-pressed={mobileTab === 'editor'}
-              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-all cursor-pointer active:scale-[0.98] ${
-                mobileTab === 'editor'
+              onClick={() => { setEditorMode('form'); setMobileTab('form'); }}
+              aria-label={uiLanguage === 'en' ? 'Form editor' : '表单编辑模式'}
+              aria-pressed={mobileTab === 'form'}
+              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
+                mobileTab === 'form'
                   ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
                   : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              <Edit3 className="w-4 h-4 shrink-0" />
-              <span>{uiLanguage === 'en' ? 'Edit' : '编辑'}</span>
+              <Layers className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>{uiLanguage === 'en' ? 'Form' : '表单'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => { setEditorMode('markdown'); setMobileTab('markdown'); }}
+              aria-label={uiLanguage === 'en' ? 'Markdown source editor' : 'Markdown 源码编辑模式'}
+              aria-pressed={mobileTab === 'markdown'}
+              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
+                mobileTab === 'markdown'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Code className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>{uiLanguage === 'en' ? 'Code' : '源码'}</span>
             </button>
 
             <button
               type="button"
               onClick={() => setMobileTab('preview')}
+              aria-label={uiLanguage === 'en' ? 'Preview' : '预览'}
               aria-pressed={mobileTab === 'preview'}
-              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-all cursor-pointer active:scale-[0.98] ${
+              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
                 mobileTab === 'preview'
                   ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
                   : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              <Eye className="w-4 h-4 shrink-0" />
-              <span className="whitespace-nowrap">{uiLanguage === 'en' ? 'Preview' : '预览'}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleExportVectorPrint}
-              aria-label={uiLanguage === 'en' ? 'Export ATS PDF' : '导出 ATS PDF'}
-              className="min-h-11 flex items-center justify-center gap-1.5 px-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-all cursor-pointer active:scale-[0.98] shadow-md shadow-emerald-950/20"
-            >
-              <Printer className="w-4 h-4 shrink-0" />
-              <span>{uiLanguage === 'en' ? 'Download' : '下载'}</span>
+              <Eye className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>{uiLanguage === 'en' ? 'Preview' : '预览'}</span>
             </button>
           </nav>
         )}
