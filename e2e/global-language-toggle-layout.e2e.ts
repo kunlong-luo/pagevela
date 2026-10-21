@@ -8,13 +8,13 @@ test('editor global language button matches welcome and sits beside Theme on des
   });
   await page.goto('/');
 
-  const welcomeLanguage = page.getByRole('button', { name: 'Toggle language' });
+  const welcomeLanguage = page.getByRole('button', { name: 'Switch interface to Chinese' });
   await expect(welcomeLanguage).toHaveText('中文');
   const welcomeClass = await welcomeLanguage.getAttribute('class');
   await page.getByTestId('landing-hero-cta').click();
   await expect(page.locator('#editor-pane')).toBeVisible();
 
-  const editorLanguage = page.getByRole('button', { name: 'Toggle language' });
+  const editorLanguage = page.getByRole('button', { name: 'Switch interface to Chinese' });
   const theme = page.getByRole('button', { name: /^Theme:/ });
   await expect(editorLanguage).toBeVisible();
   await expect(theme).toBeVisible();
@@ -29,13 +29,14 @@ test('editor global language button matches welcome and sits beside Theme on des
   expect(themeBox!.x - languageBox!.x - languageBox!.width).toBeLessThanOrEqual(16);
 
   await editorLanguage.click();
-  await expect(editorLanguage).toHaveText('EN');
+  const chineseLanguageToggle = page.getByRole('button', { name: '切换界面为英文' });
+  await expect(chineseLanguageToggle).toHaveText('EN');
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
   await expect(page.getByRole('button', { name: /^主题:/ })).toBeVisible();
   await expect.poll(() => page.evaluate(() => localStorage.getItem('resume_ui_language'))).toBe('zh');
 
   await page.getByRole('button', { name: /^返回首页$/ }).click();
-  await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveText('EN');
+  await expect(page.getByRole('button', { name: '切换界面为英文' })).toHaveText('EN');
 });
 
 for (const width of [320, 390]) {
@@ -48,7 +49,7 @@ for (const width of [320, 390]) {
     await page.goto('/?page=editor');
 
     const header = page.getByRole('banner');
-    const headerLanguage = header.getByRole('button', { name: 'Toggle language' });
+    const headerLanguage = header.getByRole('button', { name: 'Switch interface to Chinese' });
     const headerTheme = header.getByRole('button', { name: /^Theme:/ });
     await expect(headerLanguage).toBeVisible();
     await expect(headerTheme).toBeVisible();
@@ -60,7 +61,7 @@ for (const width of [320, 390]) {
     await page.getByRole('button', { name: 'Open quick actions menu' }).click();
     const panel = page.locator('#mobile-quick-actions');
     await expect(panel).toBeVisible();
-    const language = panel.getByRole('button', { name: 'Toggle language' });
+    const language = panel.getByRole('button', { name: 'Switch interface to Chinese' });
     const theme = panel.getByRole('button', { name: /^Theme:/ });
     await expect(language).toHaveText('中文');
     await expect(theme).toBeVisible();
@@ -76,7 +77,7 @@ for (const width of [320, 390]) {
     await expect(panel).toBeHidden();
     await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
     await page.getByRole('button', { name: '打开快捷功能菜单' }).click();
-    await expect(panel.getByRole('button', { name: 'Toggle language' })).toHaveText('EN');
+    await expect(panel.getByRole('button', { name: '切换界面为英文' })).toHaveText('EN');
     await expect(panel.getByRole('button', { name: /^主题:/ })).toBeVisible();
   });
 }
