@@ -14,6 +14,7 @@ import { CustomSelect } from '../ui/CustomSelect';
 import { storage, STORAGE_KEYS } from '../../lib/storage';
 import { trackAnalyticsEvent } from '../../lib/analytics';
 import { createMatrixSeedVersions } from '../../lib/matrix-seeds';
+import { useConfirm } from '../../context/ConfirmContext';
 
 interface MatrixTabProps {
   currentMarkdown: string;
@@ -25,6 +26,7 @@ interface MatrixTabProps {
 
 export function MatrixTab({ currentMarkdown, currentSettings, onRestore, lang, showToast }: MatrixTabProps) {
   const isEn = lang === 'en';
+  const { confirm } = useConfirm();
 
   // 1. Manage Role-Specific Folders / Resume Matrix
   const [matrixVersions, setMatrixVersions] = useState<ResumeDraft[]>([]);
@@ -91,9 +93,16 @@ export function MatrixTab({ currentMarkdown, currentSettings, onRestore, lang, s
     showToast(isEn ? 'New targeted version folder created!' : '成功创建新版本！');
   };
 
-  const handleDeleteVersion = (id: string, e: React.MouseEvent) => {
+  const handleDeleteVersion = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (confirm(isEn ? 'Delete this resume version?' : '确定要彻底删除该简历版本吗？')) {
+    const approved = await confirm({
+      title: isEn ? 'Delete resume version?' : '删除简历版本？',
+      message: isEn ? 'Delete this resume version permanently? This cannot be undone.' : '确定要彻底删除该简历版本吗？此操作无法撤销。',
+      confirmText: isEn ? 'Delete' : '删除',
+      cancelText: isEn ? 'Cancel' : '取消',
+      type: 'danger',
+    });
+    if (approved) {
       const updated = matrixVersions.filter(v => v.id !== id);
       saveMatrix(updated);
       showToast(isEn ? 'Version deleted' : '版本已删除');
@@ -103,8 +112,15 @@ export function MatrixTab({ currentMarkdown, currentSettings, onRestore, lang, s
     }
   };
 
-  const handleLoadVersion = (version: ResumeDraft) => {
-    if (confirm(isEn ? `Switch editor to "${version.title}"? Your unsaved current changes in active editor will be replaced.` : `确认要切换当前编辑区到「${version.title}」吗？未保存的当前改动将被替换。`)) {
+  const handleLoadVersion = async (version: ResumeDraft) => {
+    const approved = await confirm({
+      title: isEn ? 'Switch resume version?' : '切换简历版本？',
+      message: isEn ? `Switch editor to "${version.title}"? Your unsaved current changes in active editor will be replaced.` : `确认要切换当前编辑区到「${version.title}」吗？未保存的当前改动将被替换。`,
+      confirmText: isEn ? 'Switch version' : '确认切换',
+      cancelText: isEn ? 'Cancel' : '取消',
+      type: 'warning',
+    });
+    if (approved) {
       onRestore(version.markdown, version.settings);
       showToast(isEn ? 'Version loaded into editor' : '版本已成功载入编辑区');
     }
