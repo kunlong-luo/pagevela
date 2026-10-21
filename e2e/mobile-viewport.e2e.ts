@@ -10,9 +10,10 @@ test('mobile editor fits the dynamic viewport and keeps primary actions reachabl
 
   const nav = page.getByRole('navigation', { name: 'Mobile workspace actions' });
   await expect(nav).toBeVisible();
-  await expect(nav.getByRole('button', { name: 'Edit' })).toBeVisible();
+  await expect(nav.getByRole('button', { name: 'Form editor' })).toBeVisible();
   await expect(nav.getByRole('button', { name: /Preview/ })).toBeVisible();
-  await expect(nav.getByRole('button', { name: 'Export ATS PDF' })).toBeVisible();
+  await expect(nav.getByRole('button', { name: 'Markdown source editor' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Choose PDF export mode' })).toBeVisible();
 
   const initial = await page.evaluate(() => ({
     appHeight: document.body.firstElementChild?.getBoundingClientRect().height,
@@ -45,9 +46,9 @@ test('compact 320px mobile workspace keeps its three primary actions in view', a
   const nav = page.getByRole('navigation', { name: 'Mobile workspace actions' });
   await expect(nav).toBeVisible();
   const buttons = [
-    nav.getByRole('button', { name: 'Edit' }),
+    nav.getByRole('button', { name: 'Form editor' }),
+    nav.getByRole('button', { name: 'Markdown source editor' }),
     nav.getByRole('button', { name: /Preview/ }),
-    nav.getByRole('button', { name: 'Export ATS PDF' }),
   ];
   for (const button of buttons) {
     await expect(button).toBeVisible();
@@ -59,6 +60,8 @@ test('compact 320px mobile workspace keeps its three primary actions in view', a
   }
 
   await buttons[1].click();
+  await expect(page.locator('#markdown-textarea')).toBeVisible();
+  await buttons[2].click();
   await expect(page.locator('#preview-pane')).toBeVisible();
   await buttons[0].click();
   await expect(page.locator('#editor-pane')).toBeVisible();
