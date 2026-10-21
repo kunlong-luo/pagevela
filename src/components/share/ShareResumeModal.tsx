@@ -229,7 +229,7 @@ export function ShareResumeModal({ isOpen, onClose }: ShareResumeModalProps) {
           </button>
         </div>
 
-        <div className="min-h-0 flex-1 space-y-5 overflow-y-auto p-6">
+        <div className="min-h-0 flex-1 space-y-5 overflow-y-auto workspace-scrollbar p-6">
           <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl">
             <button
               type="button"
