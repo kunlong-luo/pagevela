@@ -47,6 +47,16 @@ for (const width of [320, 390]) {
     });
     await page.goto('/?page=editor');
 
+    const header = page.getByRole('banner');
+    const headerLanguage = header.getByRole('button', { name: 'Toggle language' });
+    const headerTheme = header.getByRole('button', { name: /^Theme:/ });
+    await expect(headerLanguage).toBeVisible();
+    await expect(headerTheme).toBeVisible();
+    const headerA = await headerLanguage.boundingBox();
+    const headerB = await headerTheme.boundingBox();
+    expect(headerA).not.toBeNull();
+    expect(headerB).not.toBeNull();
+    expect(headerB!.x).toBeGreaterThanOrEqual(headerA!.x + headerA!.width - 1);
     await page.getByRole('button', { name: 'Open quick actions menu' }).click();
     const panel = page.locator('#mobile-quick-actions');
     await expect(panel).toBeVisible();
