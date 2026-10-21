@@ -247,7 +247,7 @@ export function Header({
             <button 
               type="button"
               onClick={onNavigateToLanding}
-              className="inline-flex items-center justify-center w-7.5 h-7.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer active:scale-95 border border-slate-200/80 dark:border-slate-800 shadow-2xs shrink-0"
+              className="inline-flex items-center justify-center w-9 h-10 rounded-lg text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer active:scale-95 border border-slate-200/80 dark:border-slate-800 shadow-2xs shrink-0"
               aria-label={isEn ? 'Return to Home' : '返回首页'}
             >
               <Home className="w-3.5 h-3.5" />
@@ -256,16 +256,22 @@ export function Header({
           <ProfileDropdown lang={uiLanguage} />
         </div>
 
-        <div className="flex items-center gap-1.5 shrink-0">
-          <PdfExportMenu
+        <div className="flex items-center gap-1 shrink-0">
+          <LanguageToggle
             isEn={isEn}
-            isExporting={isExportingPDF}
-            progress={pdfExportProgress}
-            onExportAts={handleTriggerExport}
-            onExportQuick={handleExportDirectPDF ? handleQuickPdfExport : undefined}
-            compact
+            onToggle={() => setUiLanguage(isEn ? 'zh' : 'en')}
+            className="!min-h-10 !px-2 !py-1.5 !gap-1"
           />
-
+          <button
+            type="button"
+            onClick={(event) => toggleThemeMode(event)}
+            aria-label={`${isEn ? 'Theme' : '主题'}: ${themeLabel}`}
+            className="min-h-10 min-w-10 inline-flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+          >
+            {themeMode === 'dark' ? <Moon className="w-4 h-4 text-indigo-400" /> :
+              themeMode === 'system' ? <Laptop className="w-4 h-4 text-indigo-500" /> :
+              <Sun className="w-4 h-4 text-amber-500" />}
+          </button>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="min-h-10 min-w-10 inline-flex items-center justify-center p-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer active:scale-95"
@@ -494,6 +500,36 @@ export function Header({
                 </button>
               </div>
 
+              <button
+                onClick={() => { window.dispatchEvent(new Event('resume-craft:open-template-center')); setIsMobileMenuOpen(false); }}
+                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold"
+              >
+                <span>{isEn ? 'Templates' : '模板'}</span>
+              </button>
+              <button
+                onClick={() => { window.dispatchEvent(new Event('resume-craft:open-layout')); setIsMobileMenuOpen(false); }}
+                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold"
+              >
+                <span>{isEn ? 'Layout' : '排版'}</span>
+              </button>
+              <button
+                onClick={() => { window.dispatchEvent(new Event('resume-craft:open-style')); setIsMobileMenuOpen(false); }}
+                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold"
+              >
+                <span>{isEn ? 'Style' : '样式'}</span>
+              </button>
+              <button
+                onClick={() => { window.dispatchEvent(new Event('resume-craft:open-editor-tools')); setIsMobileMenuOpen(false); }}
+                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold"
+              >
+                <span>{isEn ? 'Editing tools' : '编辑工具'}</span>
+              </button>
+              <button
+                onClick={() => { window.dispatchEvent(new Event('resume-craft:auto-fit')); setIsMobileMenuOpen(false); }}
+                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 text-xs font-bold"
+              >
+                <span>{isEn ? 'Auto Fit' : '智能单页'}</span>
+              </button>
               <button
                 onClick={() => { setIsCheckerOpen(!isCheckerOpen); setIsMobileMenuOpen(false); }}
                 className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
