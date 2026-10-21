@@ -38,12 +38,17 @@ for (const language of ['zh', 'en'] as const) {
       const actions = page.getByTestId('mobile-editor-primary-actions');
       const fit = actions.getByRole('button', { name: language === 'en' ? 'Auto fit to single page' : '单页自动适配' });
       const check = actions.getByRole('button', { name: language === 'en' ? 'Check resume ATS' : 'ATS 简历检查' });
+      await expect(actions).toBeHidden();
+      const tools = page.getByRole('button', { name: language === 'en' ? 'More editing tools' : '更多编辑工具' });
+      await expect(tools).toBeVisible();
+      await tools.click();
       await expect(fit).toBeVisible();
       await expect(check).toBeVisible();
       await expect(actions.getByRole('button')).toHaveCount(2);
       await expect(page.locator('#preview-pane')).toBeHidden();
 
       await tabs[1].click();
+      await expect(actions).toBeHidden();
       await expect(page.locator('#markdown-textarea')).toBeVisible();
       await expect(tabs[1]).toHaveAttribute('aria-pressed', 'true');
       await tabs[2].click();
@@ -52,6 +57,7 @@ for (const language of ['zh', 'en'] as const) {
       await tabs[0].click();
       await expect(page.locator('#editor-pane')).toBeVisible();
       await expect(tabs[0]).toHaveAttribute('aria-pressed', 'true');
+      await tools.click();
       await fit.click();
       await expect(fit).toBeEnabled();
       await check.click();
@@ -59,6 +65,26 @@ for (const language of ['zh', 'en'] as const) {
     });
   }
 }
+
+test('editing tools opened from mobile preview switch to the usable form and preserve actions', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.addInitScript(() => {
+    localStorage.setItem('resume-onboarding-v1-complete', '1');
+    localStorage.setItem('resume_ui_language', 'en');
+  });
+  await page.goto('/?page=editor');
+  const nav = page.getByRole('navigation', { name: 'Mobile workspace actions' });
+  await nav.getByRole('button', { name: 'Preview' }).click();
+  await expect(page.locator('#resume-preview-wrapper')).toBeVisible();
+  await page.getByRole('button', { name: 'Open quick actions menu' }).click();
+  await page.locator('#mobile-quick-actions').getByRole('button', { name: 'Editing tools' }).click();
+
+  await expect(page.locator('#editor-pane')).toBeVisible();
+  await expect(nav.getByRole('button', { name: 'Form editor' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('button', { name: 'Auto fit to single page' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Check resume ATS' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Close editing tools' })).toBeVisible();
+});
 
 test('desktop retains source mode and auto fit in its toolbar', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });

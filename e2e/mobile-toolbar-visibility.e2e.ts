@@ -33,7 +33,7 @@ for (const locale of ['zh', 'en'] as const) {
       expect(bounds[2].x).toBeGreaterThanOrEqual(bounds[1].x + bounds[1].width - 1);
       expect(await toolbar.evaluate(el => el.scrollWidth - el.clientWidth)).toBeLessThanOrEqual(1);
       expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
-      // Desktop's three layout-mode controls are intentionally replaced by the mobile bottom dock.
+      // Desktop view modes are replaced by the mobile top three-view switch.
       await expect(toolbar.getByRole('radiogroup', { name: locale === 'en' ? 'View layout mode' : '视图分栏切换' })).toBeHidden();
       await expect(page.getByRole('navigation', { name: locale === 'en' ? 'Mobile workspace actions' : '移动端工作区操作' })).toBeVisible();
 
@@ -46,6 +46,14 @@ for (const locale of ['zh', 'en'] as const) {
       await expect(page.getByRole('dialog', { name: locale === 'en' ? 'Style' : '样式' })).toBeVisible();
       await page.keyboard.press('Escape');
       await expect(page.getByRole('dialog', { name: locale === 'en' ? 'Style' : '样式' })).toBeHidden();
+
+      await expect(toolbar.getByRole('button', { name: locale === 'en' ? 'More editing tools' : '更多编辑工具' })).toBeVisible();
+      const viewNav = page.getByRole('navigation', { name: locale === 'en' ? 'Mobile workspace actions' : '移动端工作区操作' });
+      await viewNav.getByRole('button', { name: locale === 'en' ? 'Markdown source editor' : 'Markdown 源码编辑模式' }).click();
+      await expect(toolbar).toBeHidden();
+      await expect(page.locator('.mobile-editor-format-toolbar')).toBeVisible();
+      await viewNav.getByRole('button', { name: locale === 'en' ? 'Form editor' : '表单编辑模式' }).click();
+      await expect(toolbar).toBeVisible();
 
       await page.getByRole('button', { name: locale === 'en' ? 'Open quick actions menu' : '打开快捷功能菜单' }).click();
       const quickActions = page.locator('#mobile-quick-actions');

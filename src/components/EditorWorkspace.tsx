@@ -10,6 +10,7 @@ import { useResumeActions } from '../hooks/useResumeActions';
 import { useToast } from './ui/Toast';
 import { smartAutoFit } from '../lib/preview-utils';
 import { Layers, Code, Eye } from 'lucide-react';
+import { PdfExportMenu } from './header/PdfExportMenu';
 import { Tooltip } from './ui/Tooltip';
 import { markSupportPrompt, recordCompletedPdfExportFlowAndShouldPrompt } from '../lib/support-prompt';
 import { trackAnalyticsEvent } from '../lib/analytics';
@@ -32,6 +33,16 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
   const [mobileTab, setMobileTab] = useState<'form' | 'markdown' | 'preview'>('form');
   const [editorMode, setEditorMode] = useState<EditorMode>('form');
 
+  useEffect(() => {
+    const showEditingTools = () => {
+      if (window.innerWidth >= 768 || mobileTab !== 'preview') return;
+      setEditorMode('form');
+      setMobileTab('form');
+    };
+    window.addEventListener('resume-craft:open-editor-tools', showEditingTools);
+    return () => window.removeEventListener('resume-craft:open-editor-tools', showEditingTools);
+  }, [mobileTab]);
+
   const {
     uiLanguage,
     layoutMode,
@@ -39,6 +50,8 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
     isHelpLegalOpen,
     setIsHelpLegalOpen,
     setStorageHealth,
+    isExportingPDF,
+    pdfExportProgress,
   } = useResumeStore(
     useShallow((state) => ({
       uiLanguage: state.uiLanguage,
@@ -47,6 +60,8 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
       isHelpLegalOpen: state.isHelpLegalOpen,
       setIsHelpLegalOpen: state.setIsHelpLegalOpen,
       setStorageHealth: state.setStorageHealth,
+      isExportingPDF: state.isExportingPDF,
+      pdfExportProgress: state.pdfExportProgress,
     })),
   );
 
@@ -159,6 +174,16 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
       window.removeEventListener('touchend', handleEnd);
     };
   }, [isDragging, splitRatio]);
+
+  useEffect(() => {
+    const onAutoFit = () => {
+      const state = useResumeStore.getState();
+      smartAutoFit(state.settings, state.updateSetting);
+      trackAnalyticsEvent('auto_fit_used');
+    };
+    window.addEventListener('resume-craft:auto-fit', onAutoFit);
+    return () => window.removeEventListener('resume-craft:auto-fit', onAutoFit);
+  }, []);
 
   const handlePdfExportComplete = useCallback(() => {
     if (recordCompletedPdfExportFlowAndShouldPrompt()) {
@@ -375,15 +400,73 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
             handleExportVectorPrint={handleExportVectorPrint}
             onNavigateToLanding={onNavigateToLanding}
           />
-          <Toolbar />
+          <div className="md:hidden flex items-center gap-2 px-2 py-1.5 border-b border-slate-200 dark:border-slate-800">
+          <nav
+            aria-label={uiLanguage === 'en' ? 'Mobile workspace actions' : '移动端工作区操作'}
+            className="flex-1 min-w-0 bg-slate-100 dark:bg-slate-800/80 rounded-xl p-1 grid grid-cols-3 gap-1 text-xs font-bold"
+          >
+            <button
+              type="button"
+              onClick={() => { setEditorMode('form'); setMobileTab('form'); window.dispatchEvent(new Event('resume-craft:close-editor-tools')); }}
+              aria-label={uiLanguage === 'en' ? 'Form editor' : '表单编辑模式'}
+              aria-pressed={mobileTab === 'form'}
+              className={`min-h-11 flex items-center justify-center gap-1 min-[390px]:gap-1.5 px-0.5 min-[390px]:px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
+                mobileTab === 'form'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700'
+              }`}
+            >
+              <Layers className="hidden min-[360px]:block w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>{uiLanguage === 'en' ? 'Form' : '表单'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => { setEditorMode('markdown'); setMobileTab('markdown'); window.dispatchEvent(new Event('resume-craft:close-editor-tools')); }}
+              aria-label={uiLanguage === 'en' ? 'Markdown source editor' : 'Markdown 源码编辑模式'}
+              aria-pressed={mobileTab === 'markdown'}
+              className={`min-h-11 flex items-center justify-center gap-1 min-[390px]:gap-1.5 px-0.5 min-[390px]:px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
+                mobileTab === 'markdown'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700'
+              }`}
+            >
+              <Code className="hidden min-[360px]:block w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>{uiLanguage === 'en' ? 'Code' : '源码'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => { setMobileTab('preview'); window.dispatchEvent(new Event('resume-craft:close-editor-tools')); }}
+              aria-label={uiLanguage === 'en' ? 'Preview' : '预览'}
+              aria-pressed={mobileTab === 'preview'}
+              className={`min-h-11 flex items-center justify-center gap-1 min-[390px]:gap-1.5 px-0.5 min-[390px]:px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
+                mobileTab === 'preview'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700'
+              }`}
+            >
+              <Eye className="hidden min-[360px]:block w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>{uiLanguage === 'en' ? 'Preview' : '预览'}</span>
+            </button>
+          </nav>
+            <PdfExportMenu
+              isEn={uiLanguage === 'en'}
+              isExporting={isExportingPDF}
+              progress={pdfExportProgress}
+              onExportAts={handleExportVectorPrint}
+              onExportQuick={handleExportDirectPDF}
+              compact
+            />
+          </div>
+          <Toolbar mobileMode={mobileTab} />
         </div>
 
         <main 
           ref={containerRef}
           className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden relative"
         >
-          {(!isMobile || mobileTab !== 'preview') && (
-            <section 
+          <section 
               id="editor-pane" 
               style={{
                 width: !isMobile ? (layoutMode === 'split' ? `${splitRatio}%` : layoutMode === 'editor' ? '100%' : '0%') : '100%'
@@ -391,12 +474,11 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
               className={`z-10 relative h-full ${
                 isDragging ? 'transition-none' : 'transition-[width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]'
               } ${
-                !isMobile && layoutMode === 'preview' ? 'hidden' : 'w-full'
+                (!isMobile && layoutMode === 'preview') || (isMobile && mobileTab === 'preview') ? 'hidden' : 'w-full'
               } border-r border-slate-200/90 dark:border-slate-800`}
             >
               <Editor activeMode={editorMode} onModeChange={setEditorMode} />
             </section>
-          )}
 
           {!isMobile && layoutMode === 'split' && (
             <Tooltip
@@ -444,61 +526,6 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
             <ResumeChecker />
           </Suspense>
         </main>
-
-        {/* Three mobile view tabs live in document flow, below the scrollable content.
-            Download remains accessible from the header's dedicated PDF menu. */}
-        {isMobile && (
-          <nav
-            aria-label={uiLanguage === 'en' ? 'Mobile workspace actions' : '移动端工作区操作'}
-            className="md:hidden relative z-30 shrink-0 mx-auto w-[calc(100vw-1rem)] max-w-md bg-slate-950/92 dark:bg-slate-800/95 border border-white/10 backdrop-blur-xl shadow-2xl rounded-2xl p-1.5 grid grid-cols-3 gap-1.5 text-xs font-bold text-white animate-in fade-in slide-in-from-bottom-3 duration-200"
-            style={{ marginTop: '0.5rem', marginBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}
-          >
-            <button
-              type="button"
-              onClick={() => { setEditorMode('form'); setMobileTab('form'); }}
-              aria-label={uiLanguage === 'en' ? 'Form editor' : '表单编辑模式'}
-              aria-pressed={mobileTab === 'form'}
-              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
-                mobileTab === 'form'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Layers className="w-4 h-4 shrink-0" aria-hidden="true" />
-              <span>{uiLanguage === 'en' ? 'Form' : '表单'}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => { setEditorMode('markdown'); setMobileTab('markdown'); }}
-              aria-label={uiLanguage === 'en' ? 'Markdown source editor' : 'Markdown 源码编辑模式'}
-              aria-pressed={mobileTab === 'markdown'}
-              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
-                mobileTab === 'markdown'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Code className="w-4 h-4 shrink-0" aria-hidden="true" />
-              <span>{uiLanguage === 'en' ? 'Code' : '源码'}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setMobileTab('preview')}
-              aria-label={uiLanguage === 'en' ? 'Preview' : '预览'}
-              aria-pressed={mobileTab === 'preview'}
-              className={`min-h-11 flex items-center justify-center gap-1.5 px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
-                mobileTab === 'preview'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Eye className="w-4 h-4 shrink-0" aria-hidden="true" />
-              <span>{uiLanguage === 'en' ? 'Preview' : '预览'}</span>
-            </button>
-          </nav>
-        )}
 
         <Suspense fallback={null}>
           <IframeWarningModal />

@@ -15,6 +15,7 @@ interface HeightGuardProps {
   isAutoFitting?: boolean;
   lang?: string;
   paperLabel?: string;
+  mobileSheet?: boolean;
 }
 
 const TRANSLATIONS = {
@@ -61,11 +62,13 @@ export const HeightGuard = React.memo(function HeightGuard({
   onSmartAutoFit, 
   isAutoFitting,
   lang = 'zh',
-  paperLabel = 'A4'
+  paperLabel = 'A4',
+  mobileSheet = false
 }: HeightGuardProps) {
   const t = lang === 'en' ? TRANSLATIONS.en : TRANSLATIONS.zh;
 
   const [isCollapsed, setIsCollapsed] = React.useState(() => {
+    if (mobileSheet) return false;
     try {
       return localStorage.getItem('height-guard-collapsed') === 'true';
     } catch (e) {
@@ -93,7 +96,7 @@ export const HeightGuard = React.memo(function HeightGuard({
         : 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 shadow-xs';
 
   return (
-    <div className="absolute bottom-5 right-5 z-40 select-none print:hidden pointer-events-auto">
+    <div className={mobileSheet ? 'relative z-40 w-full select-none pointer-events-auto' : 'absolute bottom-5 right-5 z-40 select-none print:hidden pointer-events-auto'}>
       <AnimatePresence mode="wait">
         {isCollapsed ? (
           <motion.button
@@ -139,7 +142,7 @@ export const HeightGuard = React.memo(function HeightGuard({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ type: 'spring', stiffness: 450, damping: 30 }}
-            className="max-w-[310px] w-full bg-white/95 dark:bg-slate-850/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-700/90 shadow-[0_16px_40px_rgba(15,23,42,0.18)] dark:shadow-[0_16px_40px_rgba(0,0,0,0.5)] rounded-2xl p-4 flex flex-col gap-3 transition-all"
+            className={`${mobileSheet ? 'max-w-none' : 'max-w-[310px]'} w-full bg-white/95 dark:bg-slate-850/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-700/90 shadow-[0_16px_40px_rgba(15,23,42,0.18)] dark:shadow-[0_16px_40px_rgba(0,0,0,0.5)] rounded-2xl p-4 flex flex-col gap-3 transition-all`}
           >
       {/* Header */}
       <div className="flex items-center justify-between">
