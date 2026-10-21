@@ -61,7 +61,7 @@ export const ZoomControls: React.FC<ZoomControlsProps> = React.memo(({
     <div 
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="absolute bottom-5 left-5 z-40 print:hidden hidden sm:flex items-center"
+      className="absolute bottom-5 left-5 z-40 print:hidden hidden md:flex items-center"
     >
       <AnimatePresence mode="wait">
         {!isHovered ? (
