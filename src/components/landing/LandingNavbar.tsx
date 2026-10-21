@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getProductDisplayName } from '../../lib/brand';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, QrCode, ArrowRight } from 'lucide-react';
 import { LanguageToggle } from '../ui/LanguageToggle';
 import { ThemeMode } from '../../types';
 import { Tooltip } from '../ui/Tooltip';
+import { LandingQrModal } from './LandingQrModal';
 
 export function GithubIcon({ className = 'w-4 h-4' }: { className?: string }) {
   return (
@@ -22,17 +23,21 @@ interface LandingNavbarProps {
   themeMode: ThemeMode;
   onToggleLanguage: () => void;
   onToggleTheme: () => void;
+  onOpenEditor: () => void;
 }
 
 export function LandingNavbar({
   isEn,
   themeMode,
   onToggleLanguage,
-  onToggleTheme
+  onToggleTheme,
+  onOpenEditor,
 }: LandingNavbarProps) {
+  const [isQrOpen, setIsQrOpen] = useState(false);
   return (
+    <>
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-[#070a13]/90 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Zone 1: Brand Wordmark */}
         <div className="flex items-center gap-3 shrink-0">
           <div className="w-9 h-9 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 rounded-xl text-white flex items-center justify-center font-black text-sm shadow-md shadow-indigo-500/20">
@@ -68,7 +73,7 @@ export function LandingNavbar({
         </nav>
 
         {/* Zone 3: Actions */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           {/* Global language toggle, shared with the editor beside Theme. */}
           <LanguageToggle isEn={isEn} onToggle={onToggleLanguage} />
 
@@ -89,7 +94,7 @@ export function LandingNavbar({
           </button>
 
           {/* Low-friction GitHub Star link, also accessible on mobile. */}
-          <Tooltip content={isEn ? 'Star Pagevela on GitHub' : '在 GitHub 上为 Pagevela 点 Star'} side="bottom">
+          <Tooltip content={isEn ? 'Star Pagevela on GitHub' : '在 GitHub 上为 Pagevela 点 Star'} side="bottom" wrapperClassName="hidden sm:inline-flex">
             <a
               href="https://github.com/kunlong-luo/pagevela"
               target="_blank"
@@ -102,9 +107,32 @@ export function LandingNavbar({
             </a>
           </Tooltip>
 
+          {/* The header QR always sits directly to the LEFT of the header Start button. */}
+          <Tooltip content={isEn ? 'Open on your phone' : '手机扫码打开'} side="bottom">
+            <button
+              type="button"
+              data-testid="landing-qr-trigger"
+              onClick={() => setIsQrOpen(true)}
+              aria-label={isEn ? 'Show mobile QR code' : '显示手机扫码二维码'}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:border-slate-800 dark:bg-slate-900 dark:text-indigo-300 dark:hover:bg-indigo-950/50"
+            >
+              <QrCode className="h-4.5 w-4.5" aria-hidden="true" />
+            </button>
+          </Tooltip>
+          <button
+            type="button"
+            data-testid="landing-navbar-start"
+            onClick={onOpenEditor}
+            className="inline-flex h-9 shrink-0 items-center justify-center gap-1 rounded-lg bg-indigo-600 px-2.5 text-xs font-bold text-white shadow-sm transition-colors hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 sm:px-3"
+          >
+            <span>{isEn ? 'Start' : '开始'}</span>
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </button>
 
         </div>
       </div>
     </header>
+    <LandingQrModal isOpen={isQrOpen} isEn={isEn} onClose={() => setIsQrOpen(false)} />
+    </>
   );
 }
