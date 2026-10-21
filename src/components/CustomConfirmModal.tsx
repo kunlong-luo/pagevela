@@ -77,7 +77,7 @@ export function CustomConfirmModal({
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
             className="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden z-10 flex flex-col transition-colors"
           >
             {/* Top decorative gradient line */}
