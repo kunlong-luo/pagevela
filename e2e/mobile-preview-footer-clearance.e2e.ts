@@ -31,10 +31,15 @@ async function assertTopNavigationAndBottomClear(page: Page) {
     element.scrollTop = element.scrollHeight;
     return Math.round(element.scrollTop + element.clientHeight - element.scrollHeight);
   }), { timeout: 8_000 }).toBeGreaterThanOrEqual(-2);
-  const bottom = await paper.evaluate(el => el.getBoundingClientRect().bottom);
-  const viewport = await scroller.boundingBox();
-  expect(viewport).not.toBeNull();
-  expect(bottom).toBeLessThanOrEqual(viewport!.y + viewport!.height + 4);
+  // Check the actual paper, not just the scrollbar's last position. WebKit
+  // may update the hidden pane's paper dimensions in a following animation
+  // frame, so keep the gesture active until both agree.
+  await expect.poll(() => scroller.evaluate(element => {
+    element.scrollTop = element.scrollHeight;
+    const paper = element.querySelector('#resume-print-content');
+    if (!paper) return Infinity;
+    return paper.getBoundingClientRect().bottom - element.getBoundingClientRect().bottom;
+  }), { timeout: 10_000 }).toBeLessThanOrEqual(4);
 
   // No permanent height card floats over the mobile preview.
   await expect(page.getByRole('button', { name: /Page count and Auto Fit settings|页数与智能单页设置/ })).toBeVisible();
