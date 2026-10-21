@@ -551,7 +551,7 @@ export function Header({
                     onSelect();
                     setIsMobileMenuOpen(false);
                   }}
-                  className={`min-h-12 min-w-0 inline-flex items-center justify-start gap-2.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-left text-xs font-bold text-slate-800 transition-colors hover:border-indigo-200 hover:bg-indigo-50 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200 dark:hover:border-indigo-700 dark:hover:bg-slate-800 ${fullWidth ? 'col-span-2' : ''}`}
+                  className={`h-14 min-w-0 inline-flex items-center justify-start gap-2.5 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-left text-xs font-bold text-slate-800 transition-colors hover:border-indigo-200 hover:bg-indigo-50 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200 dark:hover:border-indigo-700 dark:hover:bg-slate-800 ${fullWidth ? 'col-span-2' : ''}`}
                 >
                   <Icon className="h-4 w-4 shrink-0 text-indigo-500 dark:text-indigo-400" aria-hidden="true" />
                   <span className="min-w-0 leading-snug">{label}</span>
