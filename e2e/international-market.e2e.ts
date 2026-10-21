@@ -55,11 +55,11 @@ test.describe('international market flows', () => {
     await expect(preview).toBeVisible();
     const originalPreviewText = await preview.textContent();
     expect(originalPreviewText).not.toBeNull();
-    const uiLanguageSwitch = page.getByRole('button', { name: 'Toggle language' });
+    const uiLanguageSwitch = page.getByRole('button', { name: 'Switch interface to Chinese' });
     await expect(uiLanguageSwitch).toBeVisible();
     await expect(uiLanguageSwitch).toHaveText('中文');
     await uiLanguageSwitch.click();
-    await expect(uiLanguageSwitch).toHaveText('EN');
+    await expect(page.getByRole('button', { name: '切换界面为英文' })).toHaveText('EN');
     await expect.poll(() =>
       page.evaluate(() => window.localStorage.getItem('resume_ui_language')),
     ).toBe('zh');
@@ -104,7 +104,7 @@ test.describe('international market flows', () => {
     await page.goto('/?page=editor');
     await page.getByRole('button', { name: /Form editor|表单编辑/ }).click();
 
-    await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveText('中文');
+    await expect(page.getByRole('button', { name: 'Switch interface to Chinese' })).toHaveText('中文');
     await expect(page.getByTestId('resume-section-title').first()).toHaveValue('Work Experience');
     await expect(page.locator('#resume-print-content h2').filter({ hasText: /^工作经历$/ })).toBeVisible();
 
@@ -134,7 +134,7 @@ test.describe('international market flows', () => {
     await page.goto('/?page=editor');
     await page.getByRole('button', { name: /Form editor|表单编辑/ }).click();
 
-    await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveText('EN');
+    await expect(page.getByRole('button', { name: '切换界面为英文' })).toHaveText('EN');
     await expect(page.getByTestId('resume-section-title').first()).toHaveValue('工作经历');
     await expect(page.locator('#resume-print-content h2').filter({ hasText: /^Work Experience$/ })).toBeVisible();
     await expect(page.getByRole('button').filter({ hasText: '工作经历' }).first()).toBeVisible();
@@ -172,7 +172,7 @@ test.describe('international market flows', () => {
       await expect(headingInputs.nth(index)).toHaveValue(heading);
     }
 
-    await page.getByRole('button', { name: 'Toggle language' }).click();
+    await page.getByRole('button', { name: 'Switch interface to Chinese' }).click();
 
     for (const [index, heading] of ['个人优势', '工作经历', '教育背景'].entries()) {
       await expect(headingInputs.nth(index)).toHaveValue(heading);
@@ -187,7 +187,7 @@ test.describe('international market flows', () => {
     await expect.poll(() => readActiveMarkdown(page)).toBe(markdown);
     await expect(page.locator('#resume-print-content h2').filter({ hasText: /^Work Experience$/ })).toBeVisible();
 
-    await page.getByRole('button', { name: 'Toggle language' }).click();
+    await page.getByRole('button', { name: '切换界面为英文' }).click();
     await expect(headingInputs.nth(1)).toHaveValue('Work Experience');
     await expect.poll(() => readActiveMarkdown(page)).toBe(markdown);
   });
@@ -218,9 +218,9 @@ test.describe('international market flows', () => {
 
     await page.goto('/?page=editor');
 
-    await page.getByRole('button', { name: 'Toggle language' }).click();
+    await page.getByRole('button', { name: 'Switch interface to Chinese' }).click();
 
-    await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveText('EN');
+    await expect(page.getByRole('button', { name: '切换界面为英文' })).toHaveText('EN');
     await expect.poll(() =>
       page.evaluate(() => JSON.parse(window.localStorage.getItem('resume-settings') || '{}').lang),
     ).toBe('en');
@@ -230,7 +230,7 @@ test.describe('international market flows', () => {
     await presentToggle.click();
 
     await expect.poll(() => readActiveMarkdown(page)).toContain('Present');
-    await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveText('EN');
+    await expect(page.getByRole('button', { name: '切换界面为英文' })).toHaveText('EN');
   });
 
   test('download menu keeps Chinese Canada market label on one line', async ({ page }) => {
