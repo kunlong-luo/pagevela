@@ -143,9 +143,10 @@ test.describe('international responsive UX', () => {
     });
     await expectInsideViewport(dock, 390, 844);
 
-    // The dock now exports the default ATS PDF immediately; advanced formats
-    // remain reachable via the separate header chevron.
-    await expect(dock.getByRole('button', { name: /Export ATS PDF|导出 ATS PDF/ })).toBeVisible();
+    // View switching lives in the dock; PDF export stays in the header menu.
+    await expect(dock.getByRole('button', { name: /Form editor|表单编辑模式/ })).toBeVisible();
+    await expect(dock.getByRole('button', { name: /Markdown source editor|Markdown 源码编辑模式/ })).toBeVisible();
+    await expect(dock.getByRole('button', { name: /Preview|预览/ })).toBeVisible();
     await page.getByRole('button', { name: /Choose PDF export mode|选择 PDF 下载方式/ }).click();
     const dockDownloadDialog = page.getByRole('dialog', {
       name: /Download options|下载选项/,
