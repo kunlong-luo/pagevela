@@ -861,7 +861,7 @@ export const Editor = React.memo(function Editor({ activeMode: controlledMode, o
                   handleAutoSpacing();
                 }
               }}
-              placeholder="Type your resume in Markdown here..."
+              placeholder={isUiEn ? 'Type your resume in Markdown here...' : '在此使用 Markdown 编写简历...'}
               spellCheck="false"
             />
             </div>
