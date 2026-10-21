@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 for (const language of ['zh', 'en'] as const) {
-  for (const width of [375, 1280]) {
+  for (const width of [320, 375, 768, 1024, 1280]) {
     test(`welcome QR opens scannable official link: ${language} at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 780 });
       await page.addInitScript(lang => localStorage.setItem('resume_ui_language', lang), language);
