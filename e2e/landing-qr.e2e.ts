@@ -8,9 +8,15 @@ for (const language of ['zh', 'en'] as const) {
       await page.goto('/');
 
       const qrButton = page.getByTestId('landing-qr-trigger');
-      const startButton = page.getByTestId('landing-hero-cta');
+      const startButton = page.getByTestId('landing-navbar-start');
+      const heroStart = page.getByTestId('landing-hero-cta');
       await expect(qrButton).toBeVisible();
       await expect(startButton).toBeVisible();
+      await expect(heroStart).toBeVisible();
+      await expect(qrButton.locator('xpath=ancestor::header')).toBeVisible();
+      await expect(page.locator('main [data-testid="landing-qr-trigger"]')).toHaveCount(0);
+      const pageOverflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      expect(pageOverflow).toBeLessThanOrEqual(1);
       const qrPosition = await qrButton.boundingBox();
       const startPosition = await startButton.boundingBox();
       expect(qrPosition).not.toBeNull();
