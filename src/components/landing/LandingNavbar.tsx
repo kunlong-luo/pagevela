@@ -54,7 +54,7 @@ export function LandingNavbar({
         </div>
 
         {/* Navigation follows the landing sections from top to bottom. */}
-        <nav aria-label={isEn ? 'Page sections' : '页面章节'} className="hidden md:flex items-center gap-4 lg:gap-6 text-sm font-semibold text-slate-600 dark:text-slate-300">
+        <nav aria-label={isEn ? 'Page sections' : '页面章节'} className="hidden xl:flex items-center gap-4 xl:gap-5 text-sm font-semibold text-slate-600 dark:text-slate-300">
           <a href="#showcase" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors whitespace-nowrap">
             {isEn ? 'Interactive Demo' : '界面预览'}
           </a>
@@ -93,7 +93,7 @@ export function LandingNavbar({
             )}
           </button>
 
-          {/* Low-friction GitHub Star link, also accessible on mobile. */}
+          {/* GitHub Star is also linked in the hero on mobile, leaving room for QR + Start here. */}
           <Tooltip content={isEn ? 'Star Pagevela on GitHub' : '在 GitHub 上为 Pagevela 点 Star'} side="bottom" wrapperClassName="hidden sm:inline-flex">
             <a
               href="https://github.com/kunlong-luo/pagevela"
