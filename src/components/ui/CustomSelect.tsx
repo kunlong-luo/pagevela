@@ -227,7 +227,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                   max-w-[min(320px,calc(100vw-24px))] w-max
                   bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl
                   shadow-[0_12px_30px_-4px_rgba(15,23,42,0.16),0_4px_8px_-2px_rgba(15,23,42,0.06)] dark:shadow-[0_16px_36px_rgba(0,0,0,0.6)]
-                  p-1 overflow-y-auto ${maxMenuHeight} scrollbar-thin
+                  p-1 overflow-y-auto ${maxMenuHeight} workspace-scrollbar
                   ${menuClassName}
                 `}
               >
