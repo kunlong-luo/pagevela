@@ -237,7 +237,7 @@ export function ResumeChecker(props: ResumeCheckerProps = {}) {
           </div>
 
           {/* Body Content */}
-          <div className="flex-1 overflow-y-auto p-4 scrollbar-thin">
+          <div className="flex-1 overflow-y-auto p-4 workspace-scrollbar">
             <AnimatePresence mode="wait" initial={false}>
               {activeTab === 'diagnostics' ? (
                 <motion.div 
