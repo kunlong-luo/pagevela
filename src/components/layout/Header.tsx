@@ -493,7 +493,6 @@ export function Header({
                   onClick={(e) => { toggleThemeMode(e); setIsMobileMenuOpen(false); }}
                   className="min-h-12 w-full inline-flex items-center justify-start gap-2.5 p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
                   aria-label={`${isEn ? 'Theme' : '主题'}: ${themeLabel}`}
-                  title={`${isEn ? 'Theme' : '主题'}: ${themeLabel}`}
                 >
                   {themeMode === 'dark' ? <Moon className="w-4 h-4 text-indigo-400 shrink-0" /> : themeMode === 'system' ? <Laptop className="w-4 h-4 text-indigo-500 shrink-0" /> : <Sun className="w-4 h-4 text-amber-500 shrink-0" />}
                   <span>{isEn ? 'Theme' : '主题'}</span>
