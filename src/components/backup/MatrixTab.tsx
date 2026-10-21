@@ -13,6 +13,7 @@ import { splitMarkdownIntoSections } from '../../lib/markdown-utils';
 import { CustomSelect } from '../ui/CustomSelect';
 import { storage, STORAGE_KEYS } from '../../lib/storage';
 import { trackAnalyticsEvent } from '../../lib/analytics';
+import { createMatrixSeedVersions } from '../../lib/matrix-seeds';
 
 interface MatrixTabProps {
   currentMarkdown: string;
@@ -49,25 +50,14 @@ export function MatrixTab({ currentMarkdown, currentSettings, onRestore, lang, s
       if (saved && Array.isArray(saved) && saved.length > 0) {
         setMatrixVersions(saved);
       } else {
-        // Seed default template folders to show user how they look
-        const defaultSeeds: ResumeDraft[] = [
-          {
-            id: 'matrix_seed_frontend',
-            title: isEn ? 'Frontend Engineer Version' : '前端开发岗位版',
-            markdown: currentMarkdown.replace('# 姓名', '# 姓名 ｜ 前端研发工程师'),
-            settings: { ...currentSettings, themeColor: 'blue' },
-            timestamp: new Date().toLocaleString(isEn ? 'en-US' : 'zh-CN', { hour12: false }),
-            isAutoSave: false
-          },
-          {
-            id: 'matrix_seed_fullstack',
-            title: isEn ? 'Fullstack Dev Version' : '全栈工程师岗位版',
-            markdown: currentMarkdown.replace('# 姓名', '# 姓名 ｜ 核心全栈技术负责人'),
-            settings: { ...currentSettings, themeColor: 'indigo' },
-            timestamp: new Date().toLocaleString(isEn ? 'en-US' : 'zh-CN', { hour12: false }),
-            isAutoSave: false
-          }
-        ];
+        // Seed copies use the resume content language, independently of UI labels.
+        // Existing saved versions remain untouched when the language toggles.
+        const defaultSeeds = createMatrixSeedVersions(
+          currentMarkdown,
+          currentSettings,
+          isEn ? 'en' : 'zh',
+          new Date().toLocaleString(isEn ? 'en-US' : 'zh-CN', { hour12: false }),
+        );
         storage.set(STORAGE_KEYS.MATRIX, defaultSeeds);
         setMatrixVersions(defaultSeeds);
       }
