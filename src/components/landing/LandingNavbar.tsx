@@ -76,7 +76,9 @@ export function LandingNavbar({
           <button
             type="button"
             onClick={onToggleTheme}
-            aria-label="Toggle theme"
+            aria-label={themeMode === 'dark'
+              ? (isEn ? 'Switch to light theme' : '切换为浅色主题')
+              : (isEn ? 'Switch to dark theme' : '切换为深色主题')}
             className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-all cursor-pointer"
           >
             {themeMode === 'dark' ? (
