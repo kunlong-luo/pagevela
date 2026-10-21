@@ -65,3 +65,49 @@ test('mobile header menus remain usable on narrow Chinese mobile screens', async
   await page.getByRole('button', { name: '打开简历切换器' }).click();
   await expectOverlayUsableAboveWorkspace(page, '#resume-profile-panel');
 });
+
+
+for (const width of [640, 767]) {
+  test('mobile-tablet dialogs stay bottom-sheet based until 768px at ' + width, async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await page.addInitScript(() => {
+      localStorage.setItem('resume-onboarding-v1-complete', '1');
+      localStorage.setItem('resume_ui_language', 'en');
+    });
+    await page.goto('/?page=editor');
+
+    const nav = page.getByRole('navigation', { name: 'Mobile workspace actions' });
+    await expect(nav).toBeVisible();
+
+    await page.getByRole('button', { name: 'Choose PDF export mode' }).click();
+    const pdf = page.getByRole('dialog', { name: 'Download options' });
+    await expect(pdf).toBeVisible();
+    expect(await pdf.evaluate(el => getComputedStyle(el).position)).toBe('fixed');
+    await page.keyboard.press('Escape');
+    await expect(pdf).toBeHidden();
+
+    await page.getByRole('button', { name: 'Open resume switcher' }).click();
+    const profiles = page.getByRole('dialog', { name: 'Resume switcher' });
+    await expect(profiles).toBeVisible();
+    expect(await profiles.evaluate(el => getComputedStyle(el).position)).toBe('fixed');
+    await page.keyboard.press('Escape');
+    await expect(profiles).toBeHidden();
+
+    const toolbar = page.locator('#resume-main-toolbar');
+    await toolbar.getByRole('button', { name: 'Open layout settings' }).click();
+    const layout = page.getByRole('dialog', { name: 'Layout', exact: true });
+    await expect(layout).toBeVisible();
+    const rect = await layout.boundingBox();
+    expect(rect).not.toBeNull();
+    expect(rect!.y + rect!.height).toBeLessThanOrEqual(800);
+    expect(rect!.x).toBeGreaterThanOrEqual(0);
+    await page.keyboard.press('Escape');
+    await expect(layout).toBeHidden();
+
+    await nav.getByRole('button', { name: 'Preview' }).click();
+    await expect(page.getByRole('button', { name: 'Page count and Auto Fit settings' })).toBeVisible();
+    await expect(page.locator('.resume-wrapper')).toBeVisible();
+    // This is a single-pane mobile workspace: desktop zoom and height overlays are absent.
+    await expect(page.getByRole('button', { name: /Expand A4 Height Guard|Collapse A4 Height Guard/ })).toBeHidden();
+  });
+}
