@@ -140,9 +140,10 @@ export function usePaperMeasurement(
         }
       });
 
-      const effectiveHeight = maxContentBottom > 0
-        ? Math.max(pHeight, maxContentBottom + 16)
-        : Math.max(pHeight, height);
+      // The paper's own box may extend beyond individually measured section
+      // nodes (padding, font reflow and WebKit's initial hidden-pane layout).
+      // Reserve space for the *whole* transformed paper, not only its children.
+      const effectiveHeight = Math.max(pHeight, height, element.scrollHeight, maxContentBottom + 16);
 
       setUnscaledHeight((prev) => Math.abs(prev - effectiveHeight) > 0.5 ? effectiveHeight : prev);
 

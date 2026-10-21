@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { X } from 'lucide-react';
 import { useDialogFocus } from '../../hooks/useDialogFocus';
+import { useTranslation } from '../../i18n';
 
 interface SettingsPopoverProps {
   isOpen: boolean;
@@ -24,6 +25,7 @@ export function SettingsPopover({
   icon,
   children,
 }: SettingsPopoverProps) {
+  const { lang } = useTranslation();
   const dialogRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState<{ top: number; right: number } | null>(null);
   const [isMobile, setIsMobile] = useState(() =>
@@ -77,7 +79,7 @@ export function SettingsPopover({
         <>
           <motion.button
             type="button"
-            aria-label="Close settings panel"
+            aria-label={lang === 'en' ? 'Close settings panel' : '关闭设置面板'}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

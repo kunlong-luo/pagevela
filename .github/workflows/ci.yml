@@ -42,6 +42,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Audit bilingual UI labels
+        run: pnpm run i18n:audit
+
       - name: Typecheck
         run: pnpm run typecheck
 
@@ -133,6 +136,7 @@ jobs:
           e2e/critical-flows.e2e.ts
           e2e/accessibility.e2e.ts
           e2e/simplified-layout.e2e.ts
+          e2e/mobile-preview-footer-clearance.e2e.ts
           e2e/onboarding.e2e.ts
           --project=firefox
           --project=webkit

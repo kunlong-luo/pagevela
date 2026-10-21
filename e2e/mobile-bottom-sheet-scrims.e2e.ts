@@ -59,7 +59,7 @@ for (const language of ['zh', 'en'] as const) {
     await layout.click();
     const layoutDialog = page.getByRole('dialog', { name: language === 'en' ? 'Layout' : '排版' });
     await expect(layoutDialog).toBeVisible();
-    const settingsScrim = page.getByRole('button', { name: 'Close settings panel' });
+    const settingsScrim = page.getByRole('button', { name: language === 'en' ? 'Close settings panel' : '关闭设置面板' });
     await expectDimmedScrim(settingsScrim, page);
     await settingsScrim.click({ position: { x: 8, y: 8 } });
     await expect(layoutDialog).not.toBeVisible();
@@ -68,7 +68,7 @@ for (const language of ['zh', 'en'] as const) {
     await style.click();
     const styleDialog = page.getByRole('dialog', { name: language === 'en' ? 'Style' : '样式' });
     await expect(styleDialog).toBeVisible();
-    await expectDimmedScrim(page.getByRole('button', { name: 'Close settings panel' }), page);
+    await expectDimmedScrim(page.getByRole('button', { name: language === 'en' ? 'Close settings panel' : '关闭设置面板' }), page);
     await page.keyboard.press('Escape');
     await expect(styleDialog).not.toBeVisible();
   });

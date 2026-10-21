@@ -17,6 +17,7 @@
     "test": "vitest run",
     "clean": "rm -rf dist server.js",
     "lint": "eslint \"src/**/*.{ts,tsx}\" \"e2e/**/*.ts\" vite.config.ts playwright.config.ts",
+    "i18n:audit": "node scripts/check-localization.mjs",
     "check:stable-deps": "node scripts/check-stable-dependencies.mjs",
     "typecheck": "node node_modules/@typescript/native/bin/tsc --noEmit",
     "typecheck:critical": "node node_modules/@typescript/native/bin/tsc -p tsconfig.strict-critical.json --noEmit",
