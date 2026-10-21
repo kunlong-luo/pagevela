@@ -524,7 +524,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
             </div>
 
             {/* Modal Body */}
-            <div className="p-5 overflow-y-auto max-h-[60vh]">
+            <div className="p-5 overflow-y-auto workspace-scrollbar max-h-[60vh]">
               {activeTab === 'file' ? (
                 <div>
                   {isParsingPdf ? (

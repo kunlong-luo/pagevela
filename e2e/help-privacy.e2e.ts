@@ -57,3 +57,43 @@ test('clear local data is scoped and requires confirmation', async ({ page }) =>
   expect(values.supportCurrent).toBeNull();
   expect(values.unrelated).toBe('keep-me');
 });
+
+
+for (const language of ['zh', 'en'] as const) {
+  test(`help and privacy use the branded capsule scrollbar: ${language}`, async ({ page, browserName }) => {
+    await page.setViewportSize({ width: 1280, height: 640 });
+    await page.addInitScript(lang => localStorage.setItem('resume_ui_language', lang), language);
+    await page.goto('/?page=editor');
+    await page.getByRole('button', { name: language === 'en' ? 'More actions' : '更多操作' }).click();
+    await page.getByRole('button', { name: language === 'en' ? 'Help' : '帮助' }).click();
+
+    const dialog = page.getByRole('dialog', { name: language === 'en' ? 'Help & Privacy' : '帮助与隐私' });
+    const scroller = dialog.getByTestId('help-dialog-scroller');
+    await expect(scroller).toBeVisible();
+    await expect(scroller).toHaveClass(/workspace-scrollbar/);
+    const style = await scroller.evaluate(element => ({
+      overflowY: getComputedStyle(element).overflowY,
+      webkitWidth: getComputedStyle(element, '::-webkit-scrollbar').width,
+      standardWidth: getComputedStyle(element).scrollbarWidth,
+      scrollRange: element.scrollHeight - element.clientHeight,
+    }));
+    expect(style.overflowY).toBe('auto');
+    expect(style.scrollRange).toBeGreaterThan(0);
+    if (browserName === 'chromium') {
+      expect(style.standardWidth).toBe('auto');
+      expect(style.webkitWidth).toBe('5px');
+    }
+    if (browserName === 'firefox') {
+      expect(style.standardWidth).toBe('thin');
+    }
+    await scroller.evaluate(element => { element.scrollTop = element.scrollHeight; });
+    await expect.poll(() => scroller.evaluate(element => Math.round(
+      element.scrollTop + element.clientHeight - element.scrollHeight,
+    ))).toBeGreaterThanOrEqual(-2);
+
+    await dialog.getByRole('button', { name: language === 'en' ? 'Privacy' : '隐私与数据' }).click();
+    await expect(scroller).toHaveClass(/workspace-scrollbar/);
+    await dialog.getByRole('button', { name: language === 'en' ? 'Open Source' : '开源' }).click();
+    await expect(scroller).toHaveClass(/workspace-scrollbar/);
+  });
+}

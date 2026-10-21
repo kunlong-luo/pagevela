@@ -371,8 +371,8 @@ export function TemplateCenterModal({
           </div>
         </div>
 
-        <div className="grid min-h-0 flex-1 overflow-y-auto lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] lg:overflow-hidden">
-          <div className="min-h-0 border-b border-slate-200 p-4 dark:border-slate-800 sm:p-5 lg:overflow-y-auto lg:border-b-0 lg:border-r">
+        <div className="grid min-h-0 flex-1 overflow-y-auto workspace-scrollbar lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] lg:overflow-hidden">
+          <div className="min-h-0 border-b border-slate-200 p-4 dark:border-slate-800 sm:p-5 lg:overflow-y-auto lg:workspace-scrollbar lg:border-b-0 lg:border-r">
             <div className="grid grid-cols-1 min-[390px]:grid-cols-2 gap-3 sm:grid-cols-3">
               {visibleTemplates.map(({ template, presentation }) => {
                 const selected = template.id === selectedId;
@@ -442,7 +442,7 @@ export function TemplateCenterModal({
             </div>
           </div>
 
-          <div className="min-h-0 bg-slate-50/80 p-5 dark:bg-slate-950/35 sm:p-6 lg:overflow-y-auto">
+          <div className="min-h-0 bg-slate-50/80 p-5 dark:bg-slate-950/35 sm:p-6 lg:overflow-y-auto lg:workspace-scrollbar">
             <div className="mx-auto max-w-sm">
               <MiniResumePreview content={selectedTemplate.content} paperSize={selectedTemplate.defaultPaperSize} targetLang={selectedTemplate.suggestedLang} />
 

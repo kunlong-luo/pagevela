@@ -9,6 +9,7 @@ export interface SelectOption {
   label: string;
   icon?: React.ReactNode;
   disabled?: boolean;
+  group?: string;
 }
 
 interface CustomSelectProps {
@@ -25,6 +26,7 @@ interface CustomSelectProps {
   dropUp?: boolean;
   maxMenuHeight?: string;
   id?: string;
+  ariaLabel?: string;
   compact?: boolean;
 }
 
@@ -42,6 +44,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
   dropUp = false,
   maxMenuHeight = 'max-h-64',
   id,
+  ariaLabel,
   compact = false,
 }) => {
   const uiLanguage = useResumeStore((state) => state.uiLanguage);
@@ -177,7 +180,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
         onClick={handleToggle}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        aria-label={selectedOption?.label || placeholder}
+        aria-label={ariaLabel || selectedOption?.label || placeholder}
         className={`
           ${sizeClasses[size]}
           ${defaultTriggerStyles}
@@ -227,7 +230,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                   max-w-[min(320px,calc(100vw-24px))] w-max
                   bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl
                   shadow-[0_12px_30px_-4px_rgba(15,23,42,0.16),0_4px_8px_-2px_rgba(15,23,42,0.06)] dark:shadow-[0_16px_36px_rgba(0,0,0,0.6)]
-                  p-1 overflow-y-auto ${maxMenuHeight} scrollbar-thin
+                  p-1 overflow-y-auto ${maxMenuHeight} workspace-scrollbar
                   ${menuClassName}
                 `}
               >
@@ -238,8 +241,13 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                     const isSelected = option.value === value;
                     const isBlankOption = !option.label || option.label.trim() === '';
                     return (
+                      <React.Fragment key={option.value || `__empty_${idx}`}>
+                        {option.group && options[idx - 1]?.group !== option.group && (
+                          <div role="presentation" className="px-2.5 pb-1 pt-2 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                            {option.group}
+                          </div>
+                        )}
                       <button
-                        key={option.value || `__empty_${idx}`}
                         type="button"
                         role="option"
                         aria-selected={isSelected}
@@ -276,6 +284,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                           <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0 ml-1" />
                         )}
                       </button>
+                      </React.Fragment>
                     );
                   })
                 )}

@@ -77,7 +77,7 @@ Requirements:
     : { border: 'border-rose-200 dark:border-rose-800 bg-rose-50/40 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300', text: 'text-rose-600 dark:text-rose-400', ring: 'stroke-rose-500', bar: 'bg-rose-500', desc: isEn ? 'Low match. Critical keywords are missing.' : '匹配度偏低。建议根据下方分析，重点重构并补充相关工作技能。' };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 sm:space-y-5 bg-slate-50/50 dark:bg-slate-900/40 scrollbar-thin">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 sm:space-y-5 bg-slate-50/50 dark:bg-slate-900/40 workspace-scrollbar">
       <div className="space-y-1">
         <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
           <Target className="w-4 h-4 text-indigo-600 dark:text-indigo-400 animate-pulse" />

@@ -3,6 +3,7 @@ import { Phone } from 'lucide-react';
 import type { CountryCode } from 'libphonenumber-js/min';
 import { useResumeStore } from '../../store/useResumeStore';
 import { storage, STORAGE_KEYS } from '../../lib/storage';
+import { CustomSelect } from '../ui/CustomSelect';
 import {
   formatPhoneDraft,
   getPhoneRegionOptions,
@@ -72,8 +73,16 @@ export function InternationalPhoneField({
   }, [activeProfileId, region, value]);
 
   const options = useMemo(() => getPhoneRegionOptions(lang), [lang]);
-  const popular = options.filter((option) => option.priority);
-  const other = options.filter((option) => !option.priority);
+  const regionOptions = useMemo(() => [
+    { value: '', label: lang === 'en' ? 'Country / region' : '国家 / 地区' },
+    ...options.map(option => ({
+      value: option.code,
+      label: `${option.name} +${option.callingCode}`,
+      group: option.priority
+        ? (lang === 'en' ? 'Popular' : '常用地区')
+        : (lang === 'en' ? 'All countries & regions' : '全部国家与地区'),
+    })),
+  ], [lang, options]);
 
   const handleRegionChange = (next: string) => {
     const nextRegion = next as PhoneRegionCode;
@@ -108,38 +117,17 @@ export function InternationalPhoneField({
       </label>
 
       <div className="grid grid-cols-[minmax(118px,0.8fr)_minmax(0,1.7fr)] gap-2">
-        <div className="relative">
-          <select
-            value={region}
-            onChange={(event) => handleRegionChange(event.target.value)}
-            aria-label={lang === 'en' ? 'Country or region' : '国家或地区'}
-            className="h-full min-h-10 w-full appearance-none rounded-lg border border-slate-200/90 bg-white px-2.5 pr-7 text-[11px] font-semibold text-slate-700 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
-          >
-            <option value="">
-              {lang === 'en' ? 'Country / region' : '国家 / 地区'}
-            </option>
-            <optgroup label={lang === 'en' ? 'Popular' : '常用地区'}>
-              {popular.map((option) => (
-                <option key={option.code} value={option.code}>
-                  {option.name} +{option.callingCode}
-                </option>
-              ))}
-            </optgroup>
-            <optgroup label={lang === 'en' ? 'All countries & regions' : '全部国家与地区'}>
-              {other.map((option) => (
-                <option key={option.code} value={option.code}>
-                  {option.name} +{option.callingCode}
-                </option>
-              ))}
-            </optgroup>
-          </select>
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400"
-          >
-            ▾
-          </span>
-        </div>
+        <CustomSelect
+          value={region}
+          onChange={handleRegionChange}
+          ariaLabel={lang === 'en' ? 'Country or region' : '国家或地区'}
+          placeholder={lang === 'en' ? 'Country / region' : '国家 / 地区'}
+          options={regionOptions}
+          className="w-full min-w-0"
+          triggerClassName="w-full min-w-0 !h-auto min-h-10"
+          maxMenuHeight="max-h-72"
+          size="md"
+        />
 
         <div className="relative">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">

@@ -454,7 +454,7 @@ export function Header({
             role="dialog"
             aria-modal="true"
             aria-label={isEn ? 'Quick Actions' : '快捷功能菜单'}
-            className="relative z-[100] bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 rounded-t-3xl p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col gap-3 shadow-2xl max-h-[82dvh] overflow-y-auto overscroll-contain"
+            className="relative z-[100] bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 rounded-t-3xl p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col gap-3 shadow-2xl max-h-[82dvh] overflow-y-auto overscroll-contain workspace-scrollbar"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
