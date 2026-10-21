@@ -42,7 +42,7 @@ async function assertTopNavigationAndBottomClear(page: Page) {
 }
 
 for (const lang of ['zh', 'en'] as const) {
-  for (const size of [{ width: 320, height: 568 }, { width: 390, height: 700 }, { width: 390, height: 560 }]) {
+  for (const size of [{ width: 320, height: 568 }, { width: 390, height: 700 }, { width: 390, height: 560 }, { width: 640, height: 700 }, { width: 767, height: 700 }]) {
     test('top nav does not overlap preview bottom: ' + lang + ' ' + size.width + 'x' + size.height, async ({ page }) => {
       await page.setViewportSize(size);
       await page.addInitScript(language => {
