@@ -104,7 +104,14 @@ function highlightMarkdown(text: string): string {
 }
 
 // Props are refactored to use Zustand global store
-export const Editor = React.memo(function Editor() {
+export type EditorMode = 'markdown' | 'form' | 'layout';
+
+interface EditorProps {
+  activeMode?: EditorMode;
+  onModeChange?: (mode: EditorMode) => void;
+}
+
+export const Editor = React.memo(function Editor({ activeMode: controlledMode, onModeChange }: EditorProps) {
   const {
     value,
     onChange,
@@ -197,7 +204,12 @@ export const Editor = React.memo(function Editor() {
   };
 
   const [copied, setCopied] = useState(false);
-  const [activeMode, setActiveMode] = useState<'markdown' | 'form' | 'layout'>('form');
+  const [localMode, setLocalMode] = useState<EditorMode>('form');
+  const activeMode = controlledMode ?? localMode;
+  const setActiveMode = (mode: EditorMode) => {
+    if (onModeChange) onModeChange(mode);
+    else setLocalMode(mode);
+  };
   const [formExpandedState, setFormExpandedState] = useState<{ isAllExpanded: boolean; hasSections: boolean }>({
     isAllExpanded: true,
     hasSections: true
@@ -317,9 +329,9 @@ export const Editor = React.memo(function Editor() {
       <div className="mobile-editor-header flex flex-col items-stretch md:flex-row md:items-center md:justify-between px-2.5 sm:px-6 py-1.5 sm:py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 gap-1.5 sm:gap-3 relative min-w-0 md:overflow-x-auto scrollbar-none">
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-indigo-600 dark:bg-indigo-500 rounded-r"></div>
         
-        {/* One visible, four-action mobile row: Form / Source / Fit / Check. */}
-        <div data-testid="mobile-editor-primary-actions" className="grid grid-cols-4 gap-1 w-full min-w-0 md:flex md:w-auto md:shrink-0 md:gap-0">
-        <div className="relative col-span-2 grid grid-cols-2 md:flex min-w-0 bg-slate-100 dark:bg-slate-800/90 p-0.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner">
+        {/* Mobile view switching lives in the in-flow footer; keep editing tools here. */}
+        <div data-testid="mobile-editor-primary-actions" className="grid grid-cols-2 gap-1 w-full min-w-0 md:flex md:w-auto md:shrink-0 md:gap-0">
+        <div className="relative hidden md:flex min-w-0 bg-slate-100 dark:bg-slate-800/90 p-0.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner">
           <button
             type="button"
             onClick={() => setActiveMode('form')}
