@@ -18,7 +18,7 @@ for (const locale of ['zh', 'en'] as const) {
       const bounds = [];
 
       await expect(toolbar.getByRole('group', { name: locale === 'en' ? 'Interface language' : '界面语言' })).toHaveCount(0);
-      await expect(toolbar.getByRole('button', { name: 'Toggle language' })).toHaveCount(0);
+      await expect(toolbar.getByRole('button', { name: locale === 'en' ? 'Switch interface to Chinese' : '切换界面为英文' })).toHaveCount(0);
       for (const [index, button] of [template, layout, style].entries()) {
         await expect(button).toBeVisible();
         await expect(button.locator('span:visible')).toHaveText(labels[index]);
@@ -57,12 +57,12 @@ for (const locale of ['zh', 'en'] as const) {
 
       await page.getByRole('button', { name: locale === 'en' ? 'Open quick actions menu' : '打开快捷功能菜单' }).click();
       const quickActions = page.locator('#mobile-quick-actions');
-      const languageButton = quickActions.getByRole('button', { name: 'Toggle language' });
+      const languageButton = quickActions.getByRole('button', { name: locale === 'en' ? 'Switch interface to Chinese' : '切换界面为英文' });
       const themeButton = quickActions.getByRole('button', { name: /^(Theme|主题):/ });
       await expect(languageButton).toBeVisible();
       await expect(themeButton).toBeVisible();
       const alignment = await page.evaluate(() => {
-        const language = document.querySelector('#mobile-quick-actions button[aria-label="Toggle language"]');
+        const language = document.querySelector('#mobile-quick-actions button[aria-label="Switch interface to Chinese"], #mobile-quick-actions button[aria-label="切换界面为英文"]');
         const theme = document.querySelector('#mobile-quick-actions button[aria-label^="Theme:"], #mobile-quick-actions button[aria-label^="主题:"]');
         if (!language || !theme) throw new Error('Missing global buttons');
         return [language, theme].map(button => {
@@ -92,11 +92,11 @@ test('desktop language remains beside Theme and Edit/Split/Preview controls rema
   const toolbar = page.locator('#resume-main-toolbar');
   const header = page.getByRole('banner');
   await expect(toolbar.getByRole('group', { name: 'Interface language' })).toHaveCount(0);
-  const language = header.getByRole('button', { name: 'Toggle language' });
+  const language = header.getByRole('button', { name: 'Switch interface to Chinese' });
   const theme = header.getByRole('button', { name: /^Theme:/ });
   await expect(language).toBeVisible();
   await expect(theme).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Toggle language' })).toHaveCount(1);
+  await expect(page.getByRole('button', { name: 'Switch interface to Chinese' })).toHaveCount(1);
   const style = toolbar.getByRole('button', { name: 'Open style settings' });
   const modes = toolbar.getByRole('radiogroup', { name: 'View layout mode' });
   await expect(style).toBeVisible();
