@@ -17,6 +17,7 @@ describe('design system: no browser-native visible controls or tooltip bubbles',
     for (const path of paths) {
       const code = readFileSync(path, 'utf8');
       const source = ts.createSourceFile(path, code, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+      // Cross-browser native chrome is inconsistent; enforce brand-first controls at source.
       const error = (node: ts.Node, reason: string) => {
         const pos = source.getLineAndCharacterOfPosition(node.getStart(source));
         errors.push(`${relative('.', path)}:${pos.line + 1} ${reason}`);
@@ -24,7 +25,7 @@ describe('design system: no browser-native visible controls or tooltip bubbles',
       const visit = (node: ts.Node) => {
         if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
           const tag = node.tagName.getText(source);
-          if (['select', 'details', 'summary'].includes(tag)) {
+          if (['select', 'option', 'optgroup', 'datalist', 'details', 'summary', 'dialog', 'menu', 'meter', 'progress'].includes(tag)) {
             error(node, `replace native <${tag}> with a project component`);
           }
           const attrs = node.attributes.properties.filter(ts.isJsxAttribute);
@@ -32,9 +33,12 @@ describe('design system: no browser-native visible controls or tooltip bubbles',
           if (/^[a-z]/.test(tag) && attr('title')) {
             error(attr('title')!, 'replace browser title tooltip with Tooltip or aria-label');
           }
+          for (const name of ['popover', 'popovertarget', 'popovertargetaction']) {
+            if (attr(name)) error(attr(name)!, 'replace native popover with branded overlay');
+          }
           if (tag === 'input') {
             const type = attr('type')?.initializer;
-            if (type && ts.isStringLiteral(type) && ['color', 'range', 'checkbox'].includes(type.text)) {
+            if (type && ts.isStringLiteral(type) && ['color', 'range', 'checkbox', 'radio', 'date', 'datetime-local', 'time', 'month', 'week'].includes(type.text)) {
               error(node, `replace native ${type.text} with branded control`);
             }
           }
