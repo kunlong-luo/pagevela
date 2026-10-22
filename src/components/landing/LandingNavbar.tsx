@@ -37,7 +37,7 @@ export function LandingNavbar({
   return (
     <>
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-[#070a13]/90 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
+      <div className="max-w-7xl mx-auto px-2 min-[360px]:px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-1 sm:gap-4">
         {/* Zone 1: Brand Wordmark */}
         <div className="flex items-center gap-3 shrink-0">
           <div className="w-9 h-9 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 rounded-xl text-white flex items-center justify-center font-black text-sm shadow-md shadow-indigo-500/20">
@@ -73,9 +73,9 @@ export function LandingNavbar({
         </nav>
 
         {/* Zone 3: Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0" data-testid="landing-navbar-actions">
+        <div className="flex items-center gap-1 min-[360px]:gap-1.5 sm:gap-2 shrink-0" data-testid="landing-navbar-actions">
           {/* Global language toggle, shared with the editor beside Theme. */}
-          <LanguageToggle isEn={isEn} onToggle={onToggleLanguage} className="!h-9 !min-h-9 !px-2.5 !rounded-lg" />
+          <LanguageToggle isEn={isEn} onToggle={onToggleLanguage} />
 
           {/* Theme toggle */}
           <button
