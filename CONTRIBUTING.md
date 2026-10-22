@@ -60,6 +60,10 @@ Pagevela tracks stable dependency releases only.
 
 ## UI changes
 
+**Mandatory:** Follow [Pagevela's Branded UI Component Contract](docs/BRANDED_UI_CONTRACT.md). New UI features must reuse or extend project components, not render browser-default controls, tooltips, native select/date/color pickers, confirmation boxes or scrollbars. Native HTML may be used as an accessible implementation primitive only within a fully branded control.
+
+Before a UI PR, run `pnpm test` (native-widget guard), `pnpm lint` and `pnpm build`. Review relevant interactions at mobile, tablet and desktop widths, in both languages and themes. Verify actual clickability, focus and dialog overlays—not just DOM presence.
+
 For visible UI changes, include a short description and screenshots when they help reviewers understand the result. Keep Chinese and English UI copy aligned when a feature is bilingual.
 
 ## Security
