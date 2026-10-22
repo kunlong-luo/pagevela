@@ -1,7 +1,11 @@
 name: Deploy Pages
 
+# Automatic production publishing is gated on the full CI result for main.
+# A manual workflow_dispatch remains an explicit operator-controlled redeploy.
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
@@ -16,12 +20,38 @@ concurrency:
 
 jobs:
   build:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       github.event.workflow_run.conclusion == 'success')
+    outputs:
+      validated_sha: ${{ steps.commit_check.outputs.sha }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
-      - name: Checkout repository
+      - name: Checkout validated main commit
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || 'main' }}
+
+      - name: Refuse stale or non-main release
+        id: commit_check
+        env:
+          EXPECTED_SHA: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || '' }}
+        run: |
+          LOCAL_SHA="$(git rev-parse HEAD)"
+          MAIN_SHA="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [ "$LOCAL_SHA" != "$MAIN_SHA" ]; then
+            echo "::error::Deployment commit is no longer the latest main; refusing stale deploy"
+            exit 1
+          fi
+          if [ -n "$EXPECTED_SHA" ] && [ "$LOCAL_SHA" != "$EXPECTED_SHA" ]; then
+            echo "::error::Checked out commit differs from the CI-validated SHA"
+            exit 1
+          fi
+          echo "sha=$LOCAL_SHA" >> "$GITHUB_OUTPUT"
 
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
@@ -58,6 +88,15 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
+      - name: Refuse superseded production upload
+        run: |
+          LOCAL_SHA="$(git rev-parse HEAD)"
+          MAIN_SHA="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [ "$LOCAL_SHA" != "$MAIN_SHA" ]; then
+            echo "::error::main advanced during build; refusing stale artifact"
+            exit 1
+          fi
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
@@ -72,6 +111,20 @@ jobs:
     needs: build
 
     steps:
+      - name: Verify deployment artifact is still current main
+        env:
+          EXPECTED_SHA: ${{ needs.build.outputs.validated_sha }}
+        run: |
+          if [ -z "$EXPECTED_SHA" ]; then
+            echo "::error::Missing validated artifact commit SHA"
+            exit 1
+          fi
+          MAIN_SHA="$(git ls-remote "https://github.com/${GITHUB_REPOSITORY}.git" refs/heads/main | cut -f1)"
+          if [ -z "$MAIN_SHA" ] || [ "$EXPECTED_SHA" != "$MAIN_SHA" ]; then
+            echo "::error::main changed since Pages artifact build; blocking stale deployment"
+            exit 1
+          fi
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
