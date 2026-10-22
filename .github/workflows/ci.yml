@@ -137,6 +137,9 @@ jobs:
           e2e/accessibility.e2e.ts
           e2e/simplified-layout.e2e.ts
           e2e/mobile-preview-footer-clearance.e2e.ts
+          e2e/mobile-keyboard-focus.e2e.ts
+          e2e/mobile-viewport.e2e.ts
+          e2e/help-privacy.e2e.ts
           e2e/onboarding.e2e.ts
           --project=firefox
           --project=webkit
