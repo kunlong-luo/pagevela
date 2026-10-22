@@ -22,6 +22,8 @@
 - [ ] `pnpm build`
 - [ ] I added or updated tests when behavior changed
 - [ ] I updated documentation or bilingual UI copy when needed
+- [ ] I reused the branded components instead of introducing browser-native widgets, popups or tooltips (see `docs/BRANDED_UI_CONTRACT.md`)
+- [ ] I verified UI position, interaction and focus at relevant screen widths, in Chinese and English
 - [ ] I did not include credentials, tokens, or real personal resume data
 
 ## UI changes

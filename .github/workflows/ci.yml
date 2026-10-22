@@ -137,6 +137,9 @@ jobs:
           e2e/accessibility.e2e.ts
           e2e/simplified-layout.e2e.ts
           e2e/mobile-preview-footer-clearance.e2e.ts
+          e2e/mobile-keyboard-focus.e2e.ts
+          e2e/mobile-viewport.e2e.ts
+          e2e/help-privacy.e2e.ts
           e2e/onboarding.e2e.ts
           --project=firefox
           --project=webkit
@@ -144,6 +147,13 @@ jobs:
       - name: Run full Firefox/WebKit E2E on main and nightly
         if: github.event_name != 'pull_request'
         run: pnpm exec playwright test --project=firefox --project=webkit
+
+      - name: Verify actual Firefox thin scrollbar in a headed browser
+        run: >-
+          xvfb-run -a env FIREFOX_HEADED_SCROLLBAR_CHECK=1
+          pnpm exec playwright test e2e/help-privacy.e2e.ts
+          --project=firefox --headed
+          --grep "help and privacy use the branded capsule scrollbar"
 
 
   build-and-test:

@@ -84,7 +84,28 @@ for (const language of ['zh', 'en'] as const) {
       expect(style.webkitWidth).toBe('5px');
     }
     if (browserName === 'firefox') {
-      expect(style.standardWidth).toBe('thin');
+      // Playwright headless Firefox forcibly hides all scrollbars, even when
+      // an element sets 'scrollbar-width: thin !important' inline. Validate
+      // the authored CSS rule here and scroll interaction below. CI also
+      // runs this case in *headed* Firefox to assert the computed thin width.
+      if (process.env.FIREFOX_HEADED_SCROLLBAR_CHECK === '1') {
+        expect(style.standardWidth).toBe('thin');
+      } else {
+        const hasThinScrollbarRule = await scroller.evaluate(() => {
+          const visit = (rules: CSSRuleList): boolean => Array.from(rules).some(rule => {
+            if (rule instanceof CSSStyleRule) {
+              return rule.selectorText.split(',').some(selector => selector.trim() === '.workspace-scrollbar')
+                && rule.style.getPropertyValue('scrollbar-width') === 'thin'
+                && rule.style.getPropertyPriority('scrollbar-width') === 'important';
+            }
+            return rule instanceof CSSGroupingRule && visit(rule.cssRules);
+          });
+          return Array.from(document.styleSheets).some(sheet => {
+            try { return visit(sheet.cssRules); } catch { return false; }
+          });
+        });
+        expect(hasThinScrollbarRule).toBe(true);
+      }
     }
     await scroller.evaluate(element => { element.scrollTop = element.scrollHeight; });
     await expect.poll(() => scroller.evaluate(element => Math.round(
