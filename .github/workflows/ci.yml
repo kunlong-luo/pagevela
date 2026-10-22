@@ -148,6 +148,13 @@ jobs:
         if: github.event_name != 'pull_request'
         run: pnpm exec playwright test --project=firefox --project=webkit
 
+      - name: Verify actual Firefox thin scrollbar in a headed browser
+        run: >-
+          xvfb-run -a env FIREFOX_HEADED_SCROLLBAR_CHECK=1
+          pnpm exec playwright test e2e/help-privacy.e2e.ts
+          --project=firefox --headed
+          --grep "help and privacy use the branded capsule scrollbar"
+
 
   build-and-test:
     name: build-and-test
