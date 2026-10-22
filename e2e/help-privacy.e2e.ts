@@ -84,7 +84,25 @@ for (const language of ['zh', 'en'] as const) {
       expect(style.webkitWidth).toBe('5px');
     }
     if (browserName === 'firefox') {
-      expect(style.standardWidth).toBe('thin');
+      // Keep the strict assertion; when it fails, reveal whether another CSS
+      // rule, the viewport scrollbar setting, or browser behavior wins.
+      const diagnosis = style.standardWidth === 'thin' ? null : await scroller.evaluate(element => {
+        const original = getComputedStyle(element).scrollbarWidth;
+        element.style.setProperty('scrollbar-width', 'thin', 'important');
+        const inlineImportant = getComputedStyle(element).scrollbarWidth;
+        element.style.removeProperty('scrollbar-width');
+        return {
+          original,
+          inlineImportant,
+          className: element.className,
+          html: getComputedStyle(document.documentElement).scrollbarWidth,
+          body: getComputedStyle(document.body).scrollbarWidth,
+          parent: element.parentElement ? getComputedStyle(element.parentElement).scrollbarWidth : null,
+          webkitSelectorSupported: CSS.supports('selector(::-webkit-scrollbar)'),
+          mozAppearanceSupported: CSS.supports('-moz-appearance', 'none'),
+        };
+      });
+      expect(style.standardWidth, `Firefox scrollbar diagnosis: ${JSON.stringify(diagnosis)}`).toBe('thin');
     }
     await scroller.evaluate(element => { element.scrollTop = element.scrollHeight; });
     await expect.poll(() => scroller.evaluate(element => Math.round(
