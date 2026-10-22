@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { ChevronDown, Palette, SlidersHorizontal, Zap } from 'lucide-react';
+import { ChevronDown, Palette, SlidersHorizontal, Zap, Wrench } from 'lucide-react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { useShallow } from 'zustand/react/shallow';
 import { smartAutoFit } from '../../lib/preview-utils';
@@ -147,8 +147,9 @@ export function Toolbar({ mobileMode = 'form' }: ToolbarProps) {
           type="button"
           onClick={() => window.dispatchEvent(new Event('resume-craft:open-editor-tools'))}
           aria-label={isEn ? 'More editing tools' : '更多编辑工具'}
-          className="md:hidden flex h-11 items-center justify-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700 px-1.5 text-xs font-bold text-slate-700 dark:text-slate-200"
+          className="md:hidden flex h-11 items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-1.5 min-[390px]:px-2 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-50 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
         >
+          <Wrench className="w-3.5 h-3.5 shrink-0 text-indigo-500" aria-hidden="true" />
           <span>{isEn ? 'Tools' : '工具'}</span>
         </button>
 

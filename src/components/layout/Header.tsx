@@ -14,7 +14,11 @@ import {
   Menu,
   X,
   Share2,
-  Home
+  Home,
+  LayoutTemplate,
+  SlidersHorizontal,
+  Palette,
+  Wrench,
 } from 'lucide-react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { useShallow } from 'zustand/react/shallow';
@@ -238,6 +242,74 @@ export function Header({
       ? (isEn ? 'System' : '系统') 
       : (isEn ? 'Light' : '浅色');
 
+  // These are feature shortcuts, not duplicates of the global header controls
+  // or the Fit/Check actions already available in the mobile editing-tools panel.
+  const mobileQuickActions = [
+    {
+      id: 'templates',
+      label: isEn ? 'Templates' : '模板',
+      Icon: LayoutTemplate,
+      fullWidth: false,
+      onSelect: () => window.dispatchEvent(new Event('resume-craft:open-template-center')),
+    },
+    {
+      id: 'layout',
+      label: isEn ? 'Layout' : '排版',
+      Icon: SlidersHorizontal,
+      fullWidth: false,
+      onSelect: () => window.dispatchEvent(new Event('resume-craft:open-layout')),
+    },
+    {
+      id: 'style',
+      label: isEn ? 'Style' : '样式',
+      Icon: Palette,
+      fullWidth: false,
+      onSelect: () => window.dispatchEvent(new Event('resume-craft:open-style')),
+    },
+    {
+      id: 'editing-tools',
+      label: isEn ? 'Editing tools' : '编辑工具',
+      Icon: Wrench,
+      fullWidth: false,
+      onSelect: () => window.dispatchEvent(new Event('resume-craft:open-editor-tools')),
+    },
+    {
+      id: 'management',
+      label: isEn ? 'Resume management' : '简历管理',
+      Icon: Database,
+      fullWidth: false,
+      onSelect: () => setIsBackupHubOpen(true),
+    },
+    {
+      id: 'import',
+      label: isEn ? 'Import' : '导入',
+      Icon: Upload,
+      fullWidth: false,
+      onSelect: () => setIsRawTextModalOpen(true),
+    },
+    {
+      id: 'share',
+      label: isEn ? 'Share' : '分享简历',
+      Icon: Share2,
+      fullWidth: false,
+      onSelect: () => setIsShareModalOpen(true),
+    },
+    {
+      id: 'help',
+      label: isEn ? 'Help' : '帮助',
+      Icon: HelpCircle,
+      fullWidth: false,
+      onSelect: () => setIsHelpLegalOpen(true),
+    },
+    ...(isInstallable ? [{
+      id: 'install',
+      label: isEn ? 'Install' : '安装应用',
+      Icon: DownloadCloud,
+      fullWidth: true,
+      onSelect: () => { void handleInstallApp(); },
+    }] : []),
+  ];
+
   return (
     <header className="bg-white/95 dark:bg-slate-900/95 md:bg-white/90 md:dark:bg-slate-900/90 md:backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/90 relative z-50 shadow-[0_1px_3px_rgba(15,23,42,0.03)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.4)] transition-colors duration-200">
       {/* Mobile Top Bar (< md) */}
@@ -454,7 +526,7 @@ export function Header({
             role="dialog"
             aria-modal="true"
             aria-label={isEn ? 'Quick Actions' : '快捷功能菜单'}
-            className="relative z-[100] bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 rounded-t-3xl p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col gap-3 shadow-2xl max-h-[82dvh] overflow-y-auto workspace-scrollbar overscroll-contain workspace-scrollbar"
+            className="relative z-[100] bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 rounded-t-3xl p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col gap-3 shadow-2xl max-h-[82dvh] overflow-y-auto workspace-scrollbar overscroll-contain"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
@@ -469,115 +541,22 @@ export function Header({
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
-              {onNavigateToLanding && (
+            <div className="grid grid-cols-2 gap-2" data-testid="mobile-quick-actions-grid">
+              {mobileQuickActions.map(({ id, label, Icon, fullWidth, onSelect }) => (
                 <button
-                  onClick={() => { onNavigateToLanding(); setIsMobileMenuOpen(false); }}
-                  className="col-span-2 min-h-11 flex items-center justify-center gap-2 p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-bold transition-all active:scale-95"
-                >
-                  <Home className="w-4 h-4 text-indigo-500" />
-                  <span>{isEn ? 'Return to Welcome Page' : '返回产品欢迎页'}</span>
-                </button>
-              )}
-              <div className="col-span-2 grid grid-cols-2 gap-2">
-                <LanguageToggle
-                  isEn={isEn}
-                  onToggle={() => {
-                    setUiLanguage(isEn ? 'zh' : 'en');
+                  key={id}
+                  type="button"
+                  data-testid={`mobile-quick-action-${id}`}
+                  onClick={() => {
+                    onSelect();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="min-h-12 w-full min-w-0 !justify-start !gap-2.5 !px-3 rounded-xl bg-slate-50 dark:bg-slate-800/70"
-                />
-                <button
-                  type="button"
-                  onClick={(e) => { toggleThemeMode(e); setIsMobileMenuOpen(false); }}
-                  className="min-h-12 w-full inline-flex items-center justify-start gap-2.5 p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
-                  aria-label={`${isEn ? 'Theme' : '主题'}: ${themeLabel}`}
+                  className={`h-14 min-w-0 inline-flex items-center justify-start gap-2.5 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-2 text-left text-xs font-bold text-slate-800 transition-colors hover:border-indigo-200 hover:bg-indigo-50 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200 dark:hover:border-indigo-700 dark:hover:bg-slate-800 ${fullWidth ? 'col-span-2' : ''}`}
                 >
-                  {themeMode === 'dark' ? <Moon className="w-4 h-4 text-indigo-400 shrink-0" /> : themeMode === 'system' ? <Laptop className="w-4 h-4 text-indigo-500 shrink-0" /> : <Sun className="w-4 h-4 text-amber-500 shrink-0" />}
-                  <span>{isEn ? 'Theme' : '主题'}</span>
+                  <Icon className="h-4 w-4 shrink-0 text-indigo-500 dark:text-indigo-400" aria-hidden="true" />
+                  <span className="min-w-0 leading-snug">{label}</span>
                 </button>
-              </div>
-
-              <button
-                onClick={() => { window.dispatchEvent(new Event('resume-craft:open-template-center')); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold"
-              >
-                <span>{isEn ? 'Templates' : '模板'}</span>
-              </button>
-              <button
-                onClick={() => { window.dispatchEvent(new Event('resume-craft:open-layout')); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold"
-              >
-                <span>{isEn ? 'Layout' : '排版'}</span>
-              </button>
-              <button
-                onClick={() => { window.dispatchEvent(new Event('resume-craft:open-style')); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold"
-              >
-                <span>{isEn ? 'Style' : '样式'}</span>
-              </button>
-              <button
-                onClick={() => { window.dispatchEvent(new Event('resume-craft:open-editor-tools')); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold"
-              >
-                <span>{isEn ? 'Editing tools' : '编辑工具'}</span>
-              </button>
-              <button
-                onClick={() => { window.dispatchEvent(new Event('resume-craft:auto-fit')); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 text-xs font-bold"
-              >
-                <span>{isEn ? 'Auto Fit' : '智能单页'}</span>
-              </button>
-              <button
-                onClick={() => { setIsCheckerOpen(!isCheckerOpen); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
-              >
-                <ClipboardCheck className="w-4 h-4 text-indigo-500" />
-                <span>{isEn ? 'Check' : '检查'}</span>
-              </button>
-
-              <button
-                onClick={() => { setIsBackupHubOpen(true); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
-              >
-                <Database className="w-4 h-4 text-indigo-500" />
-                <span>{isEn ? 'Resume management' : '简历管理'}</span>
-              </button>
-
-              <button
-                onClick={() => { setIsRawTextModalOpen(true); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
-              >
-                <Upload className="w-4 h-4 text-indigo-500" />
-                <span>{isEn ? 'Import' : '导入'}</span>
-              </button>
-
-              <button
-                onClick={() => { setIsShareModalOpen(true); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
-              >
-                <Share2 className="w-4 h-4 text-indigo-500" />
-                <span>{isEn ? 'Share' : '分享简历'}</span>
-              </button>
-
-              <button
-                onClick={() => { setIsHelpLegalOpen(true); setIsMobileMenuOpen(false); }}
-                className="min-h-12 flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all active:scale-95"
-              >
-                <HelpCircle className="w-4 h-4 text-indigo-500" />
-                <span>{isEn ? 'Help' : '帮助'}</span>
-              </button>
-
-              {isInstallable && (
-                <button
-                  onClick={() => { void handleInstallApp(); setIsMobileMenuOpen(false); }}
-                  className="col-span-2 flex items-center justify-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold transition-all active:scale-95"
-                >
-                  <DownloadCloud className="w-4 h-4 text-emerald-500 animate-bounce" />
-                  <span>{isEn ? 'Install' : '安装应用'}</span>
-                </button>
-              )}
+              ))}
             </div>
           </div>
         </div>

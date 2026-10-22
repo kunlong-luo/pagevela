@@ -57,22 +57,24 @@ for (const locale of ['zh', 'en'] as const) {
 
       await page.getByRole('button', { name: locale === 'en' ? 'Open quick actions menu' : '打开快捷功能菜单' }).click();
       const quickActions = page.locator('#mobile-quick-actions');
-      const languageButton = quickActions.getByRole('button', { name: locale === 'en' ? 'Switch interface to Chinese' : '切换界面为英文' });
-      const themeButton = quickActions.getByRole('button', { name: /^(Theme|主题):/ });
+      const languageButton = page.getByRole('banner').getByRole('button', {
+        name: locale === 'en' ? 'Switch interface to Chinese' : '切换界面为英文',
+      });
+      const themeButton = page.getByRole('banner').getByRole('button', { name: /^(Theme|主题):/ });
       await expect(languageButton).toBeVisible();
       await expect(themeButton).toBeVisible();
-      const alignment = await page.evaluate(() => {
-        const language = document.querySelector('#mobile-quick-actions button[aria-label="Switch interface to Chinese"], #mobile-quick-actions button[aria-label="切换界面为英文"]');
-        const theme = document.querySelector('#mobile-quick-actions button[aria-label^="Theme:"], #mobile-quick-actions button[aria-label^="主题:"]');
-        if (!language || !theme) throw new Error('Missing global buttons');
-        return [language, theme].map(button => {
-          const box = button.getBoundingClientRect();
-          const icon = button.querySelector('svg')!.getBoundingClientRect();
-          return { iconLeft: icon.left - box.left, iconCenterY: icon.top + icon.height / 2 - (box.top + box.height / 2), height: box.height };
-        });
-      });
+      await expect(quickActions.getByRole('button', {
+        name: locale === 'en' ? 'Switch interface to Chinese' : '切换界面为英文',
+      })).toHaveCount(0);
+      await expect(quickActions.getByRole('button', { name: /^(Theme|主题):/ })).toHaveCount(0);
+      const alignment = await Promise.all([languageButton, themeButton].map(async button => {
+        const box = await button.boundingBox();
+        const icon = await button.locator('svg').boundingBox();
+        if (!box || !icon) throw new Error('Missing global action icon');
+        return { iconLeft: icon.x - box.x, iconCenterY: icon.y + icon.height / 2 - (box.y + box.height / 2), height: box.height };
+      }));
       for (const button of alignment) {
-        expect(button.height).toBeGreaterThanOrEqual(44);
+        expect(button.height).toBeGreaterThanOrEqual(36);
         expect(button.iconLeft).toBeGreaterThanOrEqual(8);
         expect(button.iconLeft).toBeLessThanOrEqual(20);
         expect(Math.abs(button.iconCenterY)).toBeLessThanOrEqual(2);
