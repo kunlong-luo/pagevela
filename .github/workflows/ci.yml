@@ -207,6 +207,14 @@ jobs:
       - quality
       - e2e-chromium
       - e2e-cross-browser
+    # The full-browser matrix intentionally skips on PRs. Without an explicit
+    # status condition GitHub can transitively skip this required final gate
+    # even though all three direct dependencies succeeded.
+    if: >-
+      always() &&
+      needs.quality.result == 'success' &&
+      needs.e2e-chromium.result == 'success' &&
+      needs.e2e-cross-browser.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
