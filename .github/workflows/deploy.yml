@@ -25,6 +25,8 @@ jobs:
       (github.event.workflow_run.event == 'push' &&
        github.event.workflow_run.head_branch == 'main' &&
        github.event.workflow_run.conclusion == 'success')
+    outputs:
+      validated_sha: ${{ steps.commit_check.outputs.sha }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -35,6 +37,7 @@ jobs:
           ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || 'main' }}
 
       - name: Refuse stale or non-main release
+        id: commit_check
         env:
           EXPECTED_SHA: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || '' }}
         run: |
@@ -48,6 +51,7 @@ jobs:
             echo "::error::Checked out commit differs from the CI-validated SHA"
             exit 1
           fi
+          echo "sha=$LOCAL_SHA" >> "$GITHUB_OUTPUT"
 
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
@@ -107,6 +111,20 @@ jobs:
     needs: build
 
     steps:
+      - name: Verify deployment artifact is still current main
+        env:
+          EXPECTED_SHA: ${{ needs.build.outputs.validated_sha }}
+        run: |
+          if [ -z "$EXPECTED_SHA" ]; then
+            echo "::error::Missing validated artifact commit SHA"
+            exit 1
+          fi
+          MAIN_SHA="$(git ls-remote "https://github.com/${GITHUB_REPOSITORY}.git" refs/heads/main | cut -f1)"
+          if [ -z "$MAIN_SHA" ] || [ "$EXPECTED_SHA" != "$MAIN_SHA" ]; then
+            echo "::error::main changed since Pages artifact build; blocking stale deployment"
+            exit 1
+          fi
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
