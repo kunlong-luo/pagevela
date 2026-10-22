@@ -355,19 +355,21 @@
   background-color: rgba(129, 140, 248, 0.85) !important;
 }
 
-/* Chromium supports both scrollbar-width and ::-webkit-scrollbar.
- * Non-auto standard properties take precedence over the 5px WebKit rail,
- * so retain the browser-specific pseudo-element width when available.
- * Firefox continues to use the standard 'thin' width and color above. */
+/* Chromium/WebKit need 'auto' for the 5px ::-webkit-scrollbar rail.
+ * Some Firefox versions also report @supports selector(::-webkit-scrollbar)
+ * as true despite only partial support. Exclude Gecko so Firefox keeps the
+ * standard thin scrollbar above; do not depend on this selector query alone. */
 @supports selector(::-webkit-scrollbar) {
-  .workspace-scrollbar,
-  .workspace-scrollbar:hover,
-  .workspace-scrollbar:focus-within,
-  .dark .workspace-scrollbar,
-  .dark .workspace-scrollbar:hover,
-  .dark .workspace-scrollbar:focus-within {
-    scrollbar-width: auto !important;
-    scrollbar-color: auto !important;
+  @supports not (-moz-appearance: none) {
+    .workspace-scrollbar,
+    .workspace-scrollbar:hover,
+    .workspace-scrollbar:focus-within,
+    .dark .workspace-scrollbar,
+    .dark .workspace-scrollbar:hover,
+    .dark .workspace-scrollbar:focus-within {
+      scrollbar-width: auto !important;
+      scrollbar-color: auto !important;
+    }
   }
 }
 
