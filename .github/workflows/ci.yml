@@ -103,9 +103,58 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+  # Run full main/nightly Firefox and WebKit coverage in parallel.
+  # Keeping the required e2e-cross-browser job below preserves branch
+  # protection while avoiding a 30-minute sequential 438-test timeout.
+  e2e-browser-shard:
+    name: e2e-browser-shard (${{ matrix.browser }} ${{ matrix.shard }})
+    if: github.event_name != 'pull_request'
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - browser: firefox
+            shard: '1/1'
+          - browser: webkit
+            shard: '1/2'
+          - browser: webkit
+            shard: '2/2'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: .node-version
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with:
+          version: 12.6.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install selected browser
+        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Run full browser test shard
+        run: pnpm exec playwright test --project=${{ matrix.browser }} --shard=${{ matrix.shard }}
+
   e2e-cross-browser:
     name: e2e-cross-browser
-    needs: quality
+    needs:
+      - quality
+      - e2e-browser-shard
+    if: >-
+      always() &&
+      needs.quality.result == 'success' &&
+      (github.event_name == 'pull_request' || needs.e2e-browser-shard.result == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -144,10 +193,6 @@ jobs:
           --project=firefox
           --project=webkit
 
-      - name: Run full Firefox/WebKit E2E on main and nightly
-        if: github.event_name != 'pull_request'
-        run: pnpm exec playwright test --project=firefox --project=webkit
-
       - name: Verify actual Firefox thin scrollbar in a headed browser
         run: >-
           xvfb-run -a env FIREFOX_HEADED_SCROLLBAR_CHECK=1
@@ -162,6 +207,14 @@ jobs:
       - quality
       - e2e-chromium
       - e2e-cross-browser
+    # The full-browser matrix intentionally skips on PRs. Without an explicit
+    # status condition GitHub can transitively skip this required final gate
+    # even though all three direct dependencies succeeded.
+    if: >-
+      always() &&
+      needs.quality.result == 'success' &&
+      needs.e2e-chromium.result == 'success' &&
+      needs.e2e-cross-browser.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
