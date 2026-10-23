@@ -5,7 +5,12 @@ export default defineConfig({
   testMatch: '**/*.e2e.ts',
   fullyParallel: false,
   timeout: 20_000,
-  // Chromium, Firefox, and WebKit run sequentially in CI; WebKit can push the full suite beyond 8 minutes.\n  globalTimeout: process.env.CI ? 720_000 : 0,
+  // CI timeouts must cover the full Firefox/WebKit suite (recently ~22 min).
+  // Keep a shorter PR cap without unintentionally terminating main/nightly.
+  // GitHub Actions job-level timeouts remain the external upper bound.
+  globalTimeout: process.env.CI
+    ? (process.env.GITHUB_EVENT_NAME === 'pull_request' ? 22 : 27) * 60_000
+    : 0,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 1 : undefined,
