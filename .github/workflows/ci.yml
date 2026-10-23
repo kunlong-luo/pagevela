@@ -146,6 +146,16 @@ jobs:
       - name: Run full browser test shard
         run: pnpm exec playwright test --project=${{ matrix.browser }} --shard=${{ matrix.shard }}
 
+      # The headed Firefox proof shares the fully installed Firefox shard.
+      # Do not duplicate this browser installation on a serial aggregate job.
+      - name: Verify actual Firefox thin scrollbar in a headed browser
+        if: matrix.browser == 'firefox'
+        run: >-
+          xvfb-run -a env FIREFOX_HEADED_SCROLLBAR_CHECK=1
+          pnpm exec playwright test e2e/help-privacy.e2e.ts
+          --project=firefox --headed
+          --grep "help and privacy use the branded capsule scrollbar"
+
   e2e-cross-browser:
     name: e2e-cross-browser
     needs:
@@ -160,22 +170,27 @@ jobs:
 
     steps:
       - name: Checkout repository
+        if: github.event_name == 'pull_request'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Node.js
+        if: github.event_name == 'pull_request'
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: .node-version
 
       - name: Setup pnpm
+        if: github.event_name == 'pull_request'
         uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
         with:
           version: 12.6.0
 
       - name: Install dependencies
+        if: github.event_name == 'pull_request'
         run: pnpm install --frozen-lockfile
 
       - name: Install Firefox and WebKit
+        if: github.event_name == 'pull_request'
         run: pnpm exec playwright install --with-deps firefox webkit
 
       - name: Run critical Firefox/WebKit E2E on pull requests
@@ -194,11 +209,16 @@ jobs:
           --project=webkit
 
       - name: Verify actual Firefox thin scrollbar in a headed browser
+        if: github.event_name == 'pull_request'
         run: >-
           xvfb-run -a env FIREFOX_HEADED_SCROLLBAR_CHECK=1
           pnpm exec playwright test e2e/help-privacy.e2e.ts
           --project=firefox --headed
           --grep "help and privacy use the branded capsule scrollbar"
+
+      - name: Confirm full Firefox/WebKit shards and headed Firefox proof
+        if: github.event_name != 'pull_request'
+        run: echo "All full browser shards and the headed Firefox scrollbar proof succeeded"
 
 
   build-and-test:
