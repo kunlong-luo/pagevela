@@ -1,4 +1,6 @@
-# Pagevela v2.8.0 / 页帆 v2.8.0
+# Pagevela v2.8.0
+
+**中文名称：** 页帆 v2.8.0
 
 **Release date:** 2026-10-24 · [GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.0) · [Live website](https://kunlong-luo.github.io/pagevela/) · [Announcement kit](./docs/V2_8_0_RELEASE_KIT.md)
 
@@ -20,7 +22,7 @@ ATS checks are heuristic guidance, not guaranteed acceptance by any particular e
 
 ## Assets / 发布文件
 
-New v2.8.0 downloads: `pagevela-2.8.0.zip`, `pagevela-2.8.0.tar.gz`, `SHA256SUMS.txt`. Older `resume-craft-*` release archives and internal storage identifiers are deliberately retained unchanged.
+New v2.8.0 assets retain historical compatible archive filenames: `resume-craft-2.8.0.zip`, `resume-craft-2.8.0.tar.gz`, `SHA256SUMS.txt`. Older `resume-craft-*` release archives and internal storage identifiers are deliberately retained unchanged.
 
 **Full compare:** https://github.com/kunlong-luo/pagevela/compare/v2.7.0...v2.8.0
 

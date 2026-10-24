@@ -8,9 +8,9 @@ Pagevela publishes stable releases only.
 
 v2.8.0 (2026-10-24) follows v2.7.0 with mobile, welcome, bilingual UI, and strict browser CI improvements. Release only after the version bump PR passes protected checks.
 
-New v2.8.0+ release assets are `pagevela-X.Y.Z.zip`, `pagevela-X.Y.Z.tar.gz`, and `SHA256SUMS.txt`. Preserve original historical `resume-craft-*` archives and checksums.
+The GitHub Release title and tag use **Pagevela**, while distributable file names continue as `resume-craft-X.Y.Z.zip`, `resume-craft-X.Y.Z.tar.gz`, and `SHA256SUMS.txt` for compatibility. Historical release archives and checksums remain unchanged.
 
-The `Release` workflow on a `package.json` version bump creates the tag and downloadable assets. It is independent of the `Deploy Pages` `workflow_run` gate, which requires completed, successful full main-push CI on the identical latest main SHA. A green Release alone does not prove the website was updated.
+The `Release` workflow on a `package.json` version bump creates the tag and downloadable assets. If a previous run failed before creating a tag, a reviewed fix to `.github/workflows/release.yml` can safely retry the same not-yet-tagged stable version; once a tag exists, unchanged versions are skipped. It is independent of the `Deploy Pages` `workflow_run` gate, which requires completed, successful full main-push CI on the identical latest main SHA. A green Release alone does not prove the website was updated.
 
 ## Versioning
 
@@ -40,7 +40,7 @@ The workflow will:
 - install with the frozen pnpm lockfile;
 - run type checking, unit tests, and the production build;
 - create or reuse the annotated `vX.Y.Z` tag;
-- package the complete `dist/` output as Pagevela-branded ZIP and TAR.GZ archives;
+- package the complete `dist/` output as compatibility-named ZIP and TAR.GZ archives;
 - generate `SHA256SUMS.txt`;
 - publish a GitHub Release with automatically generated release notes.
 
