@@ -35,7 +35,26 @@
 
 ---
 
-## 🆕 What's New in v2.7.0
+## 🆕 What's New in v2.8.0
+
+This release makes **mobile resume editing more reliable**, speeds up the welcome screen, and introduces CI-verified production deployment.
+
+- **Welcome and phone QR:** Show useful content before initializing the heavier editor. A branded, size-matched QR action beside **Start** opens a scan-friendly Pagevela modal.
+- **Mobile workspace:** Clear Form / Code / Preview navigation, 44px touch targets, streamlined quick actions without duplicate Fit / Check, and toolbar menus that remain reachable.
+- **Safer preview:** Resume footers and keyboard-focused inputs remain clear of the mobile action dock across compact and tablet widths.
+- **Bilingual branded components:** Shorter aligned labels, a global language switch next to Theme, consistent popovers and scrollbars; automated checks guard against visible native browser widgets.
+- **Release safety:** Full Chromium, Firefox and WebKit E2E plus the headed Firefox proof, followed by a required CI result before GitHub Pages automatically deploys the same SHA.
+- **Stable dependencies:** React / React DOM 19.3.1, Motion 14.4, Lucide 1.59, ESLint 10.13 and Vitest 5.0.5.
+
+**Privacy and limits:** Resume data remains local-first. ATS checks are guidance, not guaranteed employer acceptance. Use ATS/browser-print PDF for selectable text; workspace backups are unencrypted and moving devices/origins requires manual export/import.
+
+🎬 [Existing product demo](https://youtu.be/z3RNFD4s-kk) · [Try Pagevela](https://kunlong-luo.github.io/pagevela/) · [v2.8.0 announcement and media review kit](./docs/V2_8_0_RELEASE_KIT.md)
+
+See the [v2.8.0 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.0), [release notes](./RELEASE_NOTES.md) and [changelog](./CHANGELOG.md).
+
+---
+
+## 📦 Previously in v2.7.0
 
 This release completes the public rename to **Pagevela** (displayed as **页帆** in Chinese), and improves the path from the welcome page to a finished resume.
 

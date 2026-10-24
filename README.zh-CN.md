@@ -35,7 +35,26 @@
 
 ---
 
-## 🆕 v2.7.0 更新
+## 🆕 v2.8.0 更新
+
+本次发布重点提升**手机简历编辑、欢迎页加载、双语自定义组件统一**和生产发布质量。
+
+- **欢迎页加载与扫码：** 欢迎内容优先显示，完整编辑器按需初始化；顶部 **Start 左侧**新增尺寸统一的二维码按钮，点击打开品牌化扫码弹窗。
+- **移动端更顺手：** 统一 Form / Code / Preview 入口与至少 44px 的主要触摸目标，清理重复的 Fit / Check 快捷操作，确保工具菜单始终可见。
+- **预览不再被遮挡：** 修复窄屏和部分平板布局中，简历末尾文字及键盘聚焦输入被底部按钮遮挡的问题。
+- **双语与组件规范：** 精简中英文标签，把全局语言控制放到 Theme 旁边；统一弹出菜单、滚动条和确认框，不显示默认浏览器弹窗或原生选择器。
+- **可验证发布：** Chromium、Firefox、WebKit 全量测试分片、Firefox 有界面验证及必需 CI 全绿后，才自动部署相同提交 SHA 的 GitHub Pages。
+- **稳定依赖升级：** React / React DOM 19.3.1、Motion 14.4、Lucide 1.59、ESLint 10.13、Vitest 5.0.5。
+
+**隐私提示：** 简历仍主要保存在浏览器本地；ATS 检查不保证招聘系统认可；工作区备份 JSON 未加密，换设备或网站时需手动导入。需要可选择文字的 PDF 时建议使用 ATS／浏览器打印。
+
+🎬 [现有演示视频](https://youtu.be/z3RNFD4s-kk) · [在线体验](https://kunlong-luo.github.io/pagevela/) · [v2.8.0 双语发布文案与截图审核清单](./docs/V2_8_0_RELEASE_KIT.md)
+
+查看 [v2.8.0 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.0)、[详细更新说明](./RELEASE_NOTES.md)与[版本日志](./CHANGELOG.md)。
+
+---
+
+## 📦 之前的 v2.7.0 更新
 
 本次更新完成了 **Pagevela（页帆）** 的品牌迁移，并优化从欢迎页进入简历编辑器的使用流程。
 
