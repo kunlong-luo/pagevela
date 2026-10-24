@@ -42,4 +42,29 @@ test('Quick PDF creates a real downloadable PDF from fictional resume data', asy
   const bytes = await readFile(filePath!);
   expect(bytes.length).toBeGreaterThan(2_000);
   expect(bytes.subarray(0, 5).toString('ascii')).toBe('%PDF-');
+
+  // The PDF header and a successful Playwright download are not sufficient:
+  // check that a real PDF reader can parse every produced page. This catches
+  // truncated or otherwise corrupt downloads without asserting Quick PDF
+  // has selectable text (the Quick route is intentionally rasterized).
+  const { getDocument } = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  const loadingTask = getDocument({ data: new Uint8Array(bytes), useSystemFonts: true });
+  const pdf = await loadingTask.promise;
+  try {
+    expect(pdf.numPages).toBeGreaterThanOrEqual(1);
+    for (let pageIndex = 1; pageIndex <= pdf.numPages; pageIndex++) {
+      const pdfPage = await pdf.getPage(pageIndex);
+      const [, , width, height] = pdfPage.view;
+      expect(width).toBeGreaterThan(100);
+      expect(height).toBeGreaterThan(100);
+      const operations = await pdfPage.getOperatorList();
+      expect(operations.fnArray.length).toBeGreaterThan(0);
+    }
+  } finally {
+    await loadingTask.destroy();
+  }
+
+  // Exporting must not clear or replace a user's in-browser draft.
+  await page.reload();
+  await expect.poll(() => readActiveMarkdown(page)).toBe(fictionalResume);
 });
