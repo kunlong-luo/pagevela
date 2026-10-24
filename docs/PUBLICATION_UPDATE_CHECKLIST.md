@@ -17,7 +17,7 @@ This checklist distinguishes code we can maintain in the project from third-part
 - [x] README in Chinese/English, canonical, OG links, sitemap and robots refer to the current app.
 - [x] Brand launch docs, active promotion playbook and the v2.6.0 social draft provide current Pagevela URLs.
 - [x] Historical `RELEASE_NOTES.md` retains the original `Resume Craft v2.6.0` label but prominently links to current Pagevela.
-- [x] Future GitHub Release **display titles and annotated tag messages** use Pagevela. New v2.8.0+ downloads use `pagevela-VERSION.zip`/`.tar.gz` with SHA256SUMS. **Existing historical** `resume-craft-*` archives, names and checksums remain unchanged for compatibility.
+- [x] Future GitHub Release **display titles and annotated tag messages** use Pagevela. All versions use **Pagevela** release display titles and annotated tag messages, while v2.8.0 archives retain `resume-craft-VERSION.zip`/`.tar.gz` and SHA256SUMS for compatibility with established downloads. Historical release artifacts remain unchanged.
 - [x] Public SVG cover source (`public/og-card.svg`) and README banner (`.github/assets/readme-banner.svg`) already show **Pagevela**, so a blanket regenerate/recreate is unnecessary. Production builds generate the OG PNG from the SVG.
 - [ ] Capture and visually review **new real product screenshots** from the deployed Pagevela UI. Open GitHub Actions → [Capture Real Promotion Media](https://github.com/kunlong-luo/pagevela/actions/workflows/capture-promotion-media.yml) → **Run workflow**, branch `main`; review/download `resume-craft-promotion-media` artifacts (the name is historical and internal). The connected GitHub tool cannot dispatch this workflow. This action creates review files and does not publish external content.
 

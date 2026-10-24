@@ -13,7 +13,7 @@
 - Full Chromium, Firefox (2 shards), WebKit (2 shards), headed Firefox check, and a protected build-and-test aggregate.
 - Automatic Pages deployment only after successful main-push CI on the same validated commit SHA.
 - Stable React/React DOM 19.3.1, Motion 14.4, Lucide 1.59, ESLint 10.13 and Vitest 5.0.5.
-- New release archives use `pagevela-VERSION` names; original historical archives remain unchanged.
+- GitHub Release titles use **Pagevela**, while archive filenames retain `resume-craft-VERSION` compatibility naming.
 
 ### Limits
 - ATS diagnostics are guidance, not a hiring-system acceptance guarantee. Workspace backups are unencrypted; moving browsers/devices requires manual export/import.

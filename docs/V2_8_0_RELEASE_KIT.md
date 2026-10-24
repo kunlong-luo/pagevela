@@ -35,7 +35,7 @@ ATS 检查仅供参考；简历数据主要保存在浏览器本地，工作区�
 
 ## Publication review checklist / 发布前人工审核
 
-- [ ] Confirm v2.8.0 GitHub Release, new `pagevela-2.8.0.zip` / `.tar.gz` assets and SHA256SUMS are published and downloadable.
+- [ ] Confirm v2.8.0 GitHub Release, the compatibility-named `resume-craft-2.8.0.zip` / `.tar.gz` assets and SHA256SUMS are published and downloadable.
 - [ ] Confirm successful latest main-push CI and successful SHA-matched `workflow_run` GitHub Pages build and deploy before claiming v2.8.0 is live.
 - [ ] Regenerate **real browser screenshots/videos** if needed and check both languages, mobile/tablet/desktop, no personal contacts, readable controls and non-clipped captions. [Capture workflow](./PROMOTION_MEDIA.md).
 - [ ] Update controllable existing posts/listings in place; do not duplicate Product Hunt/Reddit/YouTube posts or change their historical dates without checking platform rules. [Existing-channel pack](./channel-refresh/README.md).
