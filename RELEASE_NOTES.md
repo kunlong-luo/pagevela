@@ -1,3 +1,31 @@
+# Pagevela v2.8.0 / 页帆 v2.8.0
+
+**Release date:** 2026-10-24 · [GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.0) · [Live website](https://kunlong-luo.github.io/pagevela/) · [Announcement kit](./docs/V2_8_0_RELEASE_KIT.md)
+
+## Highlights / 本次更新
+
+- **Welcome / 欢迎页：** Show useful welcome content before heavier editor initialization. Add the consistently styled QR code button immediately left of Start, opening a branded modal for phone scanning.
+- **Mobile editing / 移动端：** More reliable Form / Code / Preview controls, unified touch-friendly actions without duplicate Fit/Check entries, visible toolbar actions and menus above the bottom dock.
+- **Preview and keyboard / 预览与键盘：** Ensure resume's bottom text and focused inputs remain clear of mobile action controls; improve 320–767px layout and tablet behavior.
+- **Branded UI / 自定义组件：** Consistent English/Chinese labels, shared language switch near Theme, custom modals and menus, thin capsule scrollbars, automated bans on visible native popup/select widgets.
+- **Export / 导出：** Stronger A4 multi-page print, PDF and profile-photo regression checks. Use ATS/browser-print for selectable PDF text; quick PDF can be rasterized.
+- **Release safety / 发布安全：** Full Chromium and two Firefox/two WebKit shards, headed Firefox proof, and a strict final CI summary; Pages publishing is gated on success of the exact main-push CI commit.
+- **Stable dependencies / 依赖：** React / React DOM 19.3.1, Motion 14.4, Lucide 1.59, ESLint 10.13, Vitest 5.0.5.
+
+## Privacy, limits and migration / 隐私与迁移
+
+Pagevela remains local-first; there is no account-based automatic browser/device sync. Full-workspace backups are **unencrypted** and should be handled privately. The old `/resume-craft/` URL is not redirected; [manual export/import](./docs/WORKSPACE_TRANSFER.md) is required to move data across devices or origins.
+
+ATS checks are heuristic guidance, not guaranteed acceptance by any particular employer. Automated browser tests do **not** constitute physical Android handset verification. Existing media captures may be outdated; new screenshots and external media posts require a separate visual review.
+
+## Assets / 发布文件
+
+New v2.8.0 downloads: `pagevela-2.8.0.zip`, `pagevela-2.8.0.tar.gz`, `SHA256SUMS.txt`. Older `resume-craft-*` release archives and internal storage identifiers are deliberately retained unchanged.
+
+**Full compare:** https://github.com/kunlong-luo/pagevela/compare/v2.7.0...v2.8.0
+
+---
+
 # Pagevela v2.7.0
 
 **Release date:** 2026-10-17 · [GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.7.0) · [Live demo](https://kunlong-luo.github.io/pagevela/) · [Product video](https://youtu.be/z3RNFD4s-kk)

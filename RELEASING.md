@@ -4,6 +4,14 @@ Pagevela publishes stable releases only.
 
 > **Live Pagevela release status:** PR #210 was merged and the public project was renamed to `kunlong-luo/pagevela`; the published site is https://kunlong-luo.github.io/pagevela/. Historical v2.6.0 archives and internal data/share keys stay unchanged. The old `/resume-craft/` Pages URL is not redirected, by owner choice. Trademark review and optional future custom domains are separate. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
 
+## Latest stable release line
+
+v2.8.0 (2026-10-24) follows v2.7.0 with mobile, welcome, bilingual UI, and strict browser CI improvements. Release only after the version bump PR passes protected checks.
+
+New v2.8.0+ release assets are `pagevela-X.Y.Z.zip`, `pagevela-X.Y.Z.tar.gz`, and `SHA256SUMS.txt`. Preserve original historical `resume-craft-*` archives and checksums.
+
+The `Release` workflow on a `package.json` version bump creates the tag and downloadable assets. It is independent of the `Deploy Pages` `workflow_run` gate, which requires completed, successful full main-push CI on the identical latest main SHA. A green Release alone does not prove the website was updated.
+
 ## Versioning
 
 Use semantic versioning:
@@ -32,7 +40,7 @@ The workflow will:
 - install with the frozen pnpm lockfile;
 - run type checking, unit tests, and the production build;
 - create or reuse the annotated `vX.Y.Z` tag;
-- package the complete `dist/` output as ZIP and TAR.GZ archives;
+- package the complete `dist/` output as Pagevela-branded ZIP and TAR.GZ archives;
 - generate `SHA256SUMS.txt`;
 - publish a GitHub Release with automatically generated release notes.
 
