@@ -1,5 +1,15 @@
 # Pagevela — rollout status and remaining quality gates
 
+## Production deployment and China pilot status (2026-10-24)
+
+- [x] Full [main CI #40044538057](https://github.com/kunlong-luo/pagevela/actions/runs/40044538057) passed all Chromium, Firefox 1/2 + 2/2, WebKit 1/2 + 2/2, headed Firefox and final aggregate checks for SHA `218fcc482070718f4a0190c501c77c2115571409`.
+- [x] [GitHub Pages #40048470349](https://github.com/kunlong-luo/pagevela/actions/runs/40048470349) was triggered by successful main-push CI, built and deployed the **same SHA**; [issue #265](https://github.com/kunlong-luo/pagevela/issues/265) was closed after validation.
+- [x] Optional Tencent EdgeOne / China access pilot PR #240 was **closed unmerged** at owner request on 2026-10-24. No EdgeOne launch, ICP registration, DNS, custom-domain switch or hosting migration is claimed.
+
+This establishes the **v2.7.0-codebase successor** production gate; each future release still requires its own SHA-matched Pages verification.
+
+---
+
 > **Published on GitHub Pages:** The product name **Pagevela** is live at https://kunlong-luo.github.io/pagevela/ and the GitHub repository was renamed to https://github.com/kunlong-luo/pagevela. The user explicitly selected **Option A** on 2026-10-16: the former `/resume-craft/` website path is no longer supported and **must not be restored or redirected**. This choice does not assert trademark clearance.
 
 ## Completed

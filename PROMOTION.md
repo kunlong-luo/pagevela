@@ -1,5 +1,7 @@
 # Resume Craft v2.6.0 Promotion Playbook
 
+> **Historical planning document:** This v2.6.0 playbook is kept as a dated record. For current **Pagevela v2.8.0** copy and platform-by-platform review use the [release kit](./docs/V2_8_0_RELEASE_KIT.md), [latest release notes](./RELEASE_NOTES.md) and [publication checklist](./docs/PUBLICATION_UPDATE_CHECKLIST.md). No external posting or visual approval is implied.
+
 **Historical planning document:** v2.6.0 was published as Resume Craft on 2026-10-14. **Do not post the original campaign copy as-is.** New/edited posts must use **Pagevela**, [the current demo](https://kunlong-luo.github.io/pagevela/) and [new repo](https://github.com/kunlong-luo/pagevela), with real Pagevela screenshots from the current site. Do not replace existing historical release archives or claim historical posts had the new branding.
 
 **Published on 2026-10-14.** For ready-to-review Xiaohongshu, Douyin and Reddit launch copy, filming notes and accurate privacy disclosures, see the [v2.6.0 social launch kit](./docs/V2_6_0_SOCIAL_LAUNCH_KIT.md). These are drafts; all external posts require human review and platform-specific publication.

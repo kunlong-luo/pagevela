@@ -151,10 +151,10 @@ jobs:
           set -euo pipefail
           (
             cd dist
-            zip -r "../resume-craft-${VERSION}.zip" .
-            tar -czf "../resume-craft-${VERSION}.tar.gz" .
+            zip -r "../pagevela-${VERSION}.zip" .
+            tar -czf "../pagevela-${VERSION}.tar.gz" .
           )
-          sha256sum             "resume-craft-${VERSION}.zip"             "resume-craft-${VERSION}.tar.gz"             > SHA256SUMS.txt
+          sha256sum             "pagevela-${VERSION}.zip"             "pagevela-${VERSION}.tar.gz"             > SHA256SUMS.txt
 
       - name: Publish GitHub Release
         if: steps.version.outputs.should_release == 'true'
@@ -167,8 +167,8 @@ jobs:
           set -euo pipefail
 
           ASSETS=(
-            "resume-craft-${VERSION}.zip"
-            "resume-craft-${VERSION}.tar.gz"
+            "pagevela-${VERSION}.zip"
+            "pagevela-${VERSION}.tar.gz"
             "SHA256SUMS.txt"
           )
 

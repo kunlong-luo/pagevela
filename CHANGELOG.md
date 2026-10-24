@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.8.0](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.0) — 2026-10-24
+
+### Product and mobile
+- Faster welcome-page rendering before the editor initializes; branded QR scan action beside the Start button.
+- Clearer mobile Form / Code / Preview navigation, consolidated quick actions, 44px touch targets, and reachable tool controls.
+- Safer mobile preview bottom clearance, keyboard-focused inputs, bottom-sheet menus and tablet viewport handling.
+- Tighter bilingual labels, global language control near Theme, unified branded menus/scrollbars and tests prohibiting visible native browser widgets.
+- Expanded A4 PDF, resume-portrait, mobile and i18n regression coverage.
+
+### Engineering and release
+- Full Chromium, Firefox (2 shards), WebKit (2 shards), headed Firefox check, and a protected build-and-test aggregate.
+- Automatic Pages deployment only after successful main-push CI on the same validated commit SHA.
+- Stable React/React DOM 19.3.1, Motion 14.4, Lucide 1.59, ESLint 10.13 and Vitest 5.0.5.
+- New release archives use `pagevela-VERSION` names; original historical archives remain unchanged.
+
+### Limits
+- ATS diagnostics are guidance, not a hiring-system acceptance guarantee. Workspace backups are unencrypted; moving browsers/devices requires manual export/import.
+- Automated responsive and browser tests do not establish complete coverage on physical Android handsets.
+- [Detailed release notes](./RELEASE_NOTES.md) · [Compare v2.7.0…v2.8.0](https://github.com/kunlong-luo/pagevela/compare/v2.7.0...v2.8.0)
+
+
 ## [2.7.0](https://github.com/kunlong-luo/pagevela/releases/tag/v2.7.0) — 2026-10-17
 
 ### Added and improved
