@@ -18,7 +18,7 @@ Requirements:
 
 ```bash
 git clone https://github.com/kunlong-luo/pagevela.git
-cd resume-craft
+cd pagevela
 pnpm install
 pnpm dev
 ```

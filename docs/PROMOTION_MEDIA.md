@@ -1,5 +1,7 @@
 # Pagevela — real promotional media capture
 
+> **v2.8.0 media update (2026-10-24):** The welcome-page QR and mobile toolbar/navigation now differ from some earlier v2.7.0 images. Re-run real Playwright captures from latest verified `main` before reusing screenshots or video, and consult the [bilingual v2.8.0 publication kit](./V2_8_0_RELEASE_KIT.md). This note does **not** mean screenshots were re-recorded or external channels were updated.
+
 This is a repeatable Playwright browser capture of the **real application UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
 
 **Current-brand media (2026-10-16):** Pagevela is live at https://kunlong-luo.github.io/pagevela/. Capture real UI and marketing screenshots from current `main` (or an explicitly reviewed experiment), not the retired `/resume-craft/` website. Old `resume-craft-*` artifact filenames are workflow compatibility details, **not visible public branding**. The display wordmark is **页帆** when the interface is Chinese and **Pagevela** when English; the product repository remains `kunlong-luo/pagevela`. Validate URLs, layout and Pagevela wordmark in actual rendered images before posting; no screenshot or video is automatically published.

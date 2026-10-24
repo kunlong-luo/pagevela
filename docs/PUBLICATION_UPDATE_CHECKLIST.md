@@ -1,5 +1,7 @@
 # Pagevela public listings and media update checklist
 
+> **Current v2.8.0 release materials (2026-10-24):** [Release notes](../RELEASE_NOTES.md) · [bilingual publication kit](./V2_8_0_RELEASE_KIT.md) · [GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.0). External social/listing edits and media uploads require manual review. Updating repository text does **not** update Product Hunt, YouTube, DEV, PWAs.app or other sites.
+
 > **Platform-by-platform ready-to-copy pack:** [中外媒体逐个平台修改包](./channel-refresh/README.md) · [进度表 CSV](./channel-refresh/TRACKER.csv) · [截图与封面要求](./channel-refresh/ASSETS.md). This is a source repository preparation, not external publication.
 
 Current public identity (verified 2026-10-16):
@@ -15,7 +17,7 @@ This checklist distinguishes code we can maintain in the project from third-part
 - [x] README in Chinese/English, canonical, OG links, sitemap and robots refer to the current app.
 - [x] Brand launch docs, active promotion playbook and the v2.6.0 social draft provide current Pagevela URLs.
 - [x] Historical `RELEASE_NOTES.md` retains the original `Resume Craft v2.6.0` label but prominently links to current Pagevela.
-- [x] Future GitHub Release **display titles and annotated tag messages** use Pagevela. Existing `resume-craft-VERSION.zip`/`.tar.gz` release artifact naming and SHA256 generation remain intact for compatibility.
+- [x] Future GitHub Release **display titles and annotated tag messages** use Pagevela. New v2.8.0+ downloads use `pagevela-VERSION.zip`/`.tar.gz` with SHA256SUMS. **Existing historical** `resume-craft-*` archives, names and checksums remain unchanged for compatibility.
 - [x] Public SVG cover source (`public/og-card.svg`) and README banner (`.github/assets/readme-banner.svg`) already show **Pagevela**, so a blanket regenerate/recreate is unnecessary. Production builds generate the OG PNG from the SVG.
 - [ ] Capture and visually review **new real product screenshots** from the deployed Pagevela UI. Open GitHub Actions → [Capture Real Promotion Media](https://github.com/kunlong-luo/pagevela/actions/workflows/capture-promotion-media.yml) → **Run workflow**, branch `main`; review/download `resume-craft-promotion-media` artifacts (the name is historical and internal). The connected GitHub tool cannot dispatch this workflow. This action creates review files and does not publish external content.
 
