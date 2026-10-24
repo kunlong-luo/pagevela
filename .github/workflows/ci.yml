@@ -13,7 +13,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  # Scheduled checks must not cancel validation for a production main push.
+  group: ci-${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
 jobs:
@@ -103,7 +104,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
-  # Run full main/nightly Firefox and WebKit coverage in parallel.
+  # Run full main/nightly Firefox and WebKit coverage in four parallel shards.
   # Keeping the required e2e-cross-browser job below preserves branch
   # protection while avoiding a 30-minute sequential 438-test timeout.
   e2e-browser-shard:
@@ -117,7 +118,9 @@ jobs:
       matrix:
         include:
           - browser: firefox
-            shard: '1/1'
+            shard: '1/2'
+          - browser: firefox
+            shard: '2/2'
           - browser: webkit
             shard: '1/2'
           - browser: webkit
@@ -149,7 +152,7 @@ jobs:
       # The headed Firefox proof shares the fully installed Firefox shard.
       # Do not duplicate this browser installation on a serial aggregate job.
       - name: Verify actual Firefox thin scrollbar in a headed browser
-        if: matrix.browser == 'firefox'
+        if: matrix.browser == 'firefox' && matrix.shard == '1/2'
         run: >-
           xvfb-run -a env FIREFOX_HEADED_SCROLLBAR_CHECK=1
           pnpm exec playwright test e2e/help-privacy.e2e.ts
