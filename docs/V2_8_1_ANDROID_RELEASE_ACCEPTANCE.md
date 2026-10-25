@@ -1,6 +1,6 @@
 # v2.8.1 — Android 真机与导出可靠性验收 / Release Acceptance
 
-> **Status: awaiting real-device evidence.** This is a release gate, not a certificate of Android/WeChat support. Desktop/mobile Playwright tests are automated **simulations**; they cannot replace real Android WebView, Android print/save, filesystem permissions, a real touch keyboard or genuine offline PWA behavior. Do not publish v2.8.1 or close #262 until all required evidence is recorded and reviewed.
+> **Status (2026-10-25): Android WeChat real-device ACCEPTED by owner (reported PASS); remainder still being verified.** The project owner explicitly reported a successful test on an **actual Android phone with WeChat**; this is owner-provided hardware QA feedback, **not** a Playwright emulator result. Exact device, Android/WeChat versions, individual A–H steps, print/downloaded PDF, PWA/offline artifacts and other Android browsers have not been separately recorded. Do not interpret this as blanket Android/WeChat PDF or offline certification. Complete remaining release-critical evidence before v2.8.1 publication; #262 and #202 remain open.
 
 ## Baseline / 基线
 
@@ -9,6 +9,13 @@
 - Parent issues: [#262 — Android hardware QA](https://github.com/kunlong-luo/pagevela/issues/262), [#202 — brand/migration](https://github.com/kunlong-luo/pagevela/issues/202).
 - Automated coverage already exists for multi-page A4 selectable print output (`e2e/pdf-print-quality.e2e.ts`), real Quick PDF downloads (`e2e/pdf-download.e2e.ts`), workspace export/import (`e2e/portable-workspace.e2e.ts`) and responsive/keyboard/QR flows. From this PR forward, Quick PDF **must be parsed by pdfjs-dist**, every page must contain drawing operations, and the unchanged draft must survive reload following download.
 - Treat Quick PDF as **raster**. Use ATS/browser print for selectable text. Never claim that automation has operated Android's Save as PDF dialog.
+
+## 2026-10-25 owner verification / 负责人确认记录
+
+- **Source:** project owner statement in the current ChatGPT conversation: “安卓微信真机已经验收，实际测试已经通过了。”
+- **What may now be marked as passed:** real Android + actual WeChat in-app browser **overall acceptance**, as reported by the owner.
+- **Not captured in this project evidence record:** model, Android/WeChat versions, exact tested build SHA and individual A–H flows, files produced by Android printing/downloading, offline and installed PWA outcomes, LCP/INP/CLS and screenshots. Do **not** backfill these fields with assumptions or claim that all real-device browser classes passed.
+- **Scope of remaining checks:** independent Android Chrome, Samsung Internet or OEM results; real print/Downloads/opened-PDF and workspace restore evidence to support the v2.8.1 release gate. These can be appended to #262 without publishing any personal resume content.
 
 ## Physical device evidence / 真机矩阵（必须填写）
 
@@ -19,7 +26,7 @@ Copy this table into a comment on #262, with a sanitized screenshot or short scr
 | Stock Android Chrome | Pixel or equivalent; note exact model, Android and Chrome versions | A–H | NOT RUN | — |
 | Samsung browser | Galaxy; note exact device and Samsung Internet version | A–H | NOT RUN | — |
 | Chinese OEM browser | Mainstream Xiaomi/Honor/OPPO/Vivo; note exact OEM browser/version | A–H | NOT RUN | — |
-| WeChat Android WebView | Android + WeChat version, actual QR scan | A, B, D, F, H | NOT RUN | — |
+| WeChat Android WebView | **Actual Android + WeChat**, device and app versions not supplied | Overall owner-reported real-device acceptance; A/B/D/F/H not individually itemized | **OWNER-REPORTED PASS** | [Owner confirmation on #262](https://github.com/kunlong-luo/pagevela/issues/262) (no attachment) |
 
 If a device/browser combination is unavailable, mark **BLOCKED** with reason, owner and follow-up—never mark PASS or silently drop it. Browser/device coverage may be narrowed only by an explicit, documented supported-platform decision.
 
@@ -55,7 +62,7 @@ Tester and sign-off:
 ## Release gates / 发布阻断条件
 
 - [x] Define the exact live-site manual testing matrix and privacy-safe recording format.
-- [ ] **All required real-device rows**: actual recordings and A–H results, with failures triaged; do not infer from simulated viewports.
+- [ ] **All required real-device rows**: Android WeChat real device owner-reported PASS on 2026-10-25; remaining Chrome/Samsung/OEM rows, version metadata, individual A–H and failure triage not separately documented. Do not infer from simulated viewports.
 - [ ] **PDF**: independently open downloaded Quick PDFs and native Android Save-as-PDF output, inspect all pages, text selectability on the ATS print path, and last-line safety.
 - [ ] **Data integrity**: export, cancel import, full restore, browser restart and offline restart from real devices; zero reproducible data loss.
 - [ ] **Stability**: no unresolved P0/P1 (failed export, draft loss, hidden keyboard/action controls).
