@@ -35,7 +35,21 @@
 
 ---
 
-## 🆕 What's New in v2.8.1
+## 🆕 What's New in v2.8.2
+
+A brand-consistency and compatibility release. **Pagevela** is the sole public product name.
+
+- **Consistent naming:** Package metadata, new ZIP/TAR.GZ downloads, release automation, promotion images/videos, issue templates and developer events use Pagevela.
+- **Correct public URLs:** Official Pages route checks, support links and privacy-respecting analytics use `/pagevela/`.
+- **Safe portable backups:** Newly exported workspace files identify as `pagevela-workspace-v1`; the importer still accepts earlier workspace backup versions.
+- **Encrypted-share continuity:** New encrypted links authenticate with Pagevela identifiers; existing v2/v3 protected links remain readable.
+- **Storage safety:** New support-prompt preferences use the Pagevela namespace. Established IndexedDB data and cross-tab write identifiers are deliberately retained until a verified, non-destructive database migration is available.
+
+This version does not certify additional Android hardware, browser printing, or offline scenarios. See [#262](https://github.com/kunlong-luo/pagevela/issues/262).
+
+---
+
+## 📦 Previously in v2.8.1
 
 A **reliability-focused patch release** for Android/WeChat acceptance records and downloadable PDF integrity; no new resume schema, account service or editor controls.
 

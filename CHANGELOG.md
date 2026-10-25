@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2) — 2026-10-25
+
+### Pagevela naming and compatibility
+- Unified new npm package, release archives, media captures, issue templates and application event names under Pagevela.
+- Corrected the official Pages path used by analytics and support prompts.
+- New Pagevela workspace backups can still restore historical portable backups.
+- New encrypted shares use Pagevela authenticated metadata while preserving decryption of existing v2/v3 share links.
+- Preserved historic IndexedDB, cross-tab locking and older release archives rather than breaking saved data or existing downloads.
+- Required checks remain full Chromium, Firefox/WebKit, code quality and same-SHA Pages deployment.
+
+### Limits
+- This is a brand and compatibility release, not a declaration that every Android browser or device flow passed.
+- [Full notes](./RELEASE_NOTES.md) · [Open Android matrix](https://github.com/kunlong-luo/pagevela/issues/262)
+
+
 ## [2.8.1](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.1) — 2026-10-25
 
 ### Reliability and QA
