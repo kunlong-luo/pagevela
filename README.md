@@ -37,12 +37,12 @@
 
 ## 🆕 What's New in v2.8.1
 
-A **reliability-focused patch candidate** for Android/WeChat acceptance records and downloadable PDF integrity; no new resume schema, account service or editor controls.
+A **reliability-focused patch release** for Android/WeChat acceptance records and downloadable PDF integrity; no new resume schema, account service or editor controls.
 
 - **Direct Quick PDF integrity:** Automated Chromium E2E now opens the downloaded PDF with a real PDF parser, inspects each page for valid drawing operations, and confirms the unchanged fictional resume survives a browser reload after export.
 - **Android WeChat hardware sign-off:** The project owner has reported successful testing on a **real Android device using WeChat**. Exact device/app versions and individual PDF/PWA/other-browser outcomes have not been independently documented; no claim of universal Android compatibility.
 - **Brand and transfer audit:** Consolidated the live Pagevela migration decisions, retained legacy storage/share compatibility constants, and documented outstanding trademark and offsite listing evidence.
-- **Safe production release:** Full browser CI and identical-SHA GitHub Pages deployment remain mandatory. Patch version release is gated on review of any remaining export reliability and hardware evidence.
+- **Safe production release:** Full browser CI and identical-SHA GitHub Pages deployment remain mandatory. Release validation requires full main-push CI and a successful same-SHA GitHub Pages deployment; any unrecorded hardware or export scenarios remain explicitly unverified.
 
 **Privacy:** Workspace JSON backups remain unencrypted; no automatic account sync. ATS/browser-print PDF preserves selectable text; Quick PDF is raster. The former `/resume-craft/` site is not redirected.
 

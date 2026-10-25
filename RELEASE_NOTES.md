@@ -2,7 +2,7 @@
 
 **中文名称：** 页帆 v2.8.1
 
-**Release status:** Prepared patch candidate; publishing requires merging the protected release PR, creating the successful stable GitHub Release and confirming the same-SHA Pages deployment. This text does **not** claim the tag already exists.
+**Release verification:** Refer to the [v2.8.1 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.1) for the published tag and release artifacts; the website deployment must independently show a successful main-push CI followed by a same-SHA Pages build and deploy. This document alone is not deployment evidence.
 
 ## Reliability / 可靠性
 - Downloaded Quick PDF is now opened by a genuine PDF parser during full Chromium E2E. Tests validate parseability, positive drawing-operator lists on all pages, valid page geometry and preservation of the existing fictional draft after reload.
