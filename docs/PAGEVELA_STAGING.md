@@ -1,6 +1,6 @@
 # Pagevela — rollout status and remaining quality gates
 
-> **v2.8.1 priority (2026-10-25):** [Actual Android / WeChat / PDF / backup release gate](./V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) and [#202 current brand/migration engineering audit](./PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md). v2.8.0 CI and Pages deployed; **v2.8.1 has not yet been released and real-device sign-off is pending**. Historical status below is kept for traceability.
+> **v2.8.1 scope and rollout gate (2026-10-25):** [Android WeChat owner-confirmed PASS and remaining coverage](./V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [#202 brand audit](./PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md). v2.8.1 is a documentation/test/version-only patch with no changed mobile/PDF runtime behavior. Automated CI and owner-reported WeChat testing are sufficient for this patch **once the new stable Release and same-SHA CI-gated Pages deployment succeed**. Other Android browsers, native print/Downloads and offline PWA results remain explicitly unverified under #262; branding legal clearance remains under #202. Historical status below is kept for traceability.
 
 ## Production deployment and China pilot status (2026-10-24)
 

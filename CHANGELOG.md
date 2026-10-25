@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.8.1](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.1) — 2026-10-25
+
+### Reliability and QA
+- Strengthened direct Quick PDF download E2E: parse every PDF page, require valid geometry and drawing operations, and re-open the browser to verify the saved resume remains unchanged.
+- Recorded the owner's real Android WeChat acceptance as **owner-reported PASS**, not Playwright simulation, without inventing device versions or individual PDF/PWA results.
+- Documented the supported-device matrix, migration decisions and outstanding legal trademark / offsite listing work in separate tracked reports.
+- Preserved browser-local storage compatibility, historical archive filenames and strict CI-to-Pages deployment gates.
+
+### Scope
+- No schema/API breaking changes, no new native browser UI components and no inferred global Android certification.
+- [Release notes](./RELEASE_NOTES.md) · [Android acceptance](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md)
+
+
 ## [2.8.0](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.0) — 2026-10-24
 
 ### Product and mobile

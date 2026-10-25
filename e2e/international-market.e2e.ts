@@ -3,6 +3,13 @@ import { readActiveMarkdown } from './helpers/indexeddb';
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
+    // Initialization scripts execute on every reload. Seed defaults only
+    // on first visit in this tab, or reload tests will overwrite the very
+    // saved market settings they are supposed to verify.
+    if (window !== window.top) return;
+    const seedKey = 'pagevela-e2e:international-market-seeded';
+    if (window.sessionStorage.getItem(seedKey) === '1') return;
+    window.sessionStorage.setItem(seedKey, '1');
     window.localStorage.setItem('resume-onboarding-v1-complete', '1');
     window.localStorage.setItem(
       'resume-settings',

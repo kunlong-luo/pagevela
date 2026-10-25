@@ -1,6 +1,6 @@
 # v2.8.1 — Android 真机与导出可靠性验收 / Release Acceptance
 
-> **Status (2026-10-25): Android WeChat real-device ACCEPTED by owner (reported PASS); remainder still being verified.** The project owner explicitly reported a successful test on an **actual Android phone with WeChat**; this is owner-provided hardware QA feedback, **not** a Playwright emulator result. Exact device, Android/WeChat versions, individual A–H steps, print/downloaded PDF, PWA/offline artifacts and other Android browsers have not been separately recorded. Do not interpret this as blanket Android/WeChat PDF or offline certification. Complete remaining release-critical evidence before v2.8.1 publication; #262 and #202 remain open.
+> **2026-10-25 scoped decision:** For the **v2.8.1 documentation + automated-regression patch**, automated release acceptance is sufficient **once the exact release PR and main CI gates pass**, because this patch does not alter PDF runtime logic, device-specific UI, persistence behavior or browser-print integration. The owner separately confirmed a PASS on an **actual Android phone in WeChat**. This does **not** establish that Android Chrome/Samsung/OEM, system Save-as-PDF, Downloads, offline PWA or individual A–H flows all passed. Those remain open in #262 as **future coverage gates for changes affecting those paths**, not blockers to this test/documentation-only release. #202 legal trademark and offsite listing work also remains open.
 
 ## Baseline / 基线
 
@@ -67,7 +67,8 @@ Tester and sign-off:
 - [ ] **Data integrity**: export, cancel import, full restore, browser restart and offline restart from real devices; zero reproducible data loss.
 - [ ] **Stability**: no unresolved P0/P1 (failed export, draft loss, hidden keyboard/action controls).
 - [ ] **Automated**: merge QA/code improvements after quality, Chromium, Firefox/WebKit E2E, final build-and-test success; preserve no-native-component contract.
-- [ ] **v2.8.1**: only bump release version, tag, publish and perform same-SHA Pages deployment checks after hardware sign-off and actual fixes.
+- [x] **v2.8.1 release scope decision (2026-10-25):** Documentation/test/version-only patch, no change to Android runtime, PDF implementation or local storage; use successful full CI and the owner's actual Android WeChat PASS. Unrecorded hardware flows remain unverified in #262 and are not asserted as passed.
+- [ ] **v2.8.1 production acceptance:** latest-head PR required checks all succeed, manually reviewed squash merge, GitHub stable Release ZIP/TAR.GZ/checksums, then successful full main-push CI followed by same-SHA Pages **build and deploy**.
 
 ## Safety and scope
 
