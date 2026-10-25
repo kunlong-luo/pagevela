@@ -6,17 +6,17 @@ import {
 
 describe('support prompt', () => {
   it('only enables the prompt on the official GitHub Pages app', () => {
-    expect(isOfficialHostedApp('kunlong-luo.github.io', '/resume-craft/')).toBe(true);
-    expect(isOfficialHostedApp('localhost', '/resume-craft/')).toBe(false);
-    expect(isOfficialHostedApp('127.0.0.1', '/resume-craft/')).toBe(false);
-    expect(isOfficialHostedApp('example.com', '/resume-craft/')).toBe(false);
-    expect(isOfficialHostedApp('kunlong-luo.github.io', '/resume-craft-copy/')).toBe(false);
+    expect(isOfficialHostedApp('kunlong-luo.github.io', '/pagevela/')).toBe(true);
+    expect(isOfficialHostedApp('localhost', '/pagevela/')).toBe(false);
+    expect(isOfficialHostedApp('127.0.0.1', '/pagevela/')).toBe(false);
+    expect(isOfficialHostedApp('example.com', '/pagevela/')).toBe(false);
+    expect(isOfficialHostedApp('kunlong-luo.github.io', '/pagevela-copy/')).toBe(false);
   });
 
   it('never interrupts before the first completed PDF export', () => {
     expect(shouldShowSupportPrompt({
       hostname: 'kunlong-luo.github.io',
-      pathname: '/resume-craft/',
+      pathname: '/pagevela/',
       prompted: false,
       exportCount: 0,
     })).toBe(false);
@@ -25,7 +25,7 @@ describe('support prompt', () => {
   it('becomes eligible after the first completed PDF export', () => {
     expect(shouldShowSupportPrompt({
       hostname: 'kunlong-luo.github.io',
-      pathname: '/resume-craft/',
+      pathname: '/pagevela/',
       prompted: false,
       exportCount: 1,
     })).toBe(true);
@@ -34,14 +34,14 @@ describe('support prompt', () => {
   it('never shows again after the one-time prompt has been handled', () => {
     expect(shouldShowSupportPrompt({
       hostname: 'kunlong-luo.github.io',
-      pathname: '/resume-craft/',
+      pathname: '/pagevela/',
       prompted: true,
       exportCount: 1,
     })).toBe(false);
 
     expect(shouldShowSupportPrompt({
       hostname: 'kunlong-luo.github.io',
-      pathname: '/resume-craft/',
+      pathname: '/pagevela/',
       prompted: true,
       exportCount: 99,
     })).toBe(false);

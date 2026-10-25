@@ -24,7 +24,7 @@ declare global {
 }
 
 const OFFICIAL_HOSTNAME = 'kunlong-luo.github.io';
-const APP_PATH_PREFIX = '/resume-craft';
+const APP_PATH_PREFIX = '/pagevela';
 const SIMPLE_ANALYTICS_SCRIPT_ID = 'simple-analytics';
 const SIMPLE_ANALYTICS_SCRIPT_URL = 'https://scripts.simpleanalyticscdn.com/latest.js';
 const IGNORED_METRICS =

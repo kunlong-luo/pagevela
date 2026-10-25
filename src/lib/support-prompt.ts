@@ -1,4 +1,4 @@
-export const SUPPORT_REPO_URL = 'https://github.com/kunlong-luo/resume-craft';
+export const SUPPORT_REPO_URL = 'https://github.com/kunlong-luo/pagevela';
 import { STORAGE_KEYS } from './storage';
 
 export const SUPPORT_PROMPT_STORAGE_KEY = STORAGE_KEYS.SUPPORT_PROMPT;
@@ -21,7 +21,7 @@ interface ShouldShowSupportPromptOptions {
 
 export function isOfficialHostedApp(hostname: string, pathname: string) {
   return hostname === 'kunlong-luo.github.io' && (
-    pathname === '/resume-craft' || pathname.startsWith('/resume-craft/')
+    pathname === '/pagevela' || pathname.startsWith('/pagevela/')
   );
 }
 

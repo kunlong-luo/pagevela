@@ -9,34 +9,34 @@ import {
 
 describe('privacy-friendly analytics', () => {
   it('only enables analytics on the official hosted app', () => {
-    expect(isOfficialAnalyticsContext('kunlong-luo.github.io', '/resume-craft/')).toBe(true);
-    expect(isOfficialAnalyticsContext('kunlong-luo.github.io', '/resume-craft/shared')).toBe(true);
-    expect(isOfficialAnalyticsContext('localhost', '/resume-craft/')).toBe(false);
-    expect(isOfficialAnalyticsContext('example.com', '/resume-craft/')).toBe(false);
+    expect(isOfficialAnalyticsContext('kunlong-luo.github.io', '/pagevela/')).toBe(true);
+    expect(isOfficialAnalyticsContext('kunlong-luo.github.io', '/pagevela/shared')).toBe(true);
+    expect(isOfficialAnalyticsContext('localhost', '/pagevela/')).toBe(false);
+    expect(isOfficialAnalyticsContext('example.com', '/pagevela/')).toBe(false);
   });
 
   it('normalizes share URLs without exposing the share payload', () => {
     const payload = 'private-resume-payload';
     const path = getSafeAnalyticsPath(
-      '/resume-craft/',
+      '/pagevela/',
       `?share=${encodeURIComponent(payload)}&utm_source=test`,
     );
 
-    expect(path).toBe('/resume-craft/shared');
+    expect(path).toBe('/pagevela/shared');
     expect(path).not.toContain(payload);
     expect(path).not.toContain('share=');
 
     const fragmentPath = getSafeAnalyticsPath(
-      '/resume-craft/',
+      '/pagevela/',
       '',
       `#share=${encodeURIComponent(payload)}`,
     );
-    expect(fragmentPath).toBe('/resume-craft/shared');
+    expect(fragmentPath).toBe('/pagevela/shared');
     expect(fragmentPath).not.toContain(payload);
   });
 
   it('keeps normal app paths and ignores ordinary query data', () => {
-    expect(getSafeAnalyticsPath('/resume-craft/', '?utm_source=github')).toBe('/resume-craft/');
+    expect(getSafeAnalyticsPath('/pagevela/', '?utm_source=github')).toBe('/pagevela/');
   });
 
   it('respects Do Not Track values', () => {

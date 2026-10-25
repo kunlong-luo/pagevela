@@ -27,7 +27,7 @@ describe('Pagevela post-rename publication links', () => {
     expect(workflow).toContain('git tag -a "${TAG}" -m "Pagevela ${TAG}"');
     expect(workflow).toContain('--title "Pagevela ${TAG}"');
     expect(workflow).not.toContain('--title "Resume Craft ${TAG}"');
-    expect(workflow).toContain('resume-craft-${VERSION}.zip');
+    expect(workflow).toContain('pagevela-${VERSION}.zip');
     expect(workflow).toContain('SHA256SUMS.txt');
   });
 });

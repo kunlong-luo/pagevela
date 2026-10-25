@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/kunlong-luo/resume-craft/security/advisories/new
+    url: https://github.com/kunlong-luo/pagevela/security/advisories/new
     about: Report security issues privately. Do not open a public issue.
   - name: Live app
-    url: https://kunlong-luo.github.io/resume-craft/
-    about: Open the current public version of Resume Craft.
+    url: https://kunlong-luo.github.io/pagevela/
+    about: Open the current public version of Pagevela.
