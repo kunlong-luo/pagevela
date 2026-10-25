@@ -123,17 +123,33 @@ describe('Pagevela public brand and compatibility', () => {
     expect(help).not.toContain('github.com/kunlong-luo/resume-craft');
   });
 
-  it('does not break legacy share decryption or client-side cache identities', () => {
+  it('requires Pagevela names in new release archives and promotion assets', () => {
+    const release = source('.github/workflows/release.yml');
+    expect(release).toContain('pagevela-${VERSION}.zip');
+    expect(release).toContain('pagevela-${VERSION}.tar.gz');
+    expect(release).not.toContain('resume-craft-${VERSION}');
+    const capture = source('scripts/capture-promotion-media.mjs');
+    const render = source('scripts/render-promotion-assets.mjs');
+    const workflow = source('.github/workflows/capture-promotion-media.yml');
+    for (const text of [capture, render, workflow]) {
+      expect(text).not.toContain('resume-craft-');
+      expect(text).toContain('pagevela-');
+    }
+    expect(source('package.json')).toContain('"name": "pagevela"');
+  });
+
+  it('does not break legacy share decryption or saved cross-tab identities', () => {
     const shareUtils = source('src/lib/share-utils.ts');
     expect(shareUtils).toContain("'resume-craft-share-v2'");
     expect(shareUtils).toContain("'resume-craft-share-v3'");
-    expect(source('vite.config.ts')).toContain("cacheName: 'resume-craft-pdf-tools'");
-    expect(source('package.json')).toContain('"name": "resume-craft"');
+    expect(shareUtils).toContain("'pagevela-share-v3'");
+    expect(source('vite.config.ts')).toContain("cacheName: 'pagevela-pdf-tools'");
+    expect(source('package.json')).toContain('"name": "pagevela"');
     expect(source('src/components/EditorWorkspace.tsx')).toContain(
       "new BroadcastChannel('resume-craft:tabs:v1')",
     );
     expect(source('src/components/layout/Header.tsx')).toContain(
-      "window.addEventListener('resume-craft:open-backup'",
+      "window.addEventListener('pagevela:open-backup'",
     );
   });
 });

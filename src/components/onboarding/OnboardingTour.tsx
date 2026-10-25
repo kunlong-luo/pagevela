@@ -211,7 +211,7 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
 
   const importExisting = () => {
     complete();
-    window.dispatchEvent(new CustomEvent('resume-craft:open-import'));
+    window.dispatchEvent(new CustomEvent('pagevela:open-import'));
   };
 
   const current = copy[step] ?? copy[0]!;

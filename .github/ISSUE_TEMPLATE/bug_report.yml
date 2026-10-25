@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a reproducible problem in Resume Craft
+description: Report a reproducible problem in Pagevela
 title: "[Bug]: "
 body:
   - type: checkboxes

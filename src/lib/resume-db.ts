@@ -24,7 +24,7 @@ export interface ResumeMetaRecord {
   updatedAt: string;
 }
 
-export class ResumeCraftDatabase extends Dexie {
+export class PagevelaDatabase extends Dexie {
   documents!: EntityTable<ResumeDocumentRecord, 'id'>;
   profiles!: EntityTable<ResumeProfileRecord, 'id'>;
   drafts!: EntityTable<ResumeDraftRecord, 'id'>;
@@ -64,10 +64,10 @@ export class ResumeCraftDatabase extends Dexie {
   }
 }
 
-let database: ResumeCraftDatabase | null = null;
+let database: PagevelaDatabase | null = null;
 
-export function getResumeDatabase(): ResumeCraftDatabase {
-  database ??= new ResumeCraftDatabase();
+export function getResumeDatabase(): PagevelaDatabase {
+  database ??= new PagevelaDatabase();
   return database;
 }
 

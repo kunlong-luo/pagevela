@@ -21,11 +21,12 @@ export const STORAGE_KEYS = {
   ONBOARDING_FIRST_VISIT: 'resume-onboarding-first-visit',
   ONBOARDING_COMPLETE: 'resume-onboarding-v1-complete',
   SPLIT_RATIO: 'resume-split-ratio',
-  SUPPORT_PROMPT: 'resume-craft.support-prompt.v2',
+  SUPPORT_PROMPT: 'pagevela.support-prompt.v3',
+  SUPPORT_PROMPT_V2_LEGACY: 'resume-craft.support-prompt.v2',
   SUPPORT_PROMPT_LEGACY: 'resume-craft.support-prompt.v1',
 } as const;
 
-export const STORAGE_HEALTH_EVENT = 'resume-craft:storage-health';
+export const STORAGE_HEALTH_EVENT = 'pagevela:storage-health';
 
 export type StorageKey = typeof STORAGE_KEYS[keyof typeof STORAGE_KEYS] | string;
 export type StorageOperation = 'set' | 'remove' | 'clear';

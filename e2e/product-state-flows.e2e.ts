@@ -191,12 +191,12 @@ test.describe('product state flows', () => {
     };
 
     await page.getByTestId('resume-source-import-file').setInputFiles({
-      name: 'resume-craft-full-backup.JSON',
+      name: 'pagevela-full-backup.JSON',
       mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(backup)),
     });
 
-    await expect(page.getByText('resume-craft-full-backup.JSON')).toBeVisible();
+    await expect(page.getByText('pagevela-full-backup.JSON')).toBeVisible();
     await expect(page.getByText(/Full Pagevela backup detected|已识别 Pagevela 完整备份/)).toBeVisible();
 
     await page.getByRole('button', { name: /Import This File|确认导入/ }).click();

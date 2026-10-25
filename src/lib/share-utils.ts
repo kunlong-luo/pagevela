@@ -36,7 +36,8 @@ export const SHARE_PBKDF2_ITERATIONS = 310_000;
 const SHARE_CURRENT_VERSION = 3;
 const SHARE_LEGACY_ENCRYPTION_VERSION = 2;
 const SHARE_V2_ENCRYPTION_AAD = 'resume-craft-share-v2';
-const SHARE_V3_ENCRYPTION_AAD = 'resume-craft-share-v3';
+const SHARE_V3_ENCRYPTION_AAD = 'pagevela-share-v3';
+const LEGACY_SHARE_V3_ENCRYPTION_AAD = 'resume-craft-share-v3';
 const SHARE_COMPRESSION = 'ZLIB';
 const SHARE_SALT_BYTES = 16;
 const SHARE_IV_BYTES = 12;
@@ -529,22 +530,30 @@ export async function decryptSharePayload(
       payload.iterations,
     );
 
-    const plaintext = await webCrypto.subtle.decrypt(
-      {
-        name: 'AES-GCM',
-        iv: toArrayBuffer(iv),
-        additionalData: toArrayBuffer(
-          textEncoder.encode(
-            payload.version === 3
-              ? SHARE_V3_ENCRYPTION_AAD
-              : SHARE_V2_ENCRYPTION_AAD,
-          ),
-        ),
-        tagLength: 128,
-      },
-      key,
-      toArrayBuffer(ciphertext),
-    );
+    // Current links use Pagevela AAD. Older links use the original authenticated
+    // context, and must remain decryptable after the rebrand.
+    let plaintext: ArrayBuffer | null = null;
+    const associatedData = payload.version === 3
+      ? [SHARE_V3_ENCRYPTION_AAD, LEGACY_SHARE_V3_ENCRYPTION_AAD]
+      : [SHARE_V2_ENCRYPTION_AAD];
+    for (const aad of associatedData) {
+      try {
+        plaintext = await webCrypto.subtle.decrypt(
+          {
+            name: 'AES-GCM',
+            iv: toArrayBuffer(iv),
+            additionalData: toArrayBuffer(textEncoder.encode(aad)),
+            tagLength: 128,
+          },
+          key,
+          toArrayBuffer(ciphertext),
+        );
+        break;
+      } catch {
+        // Authentication failed: try the legacy context, or return null.
+      }
+    }
+    if (!plaintext) return null;
 
     const decodedBytes =
       payload.version === 3

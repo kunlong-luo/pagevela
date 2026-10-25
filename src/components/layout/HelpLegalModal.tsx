@@ -188,7 +188,7 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
                   })}
                 </div>
 
-                <button type="button" onClick={() => openGuideTool('resume-craft:start-onboarding')} className="flex w-full items-center justify-between gap-3 rounded-xl border border-indigo-200 bg-indigo-50/60 px-3.5 py-3 text-left transition hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-950/30 dark:hover:bg-indigo-950/60">
+                <button type="button" onClick={() => openGuideTool('pagevela:start-onboarding')} className="flex w-full items-center justify-between gap-3 rounded-xl border border-indigo-200 bg-indigo-50/60 px-3.5 py-3 text-left transition hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-950/30 dark:hover:bg-indigo-950/60">
                   <div>
                     <div className="text-xs font-bold">{isEn ? 'Replay the interface tour' : '重新观看新手教程'}</div>
                     <div className="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">{isEn ? 'Review the editor, toolbar, and starting options without changing your resume.' : '再次查看编辑区、工具栏和开始方式，不会修改或重置你的简历。'}</div>

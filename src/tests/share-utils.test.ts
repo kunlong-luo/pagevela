@@ -63,7 +63,7 @@ function toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
   return copy.buffer;
 }
 
-async function encryptLegacyV2(markdown: string, password: string) {
+async function encryptLegacyV2(markdown: string, password: string, version: 2 | 3 = 2) {
   const encoder = new TextEncoder();
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const iv = crypto.getRandomValues(new Uint8Array(12));
@@ -90,22 +90,19 @@ async function encryptLegacyV2(markdown: string, password: string) {
     {
       name: 'AES-GCM',
       iv: toArrayBuffer(iv),
-      additionalData: toArrayBuffer(encoder.encode('resume-craft-share-v2')),
+      additionalData: toArrayBuffer(encoder.encode(version === 3
+        ? 'resume-craft-share-v3' : 'resume-craft-share-v2')),
       tagLength: 128,
     },
     key,
-    toArrayBuffer(
-      encoder.encode(
-        JSON.stringify({
-          m: markdown,
-          s: settings,
-        }),
-      ),
-    ),
+    toArrayBuffer(version === 3
+      ? zlibSync(encoder.encode(JSON.stringify({ m: markdown, s: settings })), { level: 6 })
+      : encoder.encode(JSON.stringify({ m: markdown, s: settings }))),
   );
 
   return encodeOuterEnvelope({
-    v: 2,
+    v: version,
+    ...(version === 3 ? { z: 'ZLIB' } : {}),
     a: 'A256GCM',
     k: 'PBKDF2-SHA256',
     i: SHARE_PBKDF2_ITERATIONS,
@@ -295,6 +292,17 @@ describe('privacy-preserving share links', () => {
     expect(decrypted?.settings.themeColor).toBe('indigo');
   });
 
+
+  it('decrypts legacy v3 encrypted shares using the historical authentication context', async () => {
+    const password = 'legacy v3 compatible password';
+    const markdown = '# Legacy v3 resume';
+    const encoded = await encryptLegacyV2(markdown, password, 3);
+    const parsed = parseSharePayload(encoded);
+    if (!parsed || parsed.kind !== 'encrypted') throw new Error('Expected encrypted v3');
+    expect(parsed.payload.version).toBe(3);
+    const recovered = await decryptSharePayload(parsed.payload, password);
+    expect(recovered?.markdown).toBe(markdown);
+  });
 
   it('normalizes settings before encrypting protected shares', async () => {
     const malformedSettings = {

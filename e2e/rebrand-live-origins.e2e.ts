@@ -34,7 +34,7 @@ async function openEditor(page: Page, url: URL): Promise<void> {
 }
 
 async function openBackup(page: Page) {
-  await page.evaluate(() => dispatchEvent(new Event('resume-craft:open-backup')));
+  await page.evaluate(() => dispatchEvent(new Event('pagevela:open-backup')));
   const modal = page.getByRole('dialog', { name: 'Resume Management' });
   await modal.getByRole('button', { name: 'Backup', exact: true }).click();
   return modal;
@@ -87,7 +87,7 @@ test('old HTTPS origin stays accessible and explicit complete-workspace transfer
     ]);
     const backupText = await readFile(await download.path()!, 'utf8');
     const backup = JSON.parse(backupText);
-    expect(backup.version).toBe('resume-craft-workspace-v1');
+    expect(backup.version).toBe('pagevela-workspace-v1');
     const photographed = backup.profiles.find((p: { id: string }) => p.id === backup.activeProfileId);
     expect(photographed.photoDataUrl).toBe(photoDataUrl);
 

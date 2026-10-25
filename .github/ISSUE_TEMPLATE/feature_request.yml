@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an improvement for Resume Craft
+description: Suggest an improvement for Pagevela
 title: "[Feature]: "
 body:
   - type: checkboxes

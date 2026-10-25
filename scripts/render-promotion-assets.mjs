@@ -1,16 +1,16 @@
 /**
  * Produce pixel-perfect, editable-in-code promotional layouts around actual
  * Playwright screenshots. We never synthesize, alter or fabricate UI contents.
- * Pagevela is staged; the existing origin and resume-craft-* artifact filenames
- * stay intact for workflow and URL compatibility. Do not publish new branded
- * promotional assets until the launch gates are explicitly approved.
+ * Pagevela is live at the official /pagevela/ site. This script uses current
+ * screenshots and Pagevela-named assets. Review generated media before
+ * distributing it to third-party platforms.
  */
 import { createCanvas, loadImage } from '@napi-rs/canvas';
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 const root = resolve(process.cwd(), 'artifacts/promotion');
-const input = resolve(root, 'resume-craft-markdown-preview.png');
+const input = resolve(root, 'pagevela-markdown-preview.png');
 const screenshot = await loadImage(await readFile(input));
 const offWhite = '#F8FAFF';
 const indigo = '#4F46E5';
@@ -102,8 +102,8 @@ async function save({ c }, name) {
   screenshotFrame(a.x, 540, 174, 692, 394);
   roundRect(a.x, 540, 592, 680, 44, 12, '#FFFFFF');
   text(a.x, 'REAL PRODUCT SCREENSHOT  ·  MARKDOWN + LIVE PREVIEW', 558, 619, 14, '#334155', 700);
-  text(a.x, 'kunlong-luo.github.io/resume-craft', 66, 660, 17, '#4F46E5', 700);
-  await save(a, 'resume-craft-reddit-cover-1280x720.png');
+  text(a.x, 'kunlong-luo.github.io/pagevela', 66, 660, 17, '#4F46E5', 700);
+  await save(a, 'pagevela-reddit-cover-1280x720.png');
 }
 
 // Product Hunt / GitHub gallery — generous readable screenshot.
@@ -114,7 +114,7 @@ async function save({ c }, name) {
   text(a.x, 'Edit your resume, not your layout.', 58, 166, 39, dark, 800);
   text(a.x, 'Markdown + forms. A live preview. PDF options.', 59, 213, 20, '#475569', 500);
   screenshotFrame(a.x, 57, 265, 1086, 610);
-  await save(a, 'resume-craft-product-gallery-1200x900.png');
+  await save(a, 'pagevela-product-gallery-1200x900.png');
 }
 
 // Portrait social post / LinkedIn illustration based on the identical real screenshot.
@@ -130,8 +130,8 @@ async function save({ c }, name) {
   pill(a.x, 'FREE', 74, 1112, 100);
   pill(a.x, 'OPEN SOURCE', 187, 1112, 173);
   pill(a.x, 'NO SIGN-UP', 374, 1112, 164);
-  text(a.x, 'Try it: kunlong-luo.github.io/resume-craft', 74, 1234, 22, indigo, 700);
-  await save(a, 'resume-craft-social-1080x1350.png');
+  text(a.x, 'Try it: kunlong-luo.github.io/pagevela', 74, 1234, 22, indigo, 700);
+  await save(a, 'pagevela-social-1080x1350.png');
 }
 
 // Short outro for MP4. No misleading success claims.
@@ -152,7 +152,7 @@ async function save({ c }, name) {
   text(x, 'without the formatting fight.', 83, 370, 52, '#FFFFFF', 800);
   text(x, 'FREE  ·  OPEN SOURCE  ·  NO SIGN-UP', 86, 435, 19, '#C7D2FE', 800);
   roundRect(x, 82, 493, 775, 85, 20, '#FFFFFF');
-  text(x, 'kunlong-luo.github.io/resume-craft', 110, 548, 27, '#312E81', 800);
+  text(x, 'kunlong-luo.github.io/pagevela', 110, 548, 27, '#312E81', 800);
   text(x, 'Real editor footage · fictional example resume', 85, 668, 15, '#C7D2FE', 500);
-  await save(a, 'resume-craft-video-outro-1280x720.png');
+  await save(a, 'pagevela-video-outro-1280x720.png');
 }

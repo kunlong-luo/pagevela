@@ -56,16 +56,16 @@ export function Toolbar({ mobileMode = 'form' }: ToolbarProps) {
       updateSetting('showPageBreakLine', true);
     };
 
-    window.addEventListener('resume-craft:open-template-center', openTemplateCenter);
-    window.addEventListener('resume-craft:open-layout', openLayout);
-    window.addEventListener('resume-craft:open-style', openStyle);
-    window.addEventListener('resume-craft:show-page-lines', showPageLines);
+    window.addEventListener('pagevela:open-template-center', openTemplateCenter);
+    window.addEventListener('pagevela:open-layout', openLayout);
+    window.addEventListener('pagevela:open-style', openStyle);
+    window.addEventListener('pagevela:show-page-lines', showPageLines);
 
     return () => {
-      window.removeEventListener('resume-craft:open-template-center', openTemplateCenter);
-      window.removeEventListener('resume-craft:open-layout', openLayout);
-      window.removeEventListener('resume-craft:open-style', openStyle);
-      window.removeEventListener('resume-craft:show-page-lines', showPageLines);
+      window.removeEventListener('pagevela:open-template-center', openTemplateCenter);
+      window.removeEventListener('pagevela:open-layout', openLayout);
+      window.removeEventListener('pagevela:open-style', openStyle);
+      window.removeEventListener('pagevela:show-page-lines', showPageLines);
     };
   }, [updateSetting]);
 
@@ -145,7 +145,7 @@ export function Toolbar({ mobileMode = 'form' }: ToolbarProps) {
 
         <button
           type="button"
-          onClick={() => window.dispatchEvent(new Event('resume-craft:open-editor-tools'))}
+          onClick={() => window.dispatchEvent(new Event('pagevela:open-editor-tools'))}
           aria-label={isEn ? 'More editing tools' : '更多编辑工具'}
           className="md:hidden flex h-11 items-center justify-center gap-1 rounded-lg border border-slate-200 bg-white px-1.5 min-[390px]:px-2 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-50 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
         >

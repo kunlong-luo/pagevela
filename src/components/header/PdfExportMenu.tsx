@@ -45,9 +45,9 @@ export function PdfExportMenu({
 
   useEffect(() => {
     const openPdfMenu = () => setIsOpen(true);
-    window.addEventListener('resume-craft:open-pdf-menu', openPdfMenu);
+    window.addEventListener('pagevela:open-pdf-menu', openPdfMenu);
     return () => {
-      window.removeEventListener('resume-craft:open-pdf-menu', openPdfMenu);
+      window.removeEventListener('pagevela:open-pdf-menu', openPdfMenu);
     };
   }, []);
 

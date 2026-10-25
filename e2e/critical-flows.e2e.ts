@@ -35,7 +35,7 @@ test.describe('critical resume flows', () => {
   test('ATS PDF action reaches the browser print pipeline', async ({ page }) => {
     await page.addInitScript(() => {
       const notifyPrint = () => {
-        window.top?.postMessage('resume-craft-e2e-print-called', '*');
+        window.top?.postMessage('pagevela-e2e-print-called', '*');
       };
 
       window.print = notifyPrint;
@@ -69,7 +69,7 @@ test.describe('critical resume flows', () => {
     await page.evaluate(() => {
       (window as Window & { __e2ePrintCalled?: boolean }).__e2ePrintCalled = false;
       window.addEventListener('message', (event) => {
-        if (event.data === 'resume-craft-e2e-print-called') {
+        if (event.data === 'pagevela-e2e-print-called') {
           (window as Window & { __e2ePrintCalled?: boolean }).__e2ePrintCalled = true;
         }
       });

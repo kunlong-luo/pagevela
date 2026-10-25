@@ -1,3 +1,25 @@
+# Pagevela v2.8.2
+
+**中文名称：** 页帆 v2.8.2
+
+**Release verification:** The [v2.8.2 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2) must have a tag pointing to the tested production commit, branded ZIP/TAR.GZ and SHA256 checksums. Require a successful main-push CI and a successful Pages build and deployment on the same SHA. Draft documentation is not proof of publication.
+
+## Unified identity / 品牌统一
+- Public product, npm package metadata, current release packaging, promotion capture outputs, issue templates, internal editor action events and official-site support/analytics paths use **Pagevela**.
+- New assets are named `pagevela-2.8.2.zip`, `pagevela-2.8.2.tar.gz` and `SHA256SUMS.txt`. Older published release packages are preserved, not silently replaced.
+- New workspace exports use `pagevela-workspace-v1`. Existing portable workspace backups continue to import.
+- New encrypted v3 share links use Pagevela authentication context. Existing password-protected v2/v3 links still decrypt using their original authenticated context.
+- Current support-prompt preference keys use Pagevela branding while respecting prior prompt state.
+
+## Compatibility / 兼容
+- Historic IndexedDB identity, shared write lock and cross-tab identity remain deliberately stable so previously saved local resumes and existing sessions are not orphaned. These are **legacy data/protocol identifiers, not public brand names**.
+- No remote account sync, irreversible storage migration, new Android native print implementation or third-party branding/trademark clearance is asserted.
+- Android WeChat owner-reported PASS from v2.8.1 remains documented; no extra device matrix cases are newly certified. See [#262](https://github.com/kunlong-luo/pagevela/issues/262) and [#202](https://github.com/kunlong-luo/pagevela/issues/202).
+
+**Compare:** https://github.com/kunlong-luo/pagevela/compare/v2.8.1...v2.8.2
+
+---
+
 # Pagevela v2.8.1
 
 **中文名称：** 页帆 v2.8.1
@@ -16,7 +38,7 @@
 - Public GitHub Pages remains the only approved hosting origin. There was no Tencent EdgeOne/DNS switch, account service, external media publication, or real-resume upload.
 
 ## Downloads / 下载
-When published, archives remain `resume-craft-2.8.1.zip`, `resume-craft-2.8.1.tar.gz`, and `SHA256SUMS.txt` for backward compatibility. New release display name is **Pagevela v2.8.1**.
+The original v2.8.1 archives remain available under their historically published filenames with `SHA256SUMS.txt`. **Starting with v2.8.2**, newly built archives use the Pagevela naming convention. The v2.8.1 release display title is **Pagevela v2.8.1**.
 
 **References:** [Device QA](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [Migration audit](./docs/PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md) · [v2.8.1 target release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.1) · [Diff from v2.8.0](https://github.com/kunlong-luo/pagevela/compare/v2.8.0...v2.8.1)
 

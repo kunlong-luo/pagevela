@@ -39,8 +39,8 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
       setEditorMode('form');
       setMobileTab('form');
     };
-    window.addEventListener('resume-craft:open-editor-tools', showEditingTools);
-    return () => window.removeEventListener('resume-craft:open-editor-tools', showEditingTools);
+    window.addEventListener('pagevela:open-editor-tools', showEditingTools);
+    return () => window.removeEventListener('pagevela:open-editor-tools', showEditingTools);
   }, [mobileTab]);
 
   const {
@@ -81,8 +81,8 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
 
   useEffect(() => {
     const startOnboarding = () => setIsOnboardingOpen(true);
-    window.addEventListener('resume-craft:start-onboarding', startOnboarding);
-    return () => window.removeEventListener('resume-craft:start-onboarding', startOnboarding);
+    window.addEventListener('pagevela:start-onboarding', startOnboarding);
+    return () => window.removeEventListener('pagevela:start-onboarding', startOnboarding);
   }, []);
 
   const hasTrackedEditingRef = useRef(false);
@@ -181,8 +181,8 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
       smartAutoFit(state.settings, state.updateSetting);
       trackAnalyticsEvent('auto_fit_used');
     };
-    window.addEventListener('resume-craft:auto-fit', onAutoFit);
-    return () => window.removeEventListener('resume-craft:auto-fit', onAutoFit);
+    window.addEventListener('pagevela:auto-fit', onAutoFit);
+    return () => window.removeEventListener('pagevela:auto-fit', onAutoFit);
   }, []);
 
   const handlePdfExportComplete = useCallback(() => {
@@ -407,7 +407,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
           >
             <button
               type="button"
-              onClick={() => { setEditorMode('form'); setMobileTab('form'); window.dispatchEvent(new Event('resume-craft:close-editor-tools')); }}
+              onClick={() => { setEditorMode('form'); setMobileTab('form'); window.dispatchEvent(new Event('pagevela:close-editor-tools')); }}
               aria-label={uiLanguage === 'en' ? 'Form editor' : '表单编辑模式'}
               aria-pressed={mobileTab === 'form'}
               className={`min-h-11 flex items-center justify-center gap-1 min-[390px]:gap-1.5 px-0.5 min-[390px]:px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
@@ -422,7 +422,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
 
             <button
               type="button"
-              onClick={() => { setEditorMode('markdown'); setMobileTab('markdown'); window.dispatchEvent(new Event('resume-craft:close-editor-tools')); }}
+              onClick={() => { setEditorMode('markdown'); setMobileTab('markdown'); window.dispatchEvent(new Event('pagevela:close-editor-tools')); }}
               aria-label={uiLanguage === 'en' ? 'Markdown source editor' : 'Markdown 源码编辑模式'}
               aria-pressed={mobileTab === 'markdown'}
               className={`min-h-11 flex items-center justify-center gap-1 min-[390px]:gap-1.5 px-0.5 min-[390px]:px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${
@@ -437,7 +437,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
 
             <button
               type="button"
-              onClick={() => { setMobileTab('preview'); window.dispatchEvent(new Event('resume-craft:close-editor-tools')); }}
+              onClick={() => { setMobileTab('preview'); window.dispatchEvent(new Event('pagevela:close-editor-tools')); }}
               aria-label={uiLanguage === 'en' ? 'Preview' : '预览'}
               aria-pressed={mobileTab === 'preview'}
               className={`min-h-11 flex items-center justify-center gap-1 min-[390px]:gap-1.5 px-0.5 min-[390px]:px-2 rounded-xl transition-colors cursor-pointer whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ${

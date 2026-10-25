@@ -40,7 +40,7 @@ The app adds stricter application-side rules on top:
 - analytics events are hard-coded in `src/lib/analytics.ts`
 - Do Not Track is respected; when DNT is enabled, the analytics script is not loaded at all
 - the Simple Analytics script is injected at runtime only on the official GitHub Pages app after privacy checks pass
-- automatic pageview collection is disabled so the app can normalize shared-resume visits to `/resume-craft/shared`
+- automatic pageview collection is disabled so the app can normalize shared-resume visits to `/pagevela/shared`
 - URL query/hash values are never passed to analytics, and the analytics script request uses `referrerPolicy="no-referrer"`
 - browser/device metrics that are not needed for product validation are disabled
 - product events are deduplicated in memory per page load; no persistent analytics identifier is stored

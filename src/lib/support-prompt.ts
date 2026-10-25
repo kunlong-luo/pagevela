@@ -1,8 +1,9 @@
-export const SUPPORT_REPO_URL = 'https://github.com/kunlong-luo/resume-craft';
+export const SUPPORT_REPO_URL = 'https://github.com/kunlong-luo/pagevela';
 import { STORAGE_KEYS } from './storage';
 
 export const SUPPORT_PROMPT_STORAGE_KEY = STORAGE_KEYS.SUPPORT_PROMPT;
 const LEGACY_SUPPORT_PROMPT_STORAGE_KEY = STORAGE_KEYS.SUPPORT_PROMPT_LEGACY;
+const PREVIOUS_SUPPORT_PROMPT_STORAGE_KEY = STORAGE_KEYS.SUPPORT_PROMPT_V2_LEGACY;
 
 export type SupportPromptDecision = 'supported' | 'dismissed';
 
@@ -21,7 +22,7 @@ interface ShouldShowSupportPromptOptions {
 
 export function isOfficialHostedApp(hostname: string, pathname: string) {
   return hostname === 'kunlong-luo.github.io' && (
-    pathname === '/resume-craft' || pathname.startsWith('/resume-craft/')
+    pathname === '/pagevela' || pathname.startsWith('/pagevela/')
   );
 }
 
@@ -53,7 +54,8 @@ function readStateFromStorage(key: string): unknown {
 }
 
 function readSupportPromptState(): SupportPromptState {
-  const current = readStateFromStorage(SUPPORT_PROMPT_STORAGE_KEY) as Partial<SupportPromptState> | null;
+  const current = (readStateFromStorage(SUPPORT_PROMPT_STORAGE_KEY)
+    ?? readStateFromStorage(PREVIOUS_SUPPORT_PROMPT_STORAGE_KEY)) as Partial<SupportPromptState> | null;
   if (current && typeof current.prompted === 'boolean') {
     return {
       prompted: current.prompted,

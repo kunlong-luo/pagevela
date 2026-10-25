@@ -38,7 +38,7 @@ function installAnalyticsBrowser(options: {
   vi.stubGlobal('window', {
     location: {
       hostname: options.hostname ?? 'kunlong-luo.github.io',
-      pathname: options.pathname ?? '/resume-craft/',
+      pathname: options.pathname ?? '/pagevela/',
       search: options.search ?? '',
       hash: options.hash ?? '',
     },
@@ -76,7 +76,7 @@ describe('analytics pageview boot contract', () => {
     initAnalyticsPageview();
 
     await vi.waitFor(() => expect(browser.pageview).toHaveBeenCalledTimes(1));
-    expect(browser.pageview).toHaveBeenCalledWith('/resume-craft/');
+    expect(browser.pageview).toHaveBeenCalledWith('/pagevela/');
     await vi.waitFor(() => expect(browser.event).toHaveBeenCalledWith('site_opened'));
     expect(browser.event).toHaveBeenCalledTimes(1);
     expect(browser.script.dataset.autoCollect).toBe('false');
@@ -94,7 +94,7 @@ describe('analytics pageview boot contract', () => {
       const { initAnalyticsPageview } = await import('../lib/analytics');
       initAnalyticsPageview();
       await vi.waitFor(() => expect(browser.pageview).toHaveBeenCalledTimes(1));
-      expect(browser.pageview).toHaveBeenCalledWith('/resume-craft/shared');
+      expect(browser.pageview).toHaveBeenCalledWith('/pagevela/shared');
       await vi.waitFor(() => expect(browser.event).toHaveBeenCalledWith('site_opened'));
       expect(JSON.stringify(browser.pageview.mock.calls)).not.toContain('private-resume-data');
       expect(JSON.stringify(browser.event.mock.calls)).not.toContain('private-resume-data');
