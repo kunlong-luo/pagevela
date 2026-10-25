@@ -1,5 +1,7 @@
 # Pagevela — rollout status and remaining quality gates
 
+> **v2.8.1 priority (2026-10-25):** [Actual Android / WeChat / PDF / backup release gate](./V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) and [#202 current brand/migration engineering audit](./PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md). v2.8.0 CI and Pages deployed; **v2.8.1 has not yet been released and real-device sign-off is pending**. Historical status below is kept for traceability.
+
 ## Production deployment and China pilot status (2026-10-24)
 
 - [x] Full [main CI #40044538057](https://github.com/kunlong-luo/pagevela/actions/runs/40044538057) passed all Chromium, Firefox 1/2 + 2/2, WebKit 1/2 + 2/2, headed Firefox and final aggregate checks for SHA `218fcc482070718f4a0190c501c77c2115571409`.
