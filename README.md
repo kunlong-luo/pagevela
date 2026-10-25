@@ -46,7 +46,7 @@ A **reliability-focused patch candidate** for Android/WeChat acceptance records 
 
 **Privacy:** Workspace JSON backups remain unencrypted; no automatic account sync. ATS/browser-print PDF preserves selectable text; Quick PDF is raster. The former `/resume-craft/` site is not redirected.
 
-[Android hardware and export acceptance](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [Brand migration audit](./docs/PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md) · [v2.8.1 release details](./RELEASE_NOTES.md)
+[Android hardware and export acceptance](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [Brand migration audit](https://github.com/kunlong-luo/pagevela/issues/202) · [v2.8.1 release details](./RELEASE_NOTES.md)
 
 ---
 

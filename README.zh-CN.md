@@ -46,7 +46,7 @@
 
 **隐私：** 工作区 JSON 未加密；ATS 浏览器打印能保留可选择的文字，Quick PDF 为光栅。旧 `/resume-craft/` 不会自动跳转。
 
-[Android 与导出验收记录](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [品牌与迁移审计](./docs/PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md) · [v2.8.1 详细说明](./RELEASE_NOTES.md)
+[Android 与导出验收记录](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [品牌与迁移审计](https://github.com/kunlong-luo/pagevela/issues/202) · [v2.8.1 详细说明](./RELEASE_NOTES.md)
 
 ---
 
