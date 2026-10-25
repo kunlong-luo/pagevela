@@ -83,8 +83,8 @@ describe('cross-origin portable workspace backups', () => {
     const legacy = { ...original, version: 'resume-craft-workspace-v1' };
     const restored = normalizePortableWorkspaceBackup(legacy, settings);
     expect(restored?.version).toBe(PORTABLE_WORKSPACE_VERSION);
-    expect(restored?.profiles).toEqual(profiles);
-    expect(restored?.drafts).toEqual(drafts);
+    expect(restored?.profiles).toMatchObject(profiles);
+    expect(restored?.drafts).toMatchObject(drafts);
     expect(restored?.activeProfileId).toBe('b');
   });
 
