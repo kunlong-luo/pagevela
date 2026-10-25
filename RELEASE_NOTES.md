@@ -1,3 +1,26 @@
+# Pagevela v2.8.1
+
+**中文名称：** 页帆 v2.8.1
+
+**Release status:** Prepared patch candidate; publishing requires merging the protected release PR, creating the successful stable GitHub Release and confirming the same-SHA Pages deployment. This text does **not** claim the tag already exists.
+
+## Reliability / 可靠性
+- Downloaded Quick PDF is now opened by a genuine PDF parser during full Chromium E2E. Tests validate parseability, positive drawing-operator lists on all pages, valid page geometry and preservation of the existing fictional draft after reload.
+- The existing separate ATS/print PDF E2E checks selectable Chinese/English text and A4 geometry. These automated checks are not substitutes for Android's native print/save dialog.
+- The product owner reported successfully testing Pagevela on **real Android + WeChat** (2026-10-25); recorded as **owner-reported PASS**, not simulated or independently reproduced. Individual Android PDF/Downloads/PWA flows and Android Chrome, Samsung/OEM testing remain scoped in [#262](https://github.com/kunlong-luo/pagevela/issues/262).
+
+## Pagevela identity / 品牌与兼容
+- Records implemented Pagevela branding and canonical site, deliberately retired old-site redirect, retained legacy encrypted-share AAD, workspace backup and archive naming conventions.
+- Current trademark/near-mark legal review is **not finished**. The product name's public use should not be presented as formal trademark clearance or exclusive rights; see [#202](https://github.com/kunlong-luo/pagevela/issues/202).
+- Public GitHub Pages remains the only approved hosting origin. There was no Tencent EdgeOne/DNS switch, account service, external media publication, or real-resume upload.
+
+## Downloads / 下载
+When published, archives remain `resume-craft-2.8.1.zip`, `resume-craft-2.8.1.tar.gz`, and `SHA256SUMS.txt` for backward compatibility. New release display name is **Pagevela v2.8.1**.
+
+**References:** [Device QA](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [Migration audit](./docs/PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md) · [v2.8.1 target release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.1) · [Diff from v2.8.0](https://github.com/kunlong-luo/pagevela/compare/v2.8.0...v2.8.1)
+
+---
+
 # Pagevela v2.8.0
 
 **中文名称：** 页帆 v2.8.0
