@@ -16,7 +16,7 @@
 - Public GitHub Pages remains the only approved hosting origin. There was no Tencent EdgeOne/DNS switch, account service, external media publication, or real-resume upload.
 
 ## Downloads / 下载
-When published, archives remain `resume-craft-2.8.1.zip`, `resume-craft-2.8.1.tar.gz`, and `SHA256SUMS.txt` for backward compatibility. New release display name is **Pagevela v2.8.1**.
+Pagevela-branded archive filenames are `pagevela-2.8.1.zip` and `pagevela-2.8.1.tar.gz` with `SHA256SUMS.txt` after re-packaging; original published files remain as historical artifacts. New release display name is **Pagevela v2.8.1**.
 
 **References:** [Device QA](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [Migration audit](./docs/PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md) · [v2.8.1 target release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.1) · [Diff from v2.8.0](https://github.com/kunlong-luo/pagevela/compare/v2.8.0...v2.8.1)
 

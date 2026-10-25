@@ -49,7 +49,7 @@ export default defineConfig(() => {
               urlPattern: /\/assets\/(?:pdf-vendor|pdfjs-vendor|pdf\.worker)[^/]*\.(?:js|mjs)$/i,
               handler: 'CacheFirst',
               options: {
-                cacheName: 'resume-craft-pdf-tools',
+                cacheName: 'pagevela-pdf-tools',
                 expiration: {
                   maxEntries: 8,
                   maxAgeSeconds: 60 * 60 * 24 * 30,

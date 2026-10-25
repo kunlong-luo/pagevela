@@ -4,7 +4,7 @@
 - `../../public/og-card.svg` / `../../public/og-card.png`：1200×630 社交分享封面；SVG 的文字已经是 Pagevela，PNG 已作为网页 OG 图在新网站提供。
 - `../../.github/assets/readme-banner.svg`：已是 Pagevela 字样，用于 README、文章页首，注意平台自身的图片裁剪。
 - `../../public/icon.svg` 和 PWA PNG 图标：无需仅因仓库旧文件名重新生成。
-- **真实产品截图/视频**：并不是仓库中现成的已审核产品图。需要打开 [Capture Real Promotion Media](https://github.com/kunlong-luo/pagevela/actions/workflows/capture-promotion-media.yml) → `Run workflow` → 选择 `main`，通过后下载 `resume-craft-promotion-media` Artifacts 并**人工审查**。文件包名字是历史兼容名，不是图片上的展示品牌。
+- **真实产品截图/视频**：并不是仓库中现成的已审核产品图。需要打开 [Capture Real Promotion Media](https://github.com/kunlong-luo/pagevela/actions/workflows/capture-promotion-media.yml) → `Run workflow` → 选择 `main`，通过后下载 `pagevela-promotion-media` Artifacts 并**人工审查**。文件包名字是历史兼容名，不是图片上的展示品牌。
 
 | 用途 | 建议比例/尺寸 | 图片内容（只用当前真实界面） |
 |---|---|---|
