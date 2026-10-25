@@ -7,12 +7,12 @@
  * No external accounts, analytics IDs, user resumes, or private URLs are used.
  *
  * Outputs are downloadable through the GitHub Actions artifact:
- *   resume-craft-latest-landing.png (actual current landing page)
- *   resume-craft-product-screenshot.png (real Chromium screenshot)
- *   resume-craft-markdown-preview.png (real Chromium screenshot)
- *   resume-craft-download-options.png (real Chromium screenshot)
- *   resume-craft-demo.webm (real Chromium screen recording)
- *   resume-craft-social-cover.png (existing source-of-truth OG design)
+ *   pagevela-latest-landing.png (actual current landing page)
+ *   pagevela-product-screenshot.png (real Chromium screenshot)
+ *   pagevela-markdown-preview.png (real Chromium screenshot)
+ *   pagevela-download-options.png (real Chromium screenshot)
+ *   pagevela-demo.webm (real Chromium screen recording)
+ *   pagevela-social-cover.png (existing source-of-truth OG design)
  *   pagevela-welcome-en.png / pagevela-editor-en.png (real English UI)
  *   pagevela-welcome-zh.png / pagevela-editor-zh.png (real 页帆 UI)
  */
@@ -136,7 +136,7 @@ async function run() {
     }
     await pause(page, 1000);
     await page.screenshot({
-      path: resolve(MEDIA_DIR, 'resume-craft-latest-landing.png'),
+      path: resolve(MEDIA_DIR, 'pagevela-latest-landing.png'),
       animations: 'disabled',
     });
     await setEditorialCaption(page, '01 / LANDING', 'One clear starting point', 'Navigation now follows the page section order.');
@@ -156,7 +156,7 @@ async function run() {
     await preview.getByText('Alex Morgan').first().waitFor({ state: 'visible', timeout: 15000 });
     await pause(page, 600);
     await page.screenshot({
-      path: resolve(MEDIA_DIR, 'resume-craft-product-screenshot.png'),
+      path: resolve(MEDIA_DIR, 'pagevela-product-screenshot.png'),
       animations: 'disabled',
     });
     await setEditorialCaption(page, '01 / BUILD', 'Start in a simple form', 'No account required. Your work stays in this browser.');
@@ -183,7 +183,7 @@ async function run() {
     await pause(page, 1500);
     await hideEditorialCaption(page);
     await page.screenshot({
-      path: resolve(MEDIA_DIR, 'resume-craft-markdown-preview.png'),
+      path: resolve(MEDIA_DIR, 'pagevela-markdown-preview.png'),
       animations: 'disabled',
     });
 
@@ -202,7 +202,7 @@ async function run() {
     await pause(page, 1400);
     await hideEditorialCaption(page);
     await page.screenshot({
-      path: resolve(MEDIA_DIR, 'resume-craft-download-options.png'),
+      path: resolve(MEDIA_DIR, 'pagevela-download-options.png'),
       animations: 'disabled',
     });
     await setEditorialCaption(page, '04 / EXPORT', 'Choose your PDF option', 'Browser print or direct PDF export.');
@@ -282,24 +282,24 @@ async function run() {
   }
 
   if (!video) throw new Error('Playwright did not initialize recording');
-  await copyFile(await video.path(), resolve(MEDIA_DIR, 'resume-craft-demo.webm'));
+  await copyFile(await video.path(), resolve(MEDIA_DIR, 'pagevela-demo.webm'));
   await copyFile(resolve(process.cwd(), 'public/og-card.png'),
-    resolve(MEDIA_DIR, 'resume-craft-social-cover.png'));
+    resolve(MEDIA_DIR, 'pagevela-social-cover.png'));
 
   // Modern, descriptive filenames for the existing *real* English captures.
-  // Retain old resume-craft-* artifact names for downstream compatibility.
-  await copyFile(resolve(MEDIA_DIR, 'resume-craft-latest-landing.png'),
+  // Retain old pagevela-* artifact names for downstream compatibility.
+  await copyFile(resolve(MEDIA_DIR, 'pagevela-latest-landing.png'),
     resolve(MEDIA_DIR, 'pagevela-welcome-en.png'));
-  await copyFile(resolve(MEDIA_DIR, 'resume-craft-product-screenshot.png'),
+  await copyFile(resolve(MEDIA_DIR, 'pagevela-product-screenshot.png'),
     resolve(MEDIA_DIR, 'pagevela-editor-en.png'));
 
   for (const file of [
-    'resume-craft-latest-landing.png',
-    'resume-craft-product-screenshot.png',
-    'resume-craft-markdown-preview.png',
-    'resume-craft-download-options.png',
-    'resume-craft-demo.webm',
-    'resume-craft-social-cover.png',
+    'pagevela-latest-landing.png',
+    'pagevela-product-screenshot.png',
+    'pagevela-markdown-preview.png',
+    'pagevela-download-options.png',
+    'pagevela-demo.webm',
+    'pagevela-social-cover.png',
     'pagevela-welcome-en.png',
     'pagevela-editor-en.png',
     'pagevela-welcome-zh.png',

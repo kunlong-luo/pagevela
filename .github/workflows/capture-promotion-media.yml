@@ -41,7 +41,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          pnpm exec vite --host 127.0.0.1 --port 3000 --strictPort > /tmp/resume-craft-demo-vite.log 2>&1 &
+          pnpm exec vite --host 127.0.0.1 --port 3000 --strictPort > /tmp/pagevela-demo-vite.log 2>&1 &
           vite_pid=$!
           trap 'kill "$vite_pid" 2>/dev/null || true' EXIT
           for i in $(seq 1 45); do
@@ -64,29 +64,29 @@ jobs:
         run: |
           ffmpeg -y -loglevel warning \
             -loop 1 -framerate 30 -t 1.8 \
-            -i artifacts/promotion/resume-craft-reddit-cover-1280x720.png \
-            -i artifacts/promotion/resume-craft-demo.webm \
+            -i artifacts/promotion/pagevela-reddit-cover-1280x720.png \
+            -i artifacts/promotion/pagevela-demo.webm \
             -loop 1 -framerate 30 -t 3.0 \
-            -i artifacts/promotion/resume-craft-video-outro-1280x720.png \
+            -i artifacts/promotion/pagevela-video-outro-1280x720.png \
             -filter_complex "[0:v]scale=1280:720,setsar=1,format=yuv420p,settb=AVTB,setpts=PTS-STARTPTS[intro];[1:v]trim=start=1,scale=1280:720:flags=lanczos,setsar=1,fps=30,format=yuv420p,settb=AVTB,setpts=PTS-STARTPTS[demo];[2:v]scale=1280:720,setsar=1,format=yuv420p,settb=AVTB,setpts=PTS-STARTPTS[outro];[intro][demo][outro]concat=n=3:v=1:a=0[v]" \
             -map "[v]" -c:v libx264 -crf 22 -preset fast -pix_fmt yuv420p \
             -movflags +faststart -an \
-            artifacts/promotion/resume-craft-demo.mp4
+            artifacts/promotion/pagevela-demo.mp4
 
       - name: Verify final media dimensions and minimum file sizes
         run: |
-          test -s artifacts/promotion/resume-craft-demo.mp4
-          test -s artifacts/promotion/resume-craft-reddit-cover-1280x720.png
-          test -s artifacts/promotion/resume-craft-product-gallery-1200x900.png
+          test -s artifacts/promotion/pagevela-demo.mp4
+          test -s artifacts/promotion/pagevela-reddit-cover-1280x720.png
+          test -s artifacts/promotion/pagevela-product-gallery-1200x900.png
           ffprobe -v error -select_streams v:0 \
             -show_entries stream=width,height -of csv=s=x:p=0 \
-            artifacts/promotion/resume-craft-demo.mp4 | grep -qx '1280x720'
+            artifacts/promotion/pagevela-demo.mp4 | grep -qx '1280x720'
 
       - name: Upload downloadable promo package
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: resume-craft-promotion-media
+          name: pagevela-promotion-media
           path: artifacts/promotion/
           if-no-files-found: warn
           retention-days: 30
