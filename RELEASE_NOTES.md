@@ -38,7 +38,7 @@
 - Public GitHub Pages remains the only approved hosting origin. There was no Tencent EdgeOne/DNS switch, account service, external media publication, or real-resume upload.
 
 ## Downloads / 下载
-Pagevela-branded archive filenames are `pagevela-2.8.1.zip` and `pagevela-2.8.1.tar.gz` with `SHA256SUMS.txt` after re-packaging; original published files remain as historical artifacts. New release display name is **Pagevela v2.8.1**.
+The original v2.8.1 archives remain available under their historically published filenames with `SHA256SUMS.txt`. **Starting with v2.8.2**, newly built archives use the Pagevela naming convention. The v2.8.1 release display title is **Pagevela v2.8.1**.
 
 **References:** [Device QA](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [Migration audit](./docs/PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md) · [v2.8.1 target release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.1) · [Diff from v2.8.0](https://github.com/kunlong-luo/pagevela/compare/v2.8.0...v2.8.1)
 

@@ -1,9 +1,9 @@
 /**
  * Produce pixel-perfect, editable-in-code promotional layouts around actual
  * Playwright screenshots. We never synthesize, alter or fabricate UI contents.
- * Pagevela is staged; the existing origin and pagevela-* artifact filenames
- * stay intact for workflow and URL compatibility. Do not publish new branded
- * promotional assets until the launch gates are explicitly approved.
+ * Pagevela is live at the official /pagevela/ site. This script uses current
+ * screenshots and Pagevela-named assets. Review generated media before
+ * distributing it to third-party platforms.
  */
 import { createCanvas, loadImage } from '@napi-rs/canvas';
 import { readFile, writeFile } from 'node:fs/promises';

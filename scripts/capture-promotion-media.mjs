@@ -287,7 +287,7 @@ async function run() {
     resolve(MEDIA_DIR, 'pagevela-social-cover.png'));
 
   // Modern, descriptive filenames for the existing *real* English captures.
-  // Retain old pagevela-* artifact names for downstream compatibility.
+  // Also publish descriptive English aliases for the real Pagevela captures.
   await copyFile(resolve(MEDIA_DIR, 'pagevela-latest-landing.png'),
     resolve(MEDIA_DIR, 'pagevela-welcome-en.png'));
   await copyFile(resolve(MEDIA_DIR, 'pagevela-product-screenshot.png'),
