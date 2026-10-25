@@ -327,7 +327,7 @@ export function TemplateCenterModal({
               type="button"
               onClick={() => {
                 onClose();
-                window.dispatchEvent(new Event('resume-craft:open-style'));
+                window.dispatchEvent(new Event('pagevela:open-style'));
               }}
               aria-label={isEn ? 'Browse visual resume styles' : '浏览视觉简历模板'}
               className="inline-flex min-h-10 items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-2.5 text-[11px] font-bold text-indigo-700 transition hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-900/40"

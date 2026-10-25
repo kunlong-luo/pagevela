@@ -107,16 +107,16 @@ export function Header({
     const openBackup = () => setIsBackupHubOpen(true);
     const openShare = () => setIsShareModalOpen(true);
 
-    window.addEventListener('resume-craft:open-import', openImport);
-    window.addEventListener('resume-craft:open-resume-check', openResumeCheck);
-    window.addEventListener('resume-craft:open-backup', openBackup);
-    window.addEventListener('resume-craft:open-share', openShare);
+    window.addEventListener('pagevela:open-import', openImport);
+    window.addEventListener('pagevela:open-resume-check', openResumeCheck);
+    window.addEventListener('pagevela:open-backup', openBackup);
+    window.addEventListener('pagevela:open-share', openShare);
 
     return () => {
-      window.removeEventListener('resume-craft:open-import', openImport);
-      window.removeEventListener('resume-craft:open-resume-check', openResumeCheck);
-      window.removeEventListener('resume-craft:open-backup', openBackup);
-      window.removeEventListener('resume-craft:open-share', openShare);
+      window.removeEventListener('pagevela:open-import', openImport);
+      window.removeEventListener('pagevela:open-resume-check', openResumeCheck);
+      window.removeEventListener('pagevela:open-backup', openBackup);
+      window.removeEventListener('pagevela:open-share', openShare);
     };
   }, [setIsBackupHubOpen, setIsCheckerOpen]);
 
@@ -250,28 +250,28 @@ export function Header({
       label: isEn ? 'Templates' : '模板',
       Icon: LayoutTemplate,
       fullWidth: false,
-      onSelect: () => window.dispatchEvent(new Event('resume-craft:open-template-center')),
+      onSelect: () => window.dispatchEvent(new Event('pagevela:open-template-center')),
     },
     {
       id: 'layout',
       label: isEn ? 'Layout' : '排版',
       Icon: SlidersHorizontal,
       fullWidth: false,
-      onSelect: () => window.dispatchEvent(new Event('resume-craft:open-layout')),
+      onSelect: () => window.dispatchEvent(new Event('pagevela:open-layout')),
     },
     {
       id: 'style',
       label: isEn ? 'Style' : '样式',
       Icon: Palette,
       fullWidth: false,
-      onSelect: () => window.dispatchEvent(new Event('resume-craft:open-style')),
+      onSelect: () => window.dispatchEvent(new Event('pagevela:open-style')),
     },
     {
       id: 'editing-tools',
       label: isEn ? 'Editing tools' : '编辑工具',
       Icon: Wrench,
       fullWidth: false,
-      onSelect: () => window.dispatchEvent(new Event('resume-craft:open-editor-tools')),
+      onSelect: () => window.dispatchEvent(new Event('pagevela:open-editor-tools')),
     },
     {
       id: 'management',

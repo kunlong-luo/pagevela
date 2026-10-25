@@ -208,11 +208,11 @@ export const Editor = React.memo(function Editor({ activeMode: controlledMode, o
   useEffect(() => {
     const toggle = () => setMobileToolsOpen(open => !open);
     const close = () => setMobileToolsOpen(false);
-    window.addEventListener('resume-craft:open-editor-tools', toggle);
-    window.addEventListener('resume-craft:close-editor-tools', close);
+    window.addEventListener('pagevela:open-editor-tools', toggle);
+    window.addEventListener('pagevela:close-editor-tools', close);
     return () => {
-      window.removeEventListener('resume-craft:open-editor-tools', toggle);
-      window.removeEventListener('resume-craft:close-editor-tools', close);
+      window.removeEventListener('pagevela:open-editor-tools', toggle);
+      window.removeEventListener('pagevela:close-editor-tools', close);
     };
   }, []);
 
