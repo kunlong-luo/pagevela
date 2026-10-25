@@ -87,7 +87,7 @@ test('old HTTPS origin stays accessible and explicit complete-workspace transfer
     ]);
     const backupText = await readFile(await download.path()!, 'utf8');
     const backup = JSON.parse(backupText);
-    expect(backup.version).toBe('resume-craft-workspace-v1');
+    expect(backup.version).toBe('pagevela-workspace-v1');
     const photographed = backup.profiles.find((p: { id: string }) => p.id === backup.activeProfileId);
     expect(photographed.photoDataUrl).toBe(photoDataUrl);
 

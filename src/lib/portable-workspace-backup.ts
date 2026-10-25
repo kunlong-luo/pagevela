@@ -1,11 +1,9 @@
 import type { ResumeDraft, ResumeProfile, ResumeSettings } from '../types';
 import { normalizeImportedProfiles, normalizeImportedSettings } from './import-validation';
 
-/**
- * The version token is a durable file-format identifier, not a public brand.
- * Do not rename it during a future rebrand: exported files must remain readable.
- */
-export const PORTABLE_WORKSPACE_VERSION = 'resume-craft-workspace-v1' as const;
+/** New exports are branded, while imports accept the original durable format token. */
+export const PORTABLE_WORKSPACE_VERSION = 'pagevela-workspace-v1' as const;
+const LEGACY_PORTABLE_WORKSPACE_VERSION = 'resume-craft-workspace-v1' as const;
 export const MAX_PORTABLE_WORKSPACE_BYTES = 64 * 1024 * 1024;
 const MAX_DRAFTS = 300;
 const MAX_TEXT = 2_000_000;
@@ -52,7 +50,8 @@ export function normalizePortableWorkspaceBackup(
   value: unknown,
   fallbackSettings: ResumeSettings,
 ): PortableWorkspaceBackup | null {
-  if (!record(value) || value.version !== PORTABLE_WORKSPACE_VERSION) return null;
+  if (!record(value) || (value.version !== PORTABLE_WORKSPACE_VERSION &&
+      value.version !== LEGACY_PORTABLE_WORKSPACE_VERSION)) return null;
   if (typeof value.exportedAt !== 'string' || value.exportedAt.length > 80) return null;
   if (typeof value.activeProfileId !== 'string' ||
       value.activeProfileId.length > MAX_SHORT_TEXT) return null;

@@ -43,7 +43,7 @@ test('portable workspace export and confirmed restore survive reload', async ({ 
     modal.getByRole('button', { name: 'Export workspace .json' }).click(),
   ]);
   const backup = JSON.parse(await readFile(await download.path()!, 'utf8'));
-  expect(backup.version).toBe('resume-craft-workspace-v1');
+  expect(backup.version).toBe('pagevela-workspace-v1');
   const imported = { ...backup.profiles[0], id: 'portable_fixture', name: 'Portable fixture',
     markdown: '# Restored workspace' };
   const modified = {
@@ -276,7 +276,7 @@ test('same browser keeps data isolated across hostnames until an explicit worksp
       sourceHub.getByRole('button', { name: 'Export workspace .json' }).click(),
     ]);
     const backup = await readFile(await download.path()!, 'utf8');
-    expect(JSON.parse(backup).version).toBe('resume-craft-workspace-v1');
+    expect(JSON.parse(backup).version).toBe('pagevela-workspace-v1');
 
     await newSite.evaluate(() => dispatchEvent(new Event('pagevela:open-backup')));
     const destinationHub = newSite.getByRole('dialog', { name: 'Resume Management' });

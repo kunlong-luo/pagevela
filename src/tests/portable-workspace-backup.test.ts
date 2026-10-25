@@ -79,6 +79,15 @@ describe('cross-origin portable workspace backups', () => {
     expect(parsed?.drafts[0].markdown).toBe('');
   });
 
+  it('imports the legacy pre-Pagevela workspace backup without losing fields', () => {
+    const legacy = { ...original, version: 'resume-craft-workspace-v1' };
+    const restored = normalizePortableWorkspaceBackup(legacy, settings);
+    expect(restored?.version).toBe(PORTABLE_WORKSPACE_VERSION);
+    expect(restored?.profiles).toEqual(profiles);
+    expect(restored?.drafts).toEqual(drafts);
+    expect(restored?.activeProfileId).toBe('b');
+  });
+
   it('keeps the old single-resume backup type distinct', () => {
     expect(normalizePortableWorkspaceBackup({
       version: 'markdown-resume-backup-v1', markdown: '# Single', settings,
