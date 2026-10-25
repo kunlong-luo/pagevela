@@ -6,6 +6,7 @@
 
 ## Reliability / 可靠性
 - Downloaded Quick PDF is now opened by a genuine PDF parser during full Chromium E2E. Tests validate parseability, positive drawing-operator lists on all pages, valid page geometry and preservation of the existing fictional draft after reload.
+- International market E2E fixtures no longer reseed default region settings on reload, so the US Letter persistence check tests actual saved state without weakened assertions.
 - The existing separate ATS/print PDF E2E checks selectable Chinese/English text and A4 geometry. These automated checks are not substitutes for Android's native print/save dialog.
 - The product owner reported successfully testing Pagevela on **real Android + WeChat** (2026-10-25); recorded as **owner-reported PASS**, not simulated or independently reproduced. Individual Android PDF/Downloads/PWA flows and Android Chrome, Samsung/OEM testing remain scoped in [#262](https://github.com/kunlong-luo/pagevela/issues/262). These are not presented as passing; because this patch does not modify those runtime paths, repeat hardware testing is not required for this patch.
 
