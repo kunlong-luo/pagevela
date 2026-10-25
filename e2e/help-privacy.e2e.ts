@@ -33,6 +33,7 @@ test('clear local data is scoped and requires confirmation', async ({ page }) =>
     localStorage.setItem('resume-markdown', '# Sensitive resume');
     localStorage.setItem('resume-craft.support-prompt.v1', '{"nextPromptAt":1,"exportCount":2}');
     localStorage.setItem('resume-craft.support-prompt.v2', '{"prompted":true,"exportCount":1}');
+    localStorage.setItem('pagevela.support-prompt.v3', '{"prompted":true,"exportCount":1}');
     localStorage.setItem('another-app:key', 'keep-me');
   });
 
@@ -50,11 +51,13 @@ test('clear local data is scoped and requires confirmation', async ({ page }) =>
     resume: localStorage.getItem('resume-markdown'),
     supportLegacy: localStorage.getItem('resume-craft.support-prompt.v1'),
     supportCurrent: localStorage.getItem('resume-craft.support-prompt.v2'),
+    supportBranded: localStorage.getItem('pagevela.support-prompt.v3'),
     unrelated: localStorage.getItem('another-app:key'),
   }));
   expect(values.resume).toBeNull();
   expect(values.supportLegacy).toBeNull();
   expect(values.supportCurrent).toBeNull();
+  expect(values.supportBranded).toBeNull();
   expect(values.unrelated).toBe('keep-me');
 });
 
