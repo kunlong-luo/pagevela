@@ -127,6 +127,7 @@ describe('Pagevela public brand and compatibility', () => {
     const shareUtils = source('src/lib/share-utils.ts');
     expect(shareUtils).toContain("'resume-craft-share-v2'");
     expect(shareUtils).toContain("'resume-craft-share-v3'");
+    expect(shareUtils).toContain("'pagevela-share-v3'");
     expect(source('vite.config.ts')).toContain("cacheName: 'pagevela-pdf-tools'");
     expect(source('package.json')).toContain('"name": "pagevela"');
     expect(source('src/components/EditorWorkspace.tsx')).toContain(
