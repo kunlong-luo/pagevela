@@ -25,7 +25,7 @@ export const STORAGE_KEYS = {
   SUPPORT_PROMPT_LEGACY: 'resume-craft.support-prompt.v1',
 } as const;
 
-export const STORAGE_HEALTH_EVENT = 'resume-craft:storage-health';
+export const STORAGE_HEALTH_EVENT = 'pagevela:storage-health';
 
 export type StorageKey = typeof STORAGE_KEYS[keyof typeof STORAGE_KEYS] | string;
 export type StorageOperation = 'set' | 'remove' | 'clear';

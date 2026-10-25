@@ -34,7 +34,7 @@ async function openEditor(page: Page, url: URL): Promise<void> {
 }
 
 async function openBackup(page: Page) {
-  await page.evaluate(() => dispatchEvent(new Event('resume-craft:open-backup')));
+  await page.evaluate(() => dispatchEvent(new Event('pagevela:open-backup')));
   const modal = page.getByRole('dialog', { name: 'Resume Management' });
   await modal.getByRole('button', { name: 'Backup', exact: true }).click();
   return modal;

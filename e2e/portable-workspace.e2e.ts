@@ -33,7 +33,7 @@ test('portable workspace export and confirmed restore survive reload', async ({ 
   // and registered the backup custom-event listener. Await the real editor.
   await expect(page.locator('#editor-pane')).toBeVisible();
   await expect(page.locator('#resume-main-toolbar')).toBeVisible();
-  await page.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
+  await page.evaluate(() => window.dispatchEvent(new Event('pagevela:open-backup')));
   const modal = page.getByRole('dialog', { name: 'Resume Management' });
   await expect(modal).toBeVisible();
   await modal.getByRole('button', { name: 'Backup', exact: true }).click();
@@ -112,7 +112,7 @@ test('portable file moves a resume between isolated browser profiles', async ({ 
     await expect.poll(() => readActiveMarkdown(oldSite)).toBe('# Source browser only');
     await expect.poll(() => readActiveMarkdown(newSite)).not.toBe('# Source browser only');
 
-    await oldSite.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
+    await oldSite.evaluate(() => window.dispatchEvent(new Event('pagevela:open-backup')));
     const sourceModal = oldSite.getByRole('dialog', { name: 'Resume Management' });
     await sourceModal.getByRole('button', { name: 'Backup', exact: true }).click();
     const [download] = await Promise.all([
@@ -121,7 +121,7 @@ test('portable file moves a resume between isolated browser profiles', async ({ 
     ]);
     const json = await readFile(await download.path()!, 'utf8');
 
-    await newSite.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
+    await newSite.evaluate(() => window.dispatchEvent(new Event('pagevela:open-backup')));
     const destinationModal = newSite.getByRole('dialog', { name: 'Resume Management' });
     await destinationModal.getByRole('button', { name: 'Backup', exact: true }).click();
     await destinationModal.locator('input[aria-label="Choose workspace backup file"]').setInputFiles({
@@ -180,7 +180,7 @@ test('locally cropped portrait stays on its own profile across a workspace trans
     await expect(originalPortrait).toHaveCount(1);
     const portraitSrc = await originalPortrait.getAttribute('src');
 
-    await source.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
+    await source.evaluate(() => window.dispatchEvent(new Event('pagevela:open-backup')));
     const oldModal = source.getByRole('dialog', { name: '简历管理' });
     await oldModal.getByRole('button', { name: '备份', exact: true }).click();
     const [download] = await Promise.all([
@@ -203,7 +203,7 @@ test('locally cropped portrait stays on its own profile across a workspace trans
     };
     const transfer = { ...backup, profiles: [...backup.profiles, plainProfile] };
 
-    await destination.evaluate(() => window.dispatchEvent(new Event('resume-craft:open-backup')));
+    await destination.evaluate(() => window.dispatchEvent(new Event('pagevela:open-backup')));
     const newModal = destination.getByRole('dialog', { name: '简历管理' });
     await newModal.getByRole('button', { name: '备份', exact: true }).click();
     await newModal.locator('input[aria-label="选择工作区备份文件"]').setInputFiles({
@@ -268,7 +268,7 @@ test('same browser keeps data isolated across hostnames until an explicit worksp
     await expect.poll(() => readActiveMarkdown(oldSite)).toBe('# Source isolated by hostname');
     await expect.poll(() => readActiveMarkdown(newSite)).not.toBe('# Source isolated by hostname');
 
-    await oldSite.evaluate(() => dispatchEvent(new Event('resume-craft:open-backup')));
+    await oldSite.evaluate(() => dispatchEvent(new Event('pagevela:open-backup')));
     const sourceHub = oldSite.getByRole('dialog', { name: 'Resume Management' });
     await sourceHub.getByRole('button', { name: 'Backup', exact: true }).click();
     const [download] = await Promise.all([
@@ -278,7 +278,7 @@ test('same browser keeps data isolated across hostnames until an explicit worksp
     const backup = await readFile(await download.path()!, 'utf8');
     expect(JSON.parse(backup).version).toBe('resume-craft-workspace-v1');
 
-    await newSite.evaluate(() => dispatchEvent(new Event('resume-craft:open-backup')));
+    await newSite.evaluate(() => dispatchEvent(new Event('pagevela:open-backup')));
     const destinationHub = newSite.getByRole('dialog', { name: 'Resume Management' });
     await destinationHub.getByRole('button', { name: 'Backup', exact: true }).click();
     await destinationHub.locator('input[aria-label="Choose workspace backup file"]').setInputFiles({

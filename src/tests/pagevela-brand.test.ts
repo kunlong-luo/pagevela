@@ -133,7 +133,7 @@ describe('Pagevela public brand and compatibility', () => {
       "new BroadcastChannel('resume-craft:tabs:v1')",
     );
     expect(source('src/components/layout/Header.tsx')).toContain(
-      "window.addEventListener('resume-craft:open-backup'",
+      "window.addEventListener('pagevela:open-backup'",
     );
   });
 });
