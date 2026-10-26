@@ -149,7 +149,7 @@ describe('Pagevela public brand and compatibility', () => {
     expect(source('vite.config.ts')).toContain("cacheName: 'pagevela-pdf-tools'");
     expect(source('package.json')).toContain('"name": "pagevela"');
     expect(source('src/components/EditorWorkspace.tsx')).toContain(
-      "new BroadcastChannel('resume-craft:tabs:v1')",
+      'new BroadcastChannel(RESUME_TABS_CHANNEL_NAME)',
     );
     expect(source('src/components/layout/Header.tsx')).toContain(
       "window.addEventListener('pagevela:open-backup'",

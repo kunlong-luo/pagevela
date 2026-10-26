@@ -16,6 +16,8 @@ import { markSupportPrompt, recordCompletedPdfExportFlowAndShouldPrompt } from '
 import { trackAnalyticsEvent } from '../lib/analytics';
 import { storage, STORAGE_HEALTH_EVENT, STORAGE_KEYS, type StorageHealthDetail } from '../lib/storage';
 import { resumeRepository } from '../lib/resume-repository';
+import { activeResumePersistence } from '../lib/resume-persistence';
+import { RESUME_TABS_CHANNEL_NAME } from '../lib/resume-storage-contract';
 
 const ResumeChecker = lazy(() => import('./resume-checker/ResumeChecker').then(m => ({ default: m.ResumeChecker })));
 const IframeWarningModal = lazy(() => import('./IframeWarningModal').then(m => ({ default: m.IframeWarningModal })));
@@ -258,7 +260,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
       typeof crypto !== 'undefined' && 'randomUUID' in crypto
         ? crypto.randomUUID()
         : `tab_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-    const channel = new BroadcastChannel('resume-craft:tabs:v1');
+    const channel = new BroadcastChannel(RESUME_TABS_CHANNEL_NAME);
     let warned = false;
 
     const warnAboutAnotherTab = () => {
@@ -335,7 +337,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
       if (isCmdOrCtrl && (e.key === 's' || e.key === 'S')) {
         e.preventDefault();
         const currentState = useResumeStore.getState();
-        void resumeRepository.saveSnapshot({
+        void activeResumePersistence.saveNow({
           markdown: currentState.markdown,
           profiles: currentState.profiles,
           jdText: currentState.jdText,
