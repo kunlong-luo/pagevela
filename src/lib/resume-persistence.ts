@@ -56,16 +56,16 @@ export function createResumePersistenceCoordinator(
       .catch(() => undefined)
       .then(async () => {
         try {
-          const writeSnapshot = async () => {
+          const commitSnapshot = async () => {
             await writeSnapshot(snapshot);
             // Clear only journal entries included in this committed snapshot.
             acknowledgeProfiles(snapshot.profiles);
           };
 
           if (typeof navigator !== 'undefined' && navigator.locks?.request) {
-            await navigator.locks.request(RESUME_DB_WRITE_LOCK_NAME, writeSnapshot);
+            await navigator.locks.request(RESUME_DB_WRITE_LOCK_NAME, commitSnapshot);
           } else {
-            await writeSnapshot();
+            await commitSnapshot();
           }
 
           if (hasWriteFailure) emitHealth('recovered');
