@@ -387,6 +387,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
               wrapperClassName="hidden md:flex h-full items-center justify-center z-30"
             >
               <div 
+                data-testid="workspace-split-handle"
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
                 className="flex items-center justify-center w-3 h-full -mx-1.5 cursor-col-resize group hover:w-3.5 transition-all select-none relative"
