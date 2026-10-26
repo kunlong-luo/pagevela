@@ -1,5 +1,5 @@
 import { getProductDisplayName } from '../lib/brand';
-import React, { useRef, useEffect, useState, useCallback, Suspense, lazy } from 'react';
+import { useRef, useEffect, useState, useCallback, Suspense, lazy } from 'react';
 import { Editor, type EditorMode } from './Editor';
 import { Preview } from './preview/Preview';
 import { Header } from './layout/Header';
@@ -15,7 +15,8 @@ import { Tooltip } from './ui/Tooltip';
 import { markSupportPrompt, recordCompletedPdfExportFlowAndShouldPrompt } from '../lib/support-prompt';
 import { trackAnalyticsEvent } from '../lib/analytics';
 import { storage, STORAGE_HEALTH_EVENT, STORAGE_KEYS, type StorageHealthDetail } from '../lib/storage';
-import { resumeRepository } from '../lib/resume-repository';
+import { useResizableSplitPane } from '../hooks/useResizableSplitPane';
+import { usePeriodicDraftHistory } from '../hooks/usePeriodicDraftHistory';
 import { activeResumePersistence } from '../lib/resume-persistence';
 import { RESUME_TABS_CHANNEL_NAME } from '../lib/resume-storage-contract';
 
@@ -98,84 +99,16 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
     });
   }, []);
 
-  // Resizable split ratio (percentage for editor width)
-  const [splitRatio, setSplitRatio] = useState<number>(() => {
-    try {
-      const saved = storage.getString('resume-split-ratio');
-      if (saved) {
-        const parsed = parseFloat(saved);
-        if (parsed >= 25 && parsed <= 75) return parsed;
-      }
-    } catch (e) {}
-    return 50;
-  });
+  const { splitRatio, isDragging, handleMouseDown, handleTouchStart, resetSplitRatio } =
+    useResizableSplitPane(containerRef);
 
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  const [isDragging, setIsDragging] = useState(false);
-
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-  }, []);
-
-  const handleTouchStart = useCallback(() => {
-    setIsDragging(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isDragging) return;
-
-    let rafId: number | null = null;
-
-    const handleMove = (clientX: number) => {
-      if (rafId !== null) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        if (!containerRef.current) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        const newRatio = ((clientX - rect.left) / rect.width) * 100;
-        const clamped = Math.min(Math.max(newRatio, 28), 72);
-        const finalRatio = Math.abs(clamped - 50) < 1.5 ? 50 : clamped;
-        setSplitRatio(finalRatio);
-      });
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      handleMove(e.clientX);
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (e.touches[0]) {
-        handleMove(e.touches[0].clientX);
-      }
-    };
-
-    const handleEnd = () => {
-      if (rafId !== null) cancelAnimationFrame(rafId);
-      setIsDragging(false);
-      storage.set('resume-split-ratio', String(splitRatio));
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleEnd);
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchend', handleEnd);
-    return () => {
-      if (rafId !== null) cancelAnimationFrame(rafId);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleEnd);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleEnd);
-    };
-  }, [isDragging, splitRatio]);
 
   useEffect(() => {
     const onAutoFit = () => {
@@ -212,44 +145,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
     setIsSupportProjectOpen(false);
   }, []);
 
-  // Automated periodic autosave (every 3 minutes)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      void (async () => {
-        try {
-          const currentDrafts = await resumeRepository.getDrafts();
-          const {
-            markdown: currentMarkdown,
-            settings: currentSettings,
-            currentTemplateId: currentTemplate,
-            uiLanguage: currentUiLanguage,
-          } = useResumeStore.getState();
-          const hasDuplicate = currentDrafts.some((draft) => draft.markdown === currentMarkdown);
-          if (hasDuplicate) return;
-
-          const isEn = currentUiLanguage === 'en';
-          const newAutoDraft = {
-            id: `draft_auto_${Date.now()}`,
-            title: new Date().toLocaleTimeString(isEn ? 'en-US' : 'zh-CN', { hour12: false }),
-            markdown: currentMarkdown,
-            settings: currentSettings,
-            templateId: currentTemplate,
-            timestamp: new Date().toLocaleString(isEn ? 'en-US' : 'zh-CN', { hour12: false }),
-            isAutoSave: true,
-          };
-
-          const otherDrafts = currentDrafts.filter((draft) => !draft.isAutoSave);
-          const autoDrafts = currentDrafts.filter((draft) => draft.isAutoSave);
-          const updatedAutoDrafts = [newAutoDraft, ...autoDrafts].slice(0, 5);
-          await resumeRepository.replaceDrafts([...updatedAutoDrafts, ...otherDrafts]);
-        } catch (error) {
-          console.error('[autosave] Failed to save draft to IndexedDB:', error);
-        }
-      })();
-    }, 180000);
-
-    return () => clearInterval(interval);
-  }, []);
+  usePeriodicDraftHistory();
 
   const { showToast } = useToast() || {};
 
@@ -491,10 +387,11 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
               wrapperClassName="hidden md:flex h-full items-center justify-center z-30"
             >
               <div 
+                data-testid="workspace-split-handle"
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
                 className="flex items-center justify-center w-3 h-full -mx-1.5 cursor-col-resize group hover:w-3.5 transition-all select-none relative"
-                onDoubleClick={() => setSplitRatio(50)}
+                onDoubleClick={resetSplitRatio}
               >
                 <div className={`w-1 h-8 rounded-full transition-all duration-200 ${isDragging ? 'bg-indigo-600 scale-y-125' : 'bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-400 dark:group-hover:bg-indigo-400 group-hover:scale-y-110'}`} />
                 {isDragging && (
