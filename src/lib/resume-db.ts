@@ -1,7 +1,9 @@
 import Dexie, { type EntityTable } from 'dexie';
 import type { ResumeDraft, ResumeProfile } from '../types';
+import { RESUME_DB_NAME } from './resume-storage-contract';
 
-export const RESUME_DB_NAME = 'resume-craft';
+export { RESUME_DB_NAME } from './resume-storage-contract';
+
 export const RESUME_DB_VERSION = 2;
 
 export interface ResumeDocumentRecord {
