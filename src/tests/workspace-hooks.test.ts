@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import type { ResumeDraft, ResumeSettings } from '../types';
 import { preparePeriodicDraftHistory } from '../hooks/usePeriodicDraftHistory';
 import { ratioForPointer } from '../hooks/useResizableSplitPane';
@@ -69,7 +69,7 @@ describe('periodic local draft history', () => {
   });
 
   it('uses the selected language when naming a new snapshot', () => {
-    const spanish = preparePeriodicDraftHistory([], { ...state('a'), uiLanguage: 'zh' }, now);
-    expect(spanish?.[0].title).toBe(new Date(now).toLocaleTimeString('zh-CN', { hour12: false }));
+    const chinese = preparePeriodicDraftHistory([], { ...state('a'), uiLanguage: 'zh' }, now);
+    expect(chinese?.[0].title).toBe(new Date(now).toLocaleTimeString('zh-CN', { hour12: false }));
   });
 });
