@@ -61,7 +61,7 @@
 1. 打开 [TRACKER.csv](./TRACKER.csv)，先把自己确实发布过的条目填上实际帖子 URL 和账号归属。
 2. 优先改 DEV 文末失效 Demo、PWAs.app 官方安装链接、个人主页/置顶贴/简介；最新 Release 只需附加更名通知。
 3. 一个一个打开 `platforms/` 中的对应文件，复制正文到原平台的编辑界面；依其字符、链接和审核规则精简。
-4. 看 [ASSETS.md](./ASSETS.md) 挑选或重新抓取必要的**真实 UI**截图，避免为了文件名里有 resume-craft 就全量重做。
+4. 看 [ASSETS.md](./ASSETS.md) 挑选或重新抓取必要的**真实 UI**截图，新的可再生成素材统一为 `pagevela-*`；历史已发布内容保留原始记录，勿因改名伪造旧版素材。
 5. 保存后在浏览器打开公开页验证 URL，再把 `TRACKER.csv` 的状态改成 `done` 并填 `last_checked`（此包不会自动读取你的第三方账号）。
 
 可参考 [回复和纠错话术](./FAQ_AND_REPLIES.md) 与旧版 [public publication checklist](../PUBLICATION_UPDATE_CHECKLIST.md)。

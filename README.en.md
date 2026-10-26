@@ -4,7 +4,7 @@
 
 The default [README.md](./README.md) is the full English documentation; [README.zh-CN.md](./README.zh-CN.md) is the Chinese edition.
 
-Pagevela was previously published under an older project name. The retired `/resume-craft/` Pages path is not redirected; moving between origins requires a verified local workspace export/import. Historical v2.6.0 artifacts and internal compatibility keys remain unchanged.
+Pagevela was previously published under an older project name. The retired `/resume-craft/` Pages path is not redirected; moving between origins requires a verified local workspace export/import. Historical release archives are preserved; new Pagevela backup/share formats can still read legacy data. Existing IndexedDB and cross-tab identifiers remain stable to protect saved drafts.
 
 For v2.8.2 naming consistency, archive branding and legacy backup/share compatibility, see [the latest notes](./RELEASE_NOTES.md). For the preceding v2.8.1 PDF integrity, Android owner-reported hardware testing and branded migration review see [the latest notes](./RELEASE_NOTES.md). The earlier v2.8.0 release kit is retained as a historical versioned resource.
 

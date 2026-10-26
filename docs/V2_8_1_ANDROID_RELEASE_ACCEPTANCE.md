@@ -68,7 +68,7 @@ Tester and sign-off:
 - [ ] **Stability**: no unresolved P0/P1 (failed export, draft loss, hidden keyboard/action controls).
 - [ ] **Automated**: merge QA/code improvements after quality, Chromium, Firefox/WebKit E2E, final build-and-test success; preserve no-native-component contract.
 - [x] **v2.8.1 release scope decision (2026-10-25):** Documentation/test/version-only patch, no change to Android runtime, PDF implementation or local storage; use successful full CI and the owner's actual Android WeChat PASS. Unrecorded hardware flows remain unverified in #262 and are not asserted as passed.
-- [ ] **v2.8.1 production acceptance:** latest-head PR required checks all succeed, manually reviewed squash merge, GitHub stable Release ZIP/TAR.GZ/checksums, then successful full main-push CI followed by same-SHA Pages **build and deploy**.
+- [x] **v2.8.1 production acceptance (verified 2026-10-25):** [PR #278](https://github.com/kunlong-luo/pagevela/pull/278) merged at `2cf1cc4b9ec691c96bcc0845a0aa210b1e6a6d01`; [main CI #40151369977](https://github.com/kunlong-luo/pagevela/actions/runs/40151369977), [v2.8.1 Release #40151369998](https://github.com/kunlong-luo/pagevela/actions/runs/40151369998) and [same-SHA Pages build/deploy #40152145768](https://github.com/kunlong-luo/pagevela/actions/runs/40152145768) all succeeded. This check covers publishing automation only; unrecorded hardware A–H flows above remain unchecked under #262.
 
 ## Safety and scope
 
