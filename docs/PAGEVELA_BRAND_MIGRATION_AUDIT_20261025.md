@@ -1,17 +1,19 @@
 # Pagevela — 品牌及迁移结项审计 / 2026-10-25
 
-**Scope:** This is the current *engineering* status for [issue #202](https://github.com/kunlong-luo/pagevela/issues/202), which contains a long pre-launch chronology. Historic pre-launch "do not launch" statements were superseded by the owner's **Option A** decision and the actual v2.8.0 GitHub Pages launch. Preserve the historical record, but do not read it as the current deploy instruction.
+**Scope:** This is the current *engineering* status for [issue #202](https://github.com/kunlong-luo/pagevela/issues/202), which contains a long pre-launch chronology. Historic pre-launch "do not launch" statements were superseded by the owner's **Option A** decision and the actual v2.8.0 GitHub Pages launch and the subsequent verified v2.8.2 release on 2026-10-25. Preserve the historical record, but do not read it as the current deploy instruction.
 
 ## Engineering / 已核实项目
 
 | Gate | Evidence and outcome | State |
 | --- | --- | --- |
 | Global brand identity | Active site uses **Pagevela** in English and **页帆** in Chinese, with Pagevela PWA metadata; the same source branding is guarded by `src/tests/pagevela-brand.test.ts`. | PASS — code/CI |
-| Canonical and social metadata | `index.html`, public sitemap/robots and landing links use `https://kunlong-luo.github.io/pagevela/`; v2.8.0's deployed welcome page is reachable. | PASS — code + live URL |
-| Repository and release | `kunlong-luo/pagevela` and annotated stable v2.8.0 tag; SHA-matched main CI #40051654058 and Pages #40052552558 succeeded. | PASS — GitHub |
+| Canonical and social metadata | `index.html`, public sitemap/robots and landing links use `https://kunlong-luo.github.io/pagevela/`; current canonical metadata points at the production `/pagevela/` site; GitHub Pages deployment for v2.8.2 succeeded. Independent browser/network smoke testing is not established by this record. | PASS — code + live URL |
+| Repository and release | `kunlong-luo/pagevela`, annotated stable [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2) at `59246623fdbf727a0a767c1e67375401995e0299`, [main CI #40202793334](https://github.com/kunlong-luo/pagevela/actions/runs/40202793334) and [Pages #40203720040](https://github.com/kunlong-luo/pagevela/actions/runs/40203720040) all succeeded on the same SHA. | PASS — GitHub |
 | Owner-hosting decision | Former `/resume-craft/` route is intentionally **not** redirected. China/EdgeOne pilot PR #240 was closed **unmerged**. No custom-domain DNS or hosting migration was authorized. | DECIDED |
-| Data and share compatibility | `src/tests/pagevela-brand.test.ts` guards `resume-craft-share-v2/v3`, IndexedDB/cache identifiers, existing export naming; portable workspace and storage migration E2E exist. `docs/WORKSPACE_TRANSFER.md` says backup JSON is unencrypted. | PASS — automated source tests, real-device scenarios still OPEN |
-| Historic materials | Old release names and inactive redirect sources may remain for backwards compatibility and historical context; do not mass-replace `resume-craft` identifiers. | DECIDED |
+| Data and share compatibility | New ZIP/TAR.GZ packages and media artifacts use `pagevela-*`; new workspace exports use `pagevela-workspace-v1` and accept `resume-craft-workspace-v1`; new protected links use `pagevela-share-v3` but still decrypt historical v2/v3 AAD. Existing `resume-craft` IndexedDB and cross-tab coordination persist intentionally; `vite.config.ts` now uses `pagevela-pdf-tools` cache. Workspace JSON remains unencrypted. | PASS — automated source tests, real-device scenarios still OPEN |
+| Historic materials | Prior release artifacts, inactive redirect source and historical citations remain intact; do not mass-replace cryptographic AAD, storage identifiers or factual history without verified migrations. | DECIDED |
+
+**Final release automation ledger (v2.8.2):** [PR #279](https://github.com/kunlong-luo/pagevela/pull/279) merged; source package name `pagevela`, Release workflow `40202793368`, Pages build/deploy `40203720040` and SEO submission `40203785861` succeeded at the same SHA. This proves the GitHub workflow gates, not physical-device or independently fetched site behavior.
 
 ## External evidence still missing / 无法由 CI 代替
 

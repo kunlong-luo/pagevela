@@ -136,6 +136,9 @@ describe('Pagevela public brand and compatibility', () => {
       expect(text).toContain('pagevela-');
     }
     expect(source('package.json')).toContain('"name": "pagevela"');
+    expect(source('docs/PUBLICATION_UPDATE_CHECKLIST.md')).toContain('`pagevela-promotion-media`');
+    expect(source('docs/channel-refresh/FACTS.md')).toContain('`pagevela-*`');
+    expect(source('RELEASING.md')).toContain('pagevela-X.Y.Z.zip');
   });
 
   it('does not break legacy share decryption or saved cross-tab identities', () => {

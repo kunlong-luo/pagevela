@@ -1,6 +1,6 @@
 # Pagevela public listings and media update checklist
 
-> **Current v2.8.0 release materials (2026-10-24):** [Release notes](../RELEASE_NOTES.md) · [bilingual publication kit](./V2_8_0_RELEASE_KIT.md) · [GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.0). External social/listing edits and media uploads require manual review. Updating repository text does **not** update Product Hunt, YouTube, DEV, PWAs.app or other sites.
+> **Latest published version v2.8.2 (2026-10-25):** [Release notes](../RELEASE_NOTES.md) · [v2.8.2 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2) · [older v2.8.0 bilingual publication kit](./V2_8_0_RELEASE_KIT.md) (historical kit, not proof of current promotion). External social/listing edits and media uploads require manual review. Updating repository text does **not** update Product Hunt, YouTube, DEV, PWAs.app or other sites.
 
 > **Platform-by-platform ready-to-copy pack:** [中外媒体逐个平台修改包](./channel-refresh/README.md) · [进度表 CSV](./channel-refresh/TRACKER.csv) · [截图与封面要求](./channel-refresh/ASSETS.md). This is a source repository preparation, not external publication.
 
@@ -17,9 +17,9 @@ This checklist distinguishes code we can maintain in the project from third-part
 - [x] README in Chinese/English, canonical, OG links, sitemap and robots refer to the current app.
 - [x] Brand launch docs, active promotion playbook and the v2.6.0 social draft provide current Pagevela URLs.
 - [x] Historical `RELEASE_NOTES.md` retains the original `Resume Craft v2.6.0` label but prominently links to current Pagevela.
-- [x] Future GitHub Release **display titles and annotated tag messages** use Pagevela. All versions use **Pagevela** release display titles and annotated tag messages, while v2.8.0 archives retain `resume-craft-VERSION.zip`/`.tar.gz` and SHA256SUMS for compatibility with established downloads. Historical release artifacts remain unchanged.
+- [x] Future GitHub Release **display titles and annotated tag messages** use Pagevela. Current v2.8.2 assets use `pagevela-2.8.2.zip`, `pagevela-2.8.2.tar.gz` and `SHA256SUMS.txt`. Older already-published archives keep their original filenames and checksums. Display titles and v2.8.2 annotated tag use Pagevela.
 - [x] Public SVG cover source (`public/og-card.svg`) and README banner (`.github/assets/readme-banner.svg`) already show **Pagevela**, so a blanket regenerate/recreate is unnecessary. Production builds generate the OG PNG from the SVG.
-- [ ] Capture and visually review **new real product screenshots** from the deployed Pagevela UI. Open GitHub Actions → [Capture Real Promotion Media](https://github.com/kunlong-luo/pagevela/actions/workflows/capture-promotion-media.yml) → **Run workflow**, branch `main`; review/download `resume-craft-promotion-media` artifacts (the name is historical and internal). The connected GitHub tool cannot dispatch this workflow. This action creates review files and does not publish external content.
+- [ ] Capture and visually review **new real product screenshots** from the deployed Pagevela UI. Open GitHub Actions → [Capture Real Promotion Media](https://github.com/kunlong-luo/pagevela/actions/workflows/capture-promotion-media.yml) → **Run workflow**, branch `main`; review/download `pagevela-promotion-media` artifacts (the current workflow output name). The connected GitHub tool cannot dispatch this workflow. This action creates review files and does not publish external content.
 
 ## Third-party edits — author/account required
 
@@ -37,7 +37,7 @@ This checklist distinguishes code we can maintain in the project from third-part
 
 ## Screenshot and image policy
 
-- Keep existing Pagevela-branded vector assets if the content and crop remain accurate; do not regenerate merely because their **internal filenames** still contain `resume-craft-`.
+- Keep existing Pagevela-branded vector assets if the content and crop remain accurate. Current generated promotion files use `pagevela-*`; do not regenerate historical files just to change past artifact names.
 - Replace **third-party gallery imagery, article screenshots and promotional video frames** that visibly show Resume Craft/简匠 or a broken URL.
 - Only capture real UI with fictional examples; review desktop, mobile, video subtitles, legibility, link targets and privacy claims before external publication.
 - Do not use AI-generated interfaces as evidence of actual product behavior.

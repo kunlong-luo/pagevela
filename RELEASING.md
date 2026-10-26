@@ -2,13 +2,13 @@
 
 Pagevela publishes stable releases only.
 
-> **Live Pagevela release status:** PR #210 was merged and the public project was renamed to `kunlong-luo/pagevela`; the published site is https://kunlong-luo.github.io/pagevela/. Historical v2.6.0 archives and internal data/share keys stay unchanged. The old `/resume-craft/` Pages URL is not redirected, by owner choice. Trademark review and optional future custom domains are separate. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
+> **Live Pagevela release status:** PR #210 was merged and the public project was renamed to `kunlong-luo/pagevela`; the published site is https://kunlong-luo.github.io/pagevela/. Past release archives remain intact. v2.8.2 exports and new encrypted links use Pagevela identifiers while accepting legacy backups/share formats, and the established IndexedDB/cross-tab identifiers remain stable. The old `/resume-craft/` Pages URL is not redirected, by owner choice. Trademark review and optional future custom domains are separate. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
 
 ## Latest stable release line
 
-v2.8.0 (2026-10-24) follows v2.7.0 with mobile, welcome, bilingual UI, and strict browser CI improvements. Release only after the version bump PR passes protected checks.
+v2.8.2 (2026-10-25) is the latest verified stable release: [Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2) · [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/40202793334) · [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/40203720040), commit `59246623fdbf727a0a767c1e67375401995e0299`. A future release still requires its own protected checks and same-commit deployment acceptance.
 
-The GitHub Release title and tag use **Pagevela**, while distributable file names now use `pagevela-X.Y.Z.zip`, `pagevela-X.Y.Z.tar.gz`, and `SHA256SUMS.txt` for compatibility. Historical release archives and checksums remain unchanged.
+The GitHub Release title and tag use **Pagevela**, while distributable file names now use `pagevela-X.Y.Z.zip`, `pagevela-X.Y.Z.tar.gz`, and `SHA256SUMS.txt` for all new stable releases. These are the current branded filenames, not a promise that historic archive names were changed. Historical release archives and checksums remain unchanged.
 
 The `Release` workflow on a `package.json` version bump creates the tag and downloadable assets. If a previous run failed before creating a tag, a reviewed fix to `.github/workflows/release.yml` can safely retry the same not-yet-tagged stable version; once a tag exists, unchanged versions are skipped. It is independent of the `Deploy Pages` `workflow_run` gate, which requires completed, successful full main-push CI on the identical latest main SHA. A green Release alone does not prove the website was updated.
 
@@ -40,7 +40,7 @@ The workflow will:
 - install with the frozen pnpm lockfile;
 - run type checking, unit tests, and the production build;
 - create or reuse the annotated `vX.Y.Z` tag;
-- package the complete `dist/` output as compatibility-named ZIP and TAR.GZ archives;
+- package the complete `dist/` output as `pagevela-X.Y.Z.zip` and `pagevela-X.Y.Z.tar.gz`;
 - generate `SHA256SUMS.txt`;
 - publish a GitHub Release with automatically generated release notes.
 

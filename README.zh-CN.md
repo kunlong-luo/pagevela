@@ -6,7 +6,7 @@
 
 <h3 align="center">本地优先的 Markdown 简历编辑器</h3>
 
-> **Pagevela 已正式上线：** 官网为 [https://kunlong-luo.github.io/pagevela/](https://kunlong-luo.github.io/pagevela/)，GitHub 仓库为 [kunlong-luo/pagevela](https://github.com/kunlong-luo/pagevela)。旧 `/resume-craft/` GitHub Pages 网址不再维护也不会自动跳转，请更新旧文章和演示链接。历史发布文件及简历本地数据/分享协议兼容标识保持不变；商标审核另行进行。
+> **Pagevela 已正式上线：** 官网为 [https://kunlong-luo.github.io/pagevela/](https://kunlong-luo.github.io/pagevela/)，GitHub 仓库为 [kunlong-luo/pagevela](https://github.com/kunlong-luo/pagevela)。旧 `/resume-craft/` GitHub Pages 网址不再维护也不会自动跳转，请更新旧文章和演示链接。历史发布附件保持原样；新版备份和加密分享采用 Pagevela 标识，同时兼容读取旧数据。已有 IndexedDB 和跨标签页协调标识保持稳定，以保护本地草稿。商标审核另行进行。
 
 <p align="center">
   实时 A4 / US Letter 预览、ATS 检查、中英双语、PDF 导出。

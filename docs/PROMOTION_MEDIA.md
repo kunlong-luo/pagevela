@@ -1,6 +1,6 @@
 # Pagevela — real promotional media capture
 
-> **v2.8.0 media update (2026-10-24):** The welcome-page QR and mobile toolbar/navigation now differ from some earlier v2.7.0 images. Re-run real Playwright captures from latest verified `main` before reusing screenshots or video, and consult the [bilingual v2.8.0 publication kit](./V2_8_0_RELEASE_KIT.md). This note does **not** mean screenshots were re-recorded or external channels were updated.
+> **v2.8.2 media naming update (2026-10-25):** Current workflow-generated captures, rendered graphics and video names use `pagevela-*`. **Earlier v2.8.0 media note (2026-10-24):** The welcome-page QR and mobile toolbar/navigation now differ from some earlier v2.7.0 images. Re-run real Playwright captures from latest verified `main` before reusing screenshots or video, and consult the [bilingual v2.8.0 publication kit](./V2_8_0_RELEASE_KIT.md). This note does **not** mean screenshots were re-recorded or external channels were updated.
 
 This is a repeatable Playwright browser capture of the **real application UI**, seeded only with fictional sample Markdown. It does not use AI-generated fake screenshots, personal resume files, a paid account, or visitor analytics.
 
@@ -27,7 +27,7 @@ The GitHub Actions workflow **Capture Real Promotion Media** uploads a `pagevela
 
 1. In GitHub, open **Actions → Capture Real Promotion Media → Run workflow**. In **Use workflow from**, select `main` for real current-brand captures. A workflow run produces review artifacts; it does **not** publish a social post. The workflow's automatic push trigger is limited to its designated development branch.
 2. After the run succeeds, inspect its commit/branch and visually confirm the current Pagevela branding and live URL.
-3. Download the `pagevela-promotion-media` ZIP from **Artifacts**. The `pagevela-*` ZIP/PNG/MP4 names are compatibility filenames, **not** visible branding and not a reason to rename them.
+3. Download the `pagevela-promotion-media` ZIP from **Artifacts**. The `pagevela-*` ZIP/PNG/MP4 names are the current branded artifact filenames. Inspect the rendered visual content and real URL independently before external distribution.
 4. Inspect the actual PNG/MP4 output against the checklist below. Keep all generated assets **private and unpublished** until separately approved for release; CI passing is not visual approval.
 
 ### Manual visual acceptance — NOT YET COMPLETED

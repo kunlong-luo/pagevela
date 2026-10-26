@@ -6,7 +6,7 @@
 
 <h3 align="center">Local-first Markdown Resume Builder</h3>
 
-> **Pagevela is live:** The official website is [https://kunlong-luo.github.io/pagevela/](https://kunlong-luo.github.io/pagevela/) and the repository is [kunlong-luo/pagevela](https://github.com/kunlong-luo/pagevela). The former `/resume-craft/` Pages URL is not supported or redirected; update old article/demo links. Historical release artifacts and internal data/share compatibility identifiers remain unchanged. Trademark review is separate from the deployed project name.
+> **Pagevela is live:** The official website is [https://kunlong-luo.github.io/pagevela/](https://kunlong-luo.github.io/pagevela/) and the repository is [kunlong-luo/pagevela](https://github.com/kunlong-luo/pagevela). The former `/resume-craft/` Pages URL is not supported or redirected; update old article/demo links. Historically published release assets remain unchanged. New Pagevela backup/share formats continue to import or decrypt legacy data; original IndexedDB and cross-tab identifiers stay stable to protect local drafts. Trademark review is separate from the deployed project name.
 
 <p align="center">
   Build and tailor A4 or US Letter resumes with Markdown, structured forms, ATS checks, and direct PDF export.

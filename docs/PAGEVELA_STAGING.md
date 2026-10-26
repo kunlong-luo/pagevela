@@ -1,5 +1,7 @@
 # Pagevela — rollout status and remaining quality gates
 
+> **Latest release (v2.8.2; verified 2026-10-25):** [PR #279](https://github.com/kunlong-luo/pagevela/pull/279) merged as `59246623fdbf727a0a767c1e67375401995e0299`; same-SHA [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/40202793334), [Release](https://github.com/kunlong-luo/pagevela/actions/runs/40202793368), [Pages build and deploy](https://github.com/kunlong-luo/pagevela/actions/runs/40203720040) all succeeded. Stable packages use `pagevela-2.8.2.zip` / `.tar.gz` and checksums. Site content has not been independently smoke-tested in this record; remaining Android hardware and legal evidence still belong to #262 / #202.
+
 > **v2.8.1 scope and rollout gate (2026-10-25):** [Android WeChat owner-confirmed PASS and remaining coverage](./V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [#202 brand audit](./PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md). v2.8.1 is a documentation/test/version-only patch with no changed mobile/PDF runtime behavior. Automated CI and owner-reported WeChat testing are sufficient for this patch **once the new stable Release and same-SHA CI-gated Pages deployment succeed**. Other Android browsers, native print/Downloads and offline PWA results remain explicitly unverified under #262; branding legal clearance remains under #202. Historical status below is kept for traceability.
 
 ## Production deployment and China pilot status (2026-10-24)
@@ -25,7 +27,7 @@ This establishes the **v2.7.0-codebase successor** production gate; each future 
 
 ## Compatibility preserved intentionally
 
-- Existing IndexedDB database names, localStorage keys, encrypted-share protocol AAD `resume-craft-share-v2` / `resume-craft-share-v3`, workspace backup schemas, PWA PDF cache key and cross-tab identifiers remain unchanged.
+- Legacy `resume-craft` IndexedDB database, cross-tab channel and write lock remain intentionally unchanged to preserve drafts and concurrent-session behavior. New support-prompt storage uses `pagevela.support-prompt.v3` with legacy-state fallback. New backup exports use `pagevela-workspace-v1` and accept older files; new encrypted-share AAD is `pagevela-share-v3` with a legacy v2/v3 decryption fallback; PWA PDF cache was renamed to `pagevela-pdf-tools`. None of these compatible public changes is evidence that every historical identifier was destructively renamed.
 - `github.io/pagevela/` and the retired `github.io/resume-craft/` path share the same HTTPS **origin**, but PWA service-worker scopes and saved/installed launch URLs can differ. Do not assume old installed PWAs continue working.
 - Historical v2.6.0 release artifacts and original publication records are historical documents, not a requirement to keep promoting outdated URLs.
 - The prepared redirect source files under `docs/legacy-pages-redirect/site/` are **inactive reference material only**. Do not deploy them without a new explicit owner decision.
