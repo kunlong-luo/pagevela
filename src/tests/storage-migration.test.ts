@@ -78,6 +78,11 @@ function createFakeRepository() {
     async replaceDrafts(drafts) {
       state.drafts = structuredClone(drafts);
     },
+    async mutateDrafts(transform) {
+      const updated = transform(structuredClone(state.drafts));
+      if (updated !== null) state.drafts = structuredClone(updated);
+      return structuredClone(state.drafts);
+    },
     async getMeta(key) {
       return state.meta.get(key) ?? null;
     },

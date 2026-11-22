@@ -11,6 +11,9 @@ export interface ResumeRepositorySnapshot {
   jdText?: string | null;
 }
 
+/** A null transformation keeps the committed records unchanged. */
+export type DraftHistoryMutation = (current: ResumeDraft[]) => ResumeDraft[] | null;
+
 export interface ResumeRepository {
   getActiveMarkdown(): Promise<string | null>;
   saveActiveMarkdown(markdown: string): Promise<void>;
@@ -21,6 +24,7 @@ export interface ResumeRepository {
   replaceProfiles(profiles: ResumeProfile[]): Promise<void>;
   getDrafts(): Promise<ResumeDraft[]>;
   replaceDrafts(drafts: ResumeDraft[]): Promise<void>;
+  mutateDrafts(transform: DraftHistoryMutation): Promise<ResumeDraft[]>;
   getMeta(key: string): Promise<string | null>;
   setMeta(key: string, value: string): Promise<void>;
 }
@@ -140,6 +144,23 @@ export class IndexedDbResumeRepository implements ResumeRepository {
     await db.transaction('rw', db.drafts, async () => {
       await db.drafts.clear();
       if (records.length > 0) await db.drafts.bulkPut(records);
+    });
+  }
+
+  /**
+   * Draft history read + change + replacement is one Dexie write transaction.
+   * This stays atomic across tabs even when browser Web Locks are unavailable.
+   */
+  async mutateDrafts(transform: DraftHistoryMutation): Promise<ResumeDraft[]> {
+    const db = getResumeDatabase();
+    return db.transaction('rw', db.drafts, async () => {
+      const current = fromDraftRecords(await db.drafts.orderBy('sortIndex').toArray());
+      const updated = transform(current);
+      if (updated === null) return current;
+      const records = toDraftRecords(updated);
+      await db.drafts.clear();
+      if (records.length > 0) await db.drafts.bulkPut(records);
+      return updated;
     });
   }
 

@@ -36,3 +36,10 @@ Unit tests inject a persistence writer to cover coalescing, manual-save FIFO ord
 ## Acceptance
 
 Run `pnpm run typecheck`, `pnpm run lint`, `pnpm run test`, `pnpm run build`, and the required Chromium and cross-browser suites. This change must not alter the already published v2.8.2 tag or downloadable assets.
+
+## 2026-11-22: draft history atomicity
+
+- `resume-draft-persistence.ts` shares one FIFO across manual create/rename/delete, periodic snapshots, export reads, and the explicitly confirmed portable-workspace replacement barrier. UI shows a success message only **after** the repository mutation commits.
+- `resumeRepository.mutateDrafts` reads and transforms the current list **inside the same Dexie read/write transaction**, preventing stale read/replace overwrites even if `navigator.locks` is unsupported. The coordinator additionally acquires the existing write lock when available, shared with active resumes and full workspace restore.
+- The timed rotation uses fresh current editor state **when its queued update executes**, so a timer queued during workspace restoration cannot replay old data after the import.
+- Tests cover overlapping writes, delete/rename vs timer, restore barriers, ordered reads, no-op handling and recovery after failed writes. Existing IndexedDB names, schema, portable backups and Web Lock names are preserved.
