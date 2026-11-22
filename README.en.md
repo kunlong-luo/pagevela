@@ -1,6 +1,6 @@
 # Pagevela — English documentation entry
 
-Pagevela is a local-first Markdown/form resume builder. The primary **English** handbook is [README.md](./README.md); the **简体中文** edition is [README.zh-CN.md](./README.zh-CN.md).
+Pagevela is live as a local-first Markdown/form resume builder. The primary **English** handbook is [README.md](./README.md); the **简体中文** edition is [README.zh-CN.md](./README.zh-CN.md).
 
 - [Live app](https://kunlong-luo.github.io/pagevela/) · [Source](https://github.com/kunlong-luo/pagevela) · [Latest stable Release](https://github.com/kunlong-luo/pagevela/releases/latest)
 - [Documentation index](./docs/README.md) · [Dated project / CI status](./docs/PROJECT_STATUS.md) · [2026-11-22 assessment](./docs/ASSESSMENT_20261122.md)
