@@ -17,7 +17,11 @@ const draft = (id: string, isAutoSave = false): ResumeDraft => ({
 
 function memoryCoordinator(initial: ResumeDraft[] = []) {
   let stored = [...initial];
-  const withWriteLock = vi.fn(async <T>(work: () => Promise<T>) => work());
+  let lockCalls = 0;
+  const withWriteLock = async <T>(work: () => Promise<T>): Promise<T> => {
+    lockCalls += 1;
+    return work();
+  };
   const mutateDrafts = vi.fn(async (change: (current: ResumeDraft[]) => ResumeDraft[] | null) => {
     const next = change([...stored]);
     if (next) stored = next;
@@ -29,7 +33,7 @@ function memoryCoordinator(initial: ResumeDraft[] = []) {
     withWriteLock,
   });
   return {
-    coordinator, withWriteLock, mutateDrafts,
+    coordinator, getLockCalls: () => lockCalls, mutateDrafts,
     stored: () => [...stored],
     restoreDirectly: (drafts: ResumeDraft[]) => { stored = [...drafts]; },
   };
@@ -37,14 +41,14 @@ function memoryCoordinator(initial: ResumeDraft[] = []) {
 
 describe('draft history persistence coordinator', () => {
   it('preserves a manual draft while a queued automatic snapshot rotates history', async () => {
-    const { coordinator, stored, withWriteLock } = memoryCoordinator([draft('old-auto', true)]);
+    const { coordinator, stored, getLockCalls } = memoryCoordinator([draft('old-auto', true)]);
     const manual = coordinator.update(current => [draft('manual'), ...current]);
     const periodic = coordinator.update(current => preparePeriodicDraftHistory(current, {
       markdown: 'new-auto', settings, currentTemplateId: 'custom', uiLanguage: 'en',
     }, new Date('2026-11-22T00:00:00Z')));
     await Promise.all([manual, periodic]);
     expect(stored().map(d => d.markdown)).toEqual(['new-auto', 'old-auto', 'manual']);
-    expect(withWriteLock).toHaveBeenCalledTimes(2);
+    expect(getLockCalls()).toBe(2);
     expect((await coordinator.read()).map(d => d.id)).toEqual(stored().map(d => d.id));
   });
 
