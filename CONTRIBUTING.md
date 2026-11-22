@@ -26,9 +26,11 @@ pnpm dev
 Before opening a pull request, run:
 
 ```bash
+pnpm typecheck
 pnpm lint
 pnpm test
 pnpm build
+pnpm perf:budget
 ```
 
 ## Contribution workflow
@@ -37,7 +39,7 @@ pnpm build
 2. Branch from the latest `main`.
 3. Make the smallest change that solves the problem.
 4. Add or update tests when behavior changes.
-5. Update documentation when user-facing behavior changes.
+5. Update the [documentation index](docs/README.md), active guides and versioned evidence when behavior, architecture or release gates change. Keep historical documents factual; do not silently rewrite past release results.
 6. Open a pull request and complete the checklist.
 
 Recommended branch names:
@@ -62,7 +64,7 @@ Pagevela tracks stable dependency releases only.
 
 **Mandatory:** Follow [Pagevela's Branded UI Component Contract](docs/BRANDED_UI_CONTRACT.md). New UI features must reuse or extend project components, not render browser-default controls, tooltips, native select/date/color pickers, confirmation boxes or scrollbars. Native HTML may be used as an accessible implementation primitive only within a fully branded control.
 
-Before a UI PR, run `pnpm test` (native-widget guard), `pnpm lint` and `pnpm build`. Review relevant interactions at mobile, tablet and desktop widths, in both languages and themes. Verify actual clickability, focus and dialog overlays—not just DOM presence.
+Before a UI PR, run `pnpm typecheck`, `pnpm test` (native-widget guard), `pnpm lint`, `pnpm build` and `pnpm perf:budget`. Review relevant interactions at mobile, tablet and desktop widths, in both languages and themes. Verify actual clickability, focus and dialog overlays—not just DOM presence.
 
 For visible UI changes, include a short description and screenshots when they help reviewers understand the result. Keep Chinese and English UI copy aligned when a feature is bilingual.
 

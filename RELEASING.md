@@ -4,6 +4,10 @@ Pagevela publishes stable releases only.
 
 > **Live Pagevela release status:** PR #210 was merged and the public project was renamed to `kunlong-luo/pagevela`; the published site is https://kunlong-luo.github.io/pagevela/. Past release archives remain intact. v2.8.2 exports and new encrypted links use Pagevela identifiers while accepting legacy backups/share formats, and the established IndexedDB/cross-tab identifiers remain stable. The old `/resume-craft/` Pages URL is not redirected, by owner choice. Trademark review and optional future custom domains are separate. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
 
+## Current-source status and evidence
+
+The v2.8.2 artifact is the latest stable **published release**, but publishing is not the same as deploying the newest source. As checked on 2026-11-22, `main` at `992374a` failed full CI due to the split-pane double-click reset E2E; its Pages workflow was skipped. The latest independently verified successful Pages workflow before that audit is [#40295215435](https://github.com/kunlong-luo/pagevela/actions/runs/40295215435), at `712dee2`. See the [dated status and remediation plan](docs/PROJECT_STATUS.md); after a CI fix, recheck the **latest** main CI and same-SHA Pages job, rather than relying on this historical snapshot.
+
 ## Latest stable release line
 
 v2.8.2 (2026-10-25) is the latest verified stable release: [Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2) · [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/40202793334) · [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/40203720040), commit `59246623fdbf727a0a767c1e67375401995e0299`. A future release still requires its own protected checks and same-commit deployment acceptance.

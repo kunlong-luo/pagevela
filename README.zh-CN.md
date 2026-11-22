@@ -35,6 +35,17 @@
 
 ---
 
+## 📚 项目文档与验收状态
+
+- [文档总索引](docs/README.md)：使用指南、架构、品牌、历史资料统一入口
+- [项目状态快照](docs/PROJECT_STATUS.md)：已核验的 CI／Pages 状态与待办事项
+- [2026-11-22 项目评估](docs/ASSESSMENT_20261122.md)：评分依据、技术风险和优化优先级
+- [版本发布流程](RELEASING.md) · [贡献指南](CONTRIBUTING.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md)
+
+**注意：** GitHub 最新 Release、当前 `main` 与已部署 Pages 不一定指向同一提交；判断是否正式上线，请先查看状态快照并核对最新 CI。
+
+---
+
 ## 🆕 v2.8.2 更新
 
 本次更新统一 **Pagevela** 项目名称与新发布文件命名，并且保持旧用户数据可以正常读取。
@@ -270,7 +281,9 @@ pnpm dev
 | :--- | :--- |
 | `pnpm dev` | 启动 Vite 开发服务器（Port: 3000） |
 | `pnpm build` | 构建生产环境产物（dist 目录） |
-| `pnpm lint` | 运行 TypeScript 全量静态类型检查 |
+| `pnpm lint` | 执行 ESLint 代码规范检查 |
+| `pnpm typecheck` | 执行 TypeScript 全量静态类型检查 |
+| `pnpm perf:budget` | 检查构建体积预算（需要先执行 `pnpm build`） |
 | `pnpm test` | 执行 Vitest 自动化单元测试 |
 | `pnpm preview` | 预览本地生产打包结果 |
 | `pnpm check:stable-deps` | 检查直接依赖是否全部为稳定版本 |
@@ -337,7 +350,7 @@ Pagevela 采用本地优先架构，但“本地优先”不等于“所有数�
 - [安全策略](SECURITY.md) — 漏洞请通过私密渠道报告，不要公开提交敏感细节
 - [支持说明](SUPPORT.md) — Bug、功能建议和使用问题的处理方式
 
-提交 Pull Request 前，请确保 `pnpm lint`、`pnpm test` 和 `pnpm build` 均通过。
+提交 Pull Request 前，请确保 `pnpm typecheck`、`pnpm lint`、`pnpm test`、`pnpm build` 和 `pnpm perf:budget` 均通过。
 
 ---
 

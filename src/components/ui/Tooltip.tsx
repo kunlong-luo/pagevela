@@ -11,6 +11,8 @@ export interface TooltipProps {
   delay?: number;
   className?: string;
   wrapperClassName?: string;
+  /** Keep the DOM trigger mounted when disabled so drag/double-click sequences survive. */
+  preserveWrapper?: boolean;
 }
 
 export function Tooltip({
@@ -22,7 +24,8 @@ export function Tooltip({
   disabled = false,
   delay = 150,
   className = '',
-  wrapperClassName = ''
+  wrapperClassName = '',
+  preserveWrapper = false,
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [coords, setCoords] = useState<{ top: number; left: number; actualSide: 'top' | 'bottom' | 'left' | 'right' }>({
@@ -145,7 +148,7 @@ export function Tooltip({
     };
   }, []);
 
-  if (disabled || !content) {
+  if ((disabled || !content) && !preserveWrapper) {
     return <>{children}</>;
   }
 
@@ -160,7 +163,7 @@ export function Tooltip({
     >
       {children}
 
-      {isVisible &&
+      {isVisible && !disabled && Boolean(content) &&
         typeof document !== 'undefined' &&
         createPortal(
           <div
