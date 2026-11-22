@@ -9,6 +9,9 @@ import { useConfirm } from '../../context/ConfirmContext';
 import { useResumeStore } from '../../store/useResumeStore';
 import { resumeRepository } from '../../lib/resume-repository';
 import { activeResumePersistence } from '../../lib/resume-persistence';
+import { activeDraftHistoryPersistence } from '../../lib/resume-draft-persistence';
+import { RESUME_DB_WRITE_LOCK_NAME } from '../../lib/resume-storage-contract';
+import type { DraftHistoryMutation } from '../../lib/resume-repository';
 import {
   MAX_PORTABLE_WORKSPACE_BYTES,
   normalizePortableWorkspaceBackup,
@@ -59,46 +62,43 @@ export function BackupDraftModal() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const workspaceLock = useRef(false);
   const [workspaceBusy, setWorkspaceBusy] = useState(false);
-  // User-triggered draft changes can be in flight while a workspace is exported.
-  const draftWriteChain = useRef<Promise<void>>(Promise.resolve());
   const dialogRef = useRef<HTMLDivElement>(null);
   useDialogFocus({ isOpen, dialogRef, onClose });
 
+  const presentDrafts = (records: ResumeDraft[]) => records.map((draft) =>
+    draft.isAutoSave && draft.title?.includes('自动备份 - ')
+      ? { ...draft, title: draft.title.replace('自动备份 - ', '') }
+      : draft
+  );
+
   useEffect(() => {
-    if (isOpen) {
-      void loadDrafts();
-    }
+    if (!isOpen) return;
+    const unsubscribe = activeDraftHistoryPersistence.subscribe((records) => {
+      setDrafts(presentDrafts(records));
+    });
+    void loadDrafts();
+    return unsubscribe;
   }, [isOpen]);
 
   const loadDrafts = async () => {
     try {
-      const parsed = await resumeRepository.getDrafts();
-      const sanitized = parsed.map((draft) => {
-        if (draft.isAutoSave && draft.title?.includes('自动备份 - ')) {
-          return {
-            ...draft,
-            title: draft.title.replace('自动备份 - ', ''),
-          };
-        }
-        return draft;
-      });
-      setDrafts(sanitized);
+      setDrafts(presentDrafts(await activeDraftHistoryPersistence.read()));
     } catch (error) {
       console.error('Error loading drafts from IndexedDB', error);
-      setDrafts([]);
+      setErrorMessage(uiLanguage === 'en' ? 'Failed to load local drafts.' : '加载本地草稿失败。');
     }
   };
 
-  const saveDraftsList = (updatedDrafts: ResumeDraft[]) => {
-    setDrafts(updatedDrafts);
-    // Serialize writes and allow portable export/import to wait for the newest draft.
-    draftWriteChain.current = draftWriteChain.current.catch(() => undefined)
-      .then(() => resumeRepository.replaceDrafts(updatedDrafts));
-    void draftWriteChain.current.catch((error) => {
+  /** Manual edits always transform the latest committed drafts, never a stale UI list. */
+  const persistDraftChange = async (change: DraftHistoryMutation): Promise<boolean> => {
+    try {
+      setDrafts(presentDrafts(await activeDraftHistoryPersistence.update(change)));
+      return true;
+    } catch (error) {
       console.error('Error saving drafts to IndexedDB', error);
       setErrorMessage(uiLanguage === 'en' ? 'Failed to save local draft.' : '本地草稿保存失败。');
-      setTimeout(() => setErrorMessage(''), 3000);
-    });
+      return false;
+    }
   };
 
   const showToast = (msg: string, isError = false) => {
@@ -126,10 +126,11 @@ export function BackupDraftModal() {
       isAutoSave: false
     };
 
-    const updated = [newDraft, ...drafts];
-    saveDraftsList(updated);
-    setNewDraftTitle('');
-    showToast(isEn ? 'Draft saved successfully!' : '草稿保存成功！');
+    void persistDraftChange((current) => [newDraft, ...current]).then((saved) => {
+      if (!saved) return;
+      setNewDraftTitle('');
+      showToast(isEn ? 'Draft saved successfully!' : '草稿保存成功！');
+    });
   };
 
   const handleRestoreDraft = async (draft: ResumeDraft) => {
@@ -163,9 +164,9 @@ export function BackupDraftModal() {
       type: 'danger'
     });
     if (confirmed) {
-      const updated = drafts.filter(d => d.id !== id);
-      saveDraftsList(updated);
-      showToast(isEn ? 'Draft deleted' : '草稿已删除');
+      if (await persistDraftChange((current) => current.filter(d => d.id !== id))) {
+        showToast(isEn ? 'Draft deleted' : '草稿已删除');
+      }
     }
   };
 
@@ -173,10 +174,14 @@ export function BackupDraftModal() {
     e.stopPropagation();
     if (!editingTitle.trim()) return;
     const isEn = uiLanguage === 'en';
-    const updated = drafts.map(d => d.id === id ? { ...d, title: editingTitle.trim() } : d);
-    saveDraftsList(updated);
-    setEditingDraftId(null);
-    showToast(isEn ? 'Renamed successfully' : '重命名成功');
+    const newTitle = editingTitle.trim();
+    void persistDraftChange((current) => current.map(d =>
+      d.id === id ? { ...d, title: newTitle } : d
+    )).then((saved) => {
+      if (!saved) return;
+      setEditingDraftId(null);
+      showToast(isEn ? 'Renamed successfully' : '重命名成功');
+    });
   };
 
   const handleExportConfig = () => {
@@ -294,8 +299,7 @@ export function BackupDraftModal() {
             customFileName: state.customFileName,
           }
         : profile);
-      await draftWriteChain.current;
-      const savedDrafts = await resumeRepository.getDrafts();
+      const savedDrafts = await activeDraftHistoryPersistence.read();
       const json = serializePortableWorkspaceBackup({
         profiles,
         activeProfileId: state.activeProfileId,
@@ -356,26 +360,27 @@ export function BackupDraftModal() {
       });
       if (!accepted) return;
 
-      // Drain old draft writes and editor autosaves before the atomic replacement.
-      await draftWriteChain.current;
-      await activeResumePersistence.flush();
-      const writeImportedWorkspace = () => resumeRepository.saveSnapshot({
-        markdown: parsed.profiles.find(profile => profile.id === parsed.activeProfileId)!.markdown,
-        profiles: parsed.profiles,
-        drafts: parsed.drafts,
-        jdText: parsed.jdText,
+      // Keep periodic and manual history writes out of the restore window.
+      // The shared Web Lock also serializes other same-origin active writes.
+      await activeDraftHistoryPersistence.exclusive(async () => {
+        await activeResumePersistence.flush();
+        const writeImportedWorkspace = () => resumeRepository.saveSnapshot({
+          markdown: parsed.profiles.find(profile => profile.id === parsed.activeProfileId)!.markdown,
+          profiles: parsed.profiles,
+          drafts: parsed.drafts,
+          jdText: parsed.jdText,
+        });
+        if (navigator.locks?.request) {
+          await navigator.locks.request(RESUME_DB_WRITE_LOCK_NAME, writeImportedWorkspace);
+        } else {
+          await writeImportedWorkspace();
+        }
+        // Publish restored state only after the transaction commits.
+        useResumeStore.getState().restorePortableWorkspace(
+          parsed.profiles, parsed.activeProfileId, parsed.jdText,
+        );
+        await activeResumePersistence.flush();
       });
-      // Match the autosave lock, including when other tabs share this origin.
-      if (navigator.locks?.request) {
-        await navigator.locks.request('resume-craft:indexeddb-write', writeImportedWorkspace);
-      } else {
-        await writeImportedWorkspace();
-      }
-      // Sync live state only after the atomic transaction committed.
-      useResumeStore.getState().restorePortableWorkspace(
-        parsed.profiles, parsed.activeProfileId, parsed.jdText,
-      );
-      await activeResumePersistence.flush();
       await loadDrafts();
       showToast(isEn ? 'Workspace restored in this browser.' : '工作区已恢复到当前浏览器。');
     } catch (error) {
