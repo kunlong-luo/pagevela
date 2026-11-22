@@ -1,11 +1,11 @@
-# Pagevela — English documentation
+# Pagevela — English documentation entry
 
-**Pagevela is live. Current version:** v2.8.2 · [Live demo](https://kunlong-luo.github.io/pagevela/) · [GitHub repository](https://github.com/kunlong-luo/pagevela) · [26-second YouTube demo](https://youtu.be/z3RNFD4s-kk).
+Pagevela is live as a local-first Markdown/form resume builder. The primary **English** handbook is [README.md](./README.md); the **简体中文** edition is [README.zh-CN.md](./README.zh-CN.md).
 
-The default [README.md](./README.md) is the full English documentation; [README.zh-CN.md](./README.zh-CN.md) is the Chinese edition.
+- [Live app](https://kunlong-luo.github.io/pagevela/) · [Source](https://github.com/kunlong-luo/pagevela) · [Latest stable Release](https://github.com/kunlong-luo/pagevela/releases/latest)
+- [Documentation index](./docs/README.md) · [Dated project / CI status](./docs/PROJECT_STATUS.md) · [2026-11-22 assessment](./docs/ASSESSMENT_20261122.md)
+- [Contributing](./CONTRIBUTING.md) · [Release policy](./RELEASING.md) · [Workspace transfer](./docs/WORKSPACE_TRANSFER.md)
 
-Pagevela was previously published under an older project name. The retired `/resume-craft/` Pages path is not redirected; moving between origins requires a verified local workspace export/import. Historical release archives are preserved; new Pagevela backup/share formats can still read legacy data. Existing IndexedDB and cross-tab identifiers remain stable to protect saved drafts.
+**Current stable archive:** v2.8.2 (published 2026-10-25). A published release, an up-to-date `main` commit and a GitHub Pages deployment are separate verification events. Check the dated status and current GitHub Actions rather than interpreting an earlier successful deployment as proof for later commits.
 
-For v2.8.2 naming consistency, archive branding and legacy backup/share compatibility, see [the latest notes](./RELEASE_NOTES.md). For the preceding v2.8.1 PDF integrity, Android owner-reported hardware testing and branded migration review see [the latest notes](./RELEASE_NOTES.md). The earlier v2.8.0 release kit is retained as a historical versioned resource.
-
-For the updated mobile editing, welcome-page QR, branded bilingual UI and CI-gated Pages deployment, read the [v2.8.0 release notes](./RELEASE_NOTES.md), [changelog](./CHANGELOG.md), and [bilingual publication kit](./docs/V2_8_0_RELEASE_KIT.md).
+The former `/resume-craft/` Pages path is not supported or redirected by owner decision. Historical file names, encryption AAD and IndexedDB compatibility contracts are intentionally preserved when required to read existing user data.

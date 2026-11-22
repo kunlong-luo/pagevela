@@ -384,6 +384,7 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
               side="top"
               delay={400}
               disabled={isDragging}
+              preserveWrapper
               wrapperClassName="hidden md:flex h-full items-center justify-center z-30"
             >
               <div 

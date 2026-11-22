@@ -35,6 +35,17 @@
 
 ---
 
+## Documentation and project health
+
+- [Documentation index](docs/README.md) — guides, architecture, brand and historical records
+- [Dated project status](docs/PROJECT_STATUS.md) — CI / deployment verification, open risks and issue ownership
+- [Project assessment (2026-11-22)](docs/ASSESSMENT_20261122.md) — evidence-based scores and priorities
+- [Release process](RELEASING.md) · [Contributing](CONTRIBUTING.md) · [Workspace migration](docs/WORKSPACE_TRANSFER.md)
+
+The latest GitHub Release and the latest deployed Pages commit are **not necessarily the same as current `main`**. Check the status document and current CI before making deployment claims.
+
+---
+
 ## 🆕 What's New in v2.8.2
 
 A brand-consistency and compatibility release. **Pagevela** is the sole public product name.
@@ -317,7 +328,7 @@ Bug reports, feature ideas, and code contributions are welcome. Before contribut
 - [Security Policy](SECURITY.md) — report vulnerabilities privately; do not publish sensitive details
 - [Support](SUPPORT.md) — where to ask for help or report problems
 
-Before opening a pull request, make sure `pnpm lint`, `pnpm test`, and `pnpm build` all pass.
+Before opening a pull request, make sure `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm perf:budget` all pass.
 
 ---
 

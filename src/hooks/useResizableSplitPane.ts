@@ -31,7 +31,8 @@ export function useResizableSplitPane(containerRef: RefObject<HTMLElement | null
   const latestRatioRef = useRef(splitRatio);
 
   const handleMouseDown = useCallback((event: ReactMouseEvent) => {
-    if (event.button !== 0) return;
+    // A second click belongs to double-click reset, not a new drag gesture.
+    if (event.button !== 0 || event.detail >= 2) return;
     event.preventDefault();
     setIsDragging(true);
   }, []);
@@ -39,6 +40,9 @@ export function useResizableSplitPane(containerRef: RefObject<HTMLElement | null
   const handleTouchStart = useCallback(() => setIsDragging(true), []);
 
   const resetSplitRatio = useCallback(() => {
+    // Cancel any active drag before resetting: a pending pointer-up must not
+    // restore the previous ratio over the explicit double-click preference.
+    setIsDragging(false);
     latestRatioRef.current = DEFAULT_SPLIT_RATIO;
     setSplitRatio(DEFAULT_SPLIT_RATIO);
     storage.set(STORAGE_KEYS.SPLIT_RATIO, String(DEFAULT_SPLIT_RATIO));
