@@ -19,9 +19,9 @@ Unit tests inject a persistence writer to cover coalescing, manual-save FIFO ord
 5. Separate draft-history operations still use repository methods; these are a future concurrency-review boundary, not covered by active-snapshot ordering.
 6. Workspace backup import/restore must flush pending active writes before replacing data.
 
-## P1 architecture extraction (PR under review, 2026-10-26)
+## P1 architecture extraction (merged as PR #283, 2026-10-26)
 
-- Split-pane pointer geometry, RAF coalescing, event listener cleanup, last-pointer persistence and double-click reset are isolated in `useResizableSplitPane`.
+- Split-pane pointer geometry, RAF coalescing, event listener cleanup, last-pointer persistence and double-click reset are isolated in `useResizableSplitPane`. **2026-11-22 follow-up:** the split-handle E2E double-click reset was failing across browsers because the drag-disabled tooltip could replace its trigger DOM during a click sequence; see [current status](./PROJECT_STATUS.md). Do not mark P1 full regression acceptance passed until main CI and same-SHA Pages succeed.
 - The 3-minute historical draft rotation is isolated in `usePeriodicDraftHistory` with a pure, tested retention policy (five automatic drafts plus existing manual drafts) and a per-workspace in-flight guard.
 - The current draft-history replacement still shares IndexedDB with manually edited draft history; a future issue should serialize all draft-history writers, not just the active resume snapshot.
 - The component still retains keyboard shortcuts, storage notifications and presence announcements for a subsequent scoped PR. No native browser dropdown/confirmation widgets were introduced.
