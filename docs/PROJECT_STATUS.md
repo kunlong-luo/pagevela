@@ -1,5 +1,7 @@
 # Pagevela 状态快照 / Project status
 
+> **2026-11-22 补充核验（以下失败记录已被后续修复所取代）：** [PR #292](https://github.com/kunlong-luo/pagevela/pull/292) 已合并到 `main`，提交 `93d3d8a5a11e9c7bc072a326c2f0b53eabc075c7`。该 SHA 的 [完整主分支 CI #45021860745](https://github.com/kunlong-luo/pagevela/actions/runs/45021860745) 成功（quality / Chromium / Firefox / WebKit / `build-and-test`），[同 SHA Pages #45022812621](https://github.com/kunlong-luo/pagevela/actions/runs/45022812621) 成功。原 `992374a` 的分栏双击复位回归已经完成修复与部署闭环。后续草稿并发修复 [PR #293](https://github.com/kunlong-luo/pagevela/pull/293) **仍待独立 CI/合并/部署验收**。正式 GitHub Release 仍为 v2.8.2，不能把新版源码称为已重新打包的发布资产。
+
 **核验日期：2026-11-22（基于当日 GitHub Actions 和 `main`）**。这是一份可追溯的**定时快照**，并非实时监控。新 PR 可能改变下面的结果；查看 [最新 Actions](https://github.com/kunlong-luo/pagevela/actions) 和 [分支](https://github.com/kunlong-luo/pagevela/branches) 后再作当前发布判断。
 
 ## 已核对的版本和提交
