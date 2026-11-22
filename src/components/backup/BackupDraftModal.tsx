@@ -114,10 +114,11 @@ export function BackupDraftModal() {
   const handleCreateDraft = (e: React.FormEvent) => {
     e.preventDefault();
     const isEn = uiLanguage === 'en';
+    const submittedTitleInput = newDraftTitle;
     const title = newDraftTitle.trim() || (isEn ? `Draft - ${new Date().toLocaleString('en-US', { hour12: false })}` : `草稿版 - ${new Date().toLocaleString('zh-CN', { hour12: false })}`);
     
     const newDraft: ResumeDraft = {
-      id: `draft_${Date.now()}`,
+      id: `draft_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
       title,
       markdown,
       settings,
@@ -128,7 +129,8 @@ export function BackupDraftModal() {
 
     void persistDraftChange((current) => [newDraft, ...current]).then((saved) => {
       if (!saved) return;
-      setNewDraftTitle('');
+      // Do not erase text entered while the previous asynchronous save committed.
+      setNewDraftTitle(value => value === submittedTitleInput ? '' : value);
       showToast(isEn ? 'Draft saved successfully!' : '草稿保存成功！');
     });
   };
