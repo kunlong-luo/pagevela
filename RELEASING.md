@@ -2,7 +2,9 @@
 
 > **现行流程（2026-11-23）**：由 [PR #304](https://github.com/kunlong-luo/pagevela/pull/304) 合并引入的 `CI → Deploy Pages → Release` 门禁。此文是当前操作指南，而不是自动状态面板。发版前请核对 [最新项目状态](docs/PROJECT_STATUS.md) 和 [实际 Actions](https://github.com/kunlong-luo/pagevela/actions)。
 >
-> **2026-11-23 最新已核实的线上源码：** [`12a08ec`](https://github.com/kunlong-luo/pagevela/commit/12a08ec08695e093b280c602dd11f11c8ac429df) 的 [主分支完整 CI #45166477620](https://github.com/kunlong-luo/pagevela/actions/runs/45166477620)、[同 SHA Pages #45168214368](https://github.com/kunlong-luo/pagevela/actions/runs/45168214368) 均成功，随后 [Release #45168339465](https://github.com/kunlong-luo/pagevela/actions/runs/45168339465) 验证两层门禁并安全跳过现有版本。前一份 `84ae706` [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275) → [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45163532567) → [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45163664593) 同样全成功。**最新正式已发布下载包仍为** [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)（2026-10-25），**不包含后续 main 源码修改**；新 PR 合并必须在其自身 SHA 上重新验收。这是带日期的快照，不得覆盖历史 ZIP/TAR/校验和。
+> **2026-11-23 最新完成验收的线上源码：** [`077e649`](https://github.com/kunlong-luo/pagevela/commit/077e64991801b3f30b4b5cdb2e594ea3c278af36) 的 [main CI #45172148513](https://github.com/kunlong-luo/pagevela/actions/runs/45172148513)（质量、Chromium PWA 生产离线、Firefox/WebKit 全量分片）、[同 SHA Pages #45174090788](https://github.com/kunlong-luo/pagevela/actions/runs/45174090788)（build/deploy）与 [Release #45174220771](https://github.com/kunlong-luo/pagevela/actions/runs/45174220771)（安全跳过已有 v2.8.2）均成功。
+>
+> **更新的 `main` 但生产待核验：** [#307 快捷键 Hook](https://github.com/kunlong-luo/pagevela/pull/307) 已合并为 [`ac2932c`](https://github.com/kunlong-luo/pagevela/commit/ac2932c9fa660febffce1613bbfd8fa9f561a3ed)，[其合并后 CI #45185347889](https://github.com/kunlong-luo/pagevela/actions/runs/45185347889) 进行中，暂不能称同 SHA 已部署。**正式打包 Release 仍为** [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)（2026-10-25），与后续 main 源码不同；禁止覆盖历史 ZIP/TAR/SHA256SUMS。
 
 ## 版本与交付对象
 

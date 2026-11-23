@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | 了解产品、功能、启动项目 | [English README](../README.md) · [中文 README](../README.zh-CN.md) | 产品概述、安装、主要功能 |
 | 当前仓库与部署状态 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) | 日期、提交 SHA、CI / Pages、开放事项 |
-| 最新发布与安全验收证据 | [RELEASE_SECURITY_ACCEPTANCE_20261123.md](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) | PR #300–304、CI / Pages、PWA、漏洞审计、未结门禁 |
+| 最新发布与安全验收证据 | [RELEASE_SECURITY_ACCEPTANCE_20261123.md](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) | PR #300–308、同 SHA CI / Pages / Release、PWA、安全审计及未结门禁 |
 | 项目评估和优先级 | [ASSESSMENT_20261123.md](./ASSESSMENT_20261123.md) · [11/22 历史 76 分](./ASSESSMENT_20261122.md) | 84/100 新复评、逐项证据、评分变化和未结风险 |
 | 新人贡献和开发 | [CONTRIBUTING.md](../CONTRIBUTING.md) · [UI 组件规范](./BRANDED_UI_CONTRACT.md) | TypeScript、测试、PR 与设计系统 |
 | 正式发布 | [RELEASING.md](../RELEASING.md) · [CHANGELOG.md](../CHANGELOG.md) · [RELEASE_NOTES.md](../RELEASE_NOTES.md) | 版本、历史变更、当前发布门禁 |

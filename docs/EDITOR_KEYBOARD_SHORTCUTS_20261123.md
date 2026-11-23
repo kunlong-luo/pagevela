@@ -1,6 +1,6 @@
 # Editor keyboard shortcuts / 编辑器快捷键边界
 
-> **2026-11-23 架构整理：** 此文描述从 `EditorWorkspace` 分离全局快捷键监听的独立 Hook。请结合 [架构路线 #282](https://github.com/kunlong-luo/pagevela/issues/282) 与当次 PR CI 查证验收状态；文档不是实时的自动测试结果。
+> **2026-11-23 合并状态：** [PR #307](https://github.com/kunlong-luo/pagevela/pull/307) 已合并为 [主分支 `ac2932c`](https://github.com/kunlong-luo/pagevela/commit/ac2932c9fa660febffce1613bbfd8fa9f561a3ed)；其 [最新头完整 PR CI #45172316902](https://github.com/kunlong-luo/pagevela/actions/runs/45172316902) 通过（质量、Chromium、Firefox/WebKit 关键回归及 `build-and-test`）。**合并后的 [main CI #45185347889](https://github.com/kunlong-luo/pagevela/actions/runs/45185347889) 正在执行，本次记录时没有同 SHA Pages/Release 确认**。本文讲解代码契约，不代替生产验收。后续模块拆分见 [#282](https://github.com/kunlong-luo/pagevela/issues/282)。
 
 ## 模块职责
 
