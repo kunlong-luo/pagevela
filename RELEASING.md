@@ -1,6 +1,6 @@
 # Releasing Pagevela
 
-> **2026-11-23 latest verified source:** protected `main` `37bb6ae` passed [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45142496880) (including production PWA offline-navigation smoke), [CodeQL](https://github.com/kunlong-luo/pagevela/actions/runs/45142496687), and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45144232065). Latest **downloadable** GitHub Release remains [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2); this does **not** contain the later main-source changes. [PR #303](https://github.com/kunlong-luo/pagevela/pull/303) proposes additional Release guards and an audit report; do not describe these as merged until verified.
+> **2026-11-23 status:** [PR #303](https://github.com/kunlong-luo/pagevela/pull/303) has merged as `93a0941`: the release artifact PWA precache/performance gates and weekly npm security inventory are now on `main`. Its latest [full main CI #45154252875](https://github.com/kunlong-luo/pagevela/actions/runs/45154252875) is still under verification at this snapshot; do not claim same-SHA Pages until its deployment actually succeeds. The newest **confirmed previous** successful full CI and Pages are from `37bb6ae`: [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45142496880) · [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45144232065). Latest **downloadable** stable Release remains [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2); it does not contain subsequent `main` changes.
 
 > **2026-11-22 post-fix evidence:** [PR #292](https://github.com/kunlong-luo/pagevela/pull/292) merged as `93d3d8a`; [full main CI #45021860745](https://github.com/kunlong-luo/pagevela/actions/runs/45021860745) and [same-SHA Pages #45022812621](https://github.com/kunlong-luo/pagevela/actions/runs/45022812621) passed. This supersedes the dated main CI failure described later in this document. The latest **packaged** GitHub Release remains v2.8.2 until a separately gated version bump.
 
@@ -18,7 +18,7 @@ v2.8.2 (2026-10-25) is the latest verified stable release: [Release](https://git
 
 The GitHub Release title and tag use **Pagevela**, while distributable file names now use `pagevela-X.Y.Z.zip`, `pagevela-X.Y.Z.tar.gz`, and `SHA256SUMS.txt` for all new stable releases. These are the current branded filenames, not a promise that historic archive names were changed. Historical release archives and checksums remain unchanged.
 
-The `Release` workflow on a `package.json` version bump creates the tag and downloadable assets. If a previous run failed before creating a tag, a reviewed fix to `.github/workflows/release.yml` can safely retry the same not-yet-tagged stable version; once a tag exists, unchanged versions are skipped. It is independent of the `Deploy Pages` `workflow_run` gate, which requires completed, successful full main-push CI on the identical latest main SHA. A green Release alone does not prove the website was updated.
+**Release sequencing upgrade in review (not yet on `main`):** the proposed Release workflow listens to successful **`Deploy Pages` completion** instead of independently reacting to `package.json` pushes. Pages itself already requires a successful full push-triggered `CI` on `main` and rejects stale SHAs. Before creating a Release, the new gate independently checks both successful **full CI and Pages on exactly the current `main` SHA** against GitHub Actions. Manual dispatches must pass the same two checks; an operator cannot bypass them. Published ZIP/TAR/SHA256 assets and historic tags are never overwritten. Until this proposal is merged, the current Release workflow retains its old independent push trigger.
 
 ## Versioning
 
@@ -38,7 +38,7 @@ The version in `package.json` is the source of truth.
 4. Let the required CI checks pass.
 5. Squash-merge the version bump pull request into `main`.
 
-When GitHub detects that the `package.json` version changed on `main`, the Release workflow runs automatically.
+**Once the separate release-sequencing PR is merged**, a successful `main` CI gates Pages deployment, and successful **same-SHA Pages** in turn triggers the Release workflow. The Release independently confirms both CI and Pages checks against the current main commit, skips already published stable tags, and refuses stale code. Before that PR is merged, release still triggers independently on the relevant `main` push.
 
 The workflow will:
 
@@ -47,16 +47,16 @@ The workflow will:
 - enforce the stable dependency policy;
 - install with the frozen pnpm lockfile;
 - run TypeScript and strict critical boundary checks, bilingual-label audit, lint and unit tests;
-- build production assets, verify the **Workbox app-shell precache**, and enforce the performance budget **before** creating a tag (once PR #303 is merged);
-- create or reuse the annotated `vX.Y.Z` tag;
+- build production assets, verify the **Workbox app-shell precache**, and enforce the performance budget;
 - package the complete `dist/` output as `pagevela-X.Y.Z.zip` and `pagevela-X.Y.Z.tar.gz`;
-- generate `SHA256SUMS.txt`;
-- publish a GitHub Release with automatically generated release notes.
+- generate `SHA256SUMS.txt` **before creating any tag**;
+- recheck current `main`, then create or reuse an annotated `vX.Y.Z` tag only for a not-yet-published version;
+- publish the new GitHub Release with automatically generated release notes, never overwriting historical assets.
 
 ## Manual fallback
 
-If an automatic run needs to be retried, open **Actions -> Release -> Run workflow**, select `main`, and enter the exact stable version already present in `package.json`.
+For a first-publish retry **after the sequencing change merges**, open **Actions -> Release -> Run workflow**, select `main`, and enter exactly the stable version in `package.json`. The workflow checks that **the current `main` SHA has already passed full push-triggered CI and CI-gated Pages deployment**. It cannot bypass either gate or republish an existing version.
 
 ## Failed releases
 
-The workflow is safe to rerun. If the tag already exists on the same commit, it is reused. If a tag with the same version points to a different commit, the workflow fails instead of moving the tag.
+A first publication can be retried when a same-commit tag exists but its GitHub Release has not yet been created. **Already published ZIP/TAR/SHA256 assets are immutable**: a retry must never use `gh release upload --clobber`, retag, or replace those files. Existing releases are skipped; if a publication partially fails, inspect the tag, asset integrity, CI and Pages status before repair. The workflow checks that `main` did not move before tagging and again before publishing.
