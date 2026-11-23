@@ -54,4 +54,4 @@
 3. **P1 整理 Dependabot PR 与过期 Issue**，按通过测试/兼容性风险合并或关闭，清理已确认无用的分支。
 4. **P2 继续拆分大型编辑器与导出模块，降低 CSS 压力**；谨慎处理既有 IndexedDB 名称，不做破坏性改名。
 
-网站：[Pagevela](https://kunlong-luo.github.io/pagevela/) · [源代码](https://github.com/kunlong-luo/pagevela) · [文档索引](./README.md)
+网站：[Pagevela](https://kunlong-luo.github.io/pagevela/) · [源代码](https://github.com/kunlong-luo/pagevela) · [文档索引](../README.md)
