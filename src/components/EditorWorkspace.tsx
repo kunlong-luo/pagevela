@@ -17,7 +17,7 @@ import { trackAnalyticsEvent } from '../lib/analytics';
 import { storage, STORAGE_HEALTH_EVENT, STORAGE_KEYS, type StorageHealthDetail } from '../lib/storage';
 import { useResizableSplitPane } from '../hooks/useResizableSplitPane';
 import { usePeriodicDraftHistory } from '../hooks/usePeriodicDraftHistory';
-import { activeResumePersistence } from '../lib/resume-persistence';
+import { useEditorKeyboardShortcuts } from '../hooks/useEditorKeyboardShortcuts';
 import { RESUME_TABS_CHANNEL_NAME } from '../lib/resume-storage-contract';
 
 const ResumeChecker = lazy(() => import('./resume-checker/ResumeChecker').then(m => ({ default: m.ResumeChecker })));
@@ -225,68 +225,13 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
     return () => window.removeEventListener(STORAGE_HEALTH_EVENT, handleStorageHealth);
   }, [setStorageHealth, uiLanguage, showToast]);
 
-  // Global Keyboard Shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const isCmdOrCtrl = e.metaKey || e.ctrlKey;
-
-      if (isCmdOrCtrl && (e.key === 's' || e.key === 'S')) {
-        e.preventDefault();
-        const currentState = useResumeStore.getState();
-        void activeResumePersistence.saveNow({
-          markdown: currentState.markdown,
-          profiles: currentState.profiles,
-          jdText: currentState.jdText,
-        }).then(() => {
-          const now = new Date();
-          const pad = (num: number) => String(num).padStart(2, '0');
-          setLastSaved(`${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`);
-          showToast?.({
-            title: uiLanguage === 'en' ? 'Resume saved locally' : '简历草稿已手动保存',
-            message: uiLanguage === 'en'
-              ? 'The current resume content was saved to local browser storage.'
-              : '核心简历数据已保存到浏览器本地。',
-            type: 'success',
-            duration: 2505,
-          });
-        }).catch((error) => {
-          console.error('[manual-save] Failed to save resume to IndexedDB:', error);
-          setStorageHealth('error');
-          showToast?.({
-            title: uiLanguage === 'en' ? 'Local save failed' : '本地保存失败',
-            message: uiLanguage === 'en'
-              ? 'The browser rejected the local save. Export a backup before closing this page.'
-              : '浏览器拒绝本地保存。关闭页面前请先导出备份。',
-            type: 'error',
-            duration: 8000,
-          });
-        });
-      }
-
-      if (isCmdOrCtrl && !e.shiftKey && (e.key === 'p' || e.key === 'P')) {
-        e.preventDefault();
-        handleExportVectorPrint();
-      }
-
-      if (isCmdOrCtrl && e.shiftKey && (e.key === 'f' || e.key === 'F')) {
-        e.preventDefault();
-        const currentState = useResumeStore.getState();
-        smartAutoFit(currentState.settings, currentState.updateSetting);
-        trackAnalyticsEvent('auto_fit_used');
-        showToast?.({
-          title: uiLanguage === 'en' ? 'Auto Fit applied' : '已触发一键贴合控页',
-          message: uiLanguage === 'en'
-            ? 'Adjusted line height and margins to better fit the resume on one page.'
-            : '微调行高与边距以压缩适应单页',
-          type: 'info',
-          duration: 2500,
-        });
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleExportVectorPrint, setLastSaved, setStorageHealth, showToast, uiLanguage]);
+  useEditorKeyboardShortcuts({
+    uiLanguage,
+    setLastSaved,
+    setStorageHealth,
+    showToast,
+    onExportVectorPrint: handleExportVectorPrint,
+  });
 
   return (
     <div className="flex flex-col h-screen h-[100dvh] w-full overflow-hidden bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-200">
