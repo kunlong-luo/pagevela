@@ -105,6 +105,13 @@ jobs:
           fi
           TAG="v${VERSION}"
           SHOULD_RELEASE=true
+          # A published Release is immutable even if someone accidentally
+          # deleted its git tag. Never recreate that tag at a newer SHA.
+          if gh release view "${TAG}" >/dev/null 2>&1 &&
+             ! git rev-parse --verify "refs/tags/${TAG}" >/dev/null 2>&1; then
+            echo "::error::Published Release ${TAG} exists but its tag is absent; manual investigation required."
+            exit 1
+          fi
           if git rev-parse --verify "refs/tags/${TAG}" >/dev/null 2>&1; then
             TAG_SHA="$(git rev-list -n 1 "${TAG}")"
             LOCAL_SHA="$(git rev-parse HEAD)"
