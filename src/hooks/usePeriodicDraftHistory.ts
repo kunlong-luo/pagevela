@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import type { Language, ResumeDraft, ResumeSettings } from '../types';
-import { resumeRepository } from '../lib/resume-repository';
+import { activeDraftHistoryPersistence } from '../lib/resume-draft-persistence';
 import { useResumeStore } from '../store/useResumeStore';
 
 export const AUTO_DRAFT_INTERVAL_MS = 180_000;
@@ -50,11 +50,13 @@ export function usePeriodicDraftHistory(): void {
       if (inFlight) return;
       inFlight = true;
       try {
-        const currentDrafts = await resumeRepository.getDrafts();
-        if (!active) return;
-        const current = useResumeStore.getState();
-        const nextDrafts = preparePeriodicDraftHistory(currentDrafts, current, new Date());
-        if (nextDrafts) await resumeRepository.replaceDrafts(nextDrafts);
+        // The callback runs after earlier manual writes or workspace restore.
+        // Never capture a stale pre-restore store snapshot while queued.
+        await activeDraftHistoryPersistence.update((currentDrafts) =>
+          active
+            ? preparePeriodicDraftHistory(currentDrafts, useResumeStore.getState(), new Date())
+            : null,
+        );
       } catch (error) {
         console.error('[autosave] Failed to save draft to IndexedDB:', error);
       } finally {

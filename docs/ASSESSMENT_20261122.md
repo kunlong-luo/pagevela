@@ -1,5 +1,7 @@
 # Pagevela 项目评估与评分 / 2026-11-22
 
+> **后续更新（2026-11-22）：** 本文 76/100 为当日修复前的可追溯基线。此后 [PR #292](https://github.com/kunlong-luo/pagevela/pull/292) 已修复分栏复位并通过完整 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45021860745) 和 [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45022812621) 同 SHA 验收。此处保留当时的扣分依据，下一次完整复评再更新总分；草稿并发安全、Android 实测与架构工作仍独立跟踪。
+
 **评估对象：** GitHub `kunlong-luo/pagevela`，截至 2026-11-22 的 `main` 提交 `992374a`、工作流、版本文档与开放 Issues。**这是基于仓库证据的工程评估，不是独立 Android 真机测试、第三方 ATS 认证、渗透测试或流量实测。**
 
 ## 总体评分
