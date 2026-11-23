@@ -32,6 +32,20 @@ test.describe('critical resume flows', () => {
     await expect(page.locator('#markdown-textarea')).toHaveValue(markdown);
   });
 
+  test('Ctrl+S saves the latest Markdown locally without opening a browser dialog', async ({ page }) => {
+    await page.goto('/?page=editor');
+    await page.getByRole('button', { name: /^(Markdown source editor|Markdown 源码编辑模式)$/ }).click();
+    const editor = page.locator('#markdown-textarea');
+    await expect(editor).toBeVisible();
+
+    const markdown = '# Keyboard shortcut QA\\n\\n## Skills\\n- Local first';
+    await editor.fill(markdown.replaceAll('\\n', '\n'));
+    await editor.press('Control+s');
+
+    await expect(page.getByText(/Resume saved locally|简历草稿已手动保存/)).toBeVisible();
+    await expect.poll(() => readActiveMarkdown(page)).toBe(markdown.replaceAll('\\n', '\n'));
+  });
+
   test('ATS PDF action reaches the browser print pipeline', async ({ page }) => {
     await page.addInitScript(() => {
       const notifyPrint = () => {
