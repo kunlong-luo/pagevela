@@ -7,11 +7,11 @@
 | 对象 | 截至本次核对的事实 | 证据与边界 |
 | --- | --- | --- |
 | 受保护的 `main` | [`84ae706`](https://github.com/kunlong-luo/pagevela/commit/84ae706823ee2f7175f11da2e07de5343ae7c430)；[文档 PR #305](https://github.com/kunlong-luo/pagevela/pull/305) 已于 2026-11-23 自动合并 | #305 最新头提交 `e4951c3` 的 [CI #45159967258](https://github.com/kunlong-luo/pagevela/actions/runs/45159967258) 全绿，包括 Chromium 离线测试、Firefox/WebKit 关键回归和最终 `build-and-test`；**不代表合并后的 main 已部署** |
-| 最新 `main` CI | [#45161614275](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275)，`84ae706` | **本次核对时仍在执行**；quality、Chromium 生产离线导航、Firefox 2/2、WebKit 1/2 通过，WebKit 2/2 和最终汇总尚未确认 |
+| 最新已核对 `main` CI | [#45161614275](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275)，`84ae706` | **success**：quality、Chromium 全量（含生产 PWA 离线导航）、Firefox/WebKit 四个全量分片和最终 `build-and-test` 均成功 |
 | 上一份 `main` 完整 CI | [#45159218348](https://github.com/kunlong-luo/pagevela/actions/runs/45159218348)，`8bc0a0a` | **success**（包含最终 `build-and-test`）；其触发的 [Pages #45161571611](https://github.com/kunlong-luo/pagevela/actions/runs/45161571611) 因 main 已推进到 `84ae706`，在 `Refuse superseded production upload` 处明确拒绝过期构建，**不是浏览器测试失败** |
-| 最近一次**完整 CI 与 Pages 均成功**的已部署提交 | [`93a0941`](https://github.com/kunlong-luo/pagevela/commit/93a0941afc6d782c549caa848e0798fc6509c44b) | [主分支完整 CI #45154252875](https://github.com/kunlong-luo/pagevela/actions/runs/45154252875) 和 [同 SHA Pages #45156598771](https://github.com/kunlong-luo/pagevela/actions/runs/45156598771) 的 build / deploy 均成功；`84ae706` 的同 SHA 部署仍需独立核对 |
+| 最近一次**完整 CI 与 Pages 均成功**的已部署提交 | [`84ae706`](https://github.com/kunlong-luo/pagevela/commit/84ae706823ee2f7175f11da2e07de5343ae7c430) | [完整 CI #45161614275](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275) 成功，随后 [同 SHA Pages #45163532567](https://github.com/kunlong-luo/pagevela/actions/runs/45163532567) 的 build 和 deploy 均成功；此前 `93a0941` 的 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45154252875) / [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45156598771) 历史记录保留 |
 | 安全审计 | [#305 的 Security Inventory #45159967313](https://github.com/kunlong-luo/pagevela/actions/runs/45159967313) | 最新文档 PR 锁文件的 `pnpm audit --json --audit-level=low` 返回 **0 条 npm 注册表公告，退出码 0**；这不等于私有 GitHub Dependabot 告警已清零 |
-| GitHub Release 工作流 | [#45161668213](https://github.com/kunlong-luo/pagevela/actions/runs/45161668213)，`84ae706` | 来自未成功的过期 Pages 工作流，**skipped**；符合 CI → Pages → Release 门禁，不是正式新版本 |
+| GitHub Release 工作流 | [#45163664593](https://github.com/kunlong-luo/pagevela/actions/runs/45163664593)，`84ae706` | **success**：先确认完整 CI 与实际 Pages deploy 均为同 SHA success；检测到 `v2.8.2` 已发布，打包、打标签、上传附件步骤全部 **skipped**。此前失败的旧 Pages 触发的 [#45161668213](https://github.com/kunlong-luo/pagevela/actions/runs/45161668213) 也正确跳过 |
 | 最新**正式打包** GitHub Release | [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)，2026-10-25 | 尚无 v2.8.3 标签或新 ZIP/TAR；保持旧资产原样 |
 | 尚未合并的 PR | **0**（截至本轮建文档草稿 PR 前） | #303、#304、#305 均已合并；本次状态补记单独建草稿 PR，未经完整验证不合并 |
 
@@ -24,7 +24,7 @@
 
 ## 尚未完成，不得写成通过
 
-1. **`84ae706` 的生产闭环：** [main-push CI #45161614275](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275) 的 WebKit 2/2 和最终 `build-and-test` 仍需确认；随后核对同 SHA Pages 的 build / deploy，以及 Release 在 `v2.8.2` 已发布时正确跳过且不覆盖任何附件。`8bc0a0a` 的 CI 已通过，但其 Pages 因防过期门禁被阻止；不用重试旧 SHA。
+1. **发版门禁验收已完成（`84ae706`）：** [完整 CI #45161614275](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275)、[同 SHA Pages #45163532567](https://github.com/kunlong-luo/pagevela/actions/runs/45163532567)、[Release #45163664593](https://github.com/kunlong-luo/pagevela/actions/runs/45163664593) 均成功。已有 `v2.8.2` 的 tag / ZIP / TAR 不被重复生成或覆盖。**尚未验收**首次新稳定版本的实际打包及 checksum；本次文档补记还需走自己的 PR CI 和同 SHA Pages。
 2. **安全告警与依赖现代化 [#298](https://github.com/kunlong-luo/pagevela/issues/298)：** 已有 npm 注册表审计结果；仍须以有权限的方式核对 GitHub Dependabot 私有告警，评估 Workbox `filelist → minimatch@5.1.9` 的成熟上游替代方案，不能盲目强制覆盖大版本。
 3. **Android 真机 [#262](https://github.com/kunlong-luo/pagevela/issues/262)：** 负责人已报告 Android 微信整体 PASS；尚缺系统 Save-as-PDF/下载、非微信 Chrome/Samsung/OEM、离线 PWA 及逐设备可复现结果。
 4. **产品与治理：** [架构 #282](https://github.com/kunlong-luo/pagevela/issues/282)、[中文照片 #200](https://github.com/kunlong-luo/pagevela/issues/200)、[旧产品健康数据 #115](https://github.com/kunlong-luo/pagevela/issues/115) 和 [商标/站外平台 #202](https://github.com/kunlong-luo/pagevela/issues/202) 继续跟踪；不得虚构设备、流量、商标清查或第三方平台操作证据。
