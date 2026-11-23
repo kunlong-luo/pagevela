@@ -66,19 +66,31 @@ jobs:
           fi
           # This also protects manual dispatch: both full CI and Pages must
           # have succeeded on the exact current main commit.
-          gh api "repos/${GITHUB_REPOSITORY}/actions/runs?head_sha=${LOCAL_SHA}&event=push&status=success&per_page=100" |
-            jq -e --arg sha "${LOCAL_SHA}" \
-              'any(.workflow_runs[]; .name == "CI" and .head_sha == $sha and .head_branch == "main" and .event == "push" and .conclusion == "success")' > /dev/null || {
-                echo "::error::No successful full push-triggered CI for the current main SHA."
+          CI_RUN_ID="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs?head_sha=${LOCAL_SHA}&event=push&status=success&per_page=100" |
+            jq -er --arg sha "${LOCAL_SHA}" \
+              '[.workflow_runs[] | select(.name == "CI" and .head_sha == $sha and .head_branch == "main" and .event == "push" and .conclusion == "success")] | sort_by(.run_number, .run_attempt) | last | .id // empty')" || {
+                echo "::error::No successful full push-triggered CI for current main."
                 exit 1
               }
-          gh api "repos/${GITHUB_REPOSITORY}/actions/runs?head_sha=${LOCAL_SHA}&event=workflow_run&status=success&per_page=100" |
-            jq -e --arg sha "${LOCAL_SHA}" \
-              'any(.workflow_runs[]; .name == "Deploy Pages" and .head_sha == $sha and .head_branch == "main" and .event == "workflow_run" and .conclusion == "success")' > /dev/null || {
-                echo "::error::No successful CI-gated Pages deployment for the current main SHA."
+          # A successful *workflow* alone is insufficient: conditional skips
+          # could leave the final cross-browser aggregate gate unexecuted.
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${CI_RUN_ID}/jobs?per_page=100" |
+            jq -e 'any(.jobs[]; .name == "build-and-test" and .conclusion == "success")' > /dev/null || {
+              echo "::error::CI run ${CI_RUN_ID} lacks successful final build-and-test."
+              exit 1
+            }
+          PAGES_RUN_ID="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs?head_sha=${LOCAL_SHA}&event=workflow_run&status=success&per_page=100" |
+            jq -er --arg sha "${LOCAL_SHA}" \
+              '[.workflow_runs[] | select(.name == "Deploy Pages" and .head_sha == $sha and .head_branch == "main" and .event == "workflow_run" and .conclusion == "success")] | sort_by(.run_number, .run_attempt) | last | .id // empty')" || {
+                echo "::error::No successful CI-gated Pages deployment for current main."
                 exit 1
               }
-          echo "Verified full CI and same-SHA Pages deployment at ${LOCAL_SHA}."
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${PAGES_RUN_ID}/jobs?per_page=100" |
+            jq -e 'any(.jobs[]; .name == "deploy" and .conclusion == "success")' > /dev/null || {
+              echo "::error::Pages run ${PAGES_RUN_ID} lacks successful deployment job."
+              exit 1
+            }
+          echo "Verified final CI job (${CI_RUN_ID}), deployed Pages (${PAGES_RUN_ID}), and current main SHA ${LOCAL_SHA}."
 
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
