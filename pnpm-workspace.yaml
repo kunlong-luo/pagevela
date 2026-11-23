@@ -1,3 +1,8 @@
+# Scope the 2026 minimatch v10 advisory patch to affected >=7 majors.
+# Keep the PWA/Workbox filelist v5 API unchanged until upstream supports v11.
+overrides:
+  minimatch@>=7.0.0 <11.0.1: 11.0.9
+
 allowBuilds:
   '@google/genai': true
   esbuild: true
