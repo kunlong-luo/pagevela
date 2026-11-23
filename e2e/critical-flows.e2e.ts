@@ -38,12 +38,12 @@ test.describe('critical resume flows', () => {
     const editor = page.locator('#markdown-textarea');
     await expect(editor).toBeVisible();
 
-    const markdown = '# Keyboard shortcut QA\\n\\n## Skills\\n- Local first';
-    await editor.fill(markdown.replaceAll('\\n', '\n'));
+    const markdown = ['# Keyboard shortcut QA', '', '## Skills', '- Local first'].join('\n');
+    await editor.fill(markdown);
     await editor.press('Control+s');
 
     await expect(page.getByText(/Resume saved locally|简历草稿已手动保存/)).toBeVisible();
-    await expect.poll(() => readActiveMarkdown(page)).toBe(markdown.replaceAll('\\n', '\n'));
+    await expect.poll(() => readActiveMarkdown(page)).toBe(markdown);
   });
 
   test('ATS PDF action reaches the browser print pipeline', async ({ page }) => {
