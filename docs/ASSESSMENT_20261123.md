@@ -2,8 +2,8 @@
 
 > **综合评分：84 / 100（良好，仍有工程与真机验收风险）。**
 > 这是一份可追溯的、**定性的工程评分**，不是用户满意度、第三方 ATS 认证、商标核验、渗透测试或 Android 实测报告。
-> **评分基线**：已完成完整 CI、同 SHA Pages 和 Release 安全跳过验证的 [`84ae706`](https://github.com/kunlong-luo/pagevela/commit/84ae706823ee2f7175f11da2e07de5343ae7c430)。
-> 截至本次编写，较新的 `main` [`12a08ec`](https://github.com/kunlong-luo/pagevela/commit/12a08ec08695e093b280c602dd11f11c8ac429df) 已合并文档 PR #306，主分支 [CI #45166477620](https://github.com/kunlong-luo/pagevela/actions/runs/45166477620) **进行中**，未据此宣称已部署。架构 [PR #307](https://github.com/kunlong-luo/pagevela/pull/307) 尚未合并，不计入当前已交付评分。
+> **评分基线**：已完成完整 CI、同 SHA Pages 和 Release 安全跳过验证的 [`12a08ec`](https://github.com/kunlong-luo/pagevela/commit/12a08ec08695e093b280c602dd11f11c8ac429df)；它已通过 [主分支 CI #45166477620](https://github.com/kunlong-luo/pagevela/actions/runs/45166477620)、[Pages #45168214368](https://github.com/kunlong-luo/pagevela/actions/runs/45168214368) 和 [Release #45168339465](https://github.com/kunlong-luo/pagevela/actions/runs/45168339465) 的同 SHA 验证。先前 `84ae706` 闭环的历史证据继续保留。此报告所在的 PR #308 尚未合并，不能把它自己的新内容视为已部署。
+> 架构 [PR #307](https://github.com/kunlong-luo/pagevela/pull/307) 最新头提交 [PR CI #45165504001](https://github.com/kunlong-luo/pagevela/actions/runs/45165504001) 全成功，但**仍是未合并草稿**，不计入已交付评分。正式 GitHub 下载包仍为 `v2.8.2`。
 
 ## 七维度评分（与 2026-11-22 量表保持同一权重）
 
@@ -14,7 +14,7 @@
 | 架构与可维护性 | 20 | 13 | **14** | 分栏、定期草稿 Hook 已拆分，草稿写入队列与存储边界更清晰；`Editor.tsx`、`useResumeStore.ts`、`export-utils.ts` 仍较大，#282 未完成；#307 尚在 PR 阶段 |
 | 隐私和数据可靠性 | 15 | 12 | **13** | [#293](https://github.com/kunlong-luo/pagevela/pull/293) 协调草稿历史并发，写入串行化且保留旧协议；跨标签页“后编辑覆盖先编辑”风险、未加密 JSON 备份仍存在 |
 | 性能 | 10 | 8 | **8** | 生产构建与性能预算门禁通过，PDF 模块按需加载；未得到足够新的真实移动网络 / CPU / 内存实测，CSS 预算裕量与大组件仍需优化 |
-| 测试与发布可靠性 | 10 | 5 | **9** | [`84ae706` 完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275) + [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45163532567) 成功；[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45163664593) 确认同 SHA 门禁并安全跳过已发布 v2.8.2；新版本首次打包及真实手机打印尚未独立验证 |
+| 测试与发布可靠性 | 10 | 5 | **9** | [`12a08ec` 完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45166477620) + [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45168214368) 成功；[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45168339465) 确认同 SHA 门禁并安全跳过已发布 v2.8.2；新版本首次打包及真实手机打印尚未独立验证 |
 | 文档和交付治理 | 10 | 7 | **9** | [#305](https://github.com/kunlong-luo/pagevela/pull/305) 整理中英文 README、统一文档索引、历史状态归档和安全/发布记录；[#306](https://github.com/kunlong-luo/pagevela/pull/306) 已合并进一步补证据，外部品牌/发布渠道和长期 issue 仍待独立核验 |
 | **合计** | **100** | **76** | **84** | **同比增加 8 分；分数是工程复评，不保证零缺陷** |
 
@@ -26,13 +26,13 @@
 2. [#300](https://github.com/kunlong-luo/pagevela/pull/300)、[#301](https://github.com/kunlong-luo/pagevela/pull/301) 修复受影响依赖路径与 Workbox 生产预缓存，Chromium 生产离线导航进入回归。
 3. [#303](https://github.com/kunlong-luo/pagevela/pull/303) 引入 Security Inventory 和严格发布前 PWA/类型/性能门禁。最新已核对 [#305 安全审计](https://github.com/kunlong-luo/pagevela/actions/runs/45159967313) 及 [#306 安全审计](https://github.com/kunlong-luo/pagevela/actions/runs/45163891326) 的 npm 注册表公告为 0；**不等于私有 Dependabot 告警为 0**。
 4. [#304](https://github.com/kunlong-luo/pagevela/pull/304) 把自动发版改为 `CI → 同 SHA Pages → Release`。同一个 `84ae706` 上的 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275)、[Pages build+deploy](https://github.com/kunlong-luo/pagevela/actions/runs/45163532567) 和 [Release no-op](https://github.com/kunlong-luo/pagevela/actions/runs/45163664593) 均成功，历史 v2.8.2 标签和附件未覆盖。
-5. [#305](https://github.com/kunlong-luo/pagevela/pull/305) 和 [#306](https://github.com/kunlong-luo/pagevela/pull/306) 统一发布日期、SHA、操作指南、安全边界及历史证据，减少“main 已合并=线上已发布”的混淆。
+5. [#305](https://github.com/kunlong-luo/pagevela/pull/305) 和 [#306](https://github.com/kunlong-luo/pagevela/pull/306) 统一发布日期、SHA、操作指南、安全边界及历史证据。[#306 合并后的 `12a08ec` CI](https://github.com/kunlong-luo/pagevela/actions/runs/45166477620)、[Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45168214368)、[Release 安全跳过](https://github.com/kunlong-luo/pagevela/actions/runs/45168339465) 已完成独立闭环，解决先前仅有 PR 通过而未部署的状态。
 
 ## 扣分事项及下一阶段完成标准
 
 | 优先级 | 事项 | 可验证的完成标准 | 对应 Issue / PR |
 | --- | --- | --- | --- |
-| P0 | 当前 `main` 与文档交付闭环 | `12a08ec` 主分支 CI 的每个必需 job 全绿，**同 SHA Pages 实际部署成功**，Release 对旧版本安全跳过；新的文档和代码 PR 亦各自验收 | [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45166477620) · [状态](./PROJECT_STATUS.md) |
+| P0 | 新增 PR 的同 SHA 交付闭环 | **已完成：** `12a08ec` [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45166477620) → [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45168214368) → [Release no-op](https://github.com/kunlong-luo/pagevela/actions/runs/45168339465)。**待完成：** #308 本报告及 #307 后续合并的各自新 SHA 重验，不能沿用已部署 SHA | [#308](https://github.com/kunlong-luo/pagevela/pull/308) · [#307](https://github.com/kunlong-luo/pagevela/pull/307) · [状态](./PROJECT_STATUS.md) |
 | P1 | 模块拆分与测试隔离 | 独立快捷键 Hook、编辑器/Store/导出管道渐进拆分；每步确保存储协议、PDF、响应式 UI 行为不变，前后对比 bundle/性能；完整 CI、同 SHA Pages | [#282](https://github.com/kunlong-luo/pagevela/issues/282) · [#307](https://github.com/kunlong-luo/pagevela/pull/307) |
 | P1 | Android 真实设备矩阵 | 保留负责人报告的微信 PASS；补实际 Android Chrome/OEM、系统 Save-as-PDF、微信下载、安装后的离线恢复，按设备/系统/浏览器/SHA 逐项记录 | [#262](https://github.com/kunlong-luo/pagevela/issues/262) |
 | P1 | 供应链与私有告警 | 有权限的 GitHub Security 界面/接口核对 Dependabot 私有告警，确认 Workbox legacy `minimatch@5.1.9` 的上游替代，不进行盲目 major override | [#298](https://github.com/kunlong-luo/pagevela/issues/298) · [SECURITY](../SECURITY.md) |
