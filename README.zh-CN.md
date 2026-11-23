@@ -47,7 +47,23 @@
 
 ---
 
-## 🆕 v2.8.2 更新
+## 🆕 v2.8.3 更新
+
+本次是**本地草稿可靠性与编辑器可维护性**的补丁升级。
+
+- **草稿更可靠：** IndexedDB 串行写入、周期性草稿历史协调和分栏回归修复。
+- **独立快捷键 Hook：** Ctrl/Cmd+S 本地保存、Ctrl/Cmd+P ATS 打印、Ctrl/Cmd+Shift+F 智能单页均保持原行为。
+- **真正的生产离线测试：** Service Worker 预缓存与 Chromium 离线编辑路由回归。
+- **跨浏览器发布：** Chromium、Firefox、WebKit 及 PDF 有效性、导出后草稿保留、同 SHA 发布门禁检查。
+- **工程文档：** 依赖注册表审计、中英文文档、84/100 工程复评和安全验收台账同步。
+
+Android 系统另存 PDF、其他 OEM 浏览器、安装后的离线体验、GitHub 私有 Dependabot 告警仍需独立验收。只有实际生成 v2.8.3 标签、压缩包及校验和后才算正式发布。
+
+[版本说明](./RELEASE_NOTES.md) · [v2.8.3 验收清单](./docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md) · [Android 专项 #262](https://github.com/kunlong-luo/pagevela/issues/262)
+
+---
+
+## 📦 之前的 v2.8.2 更新
 
 本次更新统一 **Pagevela** 项目名称与新发布文件命名，并且保持旧用户数据可以正常读取。
 
