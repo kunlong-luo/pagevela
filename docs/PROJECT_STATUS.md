@@ -1,5 +1,7 @@
 # Pagevela 项目状态 / Project status
 
+> **2026-11-23 追加核对：** [文档 PR #306](https://github.com/kunlong-luo/pagevela/pull/306) 已自动合并为 [`12a08ec`](https://github.com/kunlong-luo/pagevela/commit/12a08ec08695e093b280c602dd11f11c8ac429df)，最新头提交 [PR CI #45163891273](https://github.com/kunlong-luo/pagevela/actions/runs/45163891273) 成功，CodeQL 和注册表安全审计也通过；**同 SHA `main` CI #45166477620 尚在执行，Pages 与 Release 未在本次核对时确认**。最新已完成 **同 SHA CI→Pages→Release** 闭环的部署仍为 `84ae706`（详见下表），正式打包 v2.8.2 未改变。新增 [2026-11-23 复评 84/100](./ASSESSMENT_20261123.md) 以 `84ae706` 已部署基线评分，#307 尚未合并不计分。
+
 > **核对日期：2026-11-23。** 这是人工复核的时间点，不是自动更新面板。核对现在的发布情况时，应重新打开 [main](https://github.com/kunlong-luo/pagevela/tree/main)、[Actions](https://github.com/kunlong-luo/pagevela/actions)、[Pages 部署](https://github.com/kunlong-luo/pagevela/actions/workflows/deploy.yml) 及 [Releases](https://github.com/kunlong-luo/pagevela/releases)。**源代码已合并、CI 通过、Pages 已部署和 Release 已打包是四件不同的事。**
 
 ## 本次已核对的版本、分支和交付
