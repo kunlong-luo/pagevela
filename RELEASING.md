@@ -47,11 +47,11 @@ The workflow will:
 - enforce the stable dependency policy;
 - install with the frozen pnpm lockfile;
 - run TypeScript and strict critical boundary checks, bilingual-label audit, lint and unit tests;
-- build production assets, verify the **Workbox app-shell precache**, and enforce the performance budget **before** creating a tag;
-- create or reuse the annotated `vX.Y.Z` tag;
+- build production assets, verify the **Workbox app-shell precache**, and enforce the performance budget;
 - package the complete `dist/` output as `pagevela-X.Y.Z.zip` and `pagevela-X.Y.Z.tar.gz`;
-- generate `SHA256SUMS.txt`;
-- publish a GitHub Release with automatically generated release notes.
+- generate `SHA256SUMS.txt` **before creating any tag**;
+- recheck current `main`, then create or reuse an annotated `vX.Y.Z` tag only for a not-yet-published version;
+- publish the new GitHub Release with automatically generated release notes, never overwriting historical assets.
 
 ## Manual fallback
 
