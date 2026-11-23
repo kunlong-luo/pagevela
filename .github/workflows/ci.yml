@@ -61,6 +61,9 @@ jobs:
       - name: Build project
         run: pnpm run build
 
+      - name: Verify production PWA app-shell precache
+        run: node scripts/check-pwa-precache.mjs
+
       - name: Enforce performance budget
         run: pnpm run perf:budget
 
