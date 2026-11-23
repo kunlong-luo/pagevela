@@ -93,6 +93,13 @@ jobs:
       - name: Run full Chromium E2E suite
         run: pnpm exec playwright test --project=chromium
 
+      # Playwright's normal webServer uses Vite dev mode, where PWA is disabled.
+      # Also exercise the real production SW and an offline editor navigation.
+      - name: Verify production PWA offline navigation (Chromium)
+        run: |
+          pnpm run build
+          node scripts/check-pwa-offline.mjs
+
       - name: Upload fictional A4 print proof for visual review
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
