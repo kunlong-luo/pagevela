@@ -2,7 +2,7 @@
 
 > **现行流程（2026-11-23）**：由 [PR #304](https://github.com/kunlong-luo/pagevela/pull/304) 合并引入的 `CI → Deploy Pages → Release` 门禁。此文是当前操作指南，而不是自动状态面板。发版前请核对 [最新项目状态](docs/PROJECT_STATUS.md) 和 [实际 Actions](https://github.com/kunlong-luo/pagevela/actions)。
 >
-> **最新正式已发布下载包：** [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)（2026-10-25）。截至本次核查 `main` 已推进至 `8bc0a0a`，但其主分支 CI/Pages 验收仍在执行。**线上新源码与 v2.8.2 压缩包不等价。** 不得擅自覆盖历史 ZIP/TAR/校验和。
+> **2026-11-23 已核实的线上源码：** [`84ae706`](https://github.com/kunlong-luo/pagevela/commit/84ae706823ee2f7175f11da2e07de5343ae7c430) 的 [完整 main CI #45161614275](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275)、[同 SHA Pages #45163532567](https://github.com/kunlong-luo/pagevela/actions/runs/45163532567) 均成功；[Release #45163664593](https://github.com/kunlong-luo/pagevela/actions/runs/45163664593) 验证两层门禁后安全跳过现有版本。**最新正式已发布下载包**仍是 [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)（2026-10-25），**不包含后续 main 源码修改**。这是有日期的快照，不得覆盖历史 ZIP/TAR/校验和。
 
 ## 版本与交付对象
 
