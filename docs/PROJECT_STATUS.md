@@ -1,64 +1,37 @@
-# Pagevela 状态快照 / Project status
+# Pagevela 项目状态 / Project status
 
-> **2026-11-23 新一轮核对（历史记录仍保留在下方）**  
-> [PR #303](https://github.com/kunlong-luo/pagevela/pull/303) 已成功自动合并，当前 `main` 为 [`93a0941`](https://github.com/kunlong-luo/pagevela/commit/93a0941afc6d782c549caa848e0798fc6509c44b)。安全审计与 Release 预缓存/性能/严格类型检查已进入主分支；[该 SHA 的 Security Inventory](https://github.com/kunlong-luo/pagevela/actions/runs/45154252948) 和 CodeQL 成功。  
-> [完整 `main` CI #45154252875](https://github.com/kunlong-luo/pagevela/actions/runs/45154252875) 正在执行，截至本次快照 Chromium（含实际生产 PWA 离线导航）、Firefox 2/2 和 WebKit 1/2 均通过，**WebKit 2/2 和最终 `build-and-test` 尚未确认**；同 SHA Pages 仍需独立验证。  
-> 最近一次完整主分支 CI 与 Pages **均确认通过**的基线为前一提交 `37bb6ae`：[CI](https://github.com/kunlong-luo/pagevela/actions/runs/45142496880) · [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45144232065)。这并不等同于 `93a0941` 已上线。  
-> [Release #45154253183](https://github.com/kunlong-luo/pagevela/actions/runs/45154253183) 检测到版本未改变，**未创建新标签或下载包**；最新正式 Release 仍为 [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)（2026-10-25）。新分支正在提议让以后 Release **等待完整 `main` CI 与同 SHA Pages 均成功**，并禁止手动覆盖历史发布资产；它尚未合并。  
-> npm 注册表审计返回 **0 条已知漏洞公告**，不等于登录后 GitHub Dependabot 私有告警总量已核实为 0；[#298](https://github.com/kunlong-luo/pagevela/issues/298) 保持开放。Android 微信负责人已确认的 PASS 不覆盖未核实的系统打印与离线真机场景（[#262](https://github.com/kunlong-luo/pagevela/issues/262)）。  
+> **核对日期：2026-11-23。** 这是人工复核的时间点，不是自动更新面板。核对现在的发布情况时，应重新打开 [main](https://github.com/kunlong-luo/pagevela/tree/main)、[Actions](https://github.com/kunlong-luo/pagevela/actions)、[Pages 部署](https://github.com/kunlong-luo/pagevela/actions/workflows/deploy.yml) 及 [Releases](https://github.com/kunlong-luo/pagevela/releases)。**源代码已合并、CI 通过、Pages 已部署和 Release 已打包是四件不同的事。**
 
----
+## 本次已核对的版本、分支和交付
 
-> **2026-11-22 补充核验（以下失败记录已被后续修复所取代）：** [PR #292](https://github.com/kunlong-luo/pagevela/pull/292) 已合并到 `main`，提交 `93d3d8a5a11e9c7bc072a326c2f0b53eabc075c7`。该 SHA 的 [完整主分支 CI #45021860745](https://github.com/kunlong-luo/pagevela/actions/runs/45021860745) 成功（quality / Chromium / Firefox / WebKit / `build-and-test`），[同 SHA Pages #45022812621](https://github.com/kunlong-luo/pagevela/actions/runs/45022812621) 成功。原 `992374a` 的分栏双击复位回归已经完成修复与部署闭环。后续草稿并发修复 [PR #293](https://github.com/kunlong-luo/pagevela/pull/293) **仍待独立 CI/合并/部署验收**。正式 GitHub Release 仍为 v2.8.2，不能把新版源码称为已重新打包的发布资产。
-
-**核验日期：2026-11-22（基于当日 GitHub Actions 和 `main`）**。这是一份可追溯的**定时快照**，并非实时监控。新 PR 可能改变下面的结果；查看 [最新 Actions](https://github.com/kunlong-luo/pagevela/actions) 和 [分支](https://github.com/kunlong-luo/pagevela/branches) 后再作当前发布判断。
-
-## 已核对的版本和提交
-
-| 检查项目 | 2026-11-22 证据 | 结论 |
+| 对象 | 截至本次核对的事实 | 证据与边界 |
 | --- | --- | --- |
-| 当前 `main` | `992374a247a312912d8bab9d327cf7c5a3883523`（[PR #283](https://github.com/kunlong-luo/pagevela/pull/283) 合并） | **源代码领先于最后一次验证通过的部署** |
-| 最新稳定 GitHub Release | [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)，2026-10-25 发布，包含 `pagevela-2.8.2.zip` / `.tar.gz` / `SHA256SUMS.txt` | 保持已发布资产，不重新打包或改历史校验和 |
-| 最近一次核验成功的 Pages 部署 | [#40295215435](https://github.com/kunlong-luo/pagevela/actions/runs/40295215435)，提交 `712dee2a461906c46b9140ffcbc7c75e22d546fd`，2026-10-26 | **不能证明后续 `992374a` 已部署** |
-| 最新主分支 CI | [#45017892041](https://github.com/kunlong-luo/pagevela/actions/runs/45017892041)，2026-11-22 | **FAILED**；质量/单元测试通过，但多个浏览器 E2E 失败 |
-| 最近一次 Pages workflow | [#45018795903](https://github.com/kunlong-luo/pagevela/actions/runs/45018795903)，2026-11-22 | **SKIPPED**；与主分支 CI 失败有关 |
-| 依赖更新 PR | [#288](https://github.com/kunlong-luo/pagevela/pull/288)、[#290](https://github.com/kunlong-luo/pagevela/pull/290)、[#291](https://github.com/kunlong-luo/pagevela/pull/291) | 均为开放 PR；不能声称已合并 |
+| 受保护的 `main` | [`8bc0a0a`](https://github.com/kunlong-luo/pagevela/commit/8bc0a0aaab4d0a885b5a8d3ec25bca19ac58a15d)，[PR #304](https://github.com/kunlong-luo/pagevela/pull/304) 已于 2026-11-23 合并 | PR 最新提交 `fdc689d` 的 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45156899016) 全绿，且 CodeQL / 注册表审计通过；不等同于合并提交部署完成 |
+| `main` 最新完整 CI | [#45159218348](https://github.com/kunlong-luo/pagevela/actions/runs/45159218348)，针对 `8bc0a0a` | **进行中**：质量检查成功，Chromium 与 Firefox/WebKit 真实回归尚待完成；不要标记最终 `build-and-test` 通过 |
+| 最近一次**完整 CI 与 Pages 都成功**的源码 | [`93a0941`](https://github.com/kunlong-luo/pagevela/commit/93a0941afc6d782c549caa848e0798fc6509c44b) | [主分支完整 CI #45154252875](https://github.com/kunlong-luo/pagevela/actions/runs/45154252875) 和 [同 SHA Pages #45156598771](https://github.com/kunlong-luo/pagevela/actions/runs/45156598771) 的 build、deploy 均成功 |
+| 依赖安全审计 | [`93a0941` 的 Security Inventory #45154252948](https://github.com/kunlong-luo/pagevela/actions/runs/45154252948) | `pnpm audit --json --audit-level=low`：**0 条 npm 注册表公告，退出码 0**；不是 GitHub 私有 Dependabot 告警清零证明 |
+| 最新**正式打包** GitHub Release | [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)，2026-10-25 | 源码与网站在版本之后多次更新；尚无 v2.8.3 标签或新 ZIP/TAR |
+| 尚未合并的 PR | **0**（本次核对时） | #303、#304 均已合并；本次文档修订会通过独立 PR 提交 |
 
-## 当前 CI 阻塞原因（有日志证据）
+## 已落实的工程修复
 
-浏览器 E2E `e2e/workspace-split-pane.e2e.ts` 的“双击分栏复位”断言失败：预期 `localStorage['resume-split-ratio'] === '50'`，实际是 `'60.9375'`。2026-11-22 的 Chromium、Firefox、WebKit 日志都包含此失败；11-20、11-21 同 SHA 主分支 CI 同样未通过。
+- **分栏和草稿可靠性：** [#292](https://github.com/kunlong-luo/pagevela/pull/292) 的分栏双击回归及 [#293](https://github.com/kunlong-luo/pagevela/pull/293) 的草稿历史并发保护均已合并；11 月 22 日失败的 CI 记录属于历史，不再是当前阻断。
+- **PWA 离线构建：** [#300](https://github.com/kunlong-luo/pagevela/pull/300) 修复受影响的 minimatch 版本，[#301](https://github.com/kunlong-luo/pagevela/pull/301) 采用 Workbox 专属 `glob@14.0.3` 并引入真正的生产 Service Worker 预缓存及 Chromium 离线导航检查；[#302](https://github.com/kunlong-luo/pagevela/issues/302) 已关闭。**不能把桌面 Chromium 离线测试写成 Android/微信离线真机通过。**
+- **安全治理：** [#303](https://github.com/kunlong-luo/pagevela/pull/303) 引入每周及可手动执行的 [Security Inventory](https://github.com/kunlong-luo/pagevela/actions/workflows/security-inventory.yml)（报告保留原始 JSON）并强化下载包的 PWA、类型、国际化及性能检查。
+- **发布顺序：** [#304](https://github.com/kunlong-luo/pagevela/pull/304) 已将 `Release` 改为成功 `CI → Deploy Pages → Release` 的自动触发链；手动补发也要检查当前 `main` 同 SHA 的成功 CI 最终 `build-and-test` 和 Pages `deploy`。既有发布的 tag 和附件不覆盖。**新流程的首次合并后实际触发与跳过旧标签的行为尚需独立记录。**
 
-技术审查定位到 `Tooltip`：其 `disabled` 状态在拖拽开始时可以从带包装 DOM 切换成 fragment，打断连续鼠标双击的事件目标。修复策略是**只在分栏手柄上保持 Tooltip DOM 包装稳定**、忽略双击的第二次拖拽起点，并在明确复位时结束拖拽；依然由现有浏览器 E2E 判定修复是否成立。**这是修复假设，不是已经通过验收的结果。**
+## 尚未完成，不得写成通过
 
-**发布门禁：** 修复 PR 最新提交质量、Chromium、Firefox/WebKit 与最终 build-and-test 全绿 → 合并到 `main` → `main` 完整 CI 全绿 → GitHub Pages 同一 SHA 完成 build/deploy → 必要时网页独立 smoke check。缺任何环节都不宣称最新版已上线。
+1. **`8bc0a0a` 的生产闭环：** 完整 main-push CI、CodeQL、同 SHA Pages build/deploy，然后检查后续 Release 对已有 v2.8.2 的安全跳过。对每一项记录具体运行号。
+2. **安全告警与依赖现代化 [#298](https://github.com/kunlong-luo/pagevela/issues/298)：** 已有 npm 注册表审计结果；仍须以有权限的方式核对 GitHub Dependabot 私有告警，评估 Workbox `filelist → minimatch@5.1.9` 的成熟上游替代方案，不能盲目强制覆盖大版本。
+3. **Android 真机 [#262](https://github.com/kunlong-luo/pagevela/issues/262)：** 负责人已报告 Android 微信整体 PASS；尚缺系统 Save-as-PDF/下载、非微信 Chrome/Samsung/OEM、离线 PWA 及逐设备可复现结果。
+4. **产品与治理：** [架构 #282](https://github.com/kunlong-luo/pagevela/issues/282)、[中文照片 #200](https://github.com/kunlong-luo/pagevela/issues/200)、[旧产品健康数据 #115](https://github.com/kunlong-luo/pagevela/issues/115) 和 [商标/站外平台 #202](https://github.com/kunlong-luo/pagevela/issues/202) 继续跟踪；不得虚构设备、流量、商标清查或第三方平台操作证据。
 
-## 可复核的工程指标
+## 当前操作文档与历史
 
-2026-11-22 CI [quality job](https://github.com/kunlong-luo/pagevela/actions/runs/45017892041) 中：**47 个 Vitest 文件通过**；TypeScript/ESLint/构建及性能预算通过（质量 job 结论 success）。构建 gzip 指标：
+- [发布流程 / Release](../RELEASING.md) — 版本、SHA 验证、标签不可覆盖、失败恢复。
+- [安全策略 / Security](../SECURITY.md) — 私密报告与审计覆盖范围。
+- [发布与安全验收台账（2026-11-23）](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) — 运行证据、检查边界、持续待办。
+- [2026-11-22 原始状态记录](./history/PROJECT_STATUS_20261122.md) 和 [当日 76/100 历史评估](./ASSESSMENT_20261122.md) — 保留原始时间点，不作为当日实时结论。
 
-| 性能指标 | 结果 | 预算 / 备注 |
-| --- | ---: | --- |
-| 初始 JS | 160.8 KiB | 260 KiB |
-| 欢迎页应用 JS | 21.1 KiB | 45 KiB |
-| 编辑器路由 | 76.6 KiB | 按需载入 |
-| 全站 CSS | 29.1 KiB | 32 KiB；接近上限 |
-| PDF 工具 | 725.8 KiB | gzip；按需加载，**不是首屏 JS** |
-
-这些是**打包体积指标，不是 Android 或用户网络条件下的加载耗时**。
-
-## 开放事项及边界
-
-- [#282 — 架构优化](https://github.com/kunlong-luo/pagevela/issues/282)：活跃快照写入协调已合并（[#281](https://github.com/kunlong-luo/pagevela/pull/281)）；分栏/自动草稿 Hook 已合并（[#283](https://github.com/kunlong-luo/pagevela/pull/283)），但其浏览器复位回归仍待修复验收。草稿历史还有独立写入竞争风险。
-- [#262 — Android 真实设备](https://github.com/kunlong-luo/pagevela/issues/262)：负责人此前报告 Android 微信真机整体 PASS；Android Chrome、其他 OEM、真实 Save as PDF、下载、安装 PWA 离线与逐项 A–H 的证据未完整记录，**不可视为已通过**。
-- [#202 — 品牌和迁移](https://github.com/kunlong-luo/pagevela/issues/202)：品牌已经用于仓库和官网，但商标核验、站外列表更新需要独立确认。
-- [#200 — 中文简历照片](https://github.com/kunlong-luo/pagevela/issues/200)、[#115 — v2.4.x 旧验收](https://github.com/kunlong-luo/pagevela/issues/115)：目前仍开放，建议核对功能实现/验收条件后关单或拆分，不能因代码有相关功能就直接关闭。
-- [历史 EdgeOne PR #240](https://github.com/kunlong-luo/pagevela/pull/240) 及 [旧 CI PR #271](https://github.com/kunlong-luo/pagevela/pull/271) 对应的旧远程分支仍存在；均已关闭未合并。**不要重新合并或未经核对激活旧托管配置**。
-
-## 行动顺序
-
-1. **P0 恢复主分支 CI 和同 SHA Pages 部署**，严格以修复后的实际结果验收。
-2. **P1 处理历史草稿写入竞争、完善 Android PDF/离线真机矩阵**，补可核验证据。
-3. **P1 整理 Dependabot PR 与过期 Issue**，按通过测试/兼容性风险合并或关闭，清理已确认无用的分支。
-4. **P2 继续拆分大型编辑器与导出模块，降低 CSS 压力**；谨慎处理既有 IndexedDB 名称，不做破坏性改名。
-
-网站：[Pagevela](https://kunlong-luo.github.io/pagevela/) · [源代码](https://github.com/kunlong-luo/pagevela) · [文档索引](./README.md)
+**品牌/数据兼容底线：** Pagevela 官网只使用 `/pagevela/`，不主动恢复 `/resume-craft/` 旧站跳转；保留既有 IndexedDB、跨标签页协调标识及旧备份/加密分享的可读性，不修改历史发布附件。

@@ -10,6 +10,7 @@
 | --- | --- | --- |
 | 了解产品、功能、启动项目 | [English README](../README.md) · [中文 README](../README.zh-CN.md) | 产品概述、安装、主要功能 |
 | 当前仓库与部署状态 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) | 日期、提交 SHA、CI / Pages、开放事项 |
+| 最新发布与安全验收证据 | [RELEASE_SECURITY_ACCEPTANCE_20261123.md](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) | PR #300–304、CI / Pages、PWA、漏洞审计、未结门禁 |
 | 项目评估和优先级 | [ASSESSMENT_20261122.md](./ASSESSMENT_20261122.md) | 分项评分、依据、风险与行动项 |
 | 新人贡献和开发 | [CONTRIBUTING.md](../CONTRIBUTING.md) · [UI 组件规范](./BRANDED_UI_CONTRACT.md) | TypeScript、测试、PR 与设计系统 |
 | 正式发布 | [RELEASING.md](../RELEASING.md) · [CHANGELOG.md](../CHANGELOG.md) · [RELEASE_NOTES.md](../RELEASE_NOTES.md) | 版本、历史变更、当前发布门禁 |
@@ -32,6 +33,8 @@
 **品牌未结事项：** [#202](https://github.com/kunlong-luo/pagevela/issues/202) 商标与站外内容、[#262](https://github.com/kunlong-luo/pagevela/issues/262) Android 真实设备矩阵。
 
 ## 历史参考 / Historical — not current acceptance
+
+- [2026-11-22 状态快照原件](./history/PROJECT_STATUS_20261122.md)：仅供追溯该日期的旧 CI 故障和发布判断，不再当作当前状态
 
 下列文档按发布时的事实保留，**不删除旧记录、不重命名历史下载附件、不重新诠释旧的验收结论**：
 
