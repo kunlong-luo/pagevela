@@ -75,6 +75,9 @@ jobs:
       - name: Build production assets
         run: pnpm run build
 
+      - name: Verify production PWA app-shell precache
+        run: node scripts/check-pwa-precache.mjs
+
       - name: Publish IndexNow verification key
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}

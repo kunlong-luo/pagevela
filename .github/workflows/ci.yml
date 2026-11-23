@@ -61,6 +61,9 @@ jobs:
       - name: Build project
         run: pnpm run build
 
+      - name: Verify production PWA app-shell precache
+        run: node scripts/check-pwa-precache.mjs
+
       - name: Enforce performance budget
         run: pnpm run perf:budget
 
@@ -92,6 +95,13 @@ jobs:
 
       - name: Run full Chromium E2E suite
         run: pnpm exec playwright test --project=chromium
+
+      # Playwright's normal webServer uses Vite dev mode, where PWA is disabled.
+      # Also exercise the real production SW and an offline editor navigation.
+      - name: Verify production PWA offline navigation (Chromium)
+        run: |
+          pnpm run build
+          node scripts/check-pwa-offline.mjs
 
       - name: Upload fictional A4 print proof for visual review
         if: always()
