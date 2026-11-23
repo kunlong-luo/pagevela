@@ -1,6 +1,6 @@
 # Releasing Pagevela
 
-> **2026-11-22 post-fix evidence:** [PR #292](https://github.com/kunlong-luo/pagevela/pull/292) merged as `93d3d8a`; [full main CI #45021860745](https://github.com/kunlong-luo/pagevela/actions/runs/45021860745) and [same-SHA Pages #45022812621](https://github.com/kunlong-luo/pagevela/actions/runs/45022812621) passed. This supersedes the dated main CI failure described later in this document. The latest **packaged** GitHub Release remains v2.8.2 until a separately gated version bump.
+> **2026-11-23 latest verified source:** protected `main` `37bb6ae` passed [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45142496880) (including production PWA offline-navigation smoke), [CodeQL](https://github.com/kunlong-luo/pagevela/actions/runs/45142496687), and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45144232065). Latest **downloadable** GitHub Release remains [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2); this does **not** contain the later main-source changes. [PR #303](https://github.com/kunlong-luo/pagevela/pull/303) proposes additional Release guards and an audit report; do not describe these as merged until verified.\n\n> **2026-11-22 post-fix evidence:** [PR #292](https://github.com/kunlong-luo/pagevela/pull/292) merged as `93d3d8a`; [full main CI #45021860745](https://github.com/kunlong-luo/pagevela/actions/runs/45021860745) and [same-SHA Pages #45022812621](https://github.com/kunlong-luo/pagevela/actions/runs/45022812621) passed. This supersedes the dated main CI failure described later in this document. The latest **packaged** GitHub Release remains v2.8.2 until a separately gated version bump.
 
 Pagevela publishes stable releases only.
 
@@ -8,7 +8,7 @@ Pagevela publishes stable releases only.
 
 ## Current-source status and evidence
 
-The v2.8.2 artifact is the latest stable **published release**, but publishing is not the same as deploying the newest source. As checked on 2026-11-22, `main` at `992374a` failed full CI due to the split-pane double-click reset E2E; its Pages workflow was skipped. The latest independently verified successful Pages workflow before that audit is [#40295215435](https://github.com/kunlong-luo/pagevela/actions/runs/40295215435), at `712dee2`. See the [dated status and remediation plan](docs/PROJECT_STATUS.md); after a CI fix, recheck the **latest** main CI and same-SHA Pages job, rather than relying on this historical snapshot.
+The v2.8.2 artifact is the latest stable **published release**, but publishing is not the same as deploying the newest source. The **2026-11-22 split-pane failure is historical** and has been superseded by later fixes. As of 2026-11-23, protected `main` `37bb6ae` passed full CI and same-SHA Pages deployment, including a production PWA offline-navigation smoke and build-time precache guard. The latest packaged release is still v2.8.2. See [the dated status snapshot](docs/PROJECT_STATUS.md) and always verify GitHub Actions again for future releases.
 
 ## Latest stable release line
 
@@ -44,7 +44,7 @@ The workflow will:
 - reject non-stable SemVer versions;
 - enforce the stable dependency policy;
 - install with the frozen pnpm lockfile;
-- run type checking, unit tests, and the production build;
+- run TypeScript and strict critical boundary checks, bilingual-label audit, lint and unit tests;\n- build production assets, verify the **Workbox app-shell precache**, and enforce the performance budget **before** creating a tag (once PR #303 is merged);
 - create or reuse the annotated `vX.Y.Z` tag;
 - package the complete `dist/` output as `pagevela-X.Y.Z.zip` and `pagevela-X.Y.Z.tar.gz`;
 - generate `SHA256SUMS.txt`;
