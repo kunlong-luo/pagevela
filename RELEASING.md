@@ -2,9 +2,9 @@
 
 > **现行流程（2026-11-23）**：由 [PR #304](https://github.com/kunlong-luo/pagevela/pull/304) 合并引入的 `CI → Deploy Pages → Release` 门禁。此文是当前操作指南，而不是自动状态面板。发版前请核对 [最新项目状态](docs/PROJECT_STATUS.md) 和 [实际 Actions](https://github.com/kunlong-luo/pagevela/actions)。
 >
-> **2026-11-23 最新完成验收的线上源码：** [`077e649`](https://github.com/kunlong-luo/pagevela/commit/077e64991801b3f30b4b5cdb2e594ea3c278af36) 的 [main CI #45172148513](https://github.com/kunlong-luo/pagevela/actions/runs/45172148513)（质量、Chromium PWA 生产离线、Firefox/WebKit 全量分片）、[同 SHA Pages #45174090788](https://github.com/kunlong-luo/pagevela/actions/runs/45174090788)（build/deploy）与 [Release #45174220771](https://github.com/kunlong-luo/pagevela/actions/runs/45174220771)（安全跳过已有 v2.8.2）均成功。
+> **2026-11-23 最近实际验收成功的线上源码：** [`ac2932c`](https://github.com/kunlong-luo/pagevela/commit/ac2932c9fa660febffce1613bbfd8fa9f561a3ed) 的 [CI #45185347889](https://github.com/kunlong-luo/pagevela/actions/runs/45185347889)、[Pages #45188965398](https://github.com/kunlong-luo/pagevela/actions/runs/45188965398)（build/deploy）及 [Release #45189104214](https://github.com/kunlong-luo/pagevela/actions/runs/45189104214)（已有 v2.8.2 安全跳过）全部成功。**正式已发布下载仍是** [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)。
 >
-> **更新的 `main` 但生产待核验：** [#307 快捷键 Hook](https://github.com/kunlong-luo/pagevela/pull/307) 已合并为 [`ac2932c`](https://github.com/kunlong-luo/pagevela/commit/ac2932c9fa660febffce1613bbfd8fa9f561a3ed)，[其合并后 CI #45185347889](https://github.com/kunlong-luo/pagevela/actions/runs/45185347889) 进行中，暂不能称同 SHA 已部署。**正式打包 Release 仍为** [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)（2026-10-25），与后续 main 源码不同；禁止覆盖历史 ZIP/TAR/SHA256SUMS。
+> **v2.8.3 正在准备：** #309 更新唯一版本号 `package.json`、中英文 README、CHANGELOG、RELEASE_NOTES 及 [发行验收清单](docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md)。在其最新头 PR CI、合并后完整主分支 CI、同 SHA Pages 和**首次** GitHub Release 的三个新资产均真实验收前，不能称已正式发布，也不能改写 v2.8.2 tag 或附件。
 
 ## 版本与交付对象
 

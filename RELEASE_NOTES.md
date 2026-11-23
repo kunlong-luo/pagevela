@@ -1,3 +1,30 @@
+# Pagevela v2.8.3
+
+**中文名称：** 页帆 v2.8.3
+
+**Status on 2026-11-23:** Release candidate. This document does not prove publication. Verify [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) points to the CI/Pages-verified production SHA and supplies `pagevela-2.8.3.zip`, `pagevela-2.8.3.tar.gz`, `SHA256SUMS.txt` with valid hashes before declaring it published.
+
+## Changes / 主要改进
+
+- **Draft reliability / 草稿可靠性：** Serial IndexedDB writes, periodic history coordination and split-pane reliability with legacy storage, sharing and workspace backups preserved.
+- **Editor architecture / 编辑器架构：** Dedicated tested hooks for split pane, periodic draft history and global keyboard shortcuts. Ctrl/Cmd+S continues to save locally, Ctrl/Cmd+P opens the ATS-friendly browser print flow, Ctrl/Cmd+Shift+F uses Auto Fit.
+- **PDF and offline / 导出与离线：** Chromium PDF parse/geometry and post-export draft regression, production Workbox precache and offline editor navigation smoke tests.
+- **Cross-browser quality / 跨浏览器：** Full Chromium, Firefox and WebKit CI with TypeScript, lint, i18n, tests and performance budget; exact-SHA Pages deployment required before Release.
+- **Supply chain and documentation / 供应链与文档：** A report-only npm registry Security Inventory, 84/100 dated engineering review, bilingual documentation index and release-security evidence.
+
+## Compatibility / 兼容与边界
+
+- Existing IndexedDB database and cross-tab channel names are deliberate compatibility identifiers, not public brand text. Historical workspace backups and v2/v3 protected links remain readable; original v2.8.2 archives cannot be replaced.
+- ATS browser print is text-preserving; raster Quick PDF is a different export method. Automated browser tests do not certify actual Android system Print/Save as PDF.
+- Owner-reported Android WeChat real-device PASS remains separately recorded; other devices, installed PWA offline, private GitHub Dependabot alerts, trademark clearance and third-party posts have not been independently certified.
+- No new account sync, irreversible data migration, native browser tooltip/dialog implementation or former-site redirect is introduced.
+
+**Compare:** https://github.com/kunlong-luo/pagevela/compare/v2.8.2...v2.8.3
+
+[Release checklist](./docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md) · [Project status](./docs/PROJECT_STATUS.md) · [Android #262](https://github.com/kunlong-luo/pagevela/issues/262) · [Supply chain #298](https://github.com/kunlong-luo/pagevela/issues/298)
+
+---
+
 # Pagevela v2.8.2
 
 **中文名称：** 页帆 v2.8.2
