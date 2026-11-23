@@ -109,8 +109,14 @@ jobs:
             TAG_SHA="$(git rev-list -n 1 "${TAG}")"
             LOCAL_SHA="$(git rev-parse HEAD)"
             if [ "${TAG_SHA}" != "${LOCAL_SHA}" ]; then
-              # Normal main pushes after a release keep the old package version.
-              # Do not re-tag or mutate the historical assets, even manually.
+              # Ordinary post-release source commits keep the same package
+              # version. But a version CHANGE to an existing old tag is unsafe.
+              PREVIOUS_VERSION="$(git show HEAD^:package.json 2>/dev/null |
+                node -e "let s='';process.stdin.on('data',c=>s+=c);process.stdin.on('end',()=>{try{console.log(JSON.parse(s).version)}catch{console.log('')}})")"
+              if [ "${PREVIOUS_VERSION}" != "${VERSION}" ]; then
+                echo "::error::Version changed to an existing tag ${TAG} at a different commit."
+                exit 1
+              fi
               echo "Existing ${TAG} belongs to ${TAG_SHA}; leaving published release unchanged."
               SHOULD_RELEASE=false
             elif gh release view "${TAG}" >/dev/null 2>&1; then
