@@ -1,62 +1,39 @@
-# Releasing Pagevela
+# Releasing Pagevela / 版本发布流程
 
-> **2026-11-23 status:** [PR #303](https://github.com/kunlong-luo/pagevela/pull/303) has merged as `93a0941`: the release artifact PWA precache/performance gates and weekly npm security inventory are now on `main`. Its latest [full main CI #45154252875](https://github.com/kunlong-luo/pagevela/actions/runs/45154252875) is still under verification at this snapshot; do not claim same-SHA Pages until its deployment actually succeeds. The newest **confirmed previous** successful full CI and Pages are from `37bb6ae`: [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45142496880) · [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45144232065). Latest **downloadable** stable Release remains [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2); it does not contain subsequent `main` changes.
+> **现行流程（2026-11-23）**：由 [PR #304](https://github.com/kunlong-luo/pagevela/pull/304) 合并引入的 `CI → Deploy Pages → Release` 门禁。此文是当前操作指南，而不是自动状态面板。发版前请核对 [最新项目状态](docs/PROJECT_STATUS.md) 和 [实际 Actions](https://github.com/kunlong-luo/pagevela/actions)。
+>
+> **最新正式已发布下载包：** [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)（2026-10-25）。截至本次核查 `main` 已推进至 `8bc0a0a`，但其主分支 CI/Pages 验收仍在执行。**线上新源码与 v2.8.2 压缩包不等价。** 不得擅自覆盖历史 ZIP/TAR/校验和。
 
-> **2026-11-22 post-fix evidence:** [PR #292](https://github.com/kunlong-luo/pagevela/pull/292) merged as `93d3d8a`; [full main CI #45021860745](https://github.com/kunlong-luo/pagevela/actions/runs/45021860745) and [same-SHA Pages #45022812621](https://github.com/kunlong-luo/pagevela/actions/runs/45022812621) passed. This supersedes the dated main CI failure described later in this document. The latest **packaged** GitHub Release remains v2.8.2 until a separately gated version bump.
+## 版本与交付对象
 
-Pagevela publishes stable releases only.
+- 版本以 `package.json` 的稳定三段号 `X.Y.Z` 为准。禁止 alpha、beta、rc、canary、next 等预发布标签。
+- GitHub Release 附件为 `pagevela-X.Y.Z.zip`、`pagevela-X.Y.Z.tar.gz`、`SHA256SUMS.txt`；原有历史文件的名称、内容和校验和保持不变。
+- 官方站点是 <https://kunlong-luo.github.io/pagevela/>。不配置 `/resume-craft/` 自动跳转；保持旧用户 IndexedDB、备份和加密分享兼容。
+- **四个独立的验收对象：** PR 测试、main-push 完整 CI、同 SHA Pages `deploy`、GitHub Release 标签与附件。必须分别核对，不以单个绿色徽标替代。
 
-> **Live Pagevela release status:** PR #210 was merged and the public project was renamed to `kunlong-luo/pagevela`; the published site is https://kunlong-luo.github.io/pagevela/. Past release archives remain intact. v2.8.2 exports and new encrypted links use Pagevela identifiers while accepting legacy backups/share formats, and the established IndexedDB/cross-tab identifiers remain stable. The old `/resume-craft/` Pages URL is not redirected, by owner choice. Trademark review and optional future custom domains are separate. Pre-release versions such as alpha, beta, rc, canary, next, nightly, dev, and experimental are not published.
+## 自动发布顺序
 
-## Current-source status and evidence
+1. 经 PR 审核，将已验证的修复和文档合并到 `main`，待需发布内容准备完毕后，另建正常 PR 把 `package.json` 从旧版本提高到新的稳定版本（例如 `2.8.3`）。
+2. **版本 PR** 通过质量、完整 Chromium（含生产 SW 离线导航）、Firefox/WebKit 关键回归、CodeQL 和最终 `build-and-test`，然后合并。
+3. **main-push CI** 在版本合并 SHA 上完成：`quality`、Chromium 全量、Firefox/WebKit 全量分片与最终 `build-and-test` 必须均为 success。
+4. 成功的 CI 触发 `Deploy Pages`。它检验 SHA 未被后续 `main` 替代，并实际完成 `build`、预缓存检测和 `deploy`。
+5. **只有成功的 CI-gated Pages 工作流** 才自动触发 `Release`。该工作流再次从 GitHub Actions API 核实当前 `main` 的同 SHA 成功 `CI`（且 `build-and-test` 成功）及 `Deploy Pages`（且 `deploy` 成功），不信任默认分支 `GITHUB_SHA` 代替上游 SHA。
+6. `Release` 对新版本使用 frozen pnpm 锁文件，运行稳定依赖检查、标准/严格类型检查、双语标签审计、ESLint、Vitest、生产构建、PWA app-shell precache 验证和性能预算。**先生成 ZIP、TAR.GZ 和 SHA256SUMS.txt，再校验最新 main，创建或复用未发布的同 SHA 标签，最后发布 GitHub Release**。
+7. 核对 `vX.Y.Z` 标签确实指向被 CI 与 Pages 验证的提交、两个附件能下载且校验和正确，并核对官网线上同 SHA 部署记录。以上均通过才可宣称版本交付完成。
 
-The v2.8.2 artifact is the latest stable **published release**, but publishing is not the same as deploying the newest source. The **2026-11-22 split-pane failure is historical** and has been superseded by later fixes. As of 2026-11-23, protected `main` `37bb6ae` passed full CI and same-SHA Pages deployment, including a production PWA offline-navigation smoke and build-time precache guard. The latest packaged release is still v2.8.2. See [the dated status snapshot](docs/PROJECT_STATUS.md) and always verify GitHub Actions again for future releases.
+`Release` 的自动触发条件是 `Deploy Pages` 的成功完成事件，不再是简单的 `package.json` push。由于这个流程在 #304 合并时版本未变化，**不能把工作流安装、CodeQL 成功误当成已运行过一次真正的新版本发布**；首次新版本发布时还须检查整个顺序的实际运行证据。
 
-## Latest stable release line
+## 手动补发与故障处理
 
-v2.8.2 (2026-10-25) is the latest verified stable release: [Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2) · [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/40202793334) · [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/40203720040), commit `59246623fdbf727a0a767c1e67375401995e0299`. A future release still requires its own protected checks and same-commit deployment acceptance.
+- `Actions → Release → Run workflow` 只能选择当前 `main`，输入必须与 `package.json` 完全相同的稳定版本号。它**同样要求当前 SHA 的完整 main-push CI 与 CI-gated Pages 成功**，不能绕过验收。
+- 如果版本标签已指向历史其他提交，普通未修改版本的主分支推送会**跳过**本次发布；对已存在标签号执行新的版本变更则**报错**，不能重用或移动已发布版本号。
+- GitHub Release 已存在则不会覆盖其资产，**禁止 `gh release upload --clobber`**。如果标签存在且指向当前提交、但 Release 尚未创建，可在核实状况后补发首次 Release。
+- 如果标签缺失但同版本 Release 存在，工作流拒绝盲目补标签。若 CI、Pages 或 main SHA 发生变化，暂停而不是发布旧包。部分失败需要人工核验现有 tag、附件和 checksum，避免覆盖。
+- 若 ZIP/TAR 产物验证失败，应修复问题并按正常新 PR 和新稳定版本流程重试；不要静默替换旧附件。
 
-The GitHub Release title and tag use **Pagevela**, while distributable file names now use `pagevela-X.Y.Z.zip`, `pagevela-X.Y.Z.tar.gz`, and `SHA256SUMS.txt` for all new stable releases. These are the current branded filenames, not a promise that historic archive names were changed. Historical release archives and checksums remain unchanged.
+## 相关证据与未结事项
 
-**Release sequencing upgrade in review (not yet on `main`):** the proposed Release workflow listens to successful **`Deploy Pages` completion** instead of independently reacting to `package.json` pushes. Pages itself already requires a successful full push-triggered `CI` on `main` and rejects stale SHAs. Before creating a Release, the new gate independently checks both successful **full CI and Pages on exactly the current `main` SHA** against GitHub Actions. Manual dispatches must pass the same two checks; an operator cannot bypass them. Published ZIP/TAR/SHA256 assets and historic tags are never overwritten. Until this proposal is merged, the current Release workflow retains its old independent push trigger.
-
-## Versioning
-
-Use semantic versioning:
-
-- Patch: `2.0.0 -> 2.0.1` for backward-compatible fixes.
-- Minor: `2.0.0 -> 2.1.0` for backward-compatible features.
-- Major: `2.0.0 -> 3.0.0` for breaking changes.
-
-The version in `package.json` is the source of truth.
-
-## Recommended release process
-
-1. Merge all changes that should be included in the release.
-2. Make sure `main` is green.
-3. Update only to a new stable version in `package.json` through a normal pull request.
-4. Let the required CI checks pass.
-5. Squash-merge the version bump pull request into `main`.
-
-**Once the separate release-sequencing PR is merged**, a successful `main` CI gates Pages deployment, and successful **same-SHA Pages** in turn triggers the Release workflow. The Release independently confirms both CI and Pages checks against the current main commit, skips already published stable tags, and refuses stale code. Before that PR is merged, release still triggers independently on the relevant `main` push.
-
-The workflow will:
-
-- ignore `package.json` edits that do not change the version;
-- reject non-stable SemVer versions;
-- enforce the stable dependency policy;
-- install with the frozen pnpm lockfile;
-- run TypeScript and strict critical boundary checks, bilingual-label audit, lint and unit tests;
-- build production assets, verify the **Workbox app-shell precache**, and enforce the performance budget;
-- package the complete `dist/` output as `pagevela-X.Y.Z.zip` and `pagevela-X.Y.Z.tar.gz`;
-- generate `SHA256SUMS.txt` **before creating any tag**;
-- recheck current `main`, then create or reuse an annotated `vX.Y.Z` tag only for a not-yet-published version;
-- publish the new GitHub Release with automatically generated release notes, never overwriting historical assets.
-
-## Manual fallback
-
-For a first-publish retry **after the sequencing change merges**, open **Actions -> Release -> Run workflow**, select `main`, and enter exactly the stable version in `package.json`. The workflow checks that **the current `main` SHA has already passed full push-triggered CI and CI-gated Pages deployment**. It cannot bypass either gate or republish an existing version.
-
-## Failed releases
-
-A first publication can be retried when a same-commit tag exists but its GitHub Release has not yet been created. **Already published ZIP/TAR/SHA256 assets are immutable**: a retry must never use `gh release upload --clobber`, retag, or replace those files. Existing releases are skipped; if a publication partially fails, inspect the tag, asset integrity, CI and Pages status before repair. The workflow checks that `main` did not move before tagging and again before publishing.
+- [发布、安全与部署验收台账](docs/RELEASE_SECURITY_ACCEPTANCE_20261123.md) · [项目状态](docs/PROJECT_STATUS.md) · [Security Inventory](https://github.com/kunlong-luo/pagevela/actions/workflows/security-inventory.yml)
+- [#298](https://github.com/kunlong-luo/pagevela/issues/298)：完整 GitHub Dependabot 告警与 Workbox 旧依赖链。
+- [#262](https://github.com/kunlong-luo/pagevela/issues/262)：Android/微信真机设备矩阵，自动化浏览器通过不构成系统打印及离线真机认证。
+- [#202](https://github.com/kunlong-luo/pagevela/issues/202)：商标与站外平台外部手续不因 GitHub 发版自动完成。

@@ -39,6 +39,7 @@
 
 - [Documentation index](docs/README.md) — guides, architecture, brand and historical records
 - [Dated project status](docs/PROJECT_STATUS.md) — CI / deployment verification, open risks and issue ownership
+- [Release and security acceptance (2026-11-23)](docs/RELEASE_SECURITY_ACCEPTANCE_20261123.md) — CI → Pages → Release sequence, PWA offline and dependency-audit evidence
 - [Project assessment (2026-11-22)](docs/ASSESSMENT_20261122.md) — evidence-based scores and priorities
 - [Release process](RELEASING.md) · [Contributing](CONTRIBUTING.md) · [Workspace migration](docs/WORKSPACE_TRANSFER.md)
 

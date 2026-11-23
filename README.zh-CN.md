@@ -39,6 +39,7 @@
 
 - [文档总索引](docs/README.md)：使用指南、架构、品牌、历史资料统一入口
 - [项目状态快照](docs/PROJECT_STATUS.md)：已核验的 CI／Pages 状态与待办事项
+- [2026-11-23 发布与安全验收台账](docs/RELEASE_SECURITY_ACCEPTANCE_20261123.md)：最新 CI → Pages → Release 门禁、PWA 离线与依赖审计证据
 - [2026-11-22 项目评估](docs/ASSESSMENT_20261122.md)：评分依据、技术风险和优化优先级
 - [版本发布流程](RELEASING.md) · [贡献指南](CONTRIBUTING.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md)
 
