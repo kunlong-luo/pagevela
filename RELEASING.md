@@ -18,7 +18,7 @@ v2.8.2 (2026-10-25) is the latest verified stable release: [Release](https://git
 
 The GitHub Release title and tag use **Pagevela**, while distributable file names now use `pagevela-X.Y.Z.zip`, `pagevela-X.Y.Z.tar.gz`, and `SHA256SUMS.txt` for all new stable releases. These are the current branded filenames, not a promise that historic archive names were changed. Historical release archives and checksums remain unchanged.
 
-**Release sequencing upgrade in review (not yet on `main`):** the proposed Release workflow listens to `workflow_run` for a **successful push-triggered full `CI` on `main`**, not directly to `package.json` pushes; it checks the exact CI `head_sha` against the current protected main before packaging/tagging. Manual dispatches require a successful full main-push CI for that exact source SHA too. Published Release assets and historic tags are never clobbered. This is separate from the already established `Deploy Pages` `workflow_run` gate; a successful Release still does **not** certify that same-SHA Pages deployment finished. Until this proposal is merged, the current Release workflow still has the older, independent push trigger.
+**Release sequencing upgrade in review (not yet on `main`):** the proposed Release workflow listens to successful **`Deploy Pages` completion** instead of independently reacting to `package.json` pushes. Pages itself already requires a successful full push-triggered `CI` on `main` and rejects stale SHAs. Before creating a Release, the new gate independently checks both successful **full CI and Pages on exactly the current `main` SHA** against GitHub Actions. Manual dispatches must pass the same two checks; an operator cannot bypass them. Published ZIP/TAR/SHA256 assets and historic tags are never overwritten. Until this proposal is merged, the current Release workflow retains its old independent push trigger.
 
 ## Versioning
 
@@ -38,7 +38,7 @@ The version in `package.json` is the source of truth.
 4. Let the required CI checks pass.
 5. Squash-merge the version bump pull request into `main`.
 
-**Once the separate release-sequencing PR is merged**, a successful full main-push CI triggers the Release workflow. It checks the new version in `package.json`, skips when the existing stable tag is already published, and refuses stale source commits. Before that PR is merged, the release workflow still triggers independently on the relevant `main` push.
+**Once the separate release-sequencing PR is merged**, a successful `main` CI gates Pages deployment, and successful **same-SHA Pages** in turn triggers the Release workflow. The Release independently confirms both CI and Pages checks against the current main commit, skips already published stable tags, and refuses stale code. Before that PR is merged, release still triggers independently on the relevant `main` push.
 
 The workflow will:
 
@@ -55,7 +55,7 @@ The workflow will:
 
 ## Manual fallback
 
-For a first-publish retry **after the sequencing change merges**, open **Actions -> Release -> Run workflow**, select `main`, and enter exactly the stable version in `package.json`. The workflow checks that **the current `main` SHA has already passed full push-triggered CI**. It cannot be used to bypass the CI gate or republish an already published version.
+For a first-publish retry **after the sequencing change merges**, open **Actions -> Release -> Run workflow**, select `main`, and enter exactly the stable version in `package.json`. The workflow checks that **the current `main` SHA has already passed full push-triggered CI and CI-gated Pages deployment**. It cannot bypass either gate or republish an existing version.
 
 ## Failed releases
 
