@@ -164,6 +164,7 @@ settings:
 
 overrides:
   minimatch@>=7.0.0 <11.0.1: 11.0.9
+  'workbox-build@7.4.1>glob': 14.0.3
 
 importers:
 
@@ -5536,8 +5537,10 @@ snapshots:
       is-glob: 4.0.3
 
   glob@14.0.3:
-    resolution: {integrity: sha512-A1vjIwC3qpdCso45Iw127gnp7sPhqgY8lUQhDrArIs+GbmfaaVPFuoyy7WyLT9EPZCRZ7j7aLdwUhQmHWesEow==}
-    engines: {node: 18 || 20 || >=22}
+    dependencies:
+      minimatch: 11.0.9
+      minipass: 7.1.3
+      path-scurry: 3.0.0
 
   globalthis@1.0.4:
     dependencies:
@@ -6337,8 +6340,9 @@ snapshots:
   path-parse@1.0.7: {}
 
   path-scurry@3.0.0:
-    resolution: {integrity: sha512-1pTbQqH1wIwMi/eleQ5leFTTCkzFsPcgXNjwOA8YGGW/W4/kHT3dssE7Z6NH+zuqNLOzOB0uaD61yl7cAcVhgg==}
-    engines: {node: 18 || 20 || >=22}
+    dependencies:
+      lru-cache: 11.5.3
+      minipass: 7.1.3
 
   pdfjs-dist@6.5.438:
     optionalDependencies:
