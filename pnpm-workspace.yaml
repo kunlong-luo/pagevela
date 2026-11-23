@@ -2,6 +2,9 @@
 # Keep the PWA/Workbox filelist v5 API unchanged until upstream supports v11.
 overrides:
   minimatch@>=7.0.0 <11.0.1: 11.0.9
+  # glob v11 does not correctly precache assets with the minimatch v11 fix.
+  # Scope the compatible patched glob major to Workbox's build-time edge.
+  'workbox-build@7.4.1>glob': 14.0.3
 
 allowBuilds:
   '@google/genai': true
