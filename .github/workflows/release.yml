@@ -1,21 +1,22 @@
 name: Release
 
+# Only a successful full push-triggered main CI can trigger automatic tagging.
+# Manual retries must independently prove full CI success for the exact main SHA.
 on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
     inputs:
       version:
-        description: Stable release version (for example 2.0.1)
+        description: Stable release version already set in package.json
         required: true
         type: string
-  push:
-    branches:
-      - main
-    paths:
-      - package.json
-      - .github/workflows/release.yml
 
 permissions:
   contents: write
+  actions: read
 
 concurrency:
   group: release
@@ -24,6 +25,11 @@ concurrency:
 jobs:
   release:
     name: Build & Release
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -31,72 +37,83 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || 'main' }}
           fetch-depth: 0
+
+      - name: Verify full main-push CI and exact current SHA
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CI_SOURCE_SHA: ${{ github.event.workflow_run.head_sha }}
+          CI_SOURCE_REPO: ${{ github.event.workflow_run.head_repository.full_name }}
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ] && [ "${GITHUB_REF}" != "refs/heads/main" ]; then
+            echo "::error::Manual releases are allowed only from main."
+            exit 1
+          fi
+          LOCAL_SHA="$(git rev-parse HEAD)"
+          MAIN_SHA="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [ -z "${MAIN_SHA}" ] || [ "${LOCAL_SHA}" != "${MAIN_SHA}" ]; then
+            echo "::error::Release source is not the current main commit."
+            exit 1
+          fi
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_run" ]; then
+            if [ "${CI_SOURCE_SHA}" != "${LOCAL_SHA}" ] || [ "${CI_SOURCE_REPO}" != "${GITHUB_REPOSITORY}" ]; then
+              echo "::error::Successful CI run does not describe the current repository/main SHA."
+              exit 1
+            fi
+            echo "Main push CI completed successfully for ${LOCAL_SHA}."
+          else
+            # Manual dispatch does not bypass the full, successful main-push CI.
+            gh api "repos/${GITHUB_REPOSITORY}/actions/runs?head_sha=${LOCAL_SHA}&event=push&status=success&per_page=100" |
+              jq -e --arg sha "${LOCAL_SHA}"                 'any(.workflow_runs[]; .name == "CI" and .head_sha == $sha and .head_branch == "main" and .event == "push" and .conclusion == "success")' > /dev/null || {
+                  echo "::error::No successful full push-triggered CI for the current main SHA."
+                  exit 1
+                }
+            echo "Verified successful full main-push CI for manual retry at ${LOCAL_SHA}."
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: .node-version
 
-      - name: Resolve release version
+      - name: Resolve release version (never rewrite published assets)
         id: version
         shell: bash
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT_VERSION: ${{ inputs.version }}
-          BEFORE_SHA: ${{ github.event.before }}
         run: |
           set -euo pipefail
-
           PACKAGE_VERSION="$(node -p "require('./package.json').version")"
-
-          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
-            if [ "${GITHUB_REF}" != "refs/heads/main" ]; then
-              echo "Manual releases must run from the main branch."
-              exit 1
-            fi
-            VERSION="${INPUT_VERSION}"
-            SHOULD_RELEASE=true
-          else
-            VERSION="${PACKAGE_VERSION}"
-
-            if [ -z "${BEFORE_SHA}" ] || printf '%s' "${BEFORE_SHA}" | grep -Eq '^0+$'; then
-              PREVIOUS_VERSION=""
-            else
-              PREVIOUS_VERSION="$(git show "${BEFORE_SHA}:package.json" 2>/dev/null | node -e "let d=''; process.stdin.on('data',c=>d+=c); process.stdin.on('end',()=>console.log(JSON.parse(d).version))" || true)"
-            fi
-
-            if [ "${PREVIOUS_VERSION}" = "${VERSION}" ]; then
-              # A failed initial release may leave the package version updated
-              # without creating the tag. A reviewed workflow fix can safely
-              # retry that version, but never recreate an existing tag.
-              if git rev-parse --verify "refs/tags/v${VERSION}" >/dev/null 2>&1; then
-                echo "Package version unchanged and release tag exists; skipping."
-                SHOULD_RELEASE=false
-              else
-                echo "Tag v${VERSION} absent; retrying an unpublished stable release."
-                SHOULD_RELEASE=true
-              fi
-            else
-              echo "Detected version change: ${PREVIOUS_VERSION:-unknown} -> ${VERSION}"
-              SHOULD_RELEASE=true
-            fi
+          VERSION="${PACKAGE_VERSION}"
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ] && [ "${INPUT_VERSION}" != "${PACKAGE_VERSION}" ]; then
+            echo "::error::Manual release version must equal package.json version."
+            exit 1
           fi
-
+          if ! printf '%s' "${VERSION}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Only stable X.Y.Z versions are allowed."
+            exit 1
+          fi
           TAG="v${VERSION}"
-
-          if [ "${SHOULD_RELEASE}" = "true" ]; then
-            if ! printf '%s' "${VERSION}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
-              echo "Release versions must be stable SemVer only, for example 2.0.1."
-              echo "Pre-release versions such as alpha, beta, rc, canary, next, or nightly are not allowed."
-              exit 1
-            fi
-
-            if [ "${PACKAGE_VERSION}" != "${VERSION}" ]; then
-              echo "package.json version (${PACKAGE_VERSION}) does not match release version (${VERSION})."
-              exit 1
+          SHOULD_RELEASE=true
+          if git rev-parse --verify "refs/tags/${TAG}" >/dev/null 2>&1; then
+            TAG_SHA="$(git rev-list -n 1 "${TAG}")"
+            LOCAL_SHA="$(git rev-parse HEAD)"
+            if [ "${TAG_SHA}" != "${LOCAL_SHA}" ]; then
+              # Normal main pushes after a release keep the old package version.
+              # Do not re-tag or mutate the historical assets, even manually.
+              echo "Existing ${TAG} belongs to ${TAG_SHA}; leaving published release unchanged."
+              SHOULD_RELEASE=false
+            elif gh release view "${TAG}" >/dev/null 2>&1; then
+              echo "Release ${TAG} already exists; never overwrite its assets."
+              SHOULD_RELEASE=false
+            else
+              echo "Existing tag ${TAG} points to the same SHA but Release is absent; resume initial publication."
             fi
           fi
-
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
           echo "tag=${TAG}" >> "${GITHUB_OUTPUT}"
           echo "should_release=${SHOULD_RELEASE}" >> "${GITHUB_OUTPUT}"
@@ -139,30 +156,6 @@ jobs:
         if: steps.version.outputs.should_release == 'true'
         run: pnpm run perf:budget
 
-      - name: Create release tag
-        if: steps.version.outputs.should_release == 'true'
-        shell: bash
-        env:
-          TAG: ${{ steps.version.outputs.tag }}
-        run: |
-          set -euo pipefail
-
-          git fetch --tags --force
-
-          if git rev-parse "${TAG}" >/dev/null 2>&1; then
-            TAG_SHA="$(git rev-list -n 1 "${TAG}")"
-            if [ "${TAG_SHA}" != "${GITHUB_SHA}" ]; then
-              echo "Tag ${TAG} already exists on a different commit."
-              exit 1
-            fi
-            echo "Tag ${TAG} already exists on this commit; reusing it."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git tag -a "${TAG}" -m "Pagevela ${TAG}"
-            git push origin "${TAG}"
-          fi
-
       - name: Package release assets
         if: steps.version.outputs.should_release == 'true'
         shell: bash
@@ -175,9 +168,43 @@ jobs:
             zip -r "../pagevela-${VERSION}.zip" .
             tar -czf "../pagevela-${VERSION}.tar.gz" .
           )
-          sha256sum             "pagevela-${VERSION}.zip"             "pagevela-${VERSION}.tar.gz"             > SHA256SUMS.txt
+          sha256sum "pagevela-${VERSION}.zip"             "pagevela-${VERSION}.tar.gz"             > SHA256SUMS.txt
 
-      - name: Publish GitHub Release
+      - name: Refuse a superseded main commit before tagging
+        if: steps.version.outputs.should_release == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          LOCAL_SHA="$(git rev-parse HEAD)"
+          MAIN_SHA="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [ -z "${MAIN_SHA}" ] || [ "${LOCAL_SHA}" != "${MAIN_SHA}" ]; then
+            echo "::error::main advanced during release build; refusing to tag stale artifacts."
+            exit 1
+          fi
+
+      - name: Create release tag
+        if: steps.version.outputs.should_release == 'true'
+        shell: bash
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git fetch --tags --force
+          if git rev-parse --verify "refs/tags/${TAG}" >/dev/null 2>&1; then
+            TAG_SHA="$(git rev-list -n 1 "${TAG}")"
+            if [ "${TAG_SHA}" != "$(git rev-parse HEAD)" ]; then
+              echo "::error::Tag ${TAG} already points to a different commit."
+              exit 1
+            fi
+            echo "Reusing same-commit tag ${TAG} for an unpublished Release."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git tag -a "${TAG}" -m "Pagevela ${TAG}"
+            git push origin "${TAG}"
+          fi
+
+      - name: Publish GitHub Release without replacing assets
         if: steps.version.outputs.should_release == 'true'
         shell: bash
         env:
@@ -186,16 +213,21 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
-
-          ASSETS=(
-            "pagevela-${VERSION}.zip"
-            "pagevela-${VERSION}.tar.gz"
-            "SHA256SUMS.txt"
-          )
-
-          if gh release view "${TAG}" >/dev/null 2>&1; then
-            echo "Release ${TAG} already exists; refreshing assets."
-            gh release upload "${TAG}" "${ASSETS[@]}" --clobber
-          else
-            gh release create "${TAG}" "${ASSETS[@]}"               --verify-tag               --title "Pagevela ${TAG}"               --generate-notes               --latest
+          LOCAL_SHA="$(git rev-parse HEAD)"
+          MAIN_SHA="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [ -z "${MAIN_SHA}" ] || [ "${LOCAL_SHA}" != "${MAIN_SHA}" ]; then
+            echo "::error::main changed before release publication; refusing stale assets."
+            exit 1
           fi
+          if gh release view "${TAG}" >/dev/null 2>&1; then
+            echo "::error::Release ${TAG} already exists; refusing to overwrite published assets."
+            exit 1
+          fi
+          gh release create "${TAG}" \
+            "pagevela-${VERSION}.zip" \
+            "pagevela-${VERSION}.tar.gz" \
+            "SHA256SUMS.txt" \
+            --verify-tag \
+            --title "Pagevela ${TAG}" \
+            --generate-notes \
+            --latest
