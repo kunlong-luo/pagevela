@@ -1,0 +1,75 @@
+name: Security Inventory (report only)
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    paths:
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - scripts/summarize-security-audit.mjs
+      - .github/workflows/security-inventory.yml
+  schedule:
+    - cron: '29 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-inventory-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  registry-audit:
+    name: registry-audit (report-only, findings require review)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: .node-version
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+        with:
+          version: 12.6.0
+
+      - name: Verify frozen dependency graph
+        run: pnpm install --frozen-lockfile
+
+      # This is an inventory. Known findings are not silently ignored:
+      # the report lists advisory IDs, marks the step summary, and uploads
+      # full JSON. Registry/query/parse failures still make this job fail.
+      - name: Query npm security advisory registry
+        id: audit
+        shell: bash
+        run: |
+          set +e
+          pnpm audit --json --audit-level=low > security-audit.json 2> security-audit.stderr
+          exit_code=$?
+          set -e
+          echo "exit_code=${exit_code}" >> "$GITHUB_OUTPUT"
+          echo "pnpm audit exit code: ${exit_code}"
+
+      - name: Summarize actionable advisory inventory
+        id: report
+        run: node scripts/summarize-security-audit.mjs security-audit.json "${{ steps.audit.outputs.exit_code }}"
+
+      - name: Upload registry audit report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: pnpm-security-inventory
+          path: |
+            security-audit.json
+            security-audit.stderr
+          if-no-files-found: warn
+          retention-days: 14

@@ -1,5 +1,14 @@
 # Pagevela 状态快照 / Project status
 
+> **最新复核：2026-11-23（本段取代下方 11-22 的历史状态，不代表持续实时监控）**  
+> 受保护的 `main` 为 [`37bb6ae`](https://github.com/kunlong-luo/pagevela/commit/37bb6aec3b1b90d47ecd9cdc294ab7331802b68c)。[同 SHA 完整 CI #45142496880](https://github.com/kunlong-luo/pagevela/actions/runs/45142496880) 已通过：质量、Chromium 全量、Firefox/WebKit 全量分片、PWA 生产离线导航及最终 `build-and-test`；[CodeQL #45142496687](https://github.com/kunlong-luo/pagevela/actions/runs/45142496687) 与 [Pages #45144232065](https://github.com/kunlong-luo/pagevela/actions/runs/45144232065) 均成功。  
+> 本次复核时的**最新正式下载包仍为 [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)**（2026-10-25），不是 `37bb6ae` 的重新打包版本。  
+> 安全状态：[#300](https://github.com/kunlong-luo/pagevela/pull/300) 的 minimatch 修复与 [#301](https://github.com/kunlong-luo/pagevela/pull/301) 的 glob/PWA 修复已部署，[#302](https://github.com/kunlong-luo/pagevela/issues/302) 已关闭；[#298](https://github.com/kunlong-luo/pagevela/issues/298) 仍跟踪 Workbox 旧依赖与 GitHub 私有告警核对。  
+> [PR #303](https://github.com/kunlong-luo/pagevela/pull/303) 正在独立验收 Release 预缓存门禁与 npm 注册表审计。PR 内的 [Security Inventory #45151226793](https://github.com/kunlong-luo/pagevela/actions/runs/45151226793) 对当前锁文件返回 **0 条注册表公告**；这不等于完整 GitHub Dependabot 告警数为 0。**PR 尚未合并，不能把其代码归于 `main`。**  
+> 剩余产品问题：[架构 #282](https://github.com/kunlong-luo/pagevela/issues/282)、[Android 真机 #262](https://github.com/kunlong-luo/pagevela/issues/262)、[品牌 #202](https://github.com/kunlong-luo/pagevela/issues/202)、[中文照片 #200](https://github.com/kunlong-luo/pagevela/issues/200)、[旧版本验收 #115](https://github.com/kunlong-luo/pagevela/issues/115)。Android 微信人工通过记录不等于 Android 系统离线/PDF 打印也已测试。  
+
+---
+
 > **2026-11-22 补充核验（以下失败记录已被后续修复所取代）：** [PR #292](https://github.com/kunlong-luo/pagevela/pull/292) 已合并到 `main`，提交 `93d3d8a5a11e9c7bc072a326c2f0b53eabc075c7`。该 SHA 的 [完整主分支 CI #45021860745](https://github.com/kunlong-luo/pagevela/actions/runs/45021860745) 成功（quality / Chromium / Firefox / WebKit / `build-and-test`），[同 SHA Pages #45022812621](https://github.com/kunlong-luo/pagevela/actions/runs/45022812621) 成功。原 `992374a` 的分栏双击复位回归已经完成修复与部署闭环。后续草稿并发修复 [PR #293](https://github.com/kunlong-luo/pagevela/pull/293) **仍待独立 CI/合并/部署验收**。正式 GitHub Release 仍为 v2.8.2，不能把新版源码称为已重新打包的发布资产。
 
 **核验日期：2026-11-22（基于当日 GitHub Actions 和 `main`）**。这是一份可追溯的**定时快照**，并非实时监控。新 PR 可能改变下面的结果；查看 [最新 Actions](https://github.com/kunlong-luo/pagevela/actions) 和 [分支](https://github.com/kunlong-luo/pagevela/branches) 后再作当前发布判断。

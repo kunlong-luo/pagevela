@@ -117,7 +117,11 @@ jobs:
 
       - name: Typecheck / Lint
         if: steps.version.outputs.should_release == 'true'
-        run: pnpm run lint
+        run: |
+          pnpm run typecheck
+          pnpm run typecheck:critical
+          pnpm run i18n:audit
+          pnpm run lint
 
       - name: Run tests
         if: steps.version.outputs.should_release == 'true'
@@ -126,6 +130,14 @@ jobs:
       - name: Build production assets
         if: steps.version.outputs.should_release == 'true'
         run: pnpm run build
+
+      - name: Verify production PWA app-shell precache
+        if: steps.version.outputs.should_release == 'true'
+        run: node scripts/check-pwa-precache.mjs
+
+      - name: Enforce performance budget
+        if: steps.version.outputs.should_release == 'true'
+        run: pnpm run perf:budget
 
       - name: Create release tag
         if: steps.version.outputs.should_release == 'true'
