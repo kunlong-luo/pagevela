@@ -10,7 +10,7 @@
 | [#300](https://github.com/kunlong-luo/pagevela/pull/300)、[#301](https://github.com/kunlong-luo/pagevela/pull/301) | 修补 minimatch v10 与 Workbox glob；恢复生产 PWA 预缓存及离线导航测试 | [main `37bb6ae` CI](https://github.com/kunlong-luo/pagevela/actions/runs/45142496880) + [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45144232065) |
 | [#303](https://github.com/kunlong-luo/pagevela/pull/303) → [`93a0941`](https://github.com/kunlong-luo/pagevela/commit/93a0941afc6d782c549caa848e0798fc6509c44b) | 发布包 PWA 预缓存/性能/类型门禁；每周、手动、PR 的 npm 只读依赖清单 | [full main CI #45154252875](https://github.com/kunlong-luo/pagevela/actions/runs/45154252875)、[Pages #45156598771](https://github.com/kunlong-luo/pagevela/actions/runs/45156598771)、[audit #45154252948](https://github.com/kunlong-luo/pagevela/actions/runs/45154252948) 全成功 |
 | [#304](https://github.com/kunlong-luo/pagevela/pull/304) → [`8bc0a0a`](https://github.com/kunlong-luo/pagevela/commit/8bc0a0aaab4d0a885b5a8d3ec25bca19ac58a15d) | 新 Release 必须等待成功 CI + 同 SHA Pages；禁止覆盖旧标签与发布资产 | [PR CI #45156899016](https://github.com/kunlong-luo/pagevela/actions/runs/45156899016) 及 [main CI #45159218348](https://github.com/kunlong-luo/pagevela/actions/runs/45159218348) **全部成功**；[Pages #45161571611](https://github.com/kunlong-luo/pagevela/actions/runs/45161571611) 因 `main` 先进到 `84ae706` 被防过期门禁阻止，原 SHA 未上线；关联 Release 未发布资产 |
-| [#305](https://github.com/kunlong-luo/pagevela/pull/305) → [`84ae706`](https://github.com/kunlong-luo/pagevela/commit/84ae706823ee2f7175f11da2e07de5343ae7c430) | 发布指南与中英文 README 更新、历史状态归档、证据台账及安全策略同步 | [PR CI #45159967258](https://github.com/kunlong-luo/pagevela/actions/runs/45159967258)、[安全审计 #45159967313](https://github.com/kunlong-luo/pagevela/actions/runs/45159967313)、CodeQL 均成功；[main CI #45161614275](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275) **本次快照仍在执行**，同 SHA Pages 尚未验证；先前不成功 Pages 触发的 [Release #45161668213](https://github.com/kunlong-luo/pagevela/actions/runs/45161668213) 正确 skipped |
+| [#305](https://github.com/kunlong-luo/pagevela/pull/305) → [`84ae706`](https://github.com/kunlong-luo/pagevela/commit/84ae706823ee2f7175f11da2e07de5343ae7c430) | 发布指南与中英文 README 更新、历史状态归档、证据台账及安全策略同步 | [PR CI #45159967258](https://github.com/kunlong-luo/pagevela/actions/runs/45159967258)、[安全审计 #45159967313](https://github.com/kunlong-luo/pagevela/actions/runs/45159967313)、CodeQL 均成功；[main CI #45161614275](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275) success、[同 SHA Pages #45163532567](https://github.com/kunlong-luo/pagevela/actions/runs/45163532567) build / deploy success；[Release #45163664593](https://github.com/kunlong-luo/pagevela/actions/runs/45163664593) success 且明确跳过已发布 `v2.8.2` 的新标签、压缩包与附件上传；先前失败 Pages 触发的 [#45161668213](https://github.com/kunlong-luo/pagevela/actions/runs/45161668213) 也正确 skipped |
 
 ## 验收边界
 
@@ -30,13 +30,14 @@
 ### 发行标签与归档
 
 - 最新实际正式 Release 仍是 [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)，对应历史 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/40202793334) 和 [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/40203720040)。其 ZIP/TAR/校验和不受本次源码合并影响。
-- [#304](https://github.com/kunlong-luo/pagevela/pull/304) 已将未来发布顺序改为 `CI (main push) → Deploy Pages (CI successful) → Release (Pages successful)`，`Release` 会额外校验两个工作流最终任务的结果、当前 SHA、冻结依赖图、预缓存和性能，并拒绝 `--clobber`。**新规则的实际首次发布仍需运行证据，不能把“规则写入”误记成“已打包新版本”。**
+- [#304](https://github.com/kunlong-luo/pagevela/pull/304) 已将未来发布顺序改为 `CI (main push) → Deploy Pages (CI successful) → Release (Pages successful)`，`Release` 会额外校验两个工作流最终任务的结果、当前 SHA、冻结依赖图、预缓存和性能，并拒绝 `--clobber`。**`84ae706` 已验证正常成功链路会跳过已发布的 `v2.8.2` 标签/归档；真正创建一个新版本的流程仍无实际新标签运行证据，不能把“安全跳过”误记成“已成功打包新版本”。**
 
 ## 后续完成条件
 
 - [x] `8bc0a0a` [main-push CI #45159218348](https://github.com/kunlong-luo/pagevela/actions/runs/45159218348) 全部 job 成功（含最终 `build-and-test`）；其 Pages 因 main 已更新到 `84ae706` 而正确拒绝过期构建，不将此记录为部署成功。
 - [x] [Release #45161668213](https://github.com/kunlong-luo/pagevela/actions/runs/45161668213) 在上游 Pages 失败后被跳过；未提前打标签或覆盖历史附件。
-- [ ] 当前 `84ae706` [main CI #45161614275](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275) 的剩余 WebKit 和最终 `build-and-test`、同 SHA Pages build / deploy，以及之后 Release 对 `v2.8.2` 的实际安全跳过全部核对。
+- [x] `84ae706` 的 [main CI #45161614275](https://github.com/kunlong-luo/pagevela/actions/runs/45161614275) 全部通过（包含最终 `build-and-test`）；[Pages #45163532567](https://github.com/kunlong-luo/pagevela/actions/runs/45163532567) 同 SHA build 和 deploy 成功；[Release #45163664593](https://github.com/kunlong-luo/pagevela/actions/runs/45163664593) 验证上游后正确跳过已有 `v2.8.2` 的打包、标签和上传。
+- [ ] 本次文档跟进 PR #306 完整 CI、合并后的同 SHA Pages 与 Release 安全跳过仍需另行核对；不可将先前 `84ae706` 的部署当作新文档 SHA 已部署。
 - [ ] 后续有实际版本升级时，核验成功 CI → Pages → Release 的完整证据及 ZIP/TAR/SHA256SUMS 校验结果。
 - [ ] [#298](https://github.com/kunlong-luo/pagevela/issues/298) 私有 Dependabot 告警核查；[#262](https://github.com/kunlong-luo/pagevela/issues/262) Android 专项；[#202](https://github.com/kunlong-luo/pagevela/issues/202) 商标与站外平台审核；[#282](https://github.com/kunlong-luo/pagevela/issues/282) 编辑器/Store/导出模块渐进拆分。
 
