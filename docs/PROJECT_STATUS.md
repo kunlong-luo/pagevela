@@ -4,7 +4,7 @@
 > [PR #303](https://github.com/kunlong-luo/pagevela/pull/303) 已成功自动合并，当前 `main` 为 [`93a0941`](https://github.com/kunlong-luo/pagevela/commit/93a0941afc6d782c549caa848e0798fc6509c44b)。安全审计与 Release 预缓存/性能/严格类型检查已进入主分支；[该 SHA 的 Security Inventory](https://github.com/kunlong-luo/pagevela/actions/runs/45154252948) 和 CodeQL 成功。  
 > [完整 `main` CI #45154252875](https://github.com/kunlong-luo/pagevela/actions/runs/45154252875) 正在执行，截至本次快照 Chromium（含实际生产 PWA 离线导航）、Firefox 2/2 和 WebKit 1/2 均通过，**WebKit 2/2 和最终 `build-and-test` 尚未确认**；同 SHA Pages 仍需独立验证。  
 > 最近一次完整主分支 CI 与 Pages **均确认通过**的基线为前一提交 `37bb6ae`：[CI](https://github.com/kunlong-luo/pagevela/actions/runs/45142496880) · [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45144232065)。这并不等同于 `93a0941` 已上线。  
-> [Release #45154253183](https://github.com/kunlong-luo/pagevela/actions/runs/45154253183) 检测到版本未改变，**未创建新标签或下载包**；最新正式 Release 仍为 [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)（2026-10-25）。新分支正在提议让以后的 Release **等待成功的完整 `main` CI**，并禁止手动覆盖历史发布资产；它尚未合并。  
+> [Release #45154253183](https://github.com/kunlong-luo/pagevela/actions/runs/45154253183) 检测到版本未改变，**未创建新标签或下载包**；最新正式 Release 仍为 [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)（2026-10-25）。新分支正在提议让以后 Release **等待完整 `main` CI 与同 SHA Pages 均成功**，并禁止手动覆盖历史发布资产；它尚未合并。  
 > npm 注册表审计返回 **0 条已知漏洞公告**，不等于登录后 GitHub Dependabot 私有告警总量已核实为 0；[#298](https://github.com/kunlong-luo/pagevela/issues/298) 保持开放。Android 微信负责人已确认的 PASS 不覆盖未核实的系统打印与离线真机场景（[#262](https://github.com/kunlong-luo/pagevela/issues/262)）。  
 
 ---
