@@ -1,6 +1,6 @@
 # Pagevela 项目状态 / Project status
 
-> **v2.8.4 验收提示：** 本页下方的 `a8ec3ae` 是**升版前**已完成的源码/部署基线。v2.8.4 是否发布成功，请独立核对 [Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)、新版本的完整 main CI、同 SHA Pages 与[验收表](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)，不能复用旧成功记录。
+> **v2.8.4 已正式发布（2026-11-24）：** tag `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`，[main 完整 CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) + [同 SHA Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) + [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均 success；v2.8.4 ZIP/TAR.GZ/SHA256SUMS 已附，但**独立下载/解压及 SHA256 复算仍未验收**。以下 `a8ec3ae` 表为正式升版前的已部署功能快照，而非最新提交。详见 [v2.8.4 验收表](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
 
 
 > **核验日期：2026-11-24。** 本页是最近一次已核验的工程状态快照，不是实时 CI 面板。判断后续代码是否已上线，请分别查看 [main](https://github.com/kunlong-luo/pagevela/commits/main)、[Actions](https://github.com/kunlong-luo/pagevela/actions)、[Releases](https://github.com/kunlong-luo/pagevela/releases)。
