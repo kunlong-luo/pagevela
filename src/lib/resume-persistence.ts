@@ -1,5 +1,6 @@
 import type { ResumeProfile } from '../types';
-import { resumeRepository } from './resume-repository';
+import { persistActiveResumeIfUnchanged } from './resume-repository';
+import type { ActiveResumeBaseline } from './resume-active-conflict';
 import { STORAGE_HEALTH_EVENT } from './storage';
 import { acknowledgeSavedProfileSettings } from './pending-profile-settings';
 import { RESUME_DB_WRITE_LOCK_NAME } from './resume-storage-contract';
@@ -8,6 +9,17 @@ export interface PersistedResumeSnapshot {
   markdown: string;
   profiles: ResumeProfile[];
   jdText: string;
+}
+
+/**
+ * The saved document in another tab is authoritative on a conflict. The local
+ * text/layout is preserved as manual recovery drafts, never silently merged.
+ */
+export class ActiveResumeWriteConflictError extends Error {
+  constructor() {
+    super('active-resume-conflict');
+    this.name = 'ActiveResumeWriteConflictError';
+  }
 }
 
 const DEFAULT_DEBOUNCE_MS = 350;
@@ -26,8 +38,24 @@ export function createResumePersistenceCoordinator(
   debounceMs = DEFAULT_DEBOUNCE_MS,
   dependencies: ResumePersistenceDependencies = {},
 ) {
-  const writeSnapshot = dependencies.writeSnapshot ?? ((snapshot: PersistedResumeSnapshot) =>
-    resumeRepository.saveSnapshot(snapshot));
+  let baseline: ActiveResumeBaseline | null = null;
+
+  // Keep injected writers for FIFO unit tests. Production uses an atomic
+  // read/compare/write under the existing shared lock, also safe without it.
+  const writeSnapshot = dependencies.writeSnapshot ?? (async (snapshot: PersistedResumeSnapshot) => {
+    if (baseline === null) {
+      // Failed bootstrap must not overwrite unknown IndexedDB contents.
+      throw new Error('missing-resume-persistence-baseline');
+    }
+    const recoveryId = `draft_conflict_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 11)}`;
+    const result = await persistActiveResumeIfUnchanged(snapshot, baseline, recoveryId);
+    if (result === 'conflict') throw new ActiveResumeWriteConflictError();
+    baseline = {
+      markdown: snapshot.markdown,
+      profiles: snapshot.profiles,
+      jdText: snapshot.jdText,
+    };
+  });
   const acknowledgeProfiles = dependencies.acknowledgeProfiles ?? acknowledgeSavedProfileSettings;
   let timer: ReturnType<typeof setTimeout> | null = null;
   let pending: PersistedResumeSnapshot | null = null;
@@ -44,10 +72,24 @@ export function createResumePersistenceCoordinator(
       detail: {
         status,
         operation: 'set',
-        key: 'indexeddb',
+        key: errorName === 'ActiveResumeWriteConflictError' ? 'indexeddb-conflict' : 'indexeddb',
         quotaExceeded: errorName === 'QuotaExceededError',
       },
     }));
+  };
+
+  /**
+   * Only call after a verified bootstrap read or an explicit, successfully
+   * committed workspace replacement, while the write queue is drained.
+   */
+  const setBaseline = (value: ActiveResumeBaseline) => {
+    baseline = {
+      markdown: value.markdown,
+      profiles: value.profiles,
+      jdText: value.jdText,
+    };
+    if (hasWriteFailure) emitHealth('recovered');
+    hasWriteFailure = false;
   };
 
   const persist = (snapshot: PersistedResumeSnapshot) => {
@@ -120,7 +162,7 @@ export function createResumePersistenceCoordinator(
     await flush();
   };
 
-  return { schedule, saveNow, flush, dispose };
+  return { schedule, saveNow, flush, dispose, setBaseline };
 }
 
 // Shared by the bootstrapped app and the explicit portable workspace importer.
