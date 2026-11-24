@@ -7,7 +7,6 @@ import { useResumeStore } from '../store/useResumeStore';
 import { useShallow } from 'zustand/react/shallow';
 import { useResumeActions } from '../hooks/useResumeActions';
 import { useToast } from './ui/Toast';
-import { smartAutoFit } from '../lib/preview-utils';
 import { Layers, Code, Eye } from 'lucide-react';
 import { PdfExportMenu } from './header/PdfExportMenu';
 import { Tooltip } from './ui/Tooltip';
@@ -107,16 +106,6 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  useEffect(() => {
-    const onAutoFit = () => {
-      const state = useResumeStore.getState();
-      smartAutoFit(state.settings, state.updateSetting);
-      trackAnalyticsEvent('auto_fit_used');
-    };
-    window.addEventListener('pagevela:auto-fit', onAutoFit);
-    return () => window.removeEventListener('pagevela:auto-fit', onAutoFit);
   }, []);
 
   const handlePdfExportComplete = useCallback(() => {

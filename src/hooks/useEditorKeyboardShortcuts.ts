@@ -102,9 +102,12 @@ export function useEditorKeyboardShortcuts({
     };
 
     const autoFit = () => {
+      const request = new Event('pagevela:auto-fit', { cancelable: true });
+      window.dispatchEvent(request);
+      trackAnalyticsEvent('auto_fit_used');
+      if (request.defaultPrevented) return; // Visible preview reports its own measured result.
       const currentState = useResumeStore.getState();
       const adjusted = smartAutoFit(currentState.settings, currentState.updateSetting);
-      trackAnalyticsEvent('auto_fit_used');
       showToast?.({
         title: adjusted
           ? (uiLanguage === 'en' ? 'Auto Fit adjusted' : '已收紧排版')

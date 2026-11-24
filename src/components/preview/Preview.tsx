@@ -17,6 +17,7 @@ import { usePaperMeasurement } from '../../hooks/usePaperMeasurement';
 import { getPaperMarginMm } from '../../lib/page-layout';
 import { getPaperSpec } from '../../lib/paper';
 import { trackAnalyticsEvent } from '../../lib/analytics';
+import { useMeasuredAutoFit } from '../../hooks/useMeasuredAutoFit';
 
 interface PreviewProps {
   overrideMarkdown?: string;
@@ -57,7 +58,6 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
   const fontClass = FONT_FAMILY_CLASSES[settings.fontFamily];
 
   const [targetPageLimit, setTargetPageLimit] = useState<1 | 2 | 3>(1);
-  const [isAutoFitting, setIsAutoFitting] = useState(false);
   const [mobilePageDetailsOpen, setMobilePageDetailsOpen] = useState(false);
 
   const paperSpec = useMemo(() => getPaperSpec(settings.paperSize), [settings.paperSize]);
@@ -76,7 +76,8 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
     zoomMode,
     setZoomMode,
     calculatedZoom,
-    metrics
+    metrics,
+    measurementRevision,
   } = usePaperMeasurement(
     elementRef,
     targetPageLimit,
@@ -85,63 +86,36 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
     paperSpec.id
   );
 
-  // Progressive smart auto-fit loop
+  const { isAutoFitting, startAutoFit } = useMeasuredAutoFit({
+    settings,
+    markdown: activeMarkdown,
+    profileId: activeProfileId,
+    target: targetPageLimit,
+    metrics,
+    measurementRevision,
+    unscaledHeight,
+    elementRef,
+    onChangeSettings,
+    uiLanguage,
+    // Shared/overridden previews never write local profile settings.
+    disabled: overrideMarkdown !== undefined || overrideSettings !== undefined || activeMarkdown !== markdown,
+  });
+
+  // When a live preview is visible, unify toolbar, shortcut and page guard
+  // entry points around its target-aware, measured fit loop.
   useEffect(() => {
-    if (!isAutoFitting || !onChangeSettings) return;
-
-    const runFitStep = () => {
-      if (metrics.isOver) {
-        let adjusted = false;
-
-        // Progressive compaction step-by-step
-        if (settings.margin === 'relaxed') {
-          onChangeSettings('margin', 'standard');
-          adjusted = true;
-        } else if (settings.margin === 'standard') {
-          onChangeSettings('margin', 'compact');
-          adjusted = true;
-        } else if (settings.blockGap > 0.8) {
-          onChangeSettings('blockGap', Math.max(0.6, Number((settings.blockGap - 0.1).toFixed(2))));
-          adjusted = true;
-        } else if (settings.lineHeight > 1.45) {
-          onChangeSettings('lineHeight', Math.max(1.35, Number((settings.lineHeight - 0.05).toFixed(2))));
-          adjusted = true;
-        } else if (settings.fontSize === 'relaxed') {
-          onChangeSettings('fontSize', 'standard');
-          adjusted = true;
-        } else if (settings.fontSize === 'standard') {
-          onChangeSettings('fontSize', 'compact');
-          adjusted = true;
-        } else if (settings.blockGap > 0.35) {
-          onChangeSettings('blockGap', Math.max(0.3, Number((settings.blockGap - 0.05).toFixed(2))));
-          adjusted = true;
-        } else if (settings.lineHeight > 1.25) {
-          onChangeSettings('lineHeight', Math.max(1.2, Number((settings.lineHeight - 0.05).toFixed(2))));
-          adjusted = true;
-        } else if (settings.letterSpacing > -0.01) {
-          onChangeSettings('letterSpacing', Math.max(-0.02, Number((settings.letterSpacing - 0.01).toFixed(2))));
-          adjusted = true;
-        }
-
-        if (!adjusted) {
-          setIsAutoFitting(false);
-        }
-      } else {
-        setIsAutoFitting(false);
-      }
+    const onAutoFitRequest = (event: Event) => {
+      if (!startAutoFit()) return;
+      event.preventDefault();
     };
-
-    const timer = setTimeout(runFitStep, 90);
-    return () => clearTimeout(timer);
-  }, [isAutoFitting, metrics.isOver, settings, onChangeSettings]);
+    window.addEventListener('pagevela:auto-fit', onAutoFitRequest);
+    return () => window.removeEventListener('pagevela:auto-fit', onAutoFitRequest);
+  }, [startAutoFit]);
 
   const handleSmartAutoFit = () => {
-    if (!onChangeSettings) return;
-    setTargetPageLimit(1);
-    setIsAutoFitting(true);
-    trackAnalyticsEvent('auto_fit_used');
+    if (startAutoFit()) trackAnalyticsEvent('auto_fit_used');
   };
-  
+
   const cleaned = useMemo(() => cleanMarkdown(markdown), [markdown]);
   const headerInfo = useMemo(() => parseResumeHeader(cleaned), [cleaned]);
   const sizeClasses = useMemo(() => getSizeClasses(settings.fontSize, theme), [settings.fontSize, theme]);

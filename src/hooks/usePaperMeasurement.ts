@@ -22,6 +22,9 @@ export function usePaperMeasurement(
   const [wrapperWidth, setWrapperWidth] = useState<number>(850);
   const [wrapperHeight, setWrapperHeight] = useState<number>(1100);
   const [unscaledHeight, setUnscaledHeight] = useState<number>(0);
+  // Advance for every completed DOM measurement, even when the measured height
+  // is unchanged. Auto Fit must not compare a new setting to stale metrics.
+  const [measurementRevision, setMeasurementRevision] = useState(0);
   const [metrics, setMetrics] = useState<PaperMetrics>({
     isOver: false,
     overflowPercent: 0,
@@ -167,6 +170,7 @@ export function usePaperMeasurement(
           ? prev
           : nextMetrics
       ));
+      setMeasurementRevision((previous) => previous + 1);
     };
 
     const scheduleMeasure = () => {
@@ -213,6 +217,7 @@ export function usePaperMeasurement(
     zoomMode,
     setZoomMode: handleZoomChange,
     calculatedZoom,
-    metrics
+    metrics,
+    measurementRevision,
   };
 }

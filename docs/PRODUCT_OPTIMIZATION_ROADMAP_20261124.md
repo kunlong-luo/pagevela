@@ -6,7 +6,13 @@
 
 - [#311](https://github.com/kunlong-luo/pagevela/pull/311) 已合并为 `e8fdda0`；包含该修复的后续主分支 `d0d5486` [完整 CI #45309378710](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) 与 [同 SHA Pages #45310525156](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156) **均 success**。**只解决反向松动，不保证实际一页排版**。
 - [#310](https://github.com/kunlong-luo/pagevela/pull/310) Hook 拆分已在 `16b11ff` 完成 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196)。
-- [#314](https://github.com/kunlong-luo/pagevela/pull/314) Quick PDF 零页防护仍在独立 PR 验收；[#312](https://github.com/kunlong-luo/pagevela/issues/312) 的溢出量闭环未实现。工程评分沿用 **84/100**。
+- [#314](https://github.com/kunlong-luo/pagevela/pull/314) 已合并为 `12c7044`，其 [新 main CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 与同 SHA [Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) **success**；[#313](https://github.com/kunlong-luo/pagevela/issues/313) 已关闭，系统下载和 Android 真机仍单独跟踪。
+
+## 2026-11-24 #312 测量式 Auto Fit 候选
+
+- [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 改为使用 `usePaperMeasurement` 的实际溢出量统一顶部按钮、快捷键及预览控件；尊重用户选定 1/2/3 页目标，设定最多 24 次调整及 4 次停滞中止，并在文档/方案变更时取消。
+- 原有 #311 保证参数不反向变松；新候选未通过完整 PR CI/主分支 Pages，不计入已上线功能。隐藏预览时单步回退；撤销能力、中英文 A4/Letter 与 Android 扩展矩阵仍待完成。
+- [功能和验收边界](./MEASURED_AUTO_FIT_20261124.md)：**任何目标页数都只是尽力估计，不能保证所有内容一定塞入一页**。
 
 ## 审查范围和可核对证据
 

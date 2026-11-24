@@ -82,14 +82,16 @@ export function Toolbar({ mobileMode = 'form' }: ToolbarProps) {
       {/* Right Area: Auto Fit + Layout + Style + View Mode */}
       <div className="ml-auto md:ml-0 flex items-center gap-1.5 sm:gap-2 text-xs shrink-0 relative flex-nowrap">
         {/* 1-Click Auto Fit Button */}
-        <Tooltip content={isEn ? 'Auto fit margins and line heights to single page' : '一键微调字号与间距以贴合单页'} side="bottom">
+        <Tooltip content={isEn ? 'Fit the visible preview to the selected page target' : '按预览目标页数适配；隐藏预览时微调一步'} side="bottom">
           <button
             type="button"
             onClick={() => {
-              smartAutoFit(settings, (key, val) => updateSetting(key, val));
+              const request = new Event('pagevela:auto-fit', { cancelable: true });
+               window.dispatchEvent(request);
+               if (!request.defaultPrevented) smartAutoFit(settings, (key, val) => updateSetting(key, val));
               trackAnalyticsEvent('auto_fit_used');
             }}
-            aria-label={isEn ? 'Auto fit to single page' : '单页自动适配'}
+            aria-label={isEn ? 'Fit to selected page target' : '按目标页数自动适配'}
             className="hidden md:flex h-9 md:h-8 items-center justify-center gap-1 px-2.5 rounded-lg text-xs font-bold border border-amber-200 dark:border-amber-900/60 bg-amber-50/70 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/60 text-amber-700 dark:text-amber-300 shadow-2xs transition-all cursor-pointer shrink-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
           >
             <Zap className="w-3.5 h-3.5 text-amber-500 shrink-0" aria-hidden="true" />
