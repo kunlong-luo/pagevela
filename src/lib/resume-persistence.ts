@@ -2,7 +2,7 @@ import type { ResumeProfile } from '../types';
 import { persistActiveResumeIfUnchanged } from './resume-repository';
 import type { ActiveResumeBaseline } from './resume-active-conflict';
 import { STORAGE_HEALTH_EVENT } from './storage';
-import { acknowledgeSavedProfileSettings } from './pending-profile-settings';
+import { acknowledgeSavedProfileSettings, discardConflictingProfileSettings } from './pending-profile-settings';
 import { RESUME_DB_WRITE_LOCK_NAME } from './resume-storage-contract';
 
 export interface PersistedResumeSnapshot {
@@ -49,7 +49,12 @@ export function createResumePersistenceCoordinator(
     }
     const recoveryId = `draft_conflict_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 11)}`;
     const result = await persistActiveResumeIfUnchanged(snapshot, baseline, recoveryId);
-    if (result === 'conflict') throw new ActiveResumeWriteConflictError();
+    if (result === 'conflict') {
+      // The stale settings have a durable Drafts copy. Never replay their
+      // small localStorage journal after a reload and defeat the DB guard.
+      discardConflictingProfileSettings(snapshot.profiles);
+      throw new ActiveResumeWriteConflictError();
+    }
     baseline = {
       markdown: snapshot.markdown,
       profiles: snapshot.profiles,
