@@ -61,7 +61,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
                 exit={{ opacity: 0, scale: 0.85, x: 30, filter: 'blur(2px)' }}
                 transition={{ type: 'spring', stiffness: 420, damping: 28 }}
-                className={`pointer-events-auto flex items-start gap-3 p-3.5 rounded-xl shadow-2xl backdrop-blur-md border ${
+                className={`${toast.duration === 0 ? 'pointer-events-none fixed bottom-4 left-4 right-4 sm:right-auto sm:w-96' : 'pointer-events-auto'} flex items-start gap-3 p-3.5 rounded-xl shadow-2xl backdrop-blur-md border ${
                   isSuccess
                     ? 'bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-100 border-emerald-500/40 dark:border-emerald-500/30 shadow-emerald-500/10'
                     : isInfo
@@ -91,7 +91,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
                 <button
                   onClick={() => hideToast(toast.id)}
-                  className="shrink-0 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="pointer-events-auto shrink-0 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                   aria-label={uiLanguage === 'en' ? 'Close notification' : '关闭通知'}
                 >
                   <X className="w-3.5 h-3.5" />

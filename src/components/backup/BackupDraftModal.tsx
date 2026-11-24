@@ -377,6 +377,13 @@ export function BackupDraftModal() {
         } else {
           await writeImportedWorkspace();
         }
+        // Explicitly confirmed workspace replacement is an intentional new
+        // baseline for this tab; otherwise its next autosave would look stale.
+        activeResumePersistence.setBaseline({
+          markdown: parsed.profiles.find(profile => profile.id === parsed.activeProfileId)!.markdown,
+          profiles: parsed.profiles,
+          jdText: parsed.jdText,
+        });
         // Publish restored state only after the transaction commits.
         useResumeStore.getState().restorePortableWorkspace(
           parsed.profiles, parsed.activeProfileId, parsed.jdText,
