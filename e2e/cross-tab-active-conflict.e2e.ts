@@ -85,6 +85,8 @@ test('two tabs preserve the latest committed resume and the stale edits as manua
   await expect.poll(() => readActiveMarkdown(page)).toBe(latest);
   await expect.poll(() => staleTab.evaluate(() =>
     localStorage.getItem('resume-profile-settings-pending-v1'))).toBeNull();
+  // The warning is safety-critical: it must remain until explicitly closed,
+  // even after the asynchronous transaction/recovery checks have finished.
   await expect(staleTab.getByText('Another tab changed this resume')).toBeVisible();
 
   await staleTab.reload();
