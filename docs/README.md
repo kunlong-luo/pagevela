@@ -17,7 +17,7 @@
 | 正式发布 | [RELEASING.md](../RELEASING.md) · [CHANGELOG.md](../CHANGELOG.md) · [RELEASE_NOTES.md](../RELEASE_NOTES.md) | 版本、历史变更、当前发布门禁 |
 | v2.8.3 实际发布验收 | [V2_8_3_RELEASE_ACCEPTANCE_20261123.md](./V2_8_3_RELEASE_ACCEPTANCE_20261123.md) | 已发布 tag、同 SHA 交付证据、ZIP/TAR/SHA256SUMS 清单及独立校验未结项 |
 | 依赖安全审计 | [SECURITY.md](../SECURITY.md) · [Security Inventory](https://github.com/kunlong-luo/pagevela/actions/workflows/security-inventory.yml) · [#298](https://github.com/kunlong-luo/pagevela/issues/298) | 每周 npm 注册表审计、GHSA 证据与尚未核对的 GitHub 私有告警 |
-| 测量式 Auto Fit 新阶段 | [MEASURED_AUTO_FIT_20261124.md](./MEASURED_AUTO_FIT_20261124.md) · [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) | 1/2/3 页目标与有界调整，目前待 PR CI 和正式上线验收 |
+| 测量式 Auto Fit 新阶段 | [MEASURED_AUTO_FIT_20261124.md](./MEASURED_AUTO_FIT_20261124.md) · [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) | 1/2/3 页目标与有界调整已合并 `6532c57`；最后 PR Chromium CI 失败，新 main 同 SHA CI/Pages 待验收 |
 | 数据导出和跨浏览器迁移 | [WORKSPACE_TRANSFER.md](./WORKSPACE_TRANSFER.md) | 本地备份、导入、隐私风险 |
 
 ## 架构与工程 / Engineering

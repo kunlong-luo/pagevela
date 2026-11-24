@@ -95,6 +95,10 @@ test('desktop retains source mode and auto fit in its toolbar', async ({ page })
   await page.goto('/?page=editor');
   const source = page.getByRole('button', { name: 'Markdown source editor' });
   await expect(source.locator('span:visible')).toHaveText('Markdown');
-  await expect(page.getByRole('button', { name: 'Auto fit to single page' })).toBeVisible();
+  // Desktop routes Auto Fit to the selected 1/2/3-page target; mobile's
+  // hidden-preview fallback retains the explicitly one-step button label.
+  await expect(page.locator('#resume-main-toolbar').getByRole('button', {
+    name: 'Fit to selected page target',
+  })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Check resume ATS' })).toBeHidden();
 });

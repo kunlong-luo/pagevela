@@ -2,6 +2,14 @@
 
 > **验收台账，非实时 CI 面板。** 日期 2026-11-24；每条结论均以标明的 SHA 为界。若后续 main 被 PR 合并推进，此页不会自动对新 SHA 产生验收。正式 GitHub Release 版本与已经部署的主分支可以不同，不能相互代替。
 
+## 2026-11-24 #316 已合并，但 PR 及部署门禁尚未闭环
+
+- **GitHub 合并事实：** [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 已自动合并，新的 `main` SHA 为 `6532c570b852b0284359d73e7c00632571ef04fb`。原任务 #312 因合并自动关闭，但范围内仍存在撤销与设备验收工作，已**重新开放**。
+- **最后 PR head `5485b15`：** [CI #45318654364](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364) **failure**。quality **success**；Firefox/WebKit critical **success**；Chromium 全量 [job #138191856152](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364/job/138191856152) **222 passed / 1 failed / 1 skipped**。失败断言 `e2e/mobile-four-primary-actions.e2e.ts:98` 仍查询旧桌面按钮 `Auto fit to single page`，产品已经改为 `Fit to selected page target`。该失败不是随机波动，且不能当作所有 Chromium 检查通过。
+- **修正范围：** 单独的热修复 PR 将桌面工具栏 E2E 定位更新为新目标页数含义；移动端单步回退仍沿用旧名称，确保不把两个产品入口混淆。只修复测试，不修改应用逻辑或持久化协议。
+- **主分支部署：** [main CI #45320068534](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) 在本快照**尚在执行**；必须重新核对该 SHA 的所有浏览器分片、汇总和 `build-and-test`，以及后续同 SHA Pages。此前 `12c7044` 的 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 和 [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) success 不可移用到 `6532c57`。
+- **发布边界：** 正式 v2.8.3 包仍在 `501ca26`。评分 84/100 不提升。#312 保持开放。
+
 ## 已完成同 SHA 交付闭环：编辑器安全 Hook #310
 
 | 项目 | 代码/运行证据 | 本次结论 |
@@ -24,19 +32,19 @@
 - [PR #314](https://github.com/kunlong-luo/pagevela/pull/314) 最新头 `de36a9e` 的 [PR CI #45311296133](https://github.com/kunlong-luo/pagevela/actions/runs/45311296133) **success**，合并为 `12c7044c2584d25d0d2c94b3a74fb78330dbd407`。
 - 该 SHA 的 [完整 main CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947)（quality、Chromium 全量、Firefox 2/2、WebKit 2/2、cross-browser 汇总、`build-and-test`）和 [同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) build/deploy 均成功。[#313](https://github.com/kunlong-luo/pagevela/issues/313) 已关闭。
 - 同 SHA [Release workflow #45313984785](https://github.com/kunlong-luo/pagevela/actions/runs/45313984785) 成功未产生新正式发行版本。发布 ZIP/TAR 仍是 v2.8.3 的旧 SHA `501ca26`，独立归档解压/哈希验证未完成。
-- 后续测量式 Auto Fit 的 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 正在最新提交的 CI 验收，仍未合并或通过同 SHA Pages。该 PR 已增加测量修订号，防止把布局更新前的旧像素高度当作本次压缩反馈；撤销 UX、隐藏预览测量和低端移动设备矩阵继续在 #312。
+- 后续测量式 Auto Fit 的 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 正在最新提交的 CI 验收，当时仍未合并；现在已合并为 `6532c57`，但仍未通过新 main 同 SHA Pages 验收。该 PR 已增加测量修订号，防止把布局更新前的旧像素高度当作本次压缩反馈；撤销 UX、隐藏预览测量和低端移动设备矩阵继续在 #312。
 
 ## 最新 #316 浏览器门禁：旧断言与新按钮语义失配
 
 - 2026-11-24 [PR CI #45317407230](https://github.com/kunlong-luo/pagevela/actions/runs/45317407230) 在候选头 `71ef571` 的 quality **success**，Firefox/WebKit critical **failure**；[失败 job #138188602846](https://github.com/kunlong-luo/pagevela/actions/runs/45317407230/job/138188602846) 日志为 `96 passed / 2 failed`，两项同一 `e2e/simplified-layout.e2e.ts:25` 旧按钮 aria-label 定位失败，并非已证明排版算法的跨浏览器失败。
 - 已调整现行测试使用新的目标页数按钮可访问名称；须重新检查该修复新头 CI，不能用原先 quality 成功替代新提交结果。原始失败保留为日期证据，不冒充已通过。
-- 此时 #316 **未合并**，主分支已验证部署依旧 `12c7044`；正式发布 v2.8.3 尚未打包本 PR 的新排版代码。
+- **历史时点补注：** 上述旧提交发生时 #316 确实**未合并**；2026-11-24 03:31 UTC 已合并到 `6532c57`，但新的 PR Chromium 失败和合并后 CI/Pages 验收边界见本文开头。v2.8.3 仍未打包这部分代码。
 
 ## 尚待完成的独立变更
 
 - [#311](https://github.com/kunlong-luo/pagevela/pull/311)：Auto Fit 单调收紧修复已通过 PR CI 并合并，包含该改动的后续 main `d0d5486` CI/Pages 已独立验收通过。**真实测量溢出自动贴合**仍在 #312。
 - [#314](https://github.com/kunlong-luo/pagevela/pull/314)：**已合并并通过 CI/Pages 同 SHA 验收**；实际 Android 系统打印/OS 下载完成不属于这次验证。
-- [#312](https://github.com/kunlong-luo/pagevela/issues/312)：新 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 候选统一 1/2/3 页预览测量与有界收紧；**尚未完成 PR CI/线上部署/撤销与设备扩展矩阵**，不宣称任意简历可以一页。
+- [#312](https://github.com/kunlong-luo/pagevela/issues/312)：[PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 已合并统一 1/2/3 页预览测量与有界收紧；**PR Chromium 门禁失败，尚未完成新 main 同 SHA CI/Pages、撤销与设备扩展矩阵**，不宣称任意简历可以一页。
 - [#262](https://github.com/kunlong-luo/pagevela/issues/262)：Android 微信负责人反馈通过，但系统 Save-as-PDF、Chrome/OEM 和安装 PWA 离线矩阵未完整验收。
 - [#298](https://github.com/kunlong-luo/pagevela/issues/298)：私有 Dependabot 告警不能用 Registry Security Inventory 的绿色状态替代；[#202](https://github.com/kunlong-luo/pagevela/issues/202) 法务/外部品牌事项仍未核实。
 
