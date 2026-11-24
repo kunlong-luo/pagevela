@@ -76,7 +76,8 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
     zoomMode,
     setZoomMode,
     calculatedZoom,
-    metrics
+    metrics,
+    measurementRevision,
   } = usePaperMeasurement(
     elementRef,
     targetPageLimit,
@@ -91,6 +92,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
     profileId: activeProfileId,
     target: targetPageLimit,
     metrics,
+    measurementRevision,
     unscaledHeight,
     elementRef,
     onChangeSettings,

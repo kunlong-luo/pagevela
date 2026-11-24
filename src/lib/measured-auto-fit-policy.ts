@@ -30,3 +30,11 @@ export function evaluateMeasuredFitProgress(progress: FitProgress): {
     ? { decision: 'no-progress', stalledSteps }
     : { decision: 'continue', stalledSteps };
 }
+
+/** Do not evaluate a changed layout until a fresh DOM measurement completed. */
+export function hasFreshFitMeasurement(
+  measurementRevision: number,
+  awaitingRevision: number | null,
+): boolean {
+  return awaitingRevision === null || measurementRevision > awaitingRevision;
+}

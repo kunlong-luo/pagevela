@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
 import type { Language, ResumeSettings } from '../types';
 import { smartAutoFit } from '../lib/preview-utils';
-import { evaluateMeasuredFitProgress } from '../lib/measured-auto-fit-policy';
+import { evaluateMeasuredFitProgress, hasFreshFitMeasurement } from '../lib/measured-auto-fit-policy';
 import { useToast } from '../components/ui/Toast';
 
 interface FitRun {
@@ -12,6 +12,7 @@ interface FitRun {
   steps: number;
   lastOverflowPixels: number | null;
   stalledSteps: number;
+  awaitingRevision: number | null;
 }
 
 type FinishReason = 'fitted' | 'at-limit' | 'step-limit' | 'no-progress' | 'canceled';
@@ -22,6 +23,7 @@ interface Options {
   profileId: string;
   target: 1 | 2 | 3;
   metrics: { isOver: boolean; overflowPixels: number; actualPages: number };
+  measurementRevision: number;
   unscaledHeight: number;
   elementRef: RefObject<HTMLDivElement | null>;
   onChangeSettings: <K extends keyof ResumeSettings>(key: K, value: ResumeSettings[K]) => void;
@@ -35,7 +37,7 @@ interface Options {
  * back to the old single-step action; no resume text or storage schema changes.
  */
 export function useMeasuredAutoFit({
-  settings, markdown, profileId, target, metrics, unscaledHeight,
+  settings, markdown, profileId, target, metrics, measurementRevision, unscaledHeight,
   elementRef, onChangeSettings, uiLanguage, disabled,
 }: Options) {
   const { showToast } = useToast();
@@ -77,6 +79,7 @@ export function useMeasuredAutoFit({
     runRef.current = {
       markdown, profileId, target, expectedSettings: JSON.stringify(settings),
       steps: 0, lastOverflowPixels: null, stalledSteps: 0,
+      awaitingRevision: null,
     };
     setIsAutoFitting(true);
     return true;
@@ -95,6 +98,17 @@ export function useMeasuredAutoFit({
       return;
     }
 
+    // React may render updated settings before ResizeObserver/MutationObserver
+    // has measured the new page height. Wait for a *new* measurement rather than
+    // counting stale overflow as a failed adjustment.
+    if (!hasFreshFitMeasurement(measurementRevision, run.awaitingRevision)) {
+      const watchdog = setTimeout(() => {
+        if (runRef.current === run) finish('no-progress');
+      }, 2500);
+      return () => clearTimeout(watchdog);
+    }
+    run.awaitingRevision = null;
+
     const progress = evaluateMeasuredFitProgress({
       isOver: metrics.isOver, overflowPixels: metrics.overflowPixels,
       steps: run.steps, lastOverflowPixels: run.lastOverflowPixels,
@@ -110,6 +124,7 @@ export function useMeasuredAutoFit({
       if (runRef.current !== run) return;
       const adjusted = smartAutoFit(settings, (key, value) => {
         run.expectedSettings = JSON.stringify({ ...settings, [key]: value });
+        run.awaitingRevision = measurementRevision;
         onChangeSettings(key, value);
       });
       if (!adjusted) {
@@ -122,7 +137,7 @@ export function useMeasuredAutoFit({
     return () => clearTimeout(timer);
   }, [
     disabled, elementRef, finish, isAutoFitting, markdown, profileId,
-    target, settings, metrics.isOver, metrics.overflowPixels, onChangeSettings,
+    target, settings, metrics.isOver, metrics.overflowPixels, measurementRevision, onChangeSettings,
   ]);
 
   useEffect(() => () => { runRef.current = null; }, []);
