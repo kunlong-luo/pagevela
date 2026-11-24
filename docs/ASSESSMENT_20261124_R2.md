@@ -1,5 +1,7 @@
 # Pagevela 工程评分复评 / Engineering reassessment — 2026-11-24 · 第三次验收快照
 
+> **历史 87/100 快照，不是当前评分。** #323/#325 均已合并并通过新 main 完整 CI 与同 SHA Pages；现行[工程复评为 88/100](./ASSESSMENT.md)。下文的“候选”描述仅是当时的判断。
+
 > **最新已完整上线验收评分：87/100**（此前 [86 分](./ASSESSMENT_20261124.md)，再提升 1 分；11/23 [84 分](./ASSESSMENT_20261123.md)）。这是项目自定的七维度定性工程评分，**不是**第三方认证、Android 机型兼容认证、已发布版本号或性能基准。分数仅按已通过**对应 main SHA 全量 CI 与同 SHA Pages**的成果调整。
 
 ## 最新完整验收 / Latest accepted production SHA

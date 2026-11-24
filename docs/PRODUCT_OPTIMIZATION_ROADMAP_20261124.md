@@ -1,5 +1,7 @@
 # Pagevela 功能优化路线图 / Product optimization review — 2026-11-24
 
+> **历史路线图快照：** 下方旧的“84/100”“尚未上线”描述属于编写当时；当前 [88/100 评分](./ASSESSMENT.md)、[项目状态](./PROJECT_STATUS.md) 优先。#323/#325 已完整上线验收，#282/#312/#262 尚未整体完成。
+
 > **状态：源代码审查形成的工作优先级，不等同线上缺陷全部复现或新版本验收。** 正式发行基线为 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)，main `501ca26` 的 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 成功。工程定性分数仍沿用 [84/100（2026-11-23）](./ASSESSMENT_20261123.md)，不因本次修复草案自动提高。已发布档案不覆盖；任何新代码必须重新验收。
 
 ## 2026-11-24 后续状态（原始审查结论仍保留）
