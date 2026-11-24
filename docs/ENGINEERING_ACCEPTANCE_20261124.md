@@ -7,6 +7,15 @@
 
 # Pagevela engineering acceptance / 2026-11-24
 
+## Acceptance follow-up: merged documentation release `de81022b` (2026-11-24)
+
+- [#324](https://github.com/kunlong-luo/pagevela/pull/324) was **merged** as `de81022b8ec4e1a9a041ae1c684266dd326b257b`; [full independent main CI #45367413632](https://github.com/kunlong-luo/pagevela/actions/runs/45367413632) **success** (quality, full Chromium, Firefox 2/2, WebKit 2/2, cross-browser summary and protected `build-and-test` **actually executed**); [identical-SHA Pages #45369451198](https://github.com/kunlong-luo/pagevela/actions/runs/45369451198) **build and deploy success**. No new tagged Release or ZIP/TAR has been created.
+- The [87/100 score](./ASSESSMENT_20261124_R2.md) remains evidence-based on deployed #321/#322 features. A documentation-only merge is *not* another point. [Earlier 86/100 report](./ASSESSMENT_20261124.md) remains historical.
+- [#323](https://github.com/kunlong-luo/pagevela/pull/323): stale-tab transaction/conflict-draft recovery candidate remains **OPEN and unscored**. Its previous [CI #45365050460](https://github.com/kunlong-luo/pagevela/actions/runs/45365050460) failed the Chromium two-tab E2E because the persistent Toast blocked layout clicks; the newer candidate moves that persistent warning to bottom-left with a nonblocking card and interactive close button, requiring latest-head Chromium + Firefox/WebKit + actual `build-and-test`, then new main SHA CI/Pages. Do not credit the previous failing run.
+- [#325](https://github.com/kunlong-luo/pagevela/pull/325): same-millisecond `profile_${Date.now()}` collision prevention for create/duplicate, preserving stored IDs and schema. [Latest CI #45368197300](https://github.com/kunlong-luo/pagevela/actions/runs/45368197300) was **still in progress** at the time of this snapshot; no merge/production acceptance or additional scoring yet.
+- Real Android OS Print/Save-as-PDF and installed PWA, legacy already-open tabs, photo/profile metadata recovery, private alert #298, and v2.8.3 archive independent SHA verification remain outstanding. This is a dated verification ledger, **not a live CI dashboard**.
+
+
 ## Latest verified delivery / 最新同 SHA 验收
 
 - **`main` `63edf034b6fd82cca81a30e91eb10b39c59b4aed`**：[CI #45336130078](https://github.com/kunlong-luo/pagevela/actions/runs/45336130078) success（quality、Chromium 全量、Firefox 2/2、WebKit 2/2、cross-browser、实际执行并成功的 `build-and-test`）；[same-SHA Pages #45337438957](https://github.com/kunlong-luo/pagevela/actions/runs/45337438957) build/deploy success；[Release workflow #45337558274](https://github.com/kunlong-luo/pagevela/actions/runs/45337558274) success，**没有生成新稳定版本**，正式发行保持 v2.8.3。
