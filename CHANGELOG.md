@@ -1,5 +1,9 @@
 # Changelog
 
+> **2026-11-24 newest development update:** [#323](https://github.com/kunlong-luo/pagevela/pull/323) crossed its latest-head Chromium/Firefox/WebKit/`build-and-test` gate and merged as `da3b68b`. It prevents stale cross-tab active resume writes and keeps conflicting text/layout as manual drafts, with a nonblocking persistent recovery warning. **New-main full CI #45370012956 and same-SHA Pages are still required before calling this deployed or increasing the 87/100 score.** No changes to stable v2.8.3 downloadable assets. #325 profile ID collision prevention remains pending independently.
+
+
+
 ## Unreleased — post-v2.8.3 main development
 
 - **2026-11-24 documentation delivery validated:** [#324](https://github.com/kunlong-luo/pagevela/pull/324) synchronized the 87/100 engineering review, README (English/Chinese), changelog and status docs. Its merged main `de81022b` passed [full CI #45367413632](https://github.com/kunlong-luo/pagevela/actions/runs/45367413632) and [same-SHA Pages #45369451198](https://github.com/kunlong-luo/pagevela/actions/runs/45369451198). **No new point** for documentation-only delivery; **no new stable release package**.
