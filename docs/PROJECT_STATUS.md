@@ -1,3 +1,11 @@
+# Pagevela 项目状态 / Project status
+
+## 2026-11-24 最新工程进展：#323 已合并，生产门禁待验收
+
+- [#323](https://github.com/kunlong-luo/pagevela/pull/323) 的最新 PR 头通过 [完整 CI #45367991566](https://github.com/kunlong-luo/pagevela/actions/runs/45367991566)（quality、Chromium 双标签页真实回归、Firefox/WebKit 和实际受保护的 `build-and-test`），已合并为 **`main` `da3b68bc6c45db666e9c3ba47ce55e2ab73d7e80`**。实现事务级防过期写入、可恢复手动草稿，以及常驻但不遮挡排版操作的双语冲突提醒。
+- **此提交未取得同 SHA 完整线上验收：** [新 main CI #45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) 当时仍在执行，同 SHA Pages 待触发/核对；工程评分暂维持 [87/100](./ASSESSMENT_20261124_R2.md)，**不提前升 88**。更早章节中 #323“候选/未合并”的描述是原始时点的历史快照。
+- [#325](https://github.com/kunlong-luo/pagevela/pull/325) 同毫秒档案 ID 防碰撞仍在最新 PR CI，尚未独立合并上线。正式发布归档 v2.8.3 不含后续主分支修复。#282/#312/#262/#298 仍需独立验收。
+
 ## 2026-11-24 最新验收：87/100 · main `8150287`
 
 - **最新已验证并部署 main：** `8150287513fccb28de80d409875b0ea04bcd1edf`（含 [#322](https://github.com/kunlong-luo/pagevela/pull/322) 设置清洗模块纯函数拆分、[#321](https://github.com/kunlong-luo/pagevela/pull/321) Auto Fit 纸型/语言/页数回归及“预估契合”提示）。[完整 CI #45362921101](https://github.com/kunlong-luo/pagevela/actions/runs/45362921101) 的 quality、Chromium、Firefox 2/2、WebKit 2/2、cross-browser 和实际 `build-and-test` 均 **success**；[同 SHA Pages #45364809316](https://github.com/kunlong-luo/pagevela/actions/runs/45364809316) build/deploy 均 **success**。
