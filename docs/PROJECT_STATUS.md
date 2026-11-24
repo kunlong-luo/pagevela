@@ -2,7 +2,15 @@
 
 > **更新日期：2026-11-24。** 最新正式发布版本是 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)；其 tag 解析到 `501ca26a10a023f1a05ce3ce227b288a2a6565d4`（短 SHA `501ca26`）。该 SHA 的 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125)、[Pages build/deploy](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 均为 **success**；Release 于 **2026-11-23 14:44 UTC** 发布。三个资产 `pagevela-2.8.3.zip`、`pagevela-2.8.3.tar.gz`、`SHA256SUMS.txt` 均出现在 GitHub Release 中。**本次核对未独立下载解压二进制包并逐项比对 SHA256**；不可将“资产存在”写成“校验通过”。
 
-> **2026-11-24 最新已部署 main：** [PR #314](https://github.com/kunlong-luo/pagevela/pull/314) PDF 失败防护已合并为 `12c7044c2584d25d0d2c94b3a74fb78330dbd407`，其 [完整 main CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 与 [同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) **success**。[#313](https://github.com/kunlong-luo/pagevela/issues/313) 已关闭；新 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 测量式 Auto Fit 仍未合并/部署。正式下载版本依然是 v2.8.3（tag `501ca26`）；工程评分仍为 [84/100](./ASSESSMENT_20261123.md)。
+> **2026-11-24 最近一次已验证部署的 main：** [PR #314](https://github.com/kunlong-luo/pagevela/pull/314) PDF 失败防护已合并为 `12c7044c2584d25d0d2c94b3a74fb78330dbd407`，其 [完整 main CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 与 [同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) **success**。[#313](https://github.com/kunlong-luo/pagevela/issues/313) 已关闭；[PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 已合并为新 `main` `6532c57`，但**新 SHA 尚未完成同 SHA CI/Pages 验收**。正式下载版本依然是 v2.8.3（tag `501ca26`）；工程评分仍为 [84/100](./ASSESSMENT_20261123.md)。
+
+## 2026-11-24 #316 合并后验收阻断（不能视为已部署成功）
+
+- **当前代码 main：** [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 已于 **2026-11-24 03:31 UTC** 自动合并为 `6532c570b852b0284359d73e7c00632571ef04fb`，与最近一次确认同 SHA Pages 的 `12c7044` 不同。GitHub 的合并事实不代表浏览器 CI 门禁全部通过。
+- **PR 头 `5485b15`：** [CI #45318654364](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364) **failure**：quality、Firefox/WebKit critical 成功，Chromium 全量 **222 passed / 1 failed / 1 skipped**，失败为 `e2e/mobile-four-primary-actions.e2e.ts:98` 使用旧 `Auto fit to single page` 断言，与新版桌面 `Fit to selected page target` 按钮可访问名称不符。最终 `build-and-test` 未形成完整通过的验收链。
+- **合并后 main：** [CI #45320068534](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) 在本次核对时**执行中**，不得直接宣称成功或同 SHA Pages 已部署。独立修复分支只改桌面 E2E 的过期断言，保留移动端单步回退标签和中英文产品语义；修复也必须重新经过受保护 PR CI、main CI 与同 SHA Pages。
+- **CI 保护根因：** [规则集 Protect main](https://github.com/kunlong-luo/pagevela/rules/23971861) 只要求 `build-and-test`；旧工作流在 Chromium 失败时将该汇总 job 跳过，被保护规则视为满足。热修复将该 job 改为 `always()` 真正运行，并对任意前置 job 非 success 明确报错，避免红测时再次自动合并。
+- **发布与未结项：** 正式 GitHub Release 仍是 v2.8.3 `501ca26`；[#312](https://github.com/kunlong-luo/pagevela/issues/312) 已重新开放，继续跟踪撤销 UX、隐藏预览/移动端真实测量及扩展设备矩阵；工程评分 **84/100** 不提高。
 
 ## 本次已核对的版本、分支和交付
 
@@ -30,10 +38,10 @@
 ## 尚未完成，不得写成通过
 
 1. **v2.8.3 发布资产二进制完整性：** Release 文件和校验和清单均存在，但本轮尚未独立下载解压、执行逐项 SHA256 比对；本项不应勾选。
-2. **本轮交付验收：** #310/#311/#315/#314 已合并；最新主分支 `12c7044` [完整 CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 和 [同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) 全部 success。#313 已关闭。#316 是后续目标页数智能排版的独立候选，尚未完成 PR CI、合并或部署。
+2. **本轮交付验收：** #310/#311/#315/#314 已合并；最新主分支 `12c7044` [完整 CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 和 [同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) 全部 success。#313 已关闭。#316 已合并 `6532c57`，但最后 PR CI 的 Chromium 全量失败；新 main CI/Pages 仍须独立成功，见本页最上方阻断记录。
 3. **Android 真机 #262：** 负责人报告微信真机总体 PASS；系统 Save-as-PDF、Chrome/Samsung/OEM、安装后 PWA 离线尚无完整独立矩阵。
 4. **GitHub 私有安全告警 #298：** npm 注册表无公告不能证明私有 Dependabot 告警清零；旧 Workbox 依赖路径仍待研究。
-5. **功能优化：** [#312](https://github.com/kunlong-luo/pagevela/issues/312) 的 1/2/3 页测量式 Auto Fit 已形成 [候选 PR #316](https://github.com/kunlong-luo/pagevela/pull/316)；仍需完整测试、合并后同 SHA Pages、撤销 UX 和扩展 A4/Letter 中英文手机验收。#282、#200、#115、#202 继续跟踪；84/100 暂不调整。
+5. **功能优化：** [#312](https://github.com/kunlong-luo/pagevela/issues/312) 的 1/2/3 页测量式 Auto Fit 已合并 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316)；仍需修复旧 E2E 断言、取得新 main 同 SHA CI/Pages 及补完撤销 UX 和 A4/Letter 中英文手机验收。#282、#200、#115、#202 继续跟踪；84/100 暂不调整。
 
 ## 本轮工程验收状态（2026-11-24）
 
@@ -48,7 +56,7 @@
 
 - 已部署最新 main `12c7044c2584d25d0d2c94b3a74fb78330dbd407`：[完整 CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947)（quality、Chromium、Firefox/WebKit 全部分片、最终 `build-and-test`）及同 SHA [Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) 均成功。该提交包括 #310、#311、#315 与 #314。
 - [Release workflow #45313984785](https://github.com/kunlong-luo/pagevela/actions/runs/45313984785) 成功只是工作流结果，**最新正式 GitHub Release 仍是 v2.8.3**，没有新的 v2.8.4 发布附件；历史包不包含新 main。
-- 新 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 候选统一预览/工具栏/快捷键，并以实际溢出量适配已选 1/2/3 页，最多 24 次；扩展中英文/真机矩阵和可撤销性仍待验收，不能称作已上线。
+- [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 已合并为 `6532c57`，统一预览/工具栏/快捷键并按实际溢出量适配 1/2/3 页（最多 24 次）；最后 PR Chromium 测试失败、同 SHA Pages 未验收，故**不能称作已完成线上发布验收**。扩展中英文/真机矩阵和可撤销性仍需继续。
 - [PDF #313](https://github.com/kunlong-luo/pagevela/issues/313) scoped fix 已完成；操作系统下载完成、Android 实机系统打印仍不属于此项证明范围。
 
 ## 历史 main `d0d5486` 验收（由后续 `12c7044` supersede）

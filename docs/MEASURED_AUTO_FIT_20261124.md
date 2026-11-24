@@ -1,6 +1,6 @@
 # Measured Auto Fit / 目标页数智能适配
 
-> **2026-11-24 功能 PR 候选；尚未完成 PR CI、合并或上线。** [#312](https://github.com/kunlong-luo/pagevela/issues/312) 第二阶段先解决入口分裂、目标页数被重置、无界循环和无进度告知。不要把这份文档写成 v2.8.3 已发布功能，也不要保证任何简历都能压成一页。
+> **2026-11-24 交付更新：** [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 已合并到 `main` `6532c57`，但最后一次 PR Chromium 全量 CI 失败；新 main 同 SHA CI/Pages 尚未验收，**不能称为已完成线上交付**。 [#312](https://github.com/kunlong-luo/pagevela/issues/312) 第二阶段先解决入口分裂、目标页数被重置、无界循环和无进度告知。不要把这份文档写成 v2.8.3 已发布功能，也不要保证任何简历都能压成一页。
 
 ## 问题与本次边界
 
@@ -17,7 +17,7 @@
 - 新单元测试 `src/tests/measured-auto-fit-policy.test.ts` 覆盖目标已满足、真实减少、无变化提前停止、最大调整次数、起始状态及“等待新测量后再决定是否继续”。
 - 新 `e2e/measured-auto-fit.e2e.ts` 用虚构多段经历检验：选 2 页、顶部统一入口、结束结果、不跳回 1 页、IndexedDB 草稿重载后不丢。
 - 原有 `src/tests/preview-auto-fit.test.ts` 覆盖不逆向变松、下限和收敛；`e2e/pdf-download.e2e.ts` 与 `e2e/pdf-download-failure.e2e.ts` 继续保护 PDF 有效性、失败反馈、草稿安全。
-- **当前尚未验收**：新 PR 的 TypeScript、lint、Vitest、完整 Chromium、Firefox/WebKit、最终 `build-and-test`；合并后新 SHA 主分支 CI、同 SHA Pages；A4/US Letter × 中/英文 × 1/2/3 目标页 × 各模板 × Android 真实设备的扩展矩阵。未经过这些实测前不关闭 #312。
+- **当前验收边界**：PR quality/typecheck/lint/Vitest/build 与 Firefox/WebKit critical 已通过；**最后 PR Chromium 全量仍失败**，最终 `build-and-test` 未通过；合并后新 SHA 主分支 CI、同 SHA Pages 仍待单独成功；A4/US Letter × 中/英文 × 1/2/3 目标页 × 各模板 × Android 真实设备的扩展矩阵。未经过这些实测前不关闭 #312。
 - 保留旧 IndexedDB 名称、Web Lock、BroadcastChannel、加密分享 AAD、旧备份与历史归档；未添加原生 `alert/confirm/select/tooltip`。
 
 ## 验收矩阵与测试证据边界
@@ -38,6 +38,13 @@
 - 候选提交 `71ef57172789002c6c47c63394ebe2fba18ea2cc` 的 [PR CI #45317407230](https://github.com/kunlong-luo/pagevela/actions/runs/45317407230) 中 quality **success**，Firefox/WebKit critical `e2e-cross-browser` **failure**。通过 [job #138188602846](https://github.com/kunlong-luo/pagevela/actions/runs/45317407230/job/138188602846) 原始日志核验：`96 passed`、`2 failed`，失败均来自 `e2e/simplified-layout.e2e.ts:25`，旧测试查找 `Auto fit to single page|单页自动适配`，而新版按钮的可访问名称已变成 `Fit to selected page target|按目标页数自动适配`。
 - 本轮仅更新该 E2E 按钮定位，使其反映实际的新行为。**不回滚新的用户可见含义**，也没有将浏览器失败归因为平台波动。该次 Chromium 全量结果另行核对，不能用 Firefox/WebKit 失败解释/豁免其他测试。
 - 新提交必须重新通过 quality、Chromium、Firefox/WebKit、cross-browser 汇总及 `build-and-test`；合并后继续验证新 main CI 和同 SHA Pages。在通过前，#316 不视为已上线。
+
+## 2026-11-24 复验补充：#316 自动合并后发现 Chromium 漏检
+
+- **合并时间和 SHA：** [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 于 03:31 UTC 已自动合并至 `main` `6532c570b852b0284359d73e7c00632571ef04fb`，但这不是 CI 通过的证据。
+- **最后 PR 头 `5485b15`：** [CI #45318654364](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364) 中 quality 和 Firefox/WebKit critical 通过，Chromium 全量 **222 passed、1 failed、1 skipped**。失败在 `e2e/mobile-four-primary-actions.e2e.ts:98`，测试仍检查桌面 `Auto fit to single page`；新版桌面工具栏的真实 aria-label 是 `Fit to selected page target`。此处属于测试维护遗漏，不能据此认定测量循环已通过全部浏览器。
+- **修正策略：** 热修复只将**桌面**期望改为目标页数语义，保留移动表单单步回退的 `Auto fit to single page` 名称和对应测试，不牺牲准确的操作说明。**同时修复保护门禁漏洞**：当前规则集仅强制 `build-and-test`，当 Chromium 失败导致该 job 被 skipped 时，GitHub 仍可能完成 auto-merge；现改成该 job `if: always()` 且在 step 内明确验证每个依赖结果，不通过则 exit 1。重新测试且确认**新 main SHA 的 CI 与同 SHA Pages**之前，不将功能标记为已部署验收完成。
+- **持续跟踪：** [#312](https://github.com/kunlong-luo/pagevela/issues/312) 已恢复为开放状态，一键恢复布局、移动端隐藏预览和 Android 真机验收仍在范围内；发布包仍是旧 v2.8.3。
 
 ## 后续待开发
 

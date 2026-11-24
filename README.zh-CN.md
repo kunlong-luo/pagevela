@@ -50,8 +50,8 @@
 ## v2.8.3 发布后的主分支开发（不包含在该版本压缩包内）
 
 - **[#310](https://github.com/kunlong-luo/pagevela/pull/310) 编辑器架构：** 多标签页提醒与存储健康通知拆分到独立 Hook，合并提交 `16b11ff` 的 [完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) 与 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196) 已验收。
-- **[#311](https://github.com/kunlong-luo/pagevela/pull/311) Auto Fit 稳定性：** 修复重复点击后紧凑间距反向放大和快捷键误报，已合并为 `e8fdda0`；PR CI 通过，**新主分支 CI/Pages 仍须独立核对**。
-- **[#314](https://github.com/kunlong-luo/pagevela/pull/314) Quick PDF：** 空白输出与异常反馈防护已合并为 `12c7044`，通过 [主分支完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157)。**[#316](https://github.com/kunlong-luo/pagevela/pull/316) 测量式 Auto Fit：** 新候选在预览可见时使用溢出量和 1/2/3 页目标，包含安全停止条件；[功能说明](docs/MEASURED_AUTO_FIT_20261124.md)，**尚未通过新 PR 验收和部署**。
+- **[#311](https://github.com/kunlong-luo/pagevela/pull/311) Auto Fit 稳定性：** 修复重复点击后紧凑间距反向放大和快捷键误报，已合并为 `e8fdda0`；PR CI 通过；包含该修复的后续主分支 `d0d5486` 的[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) 和[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156) 已独立验收通过。
+- **[#314](https://github.com/kunlong-luo/pagevela/pull/314) Quick PDF：** 空白输出与异常反馈防护已合并为 `12c7044`，通过 [主分支完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157)。**[#316](https://github.com/kunlong-luo/pagevela/pull/316) 测量式 Auto Fit：** 已合并到 `main` `6532c57`，预览可见时使用溢出量和 1/2/3 页目标；但[最后一次 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364) 的 Chromium 全量仍有 **1 项旧桌面按钮名称断言失败**（222 通过、1 失败、1 跳过）。[新 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) 和同 SHA Pages **尚待验收**；已在独立修复分支更正测试。详见[验收说明](docs/MEASURED_AUTO_FIT_20261124.md)。
 
 以上改动不会追溯替换 v2.8.3 发布包。参见 [工程验收记录](docs/ENGINEERING_ACCEPTANCE_20261124.md) 和 [功能优化路线图](docs/PRODUCT_OPTIMIZATION_ROADMAP_20261124.md)。定性评分仍为 **84/100**。
 
