@@ -82,11 +82,13 @@ export function Toolbar({ mobileMode = 'form' }: ToolbarProps) {
       {/* Right Area: Auto Fit + Layout + Style + View Mode */}
       <div className="ml-auto md:ml-0 flex items-center gap-1.5 sm:gap-2 text-xs shrink-0 relative flex-nowrap">
         {/* 1-Click Auto Fit Button */}
-        <Tooltip content={isEn ? 'Auto fit margins and line heights to single page' : '一键微调字号与间距以贴合单页'} side="bottom">
+        <Tooltip content={isEn ? 'Fit the visible preview to the selected page target' : '按预览目标页数适配；隐藏预览时微调一步'} side="bottom">
           <button
             type="button"
             onClick={() => {
-              smartAutoFit(settings, (key, val) => updateSetting(key, val));
+              const request = new Event('pagevela:auto-fit', { cancelable: true });
+               window.dispatchEvent(request);
+               if (!request.defaultPrevented) smartAutoFit(settings, (key, val) => updateSetting(key, val));
               trackAnalyticsEvent('auto_fit_used');
             }}
             aria-label={isEn ? 'Auto fit to single page' : '单页自动适配'}

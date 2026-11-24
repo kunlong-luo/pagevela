@@ -33,7 +33,7 @@ const TRANSLATIONS = {
     setTarget: '设定目标:',
     pageUnit: '页',
     autoFittingBtn: '正在自动微调间距...',
-    autoFitBtn: '自动缩合至一页',
+    autoFitBtn: '自动缩合至目标页数',
     optimizeBtn: '优化排版间距'
   },
   en: {
@@ -50,7 +50,7 @@ const TRANSLATIONS = {
     setTarget: 'Set Target:',
     pageUnit: 'Page(s)',
     autoFittingBtn: 'Optimizing spacing...',
-    autoFitBtn: 'Auto-Fit to Page',
+    autoFitBtn: 'Auto-Fit to Target',
     optimizeBtn: 'Smart Optimize Spacing'
   }
 };
@@ -235,6 +235,10 @@ export const HeightGuard = React.memo(function HeightGuard({
           {([1, 2, 3] as const).map(p => (
             <button
               key={p}
+              type="button"
+              aria-label={lang === 'en' ? `Target ${p} pages` : `目标 ${p} 页`}
+              aria-pressed={targetPageLimit === p}
+              disabled={isAutoFitting}
               onClick={() => setTargetPageLimit(p)}
               className={`px-2 py-0.5 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
                 targetPageLimit === p 
@@ -262,7 +266,7 @@ export const HeightGuard = React.memo(function HeightGuard({
           }`}
         >
           <Zap className={`w-3.5 h-3.5 ${isAutoFitting ? 'animate-spin text-slate-400' : metrics.isOver ? 'text-white' : 'text-indigo-600 dark:text-indigo-400'}`} />
-          <span>{isAutoFitting ? t.autoFittingBtn : metrics.isOver ? t.autoFitBtn : t.optimizeBtn}</span>
+          <span>{isAutoFitting ? t.autoFittingBtn : metrics.isOver ? `${t.autoFitBtn} (${targetPageLimit}${lang === 'en' ? ' pages' : '页'})` : t.optimizeBtn}</span>
         </button>
       )}
           </motion.div>
