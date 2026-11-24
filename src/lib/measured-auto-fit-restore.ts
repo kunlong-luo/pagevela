@@ -17,6 +17,15 @@ interface RestoreContext {
 }
 
 /** Never replay a stale layout over a different document or manual edits. */
+/**
+ * The app theme is global, not per-resume. Legacy profile settings can still
+ * carry a deprecated themeMode; never reapply it while restoring Auto Fit.
+ * updateSettings strips this property before its profile journal write.
+ */
+export function prepareAutoFitRestoreSettings(before: ResumeSettings): ResumeSettings {
+  return { ...before, themeMode: undefined };
+}
+
 export function canRestoreMeasuredAutoFit(
   snapshot: AutoFitRestoreSnapshot | null,
   context: RestoreContext,

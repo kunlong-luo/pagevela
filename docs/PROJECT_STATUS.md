@@ -1,10 +1,17 @@
 # Pagevela 项目状态 / Project status
 
+### 2026-11-24 已验证主分支交付 / Verified main delivery
+
+- `main` `202bcead397ef9c3ef77d6f83f7ee715a6dfd4ee`：[完整 CI #45324490754](https://github.com/kunlong-luo/pagevela/actions/runs/45324490754) **success**，覆盖 quality、Chromium 全量、Firefox 2/2、WebKit 2/2、跨浏览器汇总以及实际执行的 protected `build-and-test`；[同 SHA Pages #45326859873](https://github.com/kunlong-luo/pagevela/actions/runs/45326859873) 的 **build/deploy 均 success**。
+- [Release 工作流 #45326978990](https://github.com/kunlong-luo/pagevela/actions/runs/45326978990) **success**，但复用发布门禁并没有创建新包：最新正式 Release 仍为 **v2.8.3**，tag `501ca26`，ZIP/TAR.GZ 不追溯包含 `202bcea` 之后的功能。
+- [#317](https://github.com/kunlong-luo/pagevela/pull/317) 的 CI 防跳过保护和 [#318](https://github.com/kunlong-luo/pagevela/pull/318) 的九份文档已随 `202bcea` 取得线上同 SHA 验收。此前 `6532c57` 的 CI **failure** 与 Pages **skipped** 是另一个提交的历史记录，不能覆盖。
+- [#319](https://github.com/kunlong-luo/pagevela/pull/319) 的 Auto Fit 一键恢复仍是**未合并的候选改动**。其新 E2E 基线修复的完整 PR 头 CI 仍待成功验收；本条已部署结论**不包括 #319**。[#312](https://github.com/kunlong-luo/pagevela/issues/312) 继续开放，评分仍 **84/100**。
+
 > **更新日期：2026-11-24。** 最新正式发布版本是 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)；其 tag 解析到 `501ca26a10a023f1a05ce3ce227b288a2a6565d4`（短 SHA `501ca26`）。该 SHA 的 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125)、[Pages build/deploy](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 均为 **success**；Release 于 **2026-11-23 14:44 UTC** 发布。三个资产 `pagevela-2.8.3.zip`、`pagevela-2.8.3.tar.gz`、`SHA256SUMS.txt` 均出现在 GitHub Release 中。**本次核对未独立下载解压二进制包并逐项比对 SHA256**；不可将“资产存在”写成“校验通过”。
 
-> **2026-11-24 最近一次已验证部署的 main：** [PR #314](https://github.com/kunlong-luo/pagevela/pull/314) PDF 失败防护已合并为 `12c7044c2584d25d0d2c94b3a74fb78330dbd407`，其 [完整 main CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 与 [同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) **success**。[#313](https://github.com/kunlong-luo/pagevela/issues/313) 已关闭；[PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 已合并为新 `main` `6532c57`，但**新 SHA 尚未完成同 SHA CI/Pages 验收**。正式下载版本依然是 v2.8.3（tag `501ca26`）；工程评分仍为 [84/100](./ASSESSMENT_20261123.md)。
+> **2026-11-24 最近一次已验证部署的 main：** `202bcead397ef9c3ef77d6f83f7ee715a6dfd4ee`，[完整 CI #45324490754](https://github.com/kunlong-luo/pagevela/actions/runs/45324490754) 与 [同 SHA Pages #45326859873](https://github.com/kunlong-luo/pagevela/actions/runs/45326859873) **success**。其后的功能候选 #319 尚未合并；正式下载版本保持 **v2.8.3**，工程评分 **84/100**。下文 #316/#317 的 pending 和失败描述保留为当时的历史快照。
 
-## 2026-11-24 复核补记：#317 已合并，最新主分支待同 SHA 验收
+## 历史验收快照：#317 合并时的主分支状态（已由上方最新验收更新）
 
 | 检查对象 | 当前确认状态 |
 | --- | --- |

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { ResumeSettings } from '../types';
-import { canRestoreMeasuredAutoFit, type AutoFitRestoreSnapshot } from '../lib/measured-auto-fit-restore';
+import { canRestoreMeasuredAutoFit, prepareAutoFitRestoreSettings, type AutoFitRestoreSnapshot } from '../lib/measured-auto-fit-restore';
 
 const before: ResumeSettings = {
   themeColor: 'indigo', fontSize: 'standard', fontFamily: 'sans',
@@ -19,6 +19,13 @@ const context = {
 };
 
 describe('Auto Fit pre-change layout recovery', () => {
+  it('keeps the global app theme unchanged even with legacy profile themeMode', () => {
+    const restored = prepareAutoFitRestoreSettings({ ...before, themeMode: 'dark' });
+    expect(restored.themeMode).toBeUndefined();
+    expect(restored.margin).toBe('standard');
+    expect(restored.blockGap).toBe(1);
+  });
+
   it('permits restoration only for exactly the last fitted settings', () => {
     expect(canRestoreMeasuredAutoFit(snapshot, context)).toBe(true);
   });

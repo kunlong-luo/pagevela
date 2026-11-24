@@ -3,7 +3,7 @@ import type { Language, ResumeSettings } from '../types';
 import { smartAutoFit } from '../lib/preview-utils';
 import { evaluateMeasuredFitProgress, hasFreshFitMeasurement } from '../lib/measured-auto-fit-policy';
 import { useToast } from '../components/ui/Toast';
-import { canRestoreMeasuredAutoFit, type AutoFitRestoreSnapshot } from '../lib/measured-auto-fit-restore';
+import { canRestoreMeasuredAutoFit, prepareAutoFitRestoreSettings, type AutoFitRestoreSnapshot } from '../lib/measured-auto-fit-restore';
 
 interface FitRun {
   markdown: string;
@@ -184,7 +184,7 @@ export function useMeasuredAutoFit({
     // Disarm before the atomic profile-settings write.
     restoreRef.current = null;
     setCanRestore(false);
-    onRestoreSettings({ ...snapshot.before });
+    onRestoreSettings(prepareAutoFitRestoreSettings(snapshot.before));
     showToast({
       title: uiLanguage === 'en' ? 'Layout restored' : '排版已恢复',
       message: uiLanguage === 'en'
