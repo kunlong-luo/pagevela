@@ -2,7 +2,7 @@
 
 > **截至 2026-11-24：88/100**（项目自定的七维度定性工程评分，不是第三方认证）。评分以已完成 **main 完整 CI 和同 SHA Pages build/deploy** 的代码为准；PR 通过但未部署、文档整理、未独立测试的 Android/打印场景不额外加分。
 
-## 已独立验收的基线 / Proven baseline
+> **后续同日版本交付（评分保持 88）**：v2.8.4 正式 tag `ea2a65b` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；最新纯文档 main `dfad007` 也通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。下文 `a8ec3ae` 是评分所依托的原始**功能验收基线**，不是最新 main。\n\n## 已独立验收的基线 / Proven baseline
 
 | 核验对象 | Git SHA / 可核查证据 | 结果 |
 | --- | --- | --- |
