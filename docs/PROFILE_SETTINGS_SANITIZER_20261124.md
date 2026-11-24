@@ -24,7 +24,7 @@ The store still calls `sanitizeSettings` during initial settings load, existing 
 - The browser bootstrap still migrates and reads IndexedDB **before importing Zustand**. The production application still persists core content through `activeResumePersistence` and its established lock/journal.
 - **Not a cross-tab conflict fix.** The existing lock serializes writes but has no compare-and-swap revision protection. A separate design, explicit conflict state and two-tab E2E recovery proof remain required for [#282](https://github.com/kunlong-luo/pagevela/issues/282).
 - PR quality, TypeScript, unit tests, full Chromium, Firefox/WebKit and protected `build-and-test` must all pass on the **latest PR head**. After merge, verify the **new main SHA** complete CI and same-SHA Pages independently.
-- Do not mark new points in [historical 84/100 engineering baseline](./ASSESSMENT_20261123.md) from this candidate until its production gate is recorded. Stable v2.8.3 ZIP/TAR.GZ remains unchanged.
+- The #322 extraction is now counted as +1 **architecture** in the [verified 87/100 reassessment](./ASSESSMENT_20261124_R2.md); #323 cross-tab protection and real Android/print remain unaccepted and unscored. Stable v2.8.3 ZIP/TAR.GZ remains unchanged.
 
 ## Follow-up / 下一步
 
