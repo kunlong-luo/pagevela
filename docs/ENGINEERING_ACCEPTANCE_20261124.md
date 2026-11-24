@@ -1,3 +1,10 @@
+## Latest same-SHA acceptance — 2026-11-24 · main `8150287`
+
+- **[PR #322](https://github.com/kunlong-luo/pagevela/pull/322)** settings sanitizer pure module and corruption/market tests merged as `9a634df8a95b8069c2b44ea03577b79d945af227`; [main CI #45360517751](https://github.com/kunlong-luo/pagevela/actions/runs/45360517751) **success** (all browser shards + executed `build-and-test`) and [same-SHA Pages #45362570879](https://github.com/kunlong-luo/pagevela/actions/runs/45362570879) **build/deploy success**.
+- **[PR #321](https://github.com/kunlong-luo/pagevela/pull/321)** pairwise Auto Fit A4/Letter, 1/3-page, Chinese/English and two-column E2E plus honest Estimated Fit copy merged as `8150287513fccb28de80d409875b0ea04bcd1edf`; [main CI #45362921101](https://github.com/kunlong-luo/pagevela/actions/runs/45362921101) **success** (quality, full Chromium, Firefox/WebKit 4/4, cross-browser summary and executed protected `build-and-test`); [same-SHA Pages #45364809316](https://github.com/kunlong-luo/pagevela/actions/runs/45364809316) build/deploy **success**.
+- **[Latest engineering reassessment 87/100](./ASSESSMENT_20261124_R2.md)** counts **+1 architecture** only for the independently deployed #322 extraction relative to historical [86/100](./ASSESSMENT_20261124.md). #321 strengthens coverage but does not substitute real Android/OS-print/release-archive checks.
+- **[PR #323](https://github.com/kunlong-luo/pagevela/pull/323)** cross-tab active resume conflict guard is **candidate only**; [older head CI #45362557789](https://github.com/kunlong-luo/pagevela/actions/runs/45362557789) **failure** on user-visible recovery Toast despite persisted conflict drafts. Candidate fixes must pass latest PR-head CI and post-merge same-SHA CI/Pages before any safety claim or added points. Stable downloadable release remains **v2.8.3** (tag `501ca26`); do not backport post-tag changes into old assets.
+
 # Pagevela engineering acceptance / 2026-11-24
 
 ## Latest verified delivery / 最新同 SHA 验收
