@@ -51,11 +51,11 @@
 - 新 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 候选统一预览/工具栏/快捷键，并以实际溢出量适配已选 1/2/3 页，最多 24 次；扩展中英文/真机矩阵和可撤销性仍待验收，不能称作已上线。
 - [PDF #313](https://github.com/kunlong-luo/pagevela/issues/313) scoped fix 已完成；操作系统下载完成、Android 实机系统打印仍不属于此项证明范围。
 
-## 已完成的最新 main 发布验证
+## 历史 main `d0d5486` 验收（由后续 `12c7044` supersede）
 
 - 合并后主分支 `d0d5486da14459d5b4c1df886afea08f38a71827` 的 [CI #45309378710](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710)：quality、完整 Chromium、Firefox 2/2、WebKit 2/2、跨浏览器汇总与最终 `build-and-test` **全部通过**。
 - 同 SHA [Pages #45310525156](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156)：build 和 deploy **成功**；[Release workflow #45310641741](https://github.com/kunlong-luo/pagevela/actions/runs/45310641741) success 为新提交执行了流程，但**未产生新版本 tag，最新正式发行仍为 v2.8.3**。
-- 此已部署 main 包含 #310、#311、#315；#314 的候选 PDF 修改尚不在 main。
+- 此历史 main `d0d5486` 包含 #310、#311、#315，但**不含** #314；最新已部署的 main `12c7044` 已包含 #314，参见上方最新 CI/Pages 快照。
 
 ## 本轮功能优化与下一步
 

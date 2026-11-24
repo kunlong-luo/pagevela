@@ -24,7 +24,7 @@
 - [PR #314](https://github.com/kunlong-luo/pagevela/pull/314) 最新头 `de36a9e` 的 [PR CI #45311296133](https://github.com/kunlong-luo/pagevela/actions/runs/45311296133) **success**，合并为 `12c7044c2584d25d0d2c94b3a74fb78330dbd407`。
 - 该 SHA 的 [完整 main CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947)（quality、Chromium 全量、Firefox 2/2、WebKit 2/2、cross-browser 汇总、`build-and-test`）和 [同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) build/deploy 均成功。[#313](https://github.com/kunlong-luo/pagevela/issues/313) 已关闭。
 - 同 SHA [Release workflow #45313984785](https://github.com/kunlong-luo/pagevela/actions/runs/45313984785) 成功未产生新正式发行版本。发布 ZIP/TAR 仍是 v2.8.3 的旧 SHA `501ca26`，独立归档解压/哈希验证未完成。
-- 后续测量式 Auto Fit 的 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 尚未完成测试、合并或同 SHA Pages。撤销 UX 和低端移动设备矩阵继续在 #312。
+- 后续测量式 Auto Fit 的 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 正在最新提交的 CI 验收，仍未合并或通过同 SHA Pages。该 PR 已增加测量修订号，防止把布局更新前的旧像素高度当作本次压缩反馈；撤销 UX、隐藏预览测量和低端移动设备矩阵继续在 #312。
 
 ## 尚待完成的独立变更
 

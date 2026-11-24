@@ -20,6 +20,19 @@
 - **当前尚未验收**：新 PR 的 TypeScript、lint、Vitest、完整 Chromium、Firefox/WebKit、最终 `build-and-test`；合并后新 SHA 主分支 CI、同 SHA Pages；A4/US Letter × 中/英文 × 1/2/3 目标页 × 各模板 × Android 真实设备的扩展矩阵。未经过这些实测前不关闭 #312。
 - 保留旧 IndexedDB 名称、Web Lock、BroadcastChannel、加密分享 AAD、旧备份与历史归档；未添加原生 `alert/confirm/select/tooltip`。
 
+## 验收矩阵与测试证据边界
+
+| 验收维度 | 已包含在当前 PR 的自动测试 | 尚需单独核实 |
+| --- | --- | --- |
+| 目标 1/2/3 页 | Chromium 以**2 页目标**驱动模拟长简历，验证不重置目标及结束反馈 | 1 页、3 页的完整浏览器级行为 |
+| 收敛性 | 单元测试覆盖不反向放松、24 步上限、4 次停滞停止与测量版本号新旧判断 | 实测不同浏览器下每步重排是否稳定、2.5 秒 watchdog 触发路径 |
+| 文件数据保护 | Chromium 用虚构 Markdown 检查 IndexedDB 原稿重载后保留 | 切换简历/同时编辑/旧备份兼容及独立真实设备运行 |
+| 排版尺寸/语言 | 保留已有的 PDF 打印/导出回归，不修改 PDF 生成器 | A4 + US Letter × 中文 + 英文 × 各布局模板/照片 |
+| 手机兼容 | 保留隐藏预览时的安全单步回退，无原生弹框/选择控件 | Android 微信、Chrome/OEM、低端机性能和安装 PWA 离线 |
+| 交付证据 | 历史 main `12c7044` 的 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 与[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) 已验证，**只覆盖早期改动** | PR #316 最新头完成全部 PR 检查、合并后新 main SHA 完整 CI 与同 SHA Pages |
+
+**现阶段不关闭 #312。** 本文是候选功能开发记录，不把状态栏显示“估计符合目标”理解成真实 PDF 已保存或系统打印分页完全一致。每次后续提交都会刷新最新 PR SHA，对新提交不复用旧 CI 成功结论。
+
 ## 后续待开发
 
 1. 让不显示预览的移动端表单也具备可测量的隐藏布局/等效真实测量，再取消单步回退。

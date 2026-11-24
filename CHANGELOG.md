@@ -3,7 +3,7 @@
 ## Unreleased — post-v2.8.3 main development
 
 - **#310 (deployed):** Editor presence and storage-health Hook extraction; `16b11ff` passed [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196).
-- **#311 (merged, new main acceptance pending):** Repeated Auto Fit no longer loosens compact layout; `e8fdda0` merged after [PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45306184066) passed.
+- **#311 (merged and deployed):** Repeated Auto Fit no longer loosens compact layout; `e8fdda0` merged after successful [PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45306184066) and was independently validated in the subsequent main `d0d5486` [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156).
 - **#314 (merged and deployed on main `12c7044`):** Empty Quick PDF protection, branded error feedback and injected JPEG failure E2E; [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) + [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) success, not retrospectively in v2.8.3 archives.
 - **#316 (candidate only):** Target-aware measured Auto Fit to 1/2/3 pages with unified visible-preview entry points, bounded retries and cancellation. [Implementation/acceptance guide](./docs/MEASURED_AUTO_FIT_20261124.md); PR checks and deployment pending.
 - Still open: measured Auto Fit #312, cross-tab conflict resolution, Android system PDF / installed PWA, private alerts #298, and independent v2.8.3 archive checksum checks.
