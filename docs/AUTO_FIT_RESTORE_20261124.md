@@ -7,7 +7,7 @@
 - Capture the **active profile's complete pre-fit settings** only when a visible-preview measured Auto Fit run actually changes a layout value. Keep the snapshot in transient React memory; do not add a separate localStorage, IndexedDB, analytics or share-link record.
 - Show a bilingual, branded **Restore layout before Auto Fit / 恢复自动适配前排版** button in the existing Height Guard after fitting ends. The same page-details UI supports mobile preview. No native alert, confirm, select or tooltip.
 - Restore in one operation via the established `useResumeStore.updateSettings` profile-settings journal, preserving Markdown and the selected 1/2/3-page target. Clear the one-time action before restoring, and never replay it after a reload.
-- Revoke the restore if Markdown, active profile, selected target, manual layout/settings, or preview edit permissions change. Ineligible shared/overridden previews cannot write into local local-first profiles.
+- Revoke the restore if Markdown, active profile, selected target, manual layout/settings, preview edit permissions **or a newly started Auto Fit run** change. Ineligible shared/overridden previews cannot write into local local-first profiles.
 - Hidden mobile form previews still use one safe adjustment; do not pretend they performed the measurement-driven sequence.
 
 ## Required tests / 验收

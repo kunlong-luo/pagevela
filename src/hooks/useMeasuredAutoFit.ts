@@ -81,6 +81,10 @@ export function useMeasuredAutoFit({
     const node = elementRef.current;
     if (disabled || !node || node.getClientRects().length === 0 || unscaledHeight <= 0) return false;
     if (runRef.current) return true;
+    // Starting a new fit supersedes the previous run's one-time restore.
+    // An older snapshot must never be offered after a fresh fit with no changes.
+    restoreRef.current = null;
+    setCanRestore(false);
     runRef.current = {
       markdown, profileId, target, expectedSettings: JSON.stringify(settings),
       steps: 0, lastOverflowPixels: null, stalledSteps: 0,

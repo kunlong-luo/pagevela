@@ -9,7 +9,7 @@
 | 需求 | 推荐入口 | 用途 |
 | --- | --- | --- |
 | 了解产品、功能、启动项目 | [English README](../README.md) · [中文 README](../README.zh-CN.md) | 产品概述、安装、主要功能 |
-| CI 汇总门禁与失败复盘 | [2026-11-24 工程验收](./ENGINEERING_ACCEPTANCE_20261124.md) · [CI 工作流](../.github/workflows/ci.yml) | 防止 `build-and-test` 因测试失败而 skipped、误触发自动合并；新修复仍待最新头验证 |
+| CI 汇总门禁与失败复盘 | [2026-11-24 工程验收](./ENGINEERING_ACCEPTANCE_20261124.md) · [CI 工作流](../.github/workflows/ci.yml) | 防止 `build-and-test` 因测试失败而 skipped、误触发自动合并；PR #317 最新头 CI 已通过并合并，合并后新 SHA CI/Pages 仍需验收 |
 | 当前仓库与部署状态 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) | 日期、提交 SHA、CI / Pages、开放事项 |
 | 2026-11-24 工程交付证据 | [ENGINEERING_ACCEPTANCE_20261124.md](./ENGINEERING_ACCEPTANCE_20261124.md) · [编辑器 Hook](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md) | #310/#311/#315 同 SHA CI、Pages 验收及未结任务 |
 | 最新发布与安全验收证据 | [RELEASE_SECURITY_ACCEPTANCE_20261123.md](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) | PR #300–308、同 SHA CI / Pages / Release、PWA、安全审计及未结门禁 |
@@ -18,7 +18,7 @@
 | 正式发布 | [RELEASING.md](../RELEASING.md) · [CHANGELOG.md](../CHANGELOG.md) · [RELEASE_NOTES.md](../RELEASE_NOTES.md) | 版本、历史变更、当前发布门禁 |
 | v2.8.3 实际发布验收 | [V2_8_3_RELEASE_ACCEPTANCE_20261123.md](./V2_8_3_RELEASE_ACCEPTANCE_20261123.md) | 已发布 tag、同 SHA 交付证据、ZIP/TAR/SHA256SUMS 清单及独立校验未结项 |
 | 依赖安全审计 | [SECURITY.md](../SECURITY.md) · [Security Inventory](https://github.com/kunlong-luo/pagevela/actions/workflows/security-inventory.yml) · [#298](https://github.com/kunlong-luo/pagevela/issues/298) | 每周 npm 注册表审计、GHSA 证据与尚未核对的 GitHub 私有告警 |
-| 测量式 Auto Fit 新阶段 | [MEASURED_AUTO_FIT_20261124.md](./MEASURED_AUTO_FIT_20261124.md) · [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) | 1/2/3 页目标与有界调整已合并 `6532c57`；最后 PR Chromium CI 失败，新 main 同 SHA CI/Pages 待验收 |
+| 测量式 Auto Fit 新阶段 | [MEASURED_AUTO_FIT_20261124.md](./MEASURED_AUTO_FIT_20261124.md) · [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) | 1/2/3 页测量式适配已合并；#317 修复旧断言和 CI 门禁为 `e00bcbd`，PR 头 CI 成功，新 main 同 SHA CI/Pages 待验收 |
 | 数据导出和跨浏览器迁移 | [WORKSPACE_TRANSFER.md](./WORKSPACE_TRANSFER.md) | 本地备份、导入、隐私风险 |
 
 ## 架构与工程 / Engineering

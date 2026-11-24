@@ -8,7 +8,12 @@
 - [#310](https://github.com/kunlong-luo/pagevela/pull/310) Hook 拆分已在 `16b11ff` 完成 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196)。
 - [#314](https://github.com/kunlong-luo/pagevela/pull/314) 已合并为 `12c7044`，其 [新 main CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 与同 SHA [Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) **success**；[#313](https://github.com/kunlong-luo/pagevela/issues/313) 已关闭，系统下载和 Android 真机仍单独跟踪。
 
-## 2026-11-24 #312 测量式 Auto Fit 已合并、上线验收受阻
+## 2026-11-24 新修复阶段：#317 保护门禁和 Auto Fit 测试
+
+- [#317](https://github.com/kunlong-luo/pagevela/pull/317) 已合并为 `e00bcbd`；[最新头 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45320641952) 全绿，包含执行过的 `build-and-test`。本次解决 #316 旧桌面按钮断言及主分支必需检查被跳过却错误放行的问题。
+- [新 main CI #45322638640](https://github.com/kunlong-luo/pagevela/actions/runs/45322638640) 仍在执行，待同 SHA Pages 成功才能称作线上交付；旧 `6532c57` main CI [失败](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534)，Pages [skipped](https://github.com/kunlong-luo/pagevela/actions/runs/45321277493)。保留 #312 中的撤销、打印分页一致性和设备矩阵待办。
+
+## 2026-11-24 #312 测量式 Auto Fit 已合并、上线验收受阻（历史阶段）
 
 - [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 改为使用 `usePaperMeasurement` 的实际溢出量统一顶部按钮、快捷键及预览控件；尊重用户选定 1/2/3 页目标，设定最多 24 次调整及 4 次停滞中止，并在文档/方案变更时取消。
 - 原有 #311 保证参数不反向变松；#316 已合并到 `main` `6532c57`，但 [PR Chromium 全量 #45318654364](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364) 仍有 1 项旧按钮断言失败（222 通过），[合并后主分支 CI #45320068534](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) 与同 SHA Pages 尚未完成独立验收，因此不能计为已验证上线。隐藏预览时单步回退；撤销能力、中英文 A4/Letter 与 Android 扩展矩阵仍待完成。
