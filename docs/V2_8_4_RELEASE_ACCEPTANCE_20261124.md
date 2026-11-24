@@ -1,28 +1,44 @@
-# Pagevela v2.8.4 发布验收 / Release acceptance
+# Pagevela v2.8.4 正式发布验收 / Release acceptance
 
-> **2026-11-24 · Release candidate, not a published acceptance report.** 本文明确区分已验证的底层改进与新版本正式验收。版本基于 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 之后的开发代码、文档整理和主键/多标签页安全修复。
+> **2026-11-24 — 已正式发布 / Published.** [GitHub Release v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)，稳定 tag 指向 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`（与发布时 `main`、完整 CI、Pages 相同）。该项目的 **88/100** 是工程维度定性评分，不是 Android 真机认证或第三方安全评分。
 
-## 候选变更 / Candidate scope
+## 同 SHA 交付证据 / Independent release gates
 
-- `package.json` 指定 `2.8.4`，全仓使用 Pagevela / 页帆；历史 IndexedDB、锁、跨标签通道、share AAD 和旧备份 ID **不重命名**。
-- [#323](https://github.com/kunlong-luo/pagevela/pull/323)、[#325](https://github.com/kunlong-luo/pagevela/pull/325) 已在正式打包之前的 main `a8ec3ae` 通过 [完整 CI #45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) 和 [同 SHA Pages #45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806)，但**不是**这次 `2.8.4` 版本提交的验收结果。
-- 新的 README、文档目录与历史版本归档由文档整理 PR 交付；`pnpm run docs:check` 必须加入 CI 并通过。
+| 门禁 / Gate | 证据 | 结果 |
+| --- | --- | --- |
+| 文档整理 [#327](https://github.com/kunlong-luo/pagevela/pull/327) | 合并 `62ab43d`，[PR 完整 CI #45383283580](https://github.com/kunlong-luo/pagevela/actions/runs/45383283580)、[新 main CI #45384908747](https://github.com/kunlong-luo/pagevela/actions/runs/45384908747)、[同 SHA Pages #45386763610](https://github.com/kunlong-luo/pagevela/actions/runs/45386763610) | **SUCCESS** |
+| 版本 PR [#328](https://github.com/kunlong-luo/pagevela/pull/328) | 更新 `package.json` 到 `2.8.4`，PR 最新头 `ec76f57`，[完整 PR CI #45385479696](https://github.com/kunlong-luo/pagevela/actions/runs/45385479696)，并合并为 `ea2a65b` | **SUCCESS** |
+| `main` 完整 CI | [#45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)，提交 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`，包含 quality、完整 Chromium、Firefox 2/2、WebKit 2/2、cross-browser 与实际执行的 `build-and-test` | **SUCCESS** |
+| 同 SHA Pages | [#45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)：`build`、`deploy` 均通过 | **SUCCESS** |
+| 自动 Release 工作流 | [#45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)：校验当前 main SHA / CI / Pages，打包、生成 manifest、发布 | **SUCCESS** |
+| 注释 tag | `v2.8.4` tag 对象 `905af3c2c7b15b74fee164c4401fe5a32d7346c1` 解引用到 **`ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`** | **MATCH** |
+| GitHub Release | [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)，发布于 2026-11-24，`draft=false`、`prerelease=false`、latest | **PUBLISHED** |
 
-## 必需门禁 / Must pass before publication
+## 发布附件 / Assets
 
-- [ ] v2.8.4 版本 PR 最新头：quality（TypeScript、strict critical、ESLint、Vitest、docs:check、构建、性能预算）+ Chromium 全量 + Firefox/WebKit 关键测试 + 实际执行的 `build-and-test` 全 success。
-- [ ] 版本 PR 经受保护分支合并，记录**完整** `main` SHA。
-- [ ] 新 main SHA 的 `CI`：quality、完整 Chromium、Firefox 2/2、WebKit 2/2、cross-browser 和实际 `build-and-test` 全 success。
-- [ ] **同一 SHA** 的 `Deploy Pages`：`build` 和 `deploy` 两个 job 成功。
-- [ ] `Release` CI-gated 工作流成功，并按该 SHA 生成不可变的新 `v2.8.4` tag。
-- [ ] GitHub Releases 中确实存在 `pagevela-2.8.4.zip`、`pagevela-2.8.4.tar.gz`、`SHA256SUMS.txt`；检查 tag 解析至 main 发布 SHA。
-- [ ] 独立下载、解压并逐项复算两个归档 SHA256，符合清单（**如果无法完成，保持未勾选，禁止写为已验收**）。
+| 附件 | GitHub 显示字节数 | GitHub 提供的 SHA256 digest |
+| --- | ---: | --- |
+| [pagevela-2.8.4.zip](https://github.com/kunlong-luo/pagevela/releases/download/v2.8.4/pagevela-2.8.4.zip) | 1,503,102 | `0334cfc7d9652d4f19ac146d9bd8a8450ab4e4b7e1fb097f40979a07fb1939f3` |
+| [pagevela-2.8.4.tar.gz](https://github.com/kunlong-luo/pagevela/releases/download/v2.8.4/pagevela-2.8.4.tar.gz) | 1,475,926 | `3c04142088b2858b90fb81e0236ccb245c8f0ccbd83dd6aae89c19660096411f` |
+| [SHA256SUMS.txt](https://github.com/kunlong-luo/pagevela/releases/download/v2.8.4/SHA256SUMS.txt) | 173 | `361a2f05233bb426346689e626503924a0839a00c1bf6d33bc304eeeee093b42` |
 
-## 不能从 CI 推断的事项
+> 这三个 digest 来自 GitHub Release Assets API，并非本轮独立下载后在本地复算。**尚未独立下载、解压两个归档并将重新计算的 SHA256 与清单逐项核对**，因此不能将其标为独立哈希验收完成。
 
-- Android 实际系统打印、保存/打开 PDF、不同 OEM 浏览器和已安装 PWA 的完整真机测试尚未按分项证据独立验收；负责人此前确认的 Android 微信整体通过仍保留。
-- 旧版已打开浏览器标签页仍可能绕过新事务保护，照片/全部 Profile 元数据未纳入完整冲突恢复；跨设备同步未实现。
-- 备份 JSON 不是加密文件；GitHub 私有安全告警 #298 和商标/外部媒体修改仍需另行确认。
-- 本版本是稳定语义版本号，不保证已验证的浏览器产品支持矩阵以外的平台。禁用原生弹窗/Tooltip 的 UI 约束维持。
+## 发布后检查清单 / Final checklist
 
-[RELEASING.md](../RELEASING.md) · [发布说明](../RELEASE_NOTES.md) · [CI/Pages 证据台账](./ENGINEERING_ACCEPTANCE_20261124.md) · [88 分复评](./ASSESSMENT.md)
+- [x] v2.8.4 PR 最新头：quality、docs:check、类型检查、lint、单测、Chromium、Firefox/WebKit、实际 `build-and-test` 全成功。
+- [x] 版本 PR 经过受保护合并，获取新 main SHA。
+- [x] 新 main SHA 完整 CI（含 Firefox/WebKit 全分片及汇总任务）成功。
+- [x] **同一 SHA** Pages build 和 deploy 成功。
+- [x] 自动 Release 工作流成功，创建不可变 `v2.8.4` tag。
+- [x] GitHub Releases 中包含 ZIP、TAR.GZ、SHA256SUMS.txt 三项附件，tag 解引用 SHA 与发布 main 一致。
+- [ ] 独立下载、解压并逐一重新计算 ZIP/TAR.GZ 的 SHA256，与 manifest 比较，记录取证方式。
+
+## 兼容与剩余风险 / Scope limits
+
+- 原 `resume-craft` IndexedDB、Web Lock、BroadcastChannel、加密分享协议及旧备份标识是**历史兼容协议**，不能为了品牌文字统一而重命名。原有 v2.8.3 与更早版本的标签、归档和清单保持不变。
+- 旧版已打开的标签页可能绕过新事务冲突检查；照片/完整 Profile 元信息的无损恢复、跨设备同步及反复冲突的存储上限仍未完整验收，见 [#282](https://github.com/kunlong-luo/pagevela/issues/282)。
+- 负责人确认过 Android 微信真机整体通过；Android 系统 Print/Save as PDF、更多 OEM 浏览器及已安装 PWA 离线模式仍需单项独立记录，见 [#262](https://github.com/kunlong-luo/pagevela/issues/262)。GitHub 私有安全告警 [#298](https://github.com/kunlong-luo/pagevela/issues/298) 亦不得由 report-only 扫描绿灯代替。
+- 旧 `/resume-craft/` Pages 地址仍不提供跳转。官网 [Pagevela](https://kunlong-luo.github.io/pagevela/) 采用新路径。
+
+[项目状态](./PROJECT_STATUS.md) · [当前 88 分复评](./ASSESSMENT.md) · [RELEASING.md](../RELEASING.md) · [新版本发布说明](../RELEASE_NOTES.md)
