@@ -4,7 +4,7 @@
 
 ## 2026-11-24 后续状态（原始审查结论仍保留）
 
-- [#311](https://github.com/kunlong-luo/pagevela/pull/311) 已合并为 `e8fdda0`，同步后的头 `56ecc0e` [完整 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45306184066) 通过；新 main 的部署验收仍须独立核对。**只修复“越按越松”，不保证实际一页排版。**
+- [#311](https://github.com/kunlong-luo/pagevela/pull/311) 已合并为 `e8fdda0`；包含该修复的后续主分支 `d0d5486` [完整 CI #45309378710](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) 与 [同 SHA Pages #45310525156](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156) **均 success**。**只解决反向松动，不保证实际一页排版**。
 - [#310](https://github.com/kunlong-luo/pagevela/pull/310) Hook 拆分已在 `16b11ff` 完成 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196)。
 - [#314](https://github.com/kunlong-luo/pagevela/pull/314) Quick PDF 零页防护仍在独立 PR 验收；[#312](https://github.com/kunlong-luo/pagevela/issues/312) 的溢出量闭环未实现。工程评分沿用 **84/100**。
 
@@ -32,7 +32,7 @@
 
 ## 本轮实施范围及保留的边界
 
-原始审查提出的**Auto Fit 单调性修复**：在 `smartAutoFit` 中移除达到下限后反向调松的兜底；让返回值表示是否修改；重复操作收敛为 no-op；更新 Ctrl/Cmd+Shift+F 的提示，避免虚假的“一键完成一页”暗示。运行时不会修改 IndexedDB/旧备份/加密分享/打印实现；相关代码现在已通过 PR CI 并合并为 `e8fdda0`，新主分支 CI/Pages 仍需独立核验；**该修复不包含在 v2.8.3 正式压缩包中**。
+原始审查提出的**Auto Fit 单调性修复**：在 `smartAutoFit` 中移除达到下限后反向调松的兜底；让返回值表示是否修改；重复操作收敛为 no-op；更新 Ctrl/Cmd+Shift+F 的提示，避免虚假的“一键完成一页”暗示。运行时不会修改 IndexedDB/旧备份/加密分享/打印实现；相关代码已通过 PR CI、合并，并通过后续主分支 `d0d5486` 的完整 CI 与同 SHA Pages 验收；**该修复不包含在 v2.8.3 正式压缩包中**。
 
 后续完整 Auto Fit 闭环、多标签页版本冲突保护、Store 和导出拆分应各自独立 PR，不应一次性重构。保持 **Pagevela 唯一品牌、非原生对话框/下拉/tooltip、移动端可触及按钮及隐私优先** 的现有工程约束。
 

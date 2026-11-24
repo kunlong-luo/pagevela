@@ -5,6 +5,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { trackAnalyticsEvent } from '../lib/analytics';
 import { getMarketDefaultFileName } from '../lib/export-utils';
 import { getPrintPageStyle } from '../lib/print-style';
+import { useToast } from '../components/ui/Toast';
 
 interface UseResumeActionsProps {
   contentRef: React.RefObject<HTMLDivElement | null>;
@@ -12,6 +13,7 @@ interface UseResumeActionsProps {
 }
 
 export function useResumeActions({ contentRef, onPdfExportComplete }: UseResumeActionsProps) {
+  const { showToast } = useToast();
   const {
     paperSize,
     uiLanguage,
@@ -72,7 +74,7 @@ export function useResumeActions({ contentRef, onPdfExportComplete }: UseResumeA
 
       const { exportDirectPDF } = await import('../lib/pdf-export');
       const { settings: currentSettings } = useResumeStore.getState();
-      await exportDirectPDF(targetElement, {
+      const saveRequested = await exportDirectPDF(targetElement, {
         filename: `${getExportTitle()}.pdf`,
         paperSize: currentSettings.paperSize,
         lang: uiLanguage,
@@ -80,6 +82,11 @@ export function useResumeActions({ contentRef, onPdfExportComplete }: UseResumeA
           setPdfExportProgress(status);
         }
       });
+      // A false result is not a successful export. The event represents a
+      // generated PDF/save request, not proof the OS finished downloading it.
+      if (saveRequested !== true) {
+        throw new Error('Quick PDF generator did not initiate a save');
+      }
       trackAnalyticsEvent('pdf_export_success');
       setIsExportingPDF(false);
       setPdfExportProgress(null);
@@ -88,6 +95,15 @@ export function useResumeActions({ contentRef, onPdfExportComplete }: UseResumeA
       console.error('Quick PDF export error:', err);
       setIsExportingPDF(false);
       setPdfExportProgress(null);
+
+      showToast?.({
+        title: uiLanguage === 'en' ? 'Quick PDF could not be generated' : '快速 PDF 生成失败',
+        message: uiLanguage === 'en'
+          ? 'No PDF download was confirmed. Opening the text-preserving browser print option instead.'
+          : '未确认生成可下载的 PDF。将尝试打开保留文字的浏览器打印方式。',
+        type: 'warning',
+        duration: 6500,
+      });
 
       // Fall back to the browser print engine so the user still has
       // a text-preserving export path when raster capture fails.

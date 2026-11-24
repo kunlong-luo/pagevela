@@ -1,6 +1,7 @@
 import { CSS_PX_PER_MM } from './page-layout';
 import { Language, PaperSize } from '../types';
 import { getPaperSpec } from './paper';
+import { assertRasterCanvasDimensions, requireRasterCanvasContext, assertPdfPageCount } from './pdf-export-validation';
 
 export interface DirectPDFExportOptions {
   filename?: string;
@@ -314,7 +315,11 @@ export async function exportDirectPDF(
 
     // Calculate canvas page slice height in canvas pixels based on paper aspect ratio
     const idealPageCanvasHeight = Math.floor(canvas.width * (pageHeight / pageWidth));
-    const mainCtx = canvas.getContext('2d', { willReadFrequently: true });
+    assertRasterCanvasDimensions(canvas.width, canvas.height);
+    const mainCtx = requireRasterCanvasContext(
+      canvas.getContext('2d', { willReadFrequently: true }),
+      'source',
+    );
 
     const canvasScale = canvas.width / Math.max(1, clone.scrollWidth);
     const manualBreakCanvasY = manualBreakOffsets
@@ -324,6 +329,7 @@ export async function exportDirectPDF(
 
     let currentY = 0;
     let pageCount = 0;
+    let renderedPages = 0;
 
     while (currentY < canvas.height) {
       // Check if remaining slice from currentY to canvas.height is completely blank/white
@@ -354,30 +360,29 @@ export async function exportDirectPDF(
       const pageCanvas = document.createElement('canvas');
       pageCanvas.width = canvas.width;
       pageCanvas.height = idealPageCanvasHeight; // maintain standard canvas ratio
-      const ctx = pageCanvas.getContext('2d');
+      const ctx = requireRasterCanvasContext(pageCanvas.getContext('2d'), 'page');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
-      if (ctx) {
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+      // Draw a real image before counting the page as rendered.
+      ctx.drawImage(
+        canvas,
+        0, currentY, canvas.width, sliceHeight,
+        0, 0, canvas.width, sliceHeight
+      );
 
-        // Draw canvas slice onto pageCanvas
-        ctx.drawImage(
-          canvas,
-          0, currentY, canvas.width, sliceHeight,
-          0, 0, canvas.width, sliceHeight
-        );
-
-        if (pageCount > 1) {
-          pdf.addPage(jsPdfFormat, 'p');
-        }
-
-        const pageImgData = pageCanvas.toDataURL('image/jpeg', 0.96);
-        pdf.addImage(pageImgData, 'JPEG', 0, 0, pageWidth, pageHeight, undefined, 'FAST');
+      const pageImgData = pageCanvas.toDataURL('image/jpeg', 0.96);
+      if (renderedPages > 0) {
+        pdf.addPage(jsPdfFormat, 'p');
       }
-
+      pdf.addImage(pageImgData, 'JPEG', 0, 0, pageWidth, pageHeight, undefined, 'FAST');
+      renderedPages++;
       currentY = splitY;
     }
 
+    // All-blank captures and failed page contexts must not produce a valid-looking
+    // but empty PDF or be reported as a successful export.
+    assertPdfPageCount(renderedPages);
     reportProgress('正在保存 PDF 文件...', 'Saving the PDF file...');
     const finalFilename = filename.endsWith('.pdf') ? filename : `${filename}.pdf`;
     
