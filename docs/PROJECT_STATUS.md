@@ -1,18 +1,23 @@
 # Pagevela 项目状态 / Project status
 
-> **2026-11-23 当前发版准备：** #307 合并 SHA [`ac2932c`](https://github.com/kunlong-luo/pagevela/commit/ac2932c9fa660febffce1613bbfd8fa9f561a3ed) 的 [CI #45185347889](https://github.com/kunlong-luo/pagevela/actions/runs/45185347889)（Chromium、Firefox/WebKit 全分片、最终 `build-and-test`）、[Pages #45188965398](https://github.com/kunlong-luo/pagevela/actions/runs/45188965398)（build/deploy）、[Release #45189104214](https://github.com/kunlong-luo/pagevela/actions/runs/45189104214)（已有 v2.8.2 安全跳过）均 **success**。新 [#309](https://github.com/kunlong-luo/pagevela/pull/309) PR 同步将 `package.json`、中英文 README 与发行文档升级到 **v2.8.3 候选**。该 PR 尚未合并；新版本 tag、ZIP/TAR 与校验和**尚未创建/验证**，最新正式下载仍为 [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)。工程复评仍为 [84/100](./ASSESSMENT_20261123.md)。
+> **更新日期：2026-11-24。** 最新正式发布版本是 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)；其 tag 解析到 `501ca26a10a023f1a05ce3ce227b288a2a6565d4`（短 SHA `501ca26`）。该 SHA 的 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125)、[Pages build/deploy](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 均为 **success**；Release 于 **2026-11-23 14:44 UTC** 发布。三个资产 `pagevela-2.8.3.zip`、`pagevela-2.8.3.tar.gz`、`SHA256SUMS.txt` 均出现在 GitHub Release 中。**本次核对未独立下载解压二进制包并逐项比对 SHA256**；不可将“资产存在”写成“校验通过”。
 
-> **核对日期：2026-11-23。** 这是人工复核的时间点，不是自动更新面板。核对现在的发布情况时，应重新打开 [main](https://github.com/kunlong-luo/pagevela/tree/main)、[Actions](https://github.com/kunlong-luo/pagevela/actions)、[Pages 部署](https://github.com/kunlong-luo/pagevela/actions/workflows/deploy.yml) 及 [Releases](https://github.com/kunlong-luo/pagevela/releases)。**源代码已合并、CI 通过、Pages 已部署和 Release 已打包是四件不同的事。**
+> 此次继续推进 [#282](https://github.com/kunlong-luo/pagevela/issues/282) 的工作区安全通知 Hook 拆分及测试：**变更仍在 PR 分支，不属于 v2.8.3 线上版本**。合并前需完成 PR CI；合并后需另行核对新 SHA 的 main CI 和同 SHA Pages 部署。工程评分沿用 [2026-11-23 的 84/100](./ASSESSMENT_20261123.md)，不因版本发布或文档修订自动加分。
 
 ## 本次已核对的版本、分支和交付
 
-| 对象 | 状态及证据 |
+| 对象 | 核验结论 |
 | --- | --- |
-| 目前已通过完整生产验收的 `main` | [`ac2932c`](https://github.com/kunlong-luo/pagevela/commit/ac2932c9fa660febffce1613bbfd8fa9f561a3ed)：[CI #45185347889](https://github.com/kunlong-luo/pagevela/actions/runs/45185347889) 全绿、[Pages #45188965398](https://github.com/kunlong-luo/pagevela/actions/runs/45188965398) build+deploy success、[Release #45189104214](https://github.com/kunlong-luo/pagevela/actions/runs/45189104214) 安全跳过已发布 v2.8.2 |
-| 先前已部署版本 | [`077e649`](https://github.com/kunlong-luo/pagevela/commit/077e64991801b3f30b4b5cdb2e594ea3c278af36)：[CI](https://github.com/kunlong-luo/pagevela/actions/runs/45172148513)、[Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45174090788)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45174220771) 同 SHA 全成功 |
-| 目标新发行版本 | **v2.8.3 候选**，[#309](https://github.com/kunlong-luo/pagevela/pull/309) 中；须走新 main SHA 的 CI、Pages、Release，验证 `pagevela-2.8.3.zip`、`.tar.gz` 和 `SHA256SUMS.txt` |
-| 最新**已发布** GitHub 下载 | [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)；历史 tag/附件不能被新源码覆盖 |
-| 依赖安全 | [#309 Security Inventory #45186834417](https://github.com/kunlong-luo/pagevela/actions/runs/45186834417) 为 registry 0 advisory；私有 GitHub Dependabot 告警未核实 |
+| 最新正式 GitHub Release | [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)；发布于 2026-11-23；ZIP/TAR.GZ/SHA256SUMS 三项资产存在 |
+| 已发布版本的 tag | Annotated tag `v2.8.3` 指向 `501ca26a10a023f1a05ce3ce227b288a2a6565d4` |
+| 该 SHA 的 main CI | [#45194841125](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125) **success**：quality、Chromium、Firefox 2/2、WebKit 2/2、最终 `build-and-test` |
+| 该 SHA 的 Pages | [#45197119172](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172) **success**：build 与 deploy 均通过 |
+| 该 SHA 的自动 Release | [#45197385098](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) **success**；实际新标签/资产已创建，区别于先前 v2.8.2 的 no-op |
+| 产物完整性边界 | GitHub 展示三项资产；**本轮未独立完成解压和 `sha256sum -c`** |
+| 待处理历史分支 | `docs/china-hosting-edgeone-pilot-20261020` 和 `fix/pr-aggregate-check-after-skipped-shard-20261022` 仍存在；未经补丁对比核验不删除 |
+| 依赖/设备边界 | Registry Security Inventory 成功不等于私有 Dependabot 告警清零；Android 微信真机负责人报告 PASS，其余手机系统打印/离线矩阵未完整验收 |
+
+本页是**日期快照**。后续合并会改变 `main`，不能直接沿用上述 SHA 的 CI/部署作为新提交证据。[Actions](https://github.com/kunlong-luo/pagevela/actions) · [Releases](https://github.com/kunlong-luo/pagevela/releases)。
 
 ## 已落实的工程修复
 
@@ -24,10 +29,11 @@
 
 ## 尚未完成，不得写成通过
 
-1. **v2.8.3 首次新包发行：** [#309](https://github.com/kunlong-luo/pagevela/pull/309) 新头提交通过 CI/CodeQL/安全审计后方可合并；合并后必须再次核对新 SHA 的完整 CI → Pages build/deploy → Release 新 tag 与 ZIP/TAR/SHA256SUMS。不能以 v2.8.2 no-op 当成新版本已发布。
-2. **Android 真机 #262：** 负责人报告微信真机总体 PASS；系统 Save-as-PDF、Chrome/Samsung/OEM、安装后 PWA 离线尚无完整独立矩阵。
-3. **GitHub 私有安全告警 #298：** npm 注册表无公告不能证明私有 Dependabot 告警清零；旧 Workbox 依赖路径仍待研究。
-4. **架构和外部治理：** #282、#200、#115、#202 继续跟踪；本轮 84 分不自动提升。
+1. **v2.8.3 发布资产二进制完整性：** Release 文件和校验和清单均存在，但本轮尚未独立下载解压、执行逐项 SHA256 比对；本项不应勾选。
+2. **本轮 Hook 代码变更：** 新安全通知拆分需要通过 PR CI、review、main 合并后 CI 与 Pages 的**新 SHA** 验收；不得写成已发布在 v2.8.3。
+3. **Android 真机 #262：** 负责人报告微信真机总体 PASS；系统 Save-as-PDF、Chrome/Samsung/OEM、安装后 PWA 离线尚无完整独立矩阵。
+4. **GitHub 私有安全告警 #298：** npm 注册表无公告不能证明私有 Dependabot 告警清零；旧 Workbox 依赖路径仍待研究。
+5. **架构和外部治理：** #282、#200、#115、#202 继续跟踪；本轮 84 分不自动提升。
 
 ## 当前操作文档与历史
 

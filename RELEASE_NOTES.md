@@ -2,7 +2,7 @@
 
 **中文名称：** 页帆 v2.8.3
 
-**Status on 2026-11-23:** Release candidate. This document does not prove publication. Verify [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) points to the CI/Pages-verified production SHA and supplies `pagevela-2.8.3.zip`, `pagevela-2.8.3.tar.gz`, `SHA256SUMS.txt` with valid hashes before declaring it published.
+**Release verification (updated 2026-11-24):** [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) was published on 2026-11-23 from `501ca26`. Its [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125), [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172) and [Release run](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) succeeded. ZIP/TAR.GZ and `SHA256SUMS.txt` are present. This review did **not independently extract archives or verify downloaded SHA256 hashes**; those checks remain pending.
 
 ## Changes / 主要改进
 
