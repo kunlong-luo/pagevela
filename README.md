@@ -61,7 +61,7 @@ Check local document links with `pnpm run docs:check`. The documentation quality
 
 ## v2.8.4 release information
 
-**Source version: `2.8.4`.** Check the actual [v2.8.4 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) and its same-SHA CI/Pages before treating downloadable archives as published. The package version alone is not proof of publication. [Release notes](RELEASE_NOTES.md) · [acceptance checklist](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md).
+**Pagevela [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) is published** (2026-11-24). Annotated tag `ea2a65b`; [full main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722), [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) and [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) all succeeded. Assets: `pagevela-2.8.4.zip`, `.tar.gz`, `SHA256SUMS.txt`. Independent archive extraction/SHA256 recomputation is still pending. [Release notes](RELEASE_NOTES.md) · [acceptance report](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md).
 
 ## Development since the v2.8.3 archive
 
