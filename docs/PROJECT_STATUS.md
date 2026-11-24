@@ -5,6 +5,19 @@
 
 > **核验日期：2026-11-24。** 本页是最近一次已核验的工程状态快照，不是实时 CI 面板。判断后续代码是否已上线，请分别查看 [main](https://github.com/kunlong-luo/pagevela/commits/main)、[Actions](https://github.com/kunlong-luo/pagevela/actions)、[Releases](https://github.com/kunlong-luo/pagevela/releases)。
 
+## 最新验收：v2.8.4 正式发布（2026-11-24）
+
+| 核对对象 | 已验证结果 |
+| --- | --- |
+| 当前 main 与 annotated tag | `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`，`v2.8.4` tag 已解引用指向该提交 |
+| 完整 CI | [#45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) **success**，含 quality、Chromium、Firefox/WebKit 四分片和实际 `build-and-test` |
+| 同 SHA Pages | [#45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) **build/deploy success** |
+| 正式 Release | [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)、[Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) **success** |
+| 发布资产 | ZIP、TAR.GZ 和 SHA256SUMS 都存在，尚未独立下载/解压/重新计算哈希 |
+| 当前工程评分 | [88/100](./ASSESSMENT.md)，仅计实际通过的代码改进，发布本身不重复加分 |
+
+以下 `a8ec3ae` 为 **v2.8.4 升版前的历史研发基线**，不再代表最新已发布主分支；仍保留以便审计。Android 系统打印、旧版已打开标签页、照片/完整档案冲突恢复等仍未独立验收。
+
 ## 最新交付 / Latest verified delivery
 
 | 项目 | 状态 | 证据 |
