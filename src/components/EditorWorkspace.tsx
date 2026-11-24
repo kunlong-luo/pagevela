@@ -1,4 +1,3 @@
-import { getProductDisplayName } from '../lib/brand';
 import { useRef, useEffect, useState, useCallback, Suspense, lazy } from 'react';
 import { Editor, type EditorMode } from './Editor';
 import { Preview } from './preview/Preview';
@@ -14,11 +13,11 @@ import { PdfExportMenu } from './header/PdfExportMenu';
 import { Tooltip } from './ui/Tooltip';
 import { markSupportPrompt, recordCompletedPdfExportFlowAndShouldPrompt } from '../lib/support-prompt';
 import { trackAnalyticsEvent } from '../lib/analytics';
-import { storage, STORAGE_HEALTH_EVENT, STORAGE_KEYS, type StorageHealthDetail } from '../lib/storage';
 import { useResizableSplitPane } from '../hooks/useResizableSplitPane';
 import { usePeriodicDraftHistory } from '../hooks/usePeriodicDraftHistory';
 import { useEditorKeyboardShortcuts } from '../hooks/useEditorKeyboardShortcuts';
-import { RESUME_TABS_CHANNEL_NAME } from '../lib/resume-storage-contract';
+import { useEditorSafetyNotifications } from '../hooks/useEditorSafetyNotifications';
+import { storage, STORAGE_KEYS } from '../lib/storage';
 
 const ResumeChecker = lazy(() => import('./resume-checker/ResumeChecker').then(m => ({ default: m.ResumeChecker })));
 const IframeWarningModal = lazy(() => import('./IframeWarningModal').then(m => ({ default: m.IframeWarningModal })));
@@ -149,81 +148,11 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
 
   const { showToast } = useToast() || {};
 
-  useEffect(() => {
-    if (typeof BroadcastChannel === 'undefined') return;
-
-    const sourceId =
-      typeof crypto !== 'undefined' && 'randomUUID' in crypto
-        ? crypto.randomUUID()
-        : `tab_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-    const channel = new BroadcastChannel(RESUME_TABS_CHANNEL_NAME);
-    let warned = false;
-
-    const warnAboutAnotherTab = () => {
-      if (warned) return;
-      warned = true;
-      showToast?.({
-        title: uiLanguage === 'en' ? `${getProductDisplayName('en')} is open in another tab` : `检测到另一个 ${getProductDisplayName('zh')} 标签页`,
-        message: uiLanguage === 'en'
-          ? 'Avoid editing the same resume in multiple tabs at once. Local writes are serialized, but the latest edit can still replace older state.'
-          : '请避免在多个标签页同时编辑同一份简历。写入会串行处理，但较新的编辑仍可能覆盖较旧状态。',
-        type: 'info',
-        duration: 7000,
-      });
-    };
-
-    channel.onmessage = (event) => {
-      const message = event.data as { type?: string; sourceId?: string } | null;
-      if (!message || message.sourceId === sourceId) return;
-
-      if (message.type === 'hello') {
-        warnAboutAnotherTab();
-        channel.postMessage({ type: 'presence', sourceId });
-      } else if (message.type === 'presence') {
-        warnAboutAnotherTab();
-      }
-    };
-
-    channel.postMessage({ type: 'hello', sourceId });
-    return () => channel.close();
-  }, [uiLanguage, showToast]);
-
-  useEffect(() => {
-    const handleStorageHealth = (event: Event) => {
-      const detail = (event as CustomEvent<StorageHealthDetail>).detail;
-      if (!detail) return;
-
-      if (detail.status === 'recovered') {
-        setStorageHealth('ok');
-        showToast?.({
-          title: uiLanguage === 'en' ? 'Local saving restored' : '本地保存已恢复',
-          message: uiLanguage === 'en'
-            ? 'Resume changes can be saved to this browser again.'
-            : '浏览器本地存储已恢复，可以继续自动保存简历修改。',
-          type: 'success',
-          duration: 3500,
-        });
-        return;
-      }
-
-      setStorageHealth('error', detail.quotaExceeded === true);
-      showToast?.({
-        title: uiLanguage === 'en' ? 'Local save failed' : '本地保存失败',
-        message: detail.quotaExceeded
-          ? (uiLanguage === 'en'
-            ? 'Browser storage is full. Export a JSON backup before closing this page, then free storage space.'
-            : '浏览器本地存储空间不足。关闭页面前请先导出 JSON 备份，再清理存储空间。')
-          : (uiLanguage === 'en'
-            ? 'The browser rejected a local storage write. Export a JSON backup before closing this page.'
-            : '浏览器拒绝写入本地存储。关闭页面前请先导出 JSON 备份。'),
-        type: 'error',
-        duration: 8000,
-      });
-    };
-
-    window.addEventListener(STORAGE_HEALTH_EVENT, handleStorageHealth);
-    return () => window.removeEventListener(STORAGE_HEALTH_EVENT, handleStorageHealth);
-  }, [setStorageHealth, uiLanguage, showToast]);
+  useEditorSafetyNotifications({
+    uiLanguage,
+    showToast,
+    setStorageHealth,
+  });
 
   useEditorKeyboardShortcuts({
     uiLanguage,

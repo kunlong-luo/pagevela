@@ -1,33 +1,31 @@
-# Pagevela v2.8.3 发布验收表 / 2026-11-23
+# Pagevela v2.8.3 发布验收 / 2026-11-23（11-24 补充核对）
 
-> **状态：候选；首次新版本附件尚未验收。** 本页清单不是 GitHub 发布成功的证明；最终以同 SHA CI/Pages 和 GitHub Release 资产为准。
+> **状态：已发布，CI/Pages/Release 闭环通过；二进制包解压及 SHA256 独立比对待验。** 历史候选清单已由 2026-11-24 的 GitHub 实际运行结果更新。此记录不代表 Android 系统打印或私有安全告警通过。
 
-## 目标
+## 发布对象和来源
 
-- 唯一版本源：`package.json` = `2.8.3`，运行时通过 Vite `__APP_VERSION__` 注入。
-- 官方网站：`https://kunlong-luo.github.io/pagevela/`；预期归档：`pagevela-2.8.3.zip`、`pagevela-2.8.3.tar.gz`、`SHA256SUMS.txt`。
-- 更新内容：草稿历史协调和存储可靠性、分栏修复、编辑器快捷键 Hook、生产 PWA 离线、PDF 解析/草稿保留、Chromium/Firefox/WebKit 跨浏览器质量及发布门禁。
-- 不修改已有 IndexedDB 标识、跨标签页通道、旧备份和加密分享协议，不恢复旧站自动跳转，不加入原生弹窗。
+- npm 唯一版本源 `package.json`：`2.8.3`，应用版本通过 Vite 注入。
+- [#309](https://github.com/kunlong-luo/pagevela/pull/309) **已合并**；最终 main SHA：[`501ca26`](https://github.com/kunlong-luo/pagevela/commit/501ca26a10a023f1a05ce3ce227b288a2a6565d4)。
+- GitHub [v2.8.3 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 于 **2026-11-23 14:44:49 UTC** 发布。
+- Annotated tag `v2.8.3` 的 tag object 解析到 `501ca26a10a023f1a05ce3ce227b288a2a6565d4`，与以下三个工作流的 head SHA 一致。
 
-## 已验证的上一版源码
+## 验收矩阵
 
-- [#307](https://github.com/kunlong-luo/pagevela/pull/307) 合并为 [`ac2932c`](https://github.com/kunlong-luo/pagevela/commit/ac2932c9fa660febffce1613bbfd8fa9f561a3ed)：[CI #45185347889](https://github.com/kunlong-luo/pagevela/actions/runs/45185347889) 完整质量/浏览器/生产离线/final `build-and-test` **success**。
-- [Pages #45188965398](https://github.com/kunlong-luo/pagevela/actions/runs/45188965398) build+deploy **success**，[Release #45189104214](https://github.com/kunlong-luo/pagevela/actions/runs/45189104214) 校验两层门禁后安全跳过现有 v2.8.2；**这是上游源码的验收，不是 v2.8.3 首次打包成功**。
-- 正式已打包版本仍为 [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)。
+| 验收项 | 状态与证据 |
+| --- | --- |
+| [x] main 完整 CI | [#45194841125](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125) success：quality、Chromium、Firefox 1/2 与 2/2、WebKit 1/2 与 2/2，以及 `build-and-test` 成功 |
+| [x] 同 SHA Pages | [#45197119172](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172) success：`build` 与 `deploy` 均成功 |
+| [x] Release 触发链 | [#45197385098](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) success：`Build & Release` job 成功，新版本并非既有标签的 no-op |
+| [x] 首次创建 tag | `refs/tags/v2.8.3` 解析至 `501ca26a10a023f1a05ce3ce227b288a2a6565d4` |
+| [x] 文件上架 | Release 包含 `pagevela-2.8.3.zip`（1,499,730 字节）、`pagevela-2.8.3.tar.gz`（1,473,157 字节）、`SHA256SUMS.txt`（173 字节） |
+| [ ] 独立校验资产二进制 | 本轮没有实际解压包/运行 `sha256sum -c SHA256SUMS.txt`；不能以文件名、尺寸或工作流成功替代校验 |
+| [ ] Android 真机完整矩阵 | 微信负责人报告 PASS；原生系统 PDF、Chrome/OEM、安装后 PWA 离线分别由 [#262](https://github.com/kunlong-luo/pagevela/issues/262) 跟踪 |
+| [ ] GitHub 私有 Dependabot 安全告警 | Registry Security Inventory 通过不意味着安全后台告警为零，见 [#298](https://github.com/kunlong-luo/pagevela/issues/298) |
 
-## v2.8.3 必需发版门槛
+## 内容和兼容范围
 
-- [ ] [#309](https://github.com/kunlong-luo/pagevela/pull/309) 最终头：TypeScript 标准/严格、i18n、ESLint、Vitest、构建、PWA app-shell、性能预算；Chromium 全量+生产离线、Firefox/WebKit 关键 E2E；CodeQL 和 registry 审计、最终 `build-and-test` 均通过。
-- [ ] 合并到 main 后记录新的精确 SHA，再确认 push CI 的 quality、Chromium、Firefox/WebKit 四个完整分片及最终 `build-and-test` 全绿。
-- [ ] 同 SHA Pages 的实际 `build` 和 `deploy` **success**；拒绝旧 SHA 的过期构建，不能只看 PR 绿灯。
-- [ ] Release 检查同 SHA 的 main CI 和 Pages 均成功，实际创建 `v2.8.3` tag，且指向该 SHA。
-- [ ] GitHub Release 有 `pagevela-2.8.3.zip`、`pagevela-2.8.3.tar.gz` 和 `SHA256SUMS.txt`，实际可下载解压，使用 `sha256sum -c SHA256SUMS.txt` 或等效逐项比对成功。
-- [ ] 发布后同步更新 [项目状态](./PROJECT_STATUS.md)、[发行台账](./RELEASE_SECURITY_ACCEPTANCE_20261123.md)、[发布指南](../RELEASING.md) 中的实际新 SHA、Release ID 与证据。
+本版本交付串行 IndexedDB 草稿写入、周期历史协调、分栏回归修复、快捷键 Hook、Workbox 生产预缓存、Chromium 离线导航及 PDF 解析/草稿保留浏览器回归。保留旧 IndexedDB/跨标签页标识、历史 JSON 备份与 v2/v3 加密分享读取；不引入原生弹窗，不恢复 `/resume-craft/` 旧站重定向，不声明商标法律核准。
 
-## 尚未完成的独立事项
+**2026-11-24 后续架构工作不属于 v2.8.3：** 工作区多标签页提醒和存储健康监听拆分见 [架构记录](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md) 与 [#282](https://github.com/kunlong-luo/pagevela/issues/282)，必须在新的 PR/main/Pages 完整链路中分别验收。
 
-- [Android 真实设备 #262](https://github.com/kunlong-luo/pagevela/issues/262)：用户报告微信真机总体 PASS；系统 Print/Save-as-PDF、其他 Android 浏览器、安装后离线 PWA 和具体设备矩阵不能由桌面自动化代替。
-- [私有 GitHub 安全告警 #298](https://github.com/kunlong-luo/pagevela/issues/298)：pnpm 注册表 0 条公告不代表 GitHub 私有 Dependabot 告警已清零。
-- [架构 #282](https://github.com/kunlong-luo/pagevela/issues/282)、[品牌 #202](https://github.com/kunlong-luo/pagevela/issues/202)：大型 Editor/Store/导出拆分、商标与外站资料单独验收。工程评分沿用 [84/100](./ASSESSMENT_20261123.md) 的有日期报告，不因版本号提高。
-
-[文档索引](./README.md) · [发行说明](../RELEASE_NOTES.md) · [变更日志](../CHANGELOG.md)
+[状态快照](./PROJECT_STATUS.md) · [发布台账](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) · [发布流程](../RELEASING.md)

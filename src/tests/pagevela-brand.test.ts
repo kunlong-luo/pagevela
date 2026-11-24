@@ -149,6 +149,9 @@ describe('Pagevela public brand and compatibility', () => {
     expect(source('vite.config.ts')).toContain("cacheName: 'pagevela-pdf-tools'");
     expect(source('package.json')).toContain('"name": "pagevela"');
     expect(source('src/components/EditorWorkspace.tsx')).toContain(
+      'useEditorSafetyNotifications({',
+    );
+    expect(source('src/hooks/useEditorSafetyNotifications.ts')).toContain(
       'new BroadcastChannel(RESUME_TABS_CHANNEL_NAME)',
     );
     expect(source('src/components/layout/Header.tsx')).toContain(
