@@ -23,8 +23,8 @@ Unit tests inject a persistence writer to cover coalescing, manual-save FIFO ord
 
 - Split-pane pointer geometry, RAF coalescing, event listener cleanup, last-pointer persistence and double-click reset are isolated in `useResizableSplitPane`. **2026-11-22 follow-up:** the split-handle E2E double-click reset was failing across browsers because the drag-disabled tooltip could replace its trigger DOM during a click sequence; see [current status](./PROJECT_STATUS.md). Do not mark P1 full regression acceptance passed until main CI and same-SHA Pages succeed.
 - The 3-minute historical draft rotation is isolated in `usePeriodicDraftHistory` with a pure, tested retention policy (five automatic drafts plus existing manual drafts) and a per-workspace in-flight guard.
-- The current draft-history replacement still shares IndexedDB with manually edited draft history; a future issue should serialize all draft-history writers, not just the active resume snapshot.
-- The component still retains keyboard shortcuts, storage notifications and presence announcements for a subsequent scoped PR. No native browser dropdown/confirmation widgets were introduced.
+- **Historical snapshot as of 2026-10-26:** draft history then shared IndexedDB with manually edited drafts; the subsequent #293 atomic transaction and FIFO coordination addressed this writer-race risk on 2026-11-22, as documented below.
+- **Historical snapshot as of 2026-10-26:** the component then retained keyboard shortcuts, storage notifications and presence announcements for follow-up PRs. These extractions have since been delivered (#307 and #310); see the dated addendum below. No native browser dropdown/confirmation widgets were introduced.
 
 ## Follow-up review (not implemented here)
 
@@ -43,3 +43,10 @@ Run `pnpm run typecheck`, `pnpm run lint`, `pnpm run test`, `pnpm run build`, an
 - `resumeRepository.mutateDrafts` reads and transforms the current list **inside the same Dexie read/write transaction**, preventing stale read/replace overwrites even if `navigator.locks` is unsupported. The coordinator additionally acquires the existing write lock when available, shared with active resumes and full workspace restore.
 - The timed rotation uses fresh current editor state **when its queued update executes**, so a timer queued during workspace restoration cannot replay old data after the import.
 - Tests cover overlapping writes, delete/rename vs timer, restore barriers, ordered reads, no-op handling and recovery after failed writes. Existing IndexedDB names, schema, portable backups and Web Lock names are preserved.
+
+## 2026-11-24: Editor-side lifecycle extraction fully verified
+
+- [PR #307](https://github.com/kunlong-luo/pagevela/pull/307) extracted global keyboard shortcuts into `src/hooks/useEditorKeyboardShortcuts.ts`, preserving Ctrl/Cmd+S, Ctrl/Cmd+P, Ctrl/Cmd+Shift+F and autosave coordinator semantics; its earlier same-SHA main CI/Pages evidence remains documented in [project status](./PROJECT_STATUS.md).
+- [PR #310](https://github.com/kunlong-luo/pagevela/pull/310) extracted `BroadcastChannel` presence and storage-health toast effects into `src/hooks/useEditorSafetyNotifications.ts`, preserving existing channel and `STORAGE_HEALTH_EVENT` identifiers. The merged commit `16b11ff2a6e713ab0567c6548406252c659dd5ff` has [full main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) including Chromium, Firefox/WebKit and final `build-and-test` plus [same SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196), both **success**. See [hook behavior contract](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md).
+- This does **not** implement two-tab conflict resolution or guarantee lossless merge of simultaneously edited resumes: the presence channel warns rather than resolving writes. Domain isolation in the ~1,043-line Zustand store, measured Auto Fit, parser/export modularity and full Android real-device QA also remain open.
+- The currently published `v2.8.3` ZIP/TAR archives belong to tag SHA `501ca26`; later main commits are deployed, not automatically repackaged. A new version requires a separate release procedure.

@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | 了解产品、功能、启动项目 | [English README](../README.md) · [中文 README](../README.zh-CN.md) | 产品概述、安装、主要功能 |
 | 当前仓库与部署状态 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) | 日期、提交 SHA、CI / Pages、开放事项 |
-| 编辑器 Hook 2026-11-24 验收 | [PR #315](https://github.com/kunlong-luo/pagevela/pull/315) · [编辑器安全通知说明](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md) | 记录 #310 同 SHA CI/Pages；验收台账合并前以 PR 为准 |
+| 2026-11-24 工程交付证据 | [ENGINEERING_ACCEPTANCE_20261124.md](./ENGINEERING_ACCEPTANCE_20261124.md) · [编辑器 Hook](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md) | #310/#311/#315 同 SHA CI、Pages 验收及未结任务 |
 | 最新发布与安全验收证据 | [RELEASE_SECURITY_ACCEPTANCE_20261123.md](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) | PR #300–308、同 SHA CI / Pages / Release、PWA、安全审计及未结门禁 |
 | 项目评估和优先级 | [ASSESSMENT_20261123.md](./ASSESSMENT_20261123.md) · [11/22 历史 76 分](./ASSESSMENT_20261122.md) | 84/100 新复评、逐项证据、评分变化和未结风险 |
 | 新人贡献和开发 | [CONTRIBUTING.md](../CONTRIBUTING.md) · [UI 组件规范](./BRANDED_UI_CONTRACT.md) | TypeScript、测试、PR 与设计系统 |
@@ -26,8 +26,8 @@
 - [产品分析与隐私边界](./PRODUCT_ANALYTICS.md)；[品牌 UI 组件契约](./BRANDED_UI_CONTRACT.md)：现行工程规范
 - [架构路线图 #282](https://github.com/kunlong-luo/pagevela/issues/282)：编辑器拆分、存储安全、性能与 CI 回归
 - [Quick PDF 空白输出与错误反馈防护（2026-11-24）](./PDF_EXPORT_FAILURE_SAFETY_20261124.md)：画布/上下文/零有效页保护、品牌化失败提示、CI 与真机验收边界
-- [功能优化路线图（#311）](https://github.com/kunlong-luo/pagevela/pull/311)：Auto Fit、PDF、数据安全、移动端和性能优化优先级及未结门禁
-- [编辑器安全通知 Hook 拆分（2026-11-24）](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md)：多标签页存在检测、存储错误/恢复通知的行为契约、单元测试和未发布门禁
+- [功能优化路线图](./PRODUCT_OPTIMIZATION_ROADMAP_20261124.md)：Auto Fit、PDF、数据安全、移动端和性能优化优先级及未结门禁
+- [编辑器安全通知 Hook 拆分（2026-11-24）](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md)：多标签页存在检测、存储错误/恢复通知与已核验的主分支 CI/Pages
 - [编辑器快捷键 Hook 边界（2026-11-23）](./EDITOR_KEYBOARD_SHORTCUTS_20261123.md)：保存/打印/Auto Fit 的兼容契约与自动化回归
 
 ## 发布、品牌与宣传 / Release and brand

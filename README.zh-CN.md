@@ -47,6 +47,14 @@
 
 ---
 
+## v2.8.3 发布后的主分支开发（不包含在该版本压缩包内）
+
+- **[#310](https://github.com/kunlong-luo/pagevela/pull/310) 编辑器架构：** 多标签页提醒与存储健康通知拆分到独立 Hook，合并提交 `16b11ff` 的 [完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) 与 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196) 已验收。
+- **[#311](https://github.com/kunlong-luo/pagevela/pull/311) Auto Fit 稳定性：** 修复重复点击后紧凑间距反向放大和快捷键误报，已合并为 `e8fdda0`；PR CI 通过，**新主分支 CI/Pages 仍须独立核对**。
+- **[#314](https://github.com/kunlong-luo/pagevela/pull/314) Quick PDF：** 空白输出防护仍在 PR 验收，并非已发布功能。实际溢出量驱动的智能单页另由 [#312](https://github.com/kunlong-luo/pagevela/issues/312) 跟踪。
+
+以上改动不会追溯替换 v2.8.3 发布包。参见 [工程验收记录](docs/ENGINEERING_ACCEPTANCE_20261124.md) 和 [功能优化路线图](docs/PRODUCT_OPTIMIZATION_ROADMAP_20261124.md)。定性评分仍为 **84/100**。
+
 ## 🆕 v2.8.3 更新
 
 本次是**本地草稿可靠性与编辑器可维护性**的补丁升级。

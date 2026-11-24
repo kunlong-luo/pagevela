@@ -12,7 +12,8 @@
 ## 测试与待验
 
 - `src/tests/pdf-export-validation.test.ts`：A4/US Letter 正常画布尺寸、零/负/NaN/Infinity、上下文为空、零页/非整数页数等边界。
-- 现有 `e2e/pdf-download.e2e.ts`：以虚构简历执行浏览器下载，并使用 pdf.js 解析 PDF 页与绘制操作，重载后检查原稿未丢。后续可加入对模拟 2D Context 失败的全流程浏览器级注入测试。
+- 现有 `e2e/pdf-download.e2e.ts`：以虚构简历执行真实下载，使用 pdf.js 解析每页并检查导出后原稿未丢。
+- 新增 `e2e/pdf-download-failure.e2e.ts`：在 Chromium 强制让 JPEG 编码失败，确认 Pagevela 自定义失败 Toast 可见、不错误显示快速 PDF 成功、回退打印路径仍可执行，并验证 IndexedDB 原稿未丢。**此用例尚待最新 PR 头 CI 真正运行通过，不能把提交测试文件等同测试已通过。**
 - 合并前需最新头 PR 的质量、Chrome 全量、Firefox/WebKit 关键回归和最终 `build-and-test`；合并后再次核验**新 main SHA** 的完整 CI → Pages build/deploy。由于这不是一个新版本发布流程，不能声称已有新的 v2.8.4 归档。
 - Android 微信/Chrome/OEM 的系统保存和离线 PWA 仍在 [#262](https://github.com/kunlong-luo/pagevela/issues/262) 分别验收；不会用 Chromium 替代真机证据。
 

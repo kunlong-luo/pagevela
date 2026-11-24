@@ -47,6 +47,14 @@ The latest GitHub Release and the latest deployed Pages commit are **not necessa
 
 ---
 
+## Development after v2.8.3 (not in the release archives)
+
+- **[PR #310](https://github.com/kunlong-luo/pagevela/pull/310)** moved cross-tab presence and storage-health messages into a tested editor Hook. Merge SHA `16b11ff` passed [full main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196).
+- **[PR #311](https://github.com/kunlong-luo/pagevela/pull/311)** fixed repeated Auto Fit presses loosening an already compact resume; merged as `e8fdda0`. Its PR CI passed, but the newer main SHA needs independent CI/Pages verification.
+- **[PR #314](https://github.com/kunlong-luo/pagevela/pull/314)** proposes rejecting empty Quick PDF captures and remains under PR checks. Measured overflow-based page fitting is tracked in [#312](https://github.com/kunlong-luo/pagevela/issues/312).
+
+These changes do **not** retroactively update the v2.8.3 ZIP/TAR.GZ. The [engineering acceptance log](docs/ENGINEERING_ACCEPTANCE_20261124.md) and [optimization roadmap](docs/PRODUCT_OPTIMIZATION_ROADMAP_20261124.md) distinguish verified deliveries from pending work. The dated engineering score remains **84/100**.
+
 ## 🆕 What's New in v2.8.3
 
 Reliability and maintainability patch for the local-first resume editor.
