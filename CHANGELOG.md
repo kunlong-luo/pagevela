@@ -1,8 +1,12 @@
 # Changelog
 
-## Unreleased — post-v2.8.3 main development
+## Unreleased
 
-> **Current independently deployed main:** `a8ec3ae15a819c3465a039cf11a659e0ca59afc8` — [full main CI #45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) and [same-SHA Pages #45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success**. The [current assessment is 88/100](./docs/ASSESSMENT.md). This is development newer than the stable v2.8.3 download, **not a newly published v2.8.4 archive**.
+- No additional changes since the v2.8.4 release candidate; future changes belong here and must pass fresh CI/Pages.
+
+## [2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) — 2026-11-24 (release candidate, publication pending)
+
+> **Previous independently deployed pre-release main:** `a8ec3ae15a819c3465a039cf11a659e0ca59afc8` — [full main CI #45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) and [same-SHA Pages #45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success**. The [current assessment is 88/100](./docs/ASSESSMENT.md). This is the source baseline included in the **v2.8.4 candidate**; the release tag/assets are only confirmed after their own same-SHA CI/Pages/Release gates.
 
 - **Data safety:** [#323](https://github.com/kunlong-luo/pagevela/pull/323) rejects stale-tab active resume overwrites in one Dexie transaction and preserves recoverable manual drafts; the persistent bilingual warning no longer obstructs the editor. [#325](https://github.com/kunlong-luo/pagevela/pull/325) prevents same-millisecond profile primary-key collisions with UUID and a monotonic fallback. Neither changes existing stored IDs, the legacy database/channel/lock contract or the published backup format. Old-version already-open tabs and complete photo/metadata conflict recovery remain outside scope.
 - **Architecture and user experience:** [#322](https://github.com/kunlong-luo/pagevela/pull/322) isolated persisted-settings sanitization with focused unit tests; [#321](https://github.com/kunlong-luo/pagevela/pull/321) added synthetic A4/US Letter, Chinese/English, 1/3-page Auto Fit coverage and corrected the wording to Estimated Fit; [#319](https://github.com/kunlong-luo/pagevela/pull/319) delivered pre-fit layout restore. These do not certify actual Android Print/Save-as-PDF pagination.
