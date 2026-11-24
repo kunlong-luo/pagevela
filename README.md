@@ -40,7 +40,7 @@
 - [Documentation index](docs/README.md) — guides, architecture, brand and historical records
 - [Dated project status](docs/PROJECT_STATUS.md) — CI / deployment verification, open risks and issue ownership
 - [Release and security acceptance (2026-11-23)](docs/RELEASE_SECURITY_ACCEPTANCE_20261123.md) — CI → Pages → Release sequence, PWA offline and dependency-audit evidence
-- [Engineering assessment (2026-11-23): 84/100](docs/ASSESSMENT_20261123.md) — scored against the last fully verified/deployed SHA, with [76/100 historical baseline](docs/ASSESSMENT_20261122.md)
+- [Engineering reassessment (2026-11-24): 86/100](docs/ASSESSMENT_20261124.md) — assessed against fully verified main `63edf034` CI/Pages; [84/100 historical 11/23 report](docs/ASSESSMENT_20261123.md) and [76/100 on 11/22](docs/ASSESSMENT_20261122.md) remain unchanged
 - [Release process](RELEASING.md) · [Contributing](CONTRIBUTING.md) · [Workspace migration](docs/WORKSPACE_TRANSFER.md)
 
 The latest GitHub Release and the latest deployed Pages commit are **not necessarily the same as current `main`**. Check the status document and current CI before making deployment claims.

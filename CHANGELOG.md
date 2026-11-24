@@ -2,6 +2,9 @@
 
 ## Unreleased — post-v2.8.3 main development
 
+- **2026-11-24 main `63edf034` verified:** #319 layout restoration and #320 documentation landed with [full main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45336130078) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45337438957) success. Newly documented [86/100 engineering reassessment](./docs/ASSESSMENT_20261124.md) reflects verified product and architecture improvements; no new stable v2.8.4 package has been published.
+- **Next candidate (not yet delivered):** Synthetic Auto Fit E2E adds A4/Letter, English/Chinese, 1/3-page and two-column cases alongside existing 2-page coverage; Height Guard replaces overconfident `Perfect Fit` wording with `Estimated Fit`. Latest candidate PR CI and post-merge Pages must be checked before acceptance.
+
 - **#310 (deployed):** Editor presence and storage-health Hook extraction; `16b11ff` passed [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196).
 - **#311 (merged and deployed):** Repeated Auto Fit no longer loosens compact layout; `e8fdda0` merged after successful [PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45306184066) and was independently validated in the subsequent main `d0d5486` [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156).
 - **#314 (merged and deployed on main `12c7044`):** Empty Quick PDF protection, branded error feedback and injected JPEG failure E2E; [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) + [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) success, not retrospectively in v2.8.3 archives.

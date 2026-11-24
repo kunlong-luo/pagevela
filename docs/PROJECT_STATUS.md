@@ -1,5 +1,13 @@
 # Pagevela 项目状态 / Project status
 
+## 2026-11-24 最新已验证交付及独立复评（16:30 CST 后核对）
+
+- 主分支 `63edf034b6fd82cca81a30e91eb10b39c59b4aed` 包含 #319 一键恢复和 #320 文档，已通过 [完整 main CI #45336130078](https://github.com/kunlong-luo/pagevela/actions/runs/45336130078)（quality、Chromium、Firefox/WebKit 全部分片和实际执行的 `build-and-test`）与[同 SHA Pages #45337438957](https://github.com/kunlong-luo/pagevela/actions/runs/45337438957)（build + deploy 成功）；[Release workflow #45337558274](https://github.com/kunlong-luo/pagevela/actions/runs/45337558274) success 未发布新版本，正式归档仍为 v2.8.3。
+- 基于已部署的测量式 Auto Fit、一键恢复及已验证的编辑器 Hook 拆分，开展 [2026-11-24 新七维度复评：86/100](./ASSESSMENT_20261124.md)，较 11 月 23 日的历史 84 分 **产品完成度 +1、架构可维护性 +1**；其余五维不变。**新 E2E 矩阵与状态文案修改是当前候选，未纳入 86 分。**
+- 新候选 `test/auto-fit-paper-language-matrix-20261124` 增加 1/3 页、A4/Letter、中英文及双栏 synthetic E2E，并纠正“完美契合”过度承诺；在最新 PR-head CI / 合并后同 SHA CI+Pages 完成前**不标为已上线**。#312、#262、#298 继续开放。下方 `202bcea` / `db8919f` 的 pending 文字属于其写作时点的**历史快照**。
+
+
+
 ### 2026-11-24 已验证主分支交付 / Verified main delivery
 
 - `main` `202bcead397ef9c3ef77d6f83f7ee715a6dfd4ee`：[完整 CI #45324490754](https://github.com/kunlong-luo/pagevela/actions/runs/45324490754) **success**，覆盖 quality、Chromium 全量、Firefox 2/2、WebKit 2/2、跨浏览器汇总以及实际执行的 protected `build-and-test`；[同 SHA Pages #45326859873](https://github.com/kunlong-luo/pagevela/actions/runs/45326859873) 的 **build/deploy 均 success**。
