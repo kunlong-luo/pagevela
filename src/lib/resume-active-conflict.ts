@@ -24,10 +24,28 @@ export function decideActiveResumeWrite(
   base: ActiveResumeBaseline,
   next: ActiveResumeWrite,
 ): ActiveWriteDecision {
+  // Avoid repeatedly allocating a potentially huge JSON string containing
+  // embedded local JPEG portraits on every autosave. Compare scalar fields
+  // directly and serialize only small nested values such as style settings.
+  const sameProfile = (a: ResumeProfile, b: ResumeProfile) => {
+    const left = a as unknown as Record<string, unknown>;
+    const right = b as unknown as Record<string, unknown>;
+    const keys = Object.keys(left);
+    if (keys.length !== Object.keys(right).length) return false;
+    return keys.every((key) => {
+      if (!Object.prototype.hasOwnProperty.call(right, key)) return false;
+      const x = left[key];
+      const y = right[key];
+      if (x !== null && typeof x === 'object') return JSON.stringify(x) === JSON.stringify(y);
+      if (y !== null && typeof y === 'object') return false;
+      return x === y;
+    });
+  };
   const matches = (a: ActiveResumeBaseline, b: ActiveResumeBaseline) =>
     a.markdown === b.markdown &&
     a.jdText === b.jdText &&
-    JSON.stringify(a.profiles) === JSON.stringify(b.profiles);
+    a.profiles.length === b.profiles.length &&
+    a.profiles.every((profile, index) => sameProfile(profile, b.profiles[index]));
   if (matches(committed, base)) return 'write';
   if (matches(committed, next)) return 'already-current';
   return 'conflict';
