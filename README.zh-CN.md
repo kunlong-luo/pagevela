@@ -61,7 +61,7 @@ docs/
 
 ## v2.8.4 发布信息
 
-**源码版本：`2.8.4`。** 是否正式发布，以 [GitHub v2.8.4 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 及新版本同 SHA CI/Pages、Release 验收证据为准，不能仅依据 `package.json` 声称发布完成。[中英文发布说明](RELEASE_NOTES.md) · [独立验收表](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
+**[Pagevela v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已正式发布**（2026-11-24），标注 tag `ea2a65b`。[新主分支完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。ZIP、TAR.GZ 与 SHA256SUMS 已上传；**独立解压及重新计算 SHA256 仍未验收**。[发布说明](RELEASE_NOTES.md) · [验收表](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
 
 ## v2.8.3 之后已上线的开发改进
 

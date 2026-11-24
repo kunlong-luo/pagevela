@@ -10,7 +10,7 @@
 | 完整 main CI | [#45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) | **success**：quality、Chromium 全量、Firefox 2/2、WebKit 2/2、cross-browser、实际执行的受保护 `build-and-test` |
 | 同 SHA GitHub Pages | [#45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) | **success**：build 和 deploy 都成功 |
 | 上一个数据安全基线 | `da3b68bc6c45db666e9c3ba47ce55e2ab73d7e80` | [完整 CI #45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) + [同 SHA Pages #45372036914](https://github.com/kunlong-luo/pagevela/actions/runs/45372036914) **success** |
-| 最新正式 GitHub Release | [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)，tag `501ca26`，发布于 2026-11-23 | **与最新 main 不同**；旧 ZIP/TAR.GZ 未包含后续改进，附件存在不等于独立解压/哈希校验通过 |
+| 最新正式 GitHub Release | [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)，tag `ea2a65b`；[main CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均 success | ZIP/TAR.GZ/SHA256SUMS 存在，但未独立下载解压/复算 SHA256；版本升级不另加分 |
 
 ## 七维度评分 / Weighted rubric
 
