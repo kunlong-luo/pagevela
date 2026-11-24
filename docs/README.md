@@ -1,13 +1,8 @@
 # Pagevela 文档目录 / Documentation index
 
-> **v2.8.4 发布信息：** [独立验收表](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md) · [RELEASE_NOTES](../RELEASE_NOTES.md) · [GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)。下面的 `a8ec3ae` 是**升版之前**的已验证代码基线，不是 v2.8.4 发布提交。
-
-
-> **现行入口只保留这一份。** English product guide: [README.md](../README.md) · 中文产品指南：[README.zh-CN.md](../README.zh-CN.md)。本页负责**导航**，不复制多轮旧 CI 流水。最新是否上线由 [GitHub Actions](https://github.com/kunlong-luo/pagevela/actions) 和带 SHA 的状态记录判定。
+> **正式发布状态 / Released:** [Pagevela v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)；tag `ea2a65b`、[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 和 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 全部成功。详细[验收记录](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)，[当前评分 88/100](./ASSESSMENT.md)。独立下载、解压与重新计算发布包哈希仍待验收。
 >
-> **最后核验：** `main` `a8ec3ae` [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) + [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success**；[当前工程复评 88/100](./ASSESSMENT.md)；v2.8.3 是上一版正式发布附件；v2.8.4 的真实发布状态请核对 [GitHub Releases](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)。
-
-> **2026-11-24 发布已验收：** [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 的 annotated tag 指向 `ea2a65b`，且 [完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。[新版本验收](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md) · [88 分评分](./ASSESSMENT.md)。先前 `a8ec3ae` 是旧基线而非当前发布 SHA。
+> **单一文档索引：** English product guide: [README.md](../README.md) · 简体中文：[README.zh-CN.md](../README.zh-CN.md)。本页只提供导航，不复制历次 CI 流水；当前事实和历史文档分开维护。
 
 ## 从哪里开始 / Start here
 
