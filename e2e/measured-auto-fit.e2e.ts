@@ -20,7 +20,7 @@ test('visible-preview Auto Fit honors a two-page target without dropping the ori
     'Example QA Specialist',
     '',
     '## Experience',
-    ...Array.from({ length: 64 }, (_, i) =>
+    ...Array.from({ length: 140 }, (_, i) =>
       `- 202${i % 5}: Illustrated result ${i + 1} with example text about testing complex resume page layouts across devices.`),
   ].join('\n');
   await editor.fill(content);
