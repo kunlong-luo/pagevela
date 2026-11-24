@@ -13,6 +13,9 @@
 | [#324](https://github.com/kunlong-luo/pagevela/pull/324) 文档、87 分历史复评 | `de81022` | [#45367413632](https://github.com/kunlong-luo/pagevela/actions/runs/45367413632) success | [#45369451198](https://github.com/kunlong-luo/pagevela/actions/runs/45369451198) success |
 | [#323](https://github.com/kunlong-luo/pagevela/pull/323) 事务级跨标签页冲突防护 | `da3b68b` | [#45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) success | [#45372036914](https://github.com/kunlong-luo/pagevela/actions/runs/45372036914) success |
 | [#325](https://github.com/kunlong-luo/pagevela/pull/325) 档案 ID 唯一性 | **`a8ec3ae`** | [#45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) **success** | [#45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success** |
+| **v2.8.4 正式发布** | **`ea2a65b`** | [#45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) **success** | [#45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) **success** |
+
+**发布额外证据：** [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) success，annotated tag `v2.8.4` 解引用为 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`；ZIP/TAR.GZ/SHA256SUMS 实际存在。尚未单独下载/解压/重算 SHA256。[v2.8.4 验收表](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
 
 **检查含义：** 完整主分支 CI 实际包含 quality、完整 Chromium、Firefox 1/2 和 2/2、WebKit 1/2 和 2/2、cross-browser 汇总以及最终受保护 `build-and-test`。Pages 的 build 与 deploy 必须都为 success；一个绿色的 `Push on main`、`Release workflow` 或 report-only registry audit **不能**替代上述两个门禁。
 
