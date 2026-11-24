@@ -1,5 +1,13 @@
 # Pagevela engineering acceptance / 2026-11-24
 
+## Latest verified delivery / 最新同 SHA 验收
+
+- **`main` `63edf034b6fd82cca81a30e91eb10b39c59b4aed`**：[CI #45336130078](https://github.com/kunlong-luo/pagevela/actions/runs/45336130078) success（quality、Chromium 全量、Firefox 2/2、WebKit 2/2、cross-browser、实际执行并成功的 `build-and-test`）；[same-SHA Pages #45337438957](https://github.com/kunlong-luo/pagevela/actions/runs/45337438957) build/deploy success；[Release workflow #45337558274](https://github.com/kunlong-luo/pagevela/actions/runs/45337558274) success，**没有生成新稳定版本**，正式发行保持 v2.8.3。
+- [新独立工程复评 86/100](./ASSESSMENT_20261124.md) 仅给已验证交付的产品功能与 Hook 模块化各增加 1 分；新 E2E 组合矩阵和更准确的预计分页文案尚为 PR 候选，未纳入本次分数。
+- 下方 #319 合并时“main CI pending”及 84 分为当时快照，不是本节的最新状态。新代码 PR 仍须**重新**验证，不复用 `63edf034` 的成功记录。
+
+
+
 ### 2026-11-24 已验证主分支交付 / Verified main delivery
 
 - `main` `202bcead397ef9c3ef77d6f83f7ee715a6dfd4ee`：[完整 CI #45324490754](https://github.com/kunlong-luo/pagevela/actions/runs/45324490754) **success**，覆盖 quality、Chromium 全量、Firefox 2/2、WebKit 2/2、跨浏览器汇总以及实际执行的 protected `build-and-test`；[同 SHA Pages #45326859873](https://github.com/kunlong-luo/pagevela/actions/runs/45326859873) 的 **build/deploy 均 success**。
