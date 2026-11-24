@@ -2,6 +2,12 @@
 
 > **状态：源代码审查形成的工作优先级，不等同线上缺陷全部复现或新版本验收。** 正式发行基线为 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)，main `501ca26` 的 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 成功。工程定性分数仍沿用 [84/100（2026-11-23）](./ASSESSMENT_20261123.md)，不因本次修复草案自动提高。已发布档案不覆盖；任何新代码必须重新验收。
 
+## 2026-11-24 后续状态（原始审查结论仍保留）
+
+- [#311](https://github.com/kunlong-luo/pagevela/pull/311) 已合并为 `e8fdda0`，同步后的头 `56ecc0e` [完整 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45306184066) 通过；新 main 的部署验收仍须独立核对。**只修复“越按越松”，不保证实际一页排版。**
+- [#310](https://github.com/kunlong-luo/pagevela/pull/310) Hook 拆分已在 `16b11ff` 完成 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196)。
+- [#314](https://github.com/kunlong-luo/pagevela/pull/314) Quick PDF 零页防护仍在独立 PR 验收；[#312](https://github.com/kunlong-luo/pagevela/issues/312) 的溢出量闭环未实现。工程评分沿用 **84/100**。
+
 ## 审查范围和可核对证据
 
 - 智能单页：`src/lib/preview-utils.ts:smartAutoFit` 原实现是**单步规则压缩**；在所有条件未命中时回填固定的 `blockGap=0.4`、`lineHeight=1.3`，可能把已更紧凑的 `0.3/1.2` 放大。快捷键 `useEditorKeyboardShortcuts` 无论是否调整，都会显示成功文案。这是代码可直接复现的确定性问题。
@@ -26,7 +32,7 @@
 
 ## 本轮实施范围及保留的边界
 
-本轮准备的**Auto Fit 单调性修复**：在 `smartAutoFit` 中移除达到下限后反向调松的兜底；让返回值表示是否修改；重复操作收敛为 no-op；更新 Ctrl/Cmd+Shift+F 的提示，避免虚假的“一键完成一页”暗示。运行时不会修改 IndexedDB/旧备份/加密分享/打印实现；工作仍待代码 PR 检查合并及新 SHA 部署，**不是 v2.8.3 正式发布内容**。
+原始审查提出的**Auto Fit 单调性修复**：在 `smartAutoFit` 中移除达到下限后反向调松的兜底；让返回值表示是否修改；重复操作收敛为 no-op；更新 Ctrl/Cmd+Shift+F 的提示，避免虚假的“一键完成一页”暗示。运行时不会修改 IndexedDB/旧备份/加密分享/打印实现；相关代码现在已通过 PR CI 并合并为 `e8fdda0`，新主分支 CI/Pages 仍需独立核验；**该修复不包含在 v2.8.3 正式压缩包中**。
 
 后续完整 Auto Fit 闭环、多标签页版本冲突保护、Store 和导出拆分应各自独立 PR，不应一次性重构。保持 **Pagevela 唯一品牌、非原生对话框/下拉/tooltip、移动端可触及按钮及隐私优先** 的现有工程约束。
 
