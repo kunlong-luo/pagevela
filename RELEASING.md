@@ -1,6 +1,6 @@
 # Releasing Pagevela / 版本发布流程
 
-> **2026-11-24 v2.8.4 发布候选：** [版本验收清单](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md) 已准备。此时 `package.json` 将设置为 `2.8.4`，只有该版本合并后的完整 `main` CI、同 SHA Pages 以及 Release 工作流全部成功后，才可将 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 标记为正式发布。旧的 v2.8.3 发布证据与归档保持不变；不能复用其 CI / Pages 作为新版本验收。
+> **2026-11-24 v2.8.4 已正式发布：** [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) tag 指向 `ea2a65b`，新版本[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) → [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) → [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 全成功。附件存在，但 ZIP/TAR.GZ 独立下载解压及 SHA256 复算尚未验收，详见 [验收报告](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
 
 
 > **现行流程（2026-11-23）**：由 [PR #304](https://github.com/kunlong-luo/pagevela/pull/304) 合并引入的 `CI → Deploy Pages → Release` 门禁。此文是当前操作指南，而不是自动状态面板。发版前请核对 [最新项目状态](docs/PROJECT_STATUS.md) 和 [实际 Actions](https://github.com/kunlong-luo/pagevela/actions)。
