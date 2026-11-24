@@ -468,41 +468,38 @@ export function parseH2Sections(md: string) {
   return sectionsList;
 }
 
-export function smartAutoFit(settings: ResumeSettings, onChangeSettings: (key: keyof ResumeSettings, value: any) => void) {
-  let adjusted = false;
-
+/**
+ * Tighten one layout setting per invocation without ever expanding an already
+ * compact resume. This incremental action is not a guarantee of one-page fit:
+ * the preview must measure actual overflow after the setting update.
+ *
+ * Returns false once the supported spacing/size floors are reached so callers
+ * can avoid claiming a layout adjustment when nothing changed.
+ */
+export function smartAutoFit(
+  settings: ResumeSettings,
+  onChangeSettings: (key: keyof ResumeSettings, value: any) => void,
+): boolean {
   if (settings.margin === 'relaxed') {
     onChangeSettings('margin', 'standard');
-    adjusted = true;
   } else if (settings.margin === 'standard') {
     onChangeSettings('margin', 'compact');
-    adjusted = true;
   } else if (settings.blockGap > 0.8) {
     onChangeSettings('blockGap', Math.max(0.6, Number((settings.blockGap - 0.15).toFixed(2))));
-    adjusted = true;
   } else if (settings.lineHeight > 1.45) {
     onChangeSettings('lineHeight', Math.max(1.35, Number((settings.lineHeight - 0.1).toFixed(2))));
-    adjusted = true;
   } else if (settings.fontSize === 'relaxed') {
     onChangeSettings('fontSize', 'standard');
-    adjusted = true;
   } else if (settings.fontSize === 'standard') {
     onChangeSettings('fontSize', 'compact');
-    adjusted = true;
-  } else if (settings.blockGap > 0.4) {
+  } else if (settings.blockGap > 0.3) {
     onChangeSettings('blockGap', Math.max(0.3, Number((settings.blockGap - 0.1).toFixed(2))));
-    adjusted = true;
-  } else if (settings.lineHeight > 1.25) {
+  } else if (settings.lineHeight > 1.2) {
     onChangeSettings('lineHeight', Math.max(1.2, Number((settings.lineHeight - 0.05).toFixed(2))));
-    adjusted = true;
+  } else {
+    return false;
   }
-
-  if (!adjusted) {
-    onChangeSettings('margin', 'compact');
-    onChangeSettings('blockGap', 0.4);
-    onChangeSettings('lineHeight', 1.3);
-    onChangeSettings('fontSize', 'compact');
-  }
+  return true;
 }
 
 export function getSizeClasses(fontSize: string, theme: any) {
