@@ -32,6 +32,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
     activeProfileId,
     uiLanguage,
     onChangeSettings,
+    onRestoreSettings,
     setMeasuredPageCount,
   } = useResumeStore(
     useShallow((state) => ({
@@ -41,6 +42,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
       activeProfileId: state.activeProfileId,
       uiLanguage: state.uiLanguage,
       onChangeSettings: state.updateSetting,
+      onRestoreSettings: state.updateSettings,
       setMeasuredPageCount: state.setMeasuredPageCount,
     })),
   );
@@ -86,7 +88,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
     paperSpec.id
   );
 
-  const { isAutoFitting, startAutoFit } = useMeasuredAutoFit({
+  const { isAutoFitting, startAutoFit, canRestoreAutoFit, restoreAutoFit } = useMeasuredAutoFit({
     settings,
     markdown: activeMarkdown,
     profileId: activeProfileId,
@@ -96,6 +98,7 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
     unscaledHeight,
     elementRef,
     onChangeSettings,
+    onRestoreSettings,
     uiLanguage,
     // Shared/overridden previews never write local profile settings.
     disabled: overrideMarkdown !== undefined || overrideSettings !== undefined || activeMarkdown !== markdown,
@@ -451,6 +454,8 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
         targetPageLimit={targetPageLimit} 
         setTargetPageLimit={setTargetPageLimit} 
         onSmartAutoFit={handleSmartAutoFit} 
+        canRestoreAutoFit={canRestoreAutoFit}
+        onRestoreAutoFit={restoreAutoFit}
         isAutoFitting={isAutoFitting}
         lang={uiLanguage}
         paperLabel={paperSpec.id === 'letter' ? (isEn ? 'Letter' : 'US Letter') : 'A4'}
@@ -476,6 +481,8 @@ export const Preview = React.memo(forwardRef<HTMLDivElement, PreviewProps>(({ ov
               targetPageLimit={targetPageLimit}
               setTargetPageLimit={setTargetPageLimit}
               onSmartAutoFit={handleSmartAutoFit}
+              canRestoreAutoFit={canRestoreAutoFit}
+              onRestoreAutoFit={restoreAutoFit}
               isAutoFitting={isAutoFitting}
               lang={uiLanguage}
               paperLabel={paperSpec.id === 'letter' ? (isEn ? 'Letter' : 'US Letter') : 'A4'}

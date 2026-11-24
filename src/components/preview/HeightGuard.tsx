@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ruler, AlertTriangle, Info, Zap, Maximize2, Minimize2 } from 'lucide-react';
+import { Ruler, AlertTriangle, Info, Zap, Maximize2, Minimize2, RotateCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface HeightGuardProps {
@@ -12,6 +12,8 @@ interface HeightGuardProps {
   targetPageLimit: number;
   setTargetPageLimit: (limit: 1 | 2 | 3) => void;
   onSmartAutoFit?: () => void;
+  onRestoreAutoFit?: () => void;
+  canRestoreAutoFit?: boolean;
   isAutoFitting?: boolean;
   lang?: string;
   paperLabel?: string;
@@ -59,7 +61,9 @@ export const HeightGuard = React.memo(function HeightGuard({
   metrics, 
   targetPageLimit, 
   setTargetPageLimit, 
-  onSmartAutoFit, 
+  onSmartAutoFit,
+  onRestoreAutoFit,
+  canRestoreAutoFit = false,
   isAutoFitting,
   lang = 'zh',
   paperLabel = 'A4',
@@ -267,6 +271,16 @@ export const HeightGuard = React.memo(function HeightGuard({
         >
           <Zap className={`w-3.5 h-3.5 ${isAutoFitting ? 'animate-spin text-slate-400' : metrics.isOver ? 'text-white' : 'text-indigo-600 dark:text-indigo-400'}`} />
           <span>{isAutoFitting ? t.autoFittingBtn : metrics.isOver ? `${t.autoFitBtn} (${targetPageLimit}${lang === 'en' ? (targetPageLimit === 1 ? ' page' : ' pages') : '页'})` : t.optimizeBtn}</span>
+        </button>
+      )}
+      {canRestoreAutoFit && onRestoreAutoFit && !isAutoFitting && (
+        <button
+          type="button"
+          onClick={onRestoreAutoFit}
+          className="flex min-h-10 w-full items-center justify-center gap-2 rounded-xl border border-indigo-200/70 bg-indigo-50/70 px-3 py-2 text-xs font-bold text-indigo-700 transition-colors hover:bg-indigo-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-200 dark:hover:bg-indigo-900/60"
+        >
+          <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+          {lang === 'en' ? 'Restore layout before Auto Fit' : '恢复自动适配前排版'}
         </button>
       )}
           </motion.div>
