@@ -59,15 +59,15 @@ docs/
 
 Check local document links with `pnpm run docs:check`. The documentation quality check also runs in CI. The former duplicate `README.en.md` entry was removed: **this README is the canonical English guide**.
 
-## v2.8.4 release candidate (not yet published)
+## v2.8.4 release information
 
-**Candidate version: `2.8.4`.** [GitHub v2.8.4 Release page](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) is valid **only after** this version PR, independent main CI, identical-SHA Pages and Release workflow succeed. Until then, [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) is the most recently confirmed downloadable version. [v2.8.4 changes](RELEASE_NOTES.md) · [release gate](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md).
+**Source version: `2.8.4`.** Check the actual [v2.8.4 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) and its same-SHA CI/Pages before treating downloadable archives as published. The package version alone is not proof of publication. [Release notes](RELEASE_NOTES.md) · [acceptance checklist](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md).
 
 ## Development since the v2.8.3 archive
 
 Latest independently deployed main `a8ec3ae`: [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success**. It includes [#323](https://github.com/kunlong-luo/pagevela/pull/323) conflict-safe cross-tab IndexedDB writes with recoverable manual drafts and nonblocking user warnings, and [#325](https://github.com/kunlong-luo/pagevela/pull/325) collision-resistant new/duplicate resume-profile IDs. [#321](https://github.com/kunlong-luo/pagevela/pull/321) improved Auto Fit smoke coverage, and [#322](https://github.com/kunlong-luo/pagevela/pull/322) isolated settings sanitization.
 
-**Release boundary:** the latest formal downloadable tag is still [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3), built from `501ca26`. Later main changes are **not** in those archives. Independent extraction and SHA256 verification of release assets remain unrecorded. The owner-confirmed Android WeChat device test does not certify Android system printing, every OEM browser or installed-PWA offline cases.
+**Release boundary:** the previous [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) archives came from `501ca26` and do **not** include subsequent improvements. Check the publication status of the newer [v2.8.4 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) before downloading. Independent extraction and SHA256 verification of release assets remain unrecorded. The owner-confirmed Android WeChat device test does not certify Android system printing, every OEM browser or installed-PWA offline cases.
 
 ## Release history
 
