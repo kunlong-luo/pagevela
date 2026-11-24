@@ -2,9 +2,9 @@
 
 > **现行流程（2026-11-23）**：由 [PR #304](https://github.com/kunlong-luo/pagevela/pull/304) 合并引入的 `CI → Deploy Pages → Release` 门禁。此文是当前操作指南，而不是自动状态面板。发版前请核对 [最新项目状态](docs/PROJECT_STATUS.md) 和 [实际 Actions](https://github.com/kunlong-luo/pagevela/actions)。
 >
-> **2026-11-23 最近实际验收成功的线上源码：** [`ac2932c`](https://github.com/kunlong-luo/pagevela/commit/ac2932c9fa660febffce1613bbfd8fa9f561a3ed) 的 [CI #45185347889](https://github.com/kunlong-luo/pagevela/actions/runs/45185347889)、[Pages #45188965398](https://github.com/kunlong-luo/pagevela/actions/runs/45188965398)（build/deploy）及 [Release #45189104214](https://github.com/kunlong-luo/pagevela/actions/runs/45189104214)（已有 v2.8.2 安全跳过）全部成功。**正式已发布下载仍是** [v2.8.2](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.2)。
->
-> **v2.8.3 正在准备：** #309 更新唯一版本号 `package.json`、中英文 README、CHANGELOG、RELEASE_NOTES 及 [发行验收清单](docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md)。在其最新头 PR CI、合并后完整主分支 CI、同 SHA Pages 和**首次** GitHub Release 的三个新资产均真实验收前，不能称已正式发布，也不能改写 v2.8.2 tag 或附件。
+> **2026-11-24 发布验收更新：** v2.8.3 已于 2026-11-23 从 [`501ca26`](https://github.com/kunlong-luo/pagevela/commit/501ca26a10a023f1a05ce3ce227b288a2a6565d4) 正式发布。该 SHA 的 [完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172)（build/deploy）与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 全部成功，tag 解析回同一提交。[v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 已列出 `pagevela-2.8.3.zip`、`pagevela-2.8.3.tar.gz` 及 `SHA256SUMS.txt`；**尚未独立完成二进制解压/逐项哈希校验**。旧 v2.8.2 标签和附件不覆盖。
+
+> 后续新提交属于下一轮验收，不可沿用 `501ca26` 的生产验证结果；参见 [发布验收](docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md) 和 [项目状态](docs/PROJECT_STATUS.md)。
 
 ## 版本与交付对象
 
@@ -23,7 +23,7 @@
 6. `Release` 对新版本使用 frozen pnpm 锁文件，运行稳定依赖检查、标准/严格类型检查、双语标签审计、ESLint、Vitest、生产构建、PWA app-shell precache 验证和性能预算。**先生成 ZIP、TAR.GZ 和 SHA256SUMS.txt，再校验最新 main，创建或复用未发布的同 SHA 标签，最后发布 GitHub Release**。
 7. 核对 `vX.Y.Z` 标签确实指向被 CI 与 Pages 验证的提交、两个附件能下载且校验和正确，并核对官网线上同 SHA 部署记录。以上均通过才可宣称版本交付完成。
 
-`Release` 的自动触发条件是 `Deploy Pages` 的成功完成事件，不再是简单的 `package.json` push。由于这个流程在 #304 合并时版本未变化，**不能把工作流安装、CodeQL 成功误当成已运行过一次真正的新版本发布**；首次新版本发布时还须检查整个顺序的实际运行证据。
+`Release` 的自动触发条件是 `Deploy Pages` 的成功完成事件，不再是简单的 `package.json` push。由于这个流程在 #304 合并时版本未变化，**v2.8.3 首次新版本发布现已有实证**：完整 CI、同 SHA Pages、自动 Release 及 tag/归档列出已完成；下一版本仍必须重新检查真实运行记录，不能由本次结果代替。
 
 ## 手动补发与故障处理
 

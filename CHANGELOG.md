@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) — 2026-11-23 (release candidate until verified)
+## [2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) — 2026-11-23 (published)
 
 ### Reliability and architecture
 - Coordinate local draft history and serialized IndexedDB saves; fix split-pane regression without destructive storage changes.
@@ -13,7 +13,7 @@
 - Security Inventory registry audit and refreshed bilingual docs, launch guidance, 84/100 engineering assessment and release acceptance evidence.
 
 ### Pending evidence
-- New v2.8.3 tag, ZIP/TAR archives and SHA256SUMS must pass actual first-time publication checks.
+- v2.8.3 was published from main `501ca26` after successful same-SHA CI, Pages and Release; ZIP/TAR and SHA256SUMS are listed in the Release. Independent download/extraction and checksum comparison remain unrecorded.
 - Other Android browsers/system PDF/PWA, GitHub private Dependabot alerts and trademark/platform work remain separately tracked.
 - [Acceptance checklist](./docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md) · [Full release notes](./RELEASE_NOTES.md)
 

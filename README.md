@@ -57,7 +57,7 @@ Reliability and maintainability patch for the local-first resume editor.
 - **Cross-browser confidence:** Full Chromium, Firefox and WebKit checks; PDF parsing, post-export draft retention and same-SHA Pages-to-Release gates.
 - **Engineering governance:** Dependency registry audit, bilingual documentation and a documented 84/100 engineering review.
 
-Real Android system PDF export, other OEM browsers, installed-PWA offline and private Dependabot alerts remain separate acceptance items. First-time v2.8.3 release assets must be verified before claiming publication.
+v2.8.3 is published with branded ZIP/TAR.GZ and a checksum manifest after successful same-SHA CI and Pages deployment. Independent archive extraction/checksum validation, real Android system PDF, other OEM browsers, installed-PWA offline and private Dependabot alerts remain separate acceptance items.
 
 [Release notes](./RELEASE_NOTES.md) · [v2.8.3 acceptance](./docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md) · [Android issue #262](https://github.com/kunlong-luo/pagevela/issues/262)
 

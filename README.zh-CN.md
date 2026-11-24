@@ -57,7 +57,7 @@
 - **跨浏览器发布：** Chromium、Firefox、WebKit 及 PDF 有效性、导出后草稿保留、同 SHA 发布门禁检查。
 - **工程文档：** 依赖注册表审计、中英文文档、84/100 工程复评和安全验收台账同步。
 
-Android 系统另存 PDF、其他 OEM 浏览器、安装后的离线体验、GitHub 私有 Dependabot 告警仍需独立验收。只有实际生成 v2.8.3 标签、压缩包及校验和后才算正式发布。
+v2.8.3 已完成同 SHA CI、Pages 及正式 Release，提供 Pagevela 命名的 ZIP/TAR.GZ 与 SHA256 清单。压缩包独立解压/哈希比对、Android 系统另存 PDF、其他 OEM 浏览器、安装后离线及 GitHub 私有 Dependabot 告警仍需分别验收。
 
 [版本说明](./RELEASE_NOTES.md) · [v2.8.3 验收清单](./docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md) · [Android 专项 #262](https://github.com/kunlong-luo/pagevela/issues/262)
 

@@ -14,7 +14,7 @@
 | 项目评估和优先级 | [ASSESSMENT_20261123.md](./ASSESSMENT_20261123.md) · [11/22 历史 76 分](./ASSESSMENT_20261122.md) | 84/100 新复评、逐项证据、评分变化和未结风险 |
 | 新人贡献和开发 | [CONTRIBUTING.md](../CONTRIBUTING.md) · [UI 组件规范](./BRANDED_UI_CONTRACT.md) | TypeScript、测试、PR 与设计系统 |
 | 正式发布 | [RELEASING.md](../RELEASING.md) · [CHANGELOG.md](../CHANGELOG.md) · [RELEASE_NOTES.md](../RELEASE_NOTES.md) | 版本、历史变更、当前发布门禁 |
-| v2.8.3 首次发版验收 | [V2_8_3_RELEASE_ACCEPTANCE_20261123.md](./V2_8_3_RELEASE_ACCEPTANCE_20261123.md) | 首次新 tag、ZIP/TAR、SHA256SUMS 与设备/安全未结门禁 |
+| v2.8.3 实际发布验收 | [V2_8_3_RELEASE_ACCEPTANCE_20261123.md](./V2_8_3_RELEASE_ACCEPTANCE_20261123.md) | 已发布 tag、同 SHA 交付证据、ZIP/TAR/SHA256SUMS 清单及独立校验未结项 |
 | 依赖安全审计 | [SECURITY.md](../SECURITY.md) · [Security Inventory](https://github.com/kunlong-luo/pagevela/actions/workflows/security-inventory.yml) · [#298](https://github.com/kunlong-luo/pagevela/issues/298) | 每周 npm 注册表审计、GHSA 证据与尚未核对的 GitHub 私有告警 |
 | 数据导出和跨浏览器迁移 | [WORKSPACE_TRANSFER.md](./WORKSPACE_TRANSFER.md) | 本地备份、导入、隐私风险 |
 
@@ -24,6 +24,7 @@
 - [v2.3 存储设计](./V2_3_STORAGE.md)、[v2.2 性能基线](./V2_2_PERFORMANCE.md)、[v2.1 UX/隐私](./V2_1_UX_PRIVACY.md)：**对应版本的技术设计**，不应被当作最新测试结论
 - [产品分析与隐私边界](./PRODUCT_ANALYTICS.md)；[品牌 UI 组件契约](./BRANDED_UI_CONTRACT.md)：现行工程规范
 - [架构路线图 #282](https://github.com/kunlong-luo/pagevela/issues/282)：编辑器拆分、存储安全、性能与 CI 回归
+- [编辑器安全通知 Hook 拆分（2026-11-24）](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md)：多标签页存在检测、存储错误/恢复通知的行为契约、单元测试和未发布门禁
 - [编辑器快捷键 Hook 边界（2026-11-23）](./EDITOR_KEYBOARD_SHORTCUTS_20261123.md)：保存/打印/Auto Fit 的兼容契约与自动化回归
 
 ## 发布、品牌与宣传 / Release and brand

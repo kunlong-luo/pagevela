@@ -1,5 +1,7 @@
 # Pagevela 发布与安全验收台账 / 2026-11-23
 
+> **2026-11-24 补充：** 本文下方 11 月 23 日候选版判断属**历史时间点**，已由 [v2.8.3 正式发布验收](./V2_8_3_RELEASE_ACCEPTANCE_20261123.md) 更新：main `501ca26` 的 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) success；v2.8.3 annotated tag 指向该 SHA，ZIP/TAR/SHA256SUMS 三项资产存在。**解压与独立 SHA256 比对未做**；不擅自修改下方历史验收流水。
+
 > **证据驱动快照。** 本页记录已观察到的 GitHub Actions 与提交，日期后的新提交必须重新验收。**CI success ≠ Pages deploy success ≠ GitHub Release published**，下文三者分开记录。
 
 ## 工程里程碑
@@ -43,7 +45,8 @@
 - [x] 文档 PR #306 [PR CI #45163891273](https://github.com/kunlong-luo/pagevela/actions/runs/45163891273)、合并后的 `12a08ec` [完整 main CI #45166477620](https://github.com/kunlong-luo/pagevela/actions/runs/45166477620)、[Pages build/deploy #45168214368](https://github.com/kunlong-luo/pagevela/actions/runs/45168214368) 与 [Release 成功安全跳过 #45168339465](https://github.com/kunlong-luo/pagevela/actions/runs/45168339465) 全部核对。
 - [x] [评分 PR #308](https://github.com/kunlong-luo/pagevela/pull/308) 合并后的 `077e649` [完整 main CI #45172148513](https://github.com/kunlong-luo/pagevela/actions/runs/45172148513)、[同 SHA Pages #45174090788](https://github.com/kunlong-luo/pagevela/actions/runs/45174090788)、[Release #45174220771](https://github.com/kunlong-luo/pagevela/actions/runs/45174220771) 全成功，已有 v2.8.2 安全跳过。
 - [x] [#307](https://github.com/kunlong-luo/pagevela/pull/307) 合并后 `ac2932c` 的 [CI #45185347889](https://github.com/kunlong-luo/pagevela/actions/runs/45185347889)、[Pages #45188965398](https://github.com/kunlong-luo/pagevela/actions/runs/45188965398) 和 [Release #45189104214](https://github.com/kunlong-luo/pagevela/actions/runs/45189104214) 均完成，已发布 v2.8.2 安全跳过。
-- [ ] v2.8.3 [版本更新 #309](https://github.com/kunlong-luo/pagevela/pull/309) 新头 CI、合并 main SHA、Pages、首次标签和 ZIP/TAR/SHA256SUMS 尚需独立验收；见 [清单](./V2_8_3_RELEASE_ACCEPTANCE_20261123.md)。
+- [x] v2.8.3 [版本更新 #309](https://github.com/kunlong-luo/pagevela/pull/309) 已合并，main `501ca26` 的 CI、Pages、Release success，首次 tag 和 ZIP/TAR/SHA256SUMS 均已存在（11/24 补充核对）。
+- [ ] v2.8.3 产物的实际下载解压与独立 SHA256 比对未在本轮执行；见 [验收清单](./V2_8_3_RELEASE_ACCEPTANCE_20261123.md)。
 - [ ] 后续有实际版本升级时，核验成功 CI → Pages → Release 的完整证据及 ZIP/TAR/SHA256SUMS 校验结果。
 - [ ] [#298](https://github.com/kunlong-luo/pagevela/issues/298) 私有 Dependabot 告警核查；[#262](https://github.com/kunlong-luo/pagevela/issues/262) Android 专项；[#202](https://github.com/kunlong-luo/pagevela/issues/202) 商标与站外平台审核；[#282](https://github.com/kunlong-luo/pagevela/issues/282) 编辑器/Store/导出模块渐进拆分。
 

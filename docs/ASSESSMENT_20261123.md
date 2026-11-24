@@ -1,5 +1,7 @@
 # Pagevela 工程复评与优化路线 / 2026-11-23
 
+> **2026-11-24 后续补充（不改动历史评分）：** [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 已从 `501ca26` 完成 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125) → [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172) → [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 的同 SHA 正式发布；下方“v2.8.2 仍为正式版”的措辞仅反映**本评估原始写作时点**。84/100 仍为 11 月 23 日基线，不自动提分。下一轮工作区安全 Hook 拆分仍须单独验收。
+
 > **综合评分：84 / 100（良好，仍有工程与真机验收风险）。**
 > 这是一份可追溯的、**定性的工程评分**，不是用户满意度、第三方 ATS 认证、商标核验、渗透测试或 Android 实测报告。
 > **原评分基线：** [`12a08ec`](https://github.com/kunlong-luo/pagevela/commit/12a08ec08695e093b280c602dd11f11c8ac429df)，截至本报告编写时完整 CI、Pages、Release 均已核对。
