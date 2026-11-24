@@ -24,7 +24,7 @@
 ## 架构与工程 / Engineering
 
 - [Store 设置清洗模块与独立测试](./PROFILE_SETTINGS_SANITIZER_20261124.md)：#322 已完成同 SHA main CI/Pages 验收
-- [跨标签页冲突防护候选与边界](./CROSS_TAB_CONFLICT_GUARD_20261124.md)：#323 仍需最新 CI + 同 SHA main/Pages，不能计入 87 分
+- [跨标签页冲突防护候选与边界 PR #323](https://github.com/kunlong-luo/pagevela/pull/323)：#323 仍需最新 CI + 同 SHA main/Pages，不能计入 87 分
 - [持久化架构及历史协议兼容](./PERSISTENCE_ARCHITECTURE_20261026.md)：Zustand / IndexedDB / Web Locks / 草稿和并发，包含分栏 Hook 拆分的历史记录
 - [v2.3 存储设计](./V2_3_STORAGE.md)、[v2.2 性能基线](./V2_2_PERFORMANCE.md)、[v2.1 UX/隐私](./V2_1_UX_PRIVACY.md)：**对应版本的技术设计**，不应被当作最新测试结论
 - [产品分析与隐私边界](./PRODUCT_ANALYTICS.md)；[品牌 UI 组件契约](./BRANDED_UI_CONTRACT.md)：现行工程规范
