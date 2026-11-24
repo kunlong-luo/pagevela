@@ -1,7 +1,7 @@
 # Pagevela v2.8.4
 
 **中文名称：页帆 v2.8.4。**  
-**发布核验 / Release verification：** v2.8.4 已于 2026-11-24 正式发布；annotated tag 指向 `ea2a65b`，[主分支 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均 success。ZIP/TAR.GZ/SHA256SUMS 已作为附件存在；**独立下载/解压/哈希重算仍未完成**。[完整验收表](./docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
+**发布核验 / Release verification：** [v2.8.4 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已于 2026-11-24 正式发布；annotated tag 指向 `ea2a65b`，[主分支 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均 success。ZIP/TAR.GZ/SHA256SUMS 已作为附件存在；**独立下载/解压/哈希重算仍未完成**。[完整验收表](./docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
 
 ## Highlights / 更新重点
 
