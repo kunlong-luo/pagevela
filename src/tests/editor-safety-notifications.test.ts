@@ -11,6 +11,25 @@ describe('workspace safety notification routing', () => {
     expect(classifyResumeTabMessage('hello', 'this')).toBeNull();
   });
 
+  it('distinguishes recoverable cross-tab conflicts from quota failures', () => {
+    const english = describeStorageHealth({
+      status: 'error', operation: 'set', key: 'indexeddb-conflict',
+      quotaExceeded: false,
+    }, 'en');
+    expect(english.status).toBe('error');
+    expect(english.quotaExceeded).toBe(false);
+    expect(english.toast.title).toBe('Another tab changed this resume');
+    expect(english.toast.message).toContain('Drafts');
+    expect(english.toast.message).toContain('did not overwrite');
+    expect(english.toast.duration).toBe(0);
+
+    const chinese = describeStorageHealth({
+      status: 'error', operation: 'set', key: 'indexeddb-conflict',
+    }, 'zh');
+    expect(chinese.toast.title).toBe('另一标签页已修改此简历');
+    expect(chinese.toast.message).toContain('本地草稿');
+  });
+
   it('preserves distinct recovery and quota-full feedback in English and Chinese', () => {
     const recovered = describeStorageHealth({ status: 'recovered', operation: 'set' }, 'en');
     expect(recovered.status).toBe('ok');

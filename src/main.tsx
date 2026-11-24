@@ -31,6 +31,9 @@ async function bootstrap() {
       resumeRepository.getProfiles(),
       resumeRepository.getJdText(),
     ]);
+    // Capture the exact IndexedDB revision *before* Zustand normalizes it.
+    // Later writes are compared atomically against this cross-tab baseline.
+    activeResumePersistence.setBaseline({ markdown, profiles, jdText });
     setResumeBootstrapSnapshot({ markdown, profiles, jdText });
   } catch (error) {
     setResumeBootstrapSnapshot(null);
