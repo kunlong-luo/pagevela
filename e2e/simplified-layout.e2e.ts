@@ -22,7 +22,7 @@ test.describe('simplified workspace actions', () => {
     ).toBeVisible();
     await expect(toolbar.getByRole('button', { name: /Open layout settings|打开排版设置/ })).toBeVisible();
     await expect(toolbar.getByRole('button', { name: /Open style settings|打开样式设置/ })).toBeVisible();
-    await expect(toolbar.getByRole('button', { name: /Auto fit to single page|单页自动适配/ })).toBeVisible();
+    await expect(toolbar.getByRole('button', { name: /Fit to selected page target|按目标页数自动适配/ })).toBeVisible();
     await expect(toolbar.getByRole('radio', { name: 'Edit Mode (Focus on editor)' })).toBeVisible();
     await expect(toolbar.getByRole('radio', { name: 'Split Mode (Side-by-side edit & preview)' })).toBeVisible();
     await expect(toolbar.getByRole('radio', { name: 'Preview Mode (Focus on resume)' })).toBeVisible();

@@ -33,6 +33,12 @@
 
 **现阶段不关闭 #312。** 本文是候选功能开发记录，不把状态栏显示“估计符合目标”理解成真实 PDF 已保存或系统打印分页完全一致。每次后续提交都会刷新最新 PR SHA，对新提交不复用旧 CI 成功结论。
 
+## PR #316 首轮 CI 失败分析（2026-11-24，按提交保留证据）
+
+- 候选提交 `71ef57172789002c6c47c63394ebe2fba18ea2cc` 的 [PR CI #45317407230](https://github.com/kunlong-luo/pagevela/actions/runs/45317407230) 中 quality **success**，Firefox/WebKit critical `e2e-cross-browser` **failure**。通过 [job #138188602846](https://github.com/kunlong-luo/pagevela/actions/runs/45317407230/job/138188602846) 原始日志核验：`96 passed`、`2 failed`，失败均来自 `e2e/simplified-layout.e2e.ts:25`，旧测试查找 `Auto fit to single page|单页自动适配`，而新版按钮的可访问名称已变成 `Fit to selected page target|按目标页数自动适配`。
+- 本轮仅更新该 E2E 按钮定位，使其反映实际的新行为。**不回滚新的用户可见含义**，也没有将浏览器失败归因为平台波动。该次 Chromium 全量结果另行核对，不能用 Firefox/WebKit 失败解释/豁免其他测试。
+- 新提交必须重新通过 quality、Chromium、Firefox/WebKit、cross-browser 汇总及 `build-and-test`；合并后继续验证新 main CI 和同 SHA Pages。在通过前，#316 不视为已上线。
+
 ## 后续待开发
 
 1. 让不显示预览的移动端表单也具备可测量的隐藏布局/等效真实测量，再取消单步回退。

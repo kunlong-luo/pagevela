@@ -26,6 +26,12 @@
 - 同 SHA [Release workflow #45313984785](https://github.com/kunlong-luo/pagevela/actions/runs/45313984785) 成功未产生新正式发行版本。发布 ZIP/TAR 仍是 v2.8.3 的旧 SHA `501ca26`，独立归档解压/哈希验证未完成。
 - 后续测量式 Auto Fit 的 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 正在最新提交的 CI 验收，仍未合并或通过同 SHA Pages。该 PR 已增加测量修订号，防止把布局更新前的旧像素高度当作本次压缩反馈；撤销 UX、隐藏预览测量和低端移动设备矩阵继续在 #312。
 
+## 最新 #316 浏览器门禁：旧断言与新按钮语义失配
+
+- 2026-11-24 [PR CI #45317407230](https://github.com/kunlong-luo/pagevela/actions/runs/45317407230) 在候选头 `71ef571` 的 quality **success**，Firefox/WebKit critical **failure**；[失败 job #138188602846](https://github.com/kunlong-luo/pagevela/actions/runs/45317407230/job/138188602846) 日志为 `96 passed / 2 failed`，两项同一 `e2e/simplified-layout.e2e.ts:25` 旧按钮 aria-label 定位失败，并非已证明排版算法的跨浏览器失败。
+- 已调整现行测试使用新的目标页数按钮可访问名称；须重新检查该修复新头 CI，不能用原先 quality 成功替代新提交结果。原始失败保留为日期证据，不冒充已通过。
+- 此时 #316 **未合并**，主分支已验证部署依旧 `12c7044`；正式发布 v2.8.3 尚未打包本 PR 的新排版代码。
+
 ## 尚待完成的独立变更
 
 - [#311](https://github.com/kunlong-luo/pagevela/pull/311)：Auto Fit 单调收紧修复已通过 PR CI 并合并，包含该改动的后续 main `d0d5486` CI/Pages 已独立验收通过。**真实测量溢出自动贴合**仍在 #312。
