@@ -6,6 +6,7 @@ import { translateMarkdownContent } from '../lib/section-translator';
 import { migrateStoredMarkdown } from '../lib/markdown-migrations';
 import { getMarketProfile, resolveDefaultPaperSize } from '../lib/market-profile';
 import { sanitizeSettings } from '../lib/resume-settings-sanitizer';
+import { createResumeProfileId } from '../lib/resume-profile-id';
 import { isSafeResumePhotoDataUrl } from '../lib/resume-photo';
 import { getResumeBootstrapSnapshot } from '../lib/resume-bootstrap-state';
 import { stageProfileSettings, recoverPendingProfile, discardPendingProfileSettings } from '../lib/pending-profile-settings';
@@ -478,7 +479,7 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
   createProfile: ({ name, targetRole, markdown: newMd, settings: newSettings, templateId }) => {
     const { profiles, settings: curSettings, markdown: curMd, currentTemplateId, uiLanguage } = get();
     const now = new Date().toISOString();
-    const id = `profile_${Date.now()}`;
+    const id = createResumeProfileId();
     const effectiveSettings = sanitizeSettings(newSettings || curSettings, curSettings);
     const isEnProfile = uiLanguage === 'en';
     const newProfile: ResumeProfile = {
@@ -509,7 +510,7 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
 
     const isEn = uiLanguage === 'en';
     const now = new Date().toISOString();
-    const id = `profile_${Date.now()}`;
+    const id = createResumeProfileId();
     const newProfile: ResumeProfile = {
       ...source,
       id,

@@ -367,6 +367,30 @@ describe('resume store state consistency', () => {
     expect(state.historyIndex).toBe(0);
   });
 
+  it('never reuses the same primary key for rapid create and duplicate operations', () => {
+    const dateNow = vi.spyOn(Date, 'now').mockReturnValue(1764000000000);
+    try {
+      const first = useResumeStore.getState().createProfile({
+        name: 'Fictional A', markdown: '# Fictional A',
+      });
+      const second = useResumeStore.getState().createProfile({
+        name: 'Fictional B', markdown: '# Fictional B',
+      });
+      const copy = useResumeStore.getState().duplicateProfile(first.id);
+      const ids = useResumeStore.getState().profiles.map(p => p.id);
+
+      expect(ids).toHaveLength(4); // Existing one + three new entries.
+      expect(new Set(ids).size).toBe(ids.length);
+      expect(new Set([first.id, second.id, copy.id]).size).toBe(3);
+      expect(useResumeStore.getState().profiles.find(p => p.id === first.id)?.markdown)
+        .toBe('# Fictional A');
+      expect(useResumeStore.getState().profiles.find(p => p.id === second.id)?.markdown)
+        .toBe('# Fictional B');
+    } finally {
+      dateNow.mockRestore();
+    }
+  });
+
   it('localizes default profile metadata from the global UI language', () => {
     useResumeStore.getState().setUiLanguage('en');
     const chineseResumeSettings = {
