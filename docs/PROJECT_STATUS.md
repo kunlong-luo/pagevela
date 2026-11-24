@@ -1,3 +1,11 @@
+# Pagevela 项目状态 / Project status
+
+## 2026-11-24 最新工程进展：#323 已合并，生产门禁待验收
+
+- [#323](https://github.com/kunlong-luo/pagevela/pull/323) 的最新 PR 头通过 [完整 CI #45367991566](https://github.com/kunlong-luo/pagevela/actions/runs/45367991566)（quality、Chromium 双标签页真实回归、Firefox/WebKit 和实际受保护的 `build-and-test`），已合并为 **`main` `da3b68bc6c45db666e9c3ba47ce55e2ab73d7e80`**。实现事务级防过期写入、可恢复手动草稿，以及常驻但不遮挡排版操作的双语冲突提醒。
+- **此提交未取得同 SHA 完整线上验收：** [新 main CI #45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) 当时仍在执行，同 SHA Pages 待触发/核对；工程评分暂维持 [87/100](./ASSESSMENT_20261124_R2.md)，**不提前升 88**。更早章节中 #323“候选/未合并”的描述是原始时点的历史快照。
+- [#325](https://github.com/kunlong-luo/pagevela/pull/325) 同毫秒档案 ID 防碰撞仍在最新 PR CI，尚未独立合并上线。正式发布归档 v2.8.3 不含后续主分支修复。#282/#312/#262/#298 仍需独立验收。
+
 ## 2026-11-24 最新验收：87/100 · main `8150287`
 
 - **最新已验证并部署 main：** `8150287513fccb28de80d409875b0ea04bcd1edf`（含 [#322](https://github.com/kunlong-luo/pagevela/pull/322) 设置清洗模块纯函数拆分、[#321](https://github.com/kunlong-luo/pagevela/pull/321) Auto Fit 纸型/语言/页数回归及“预估契合”提示）。[完整 CI #45362921101](https://github.com/kunlong-luo/pagevela/actions/runs/45362921101) 的 quality、Chromium、Firefox 2/2、WebKit 2/2、cross-browser 和实际 `build-and-test` 均 **success**；[同 SHA Pages #45364809316](https://github.com/kunlong-luo/pagevela/actions/runs/45364809316) build/deploy 均 **success**。
@@ -7,6 +15,15 @@
 - **正式 Release 仍为 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)**：资产存在但没有独立下载/解压/哈希验收，旧归档不含 #321/#322。本页下方历史“pending”与 86 分记录为其原始快照，**已由本节最新记录取代**。
 
 # Pagevela 项目状态 / Project status
+
+## 2026-11-24 新主分支同 SHA 部署闭环（#324 文档更新）
+
+- **已合并且已实际部署的最新 main**：`de81022b8ec4e1a9a041ae1c684266dd326b257b`，来自 [PR #324](https://github.com/kunlong-luo/pagevela/pull/324) 的 87 分复评与文档同步。独立[完整主分支 CI #45367413632](https://github.com/kunlong-luo/pagevela/actions/runs/45367413632) **success**（quality、Chromium 全量、Firefox 2/2、WebKit 2/2、cross-browser 和实际执行的 `build-and-test`）；[同 SHA Pages #45369451198](https://github.com/kunlong-luo/pagevela/actions/runs/45369451198) build/deploy 均 **success**。
+- **工程评分仍为 [87/100](./ASSESSMENT_20261124_R2.md)**。这次 #324 只改变文档与证据，**不再额外加分**；下方历史 `8150287` 为 #321/#322 功能交付基线，已被这次纯文档部署的最新状态取代。
+- **#323 跨标签页防覆盖候选**：[PR #323](https://github.com/kunlong-luo/pagevela/pull/323) 在前轮 Chromium 真实测试中发现常驻冲突警告会遮挡排版按钮；修复版将常驻警告移至左下角并不拦截操作。[最新 CI #45367991566](https://github.com/kunlong-luo/pagevela/actions/runs/45367991566) 在记录本快照时已通过 quality 与 Firefox/WebKit 关键检查，Chromium 全量尚未完成。**不标为已合并/已上线、不计入评分**。
+- **#325 档案主键候选**：[PR #325](https://github.com/kunlong-luo/pagevela/pull/325) 解决新建/复制档案同毫秒 `Date.now()` 主键重复的风险；[最新 CI #45368197300](https://github.com/kunlong-luo/pagevela/actions/runs/45368197300) quality success、浏览器回归仍在执行。保留旧 `profile_` ID、IndexedDB schema 和备份协议，不计入目前评分。
+- 现有正式 Release **仍为 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)**。该发布包与当前最新 main 不同，也没有新增独立的归档解压及哈希证据；#282/#312/#262/#298 继续按各自的验收范围开放。**以下更早快照不代表当前实时状态。**
+
 
 ## 2026-11-24 最新已验证交付及独立复评（16:30 CST 后核对）
 

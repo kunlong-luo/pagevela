@@ -1,5 +1,11 @@
 # Pagevela 工程评分复评 / Engineering reassessment — 2026-11-24 · 第三次验收快照
 
+> **2026-11-24 后续工程状态（暂不加分）**：[PR #323](https://github.com/kunlong-luo/pagevela/pull/323) 已在最新 PR-head 完整 CI [#45367991566](https://github.com/kunlong-luo/pagevela/actions/runs/45367991566) 成功后合并为 `main` `da3b68b`。该 main 的[独立 CI #45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) 及同 SHA Pages 尚待成功结果；因此本 87/100 历史评分表仍保持，**尚未给跨标签页可靠性加分**。本报告后文针对 #323 的“未合并”描述属于其写作当时的历史快照。
+
+
+
+> **后续同日交付核验（不改变原始评分）**：[#324](https://github.com/kunlong-luo/pagevela/pull/324) 已合并为 `de81022b8ec4e1a9a041ae1c684266dd326b257b`；[新 main 完整 CI #45367413632](https://github.com/kunlong-luo/pagevela/actions/runs/45367413632) 与[同 SHA Pages #45369451198](https://github.com/kunlong-luo/pagevela/actions/runs/45369451198) **success**。该提交只更新文档，因此本报告的功能评估基线 `8150287`、各项评分及总分 **87/100 均不变**；#323/#325 候选未获合并及线上验证，不计分。
+
 > **最新已完整上线验收评分：87/100**（此前 [86 分](./ASSESSMENT_20261124.md)，再提升 1 分；11/23 [84 分](./ASSESSMENT_20261123.md)）。这是项目自定的七维度定性工程评分，**不是**第三方认证、Android 机型兼容认证、已发布版本号或性能基准。分数仅按已通过**对应 main SHA 全量 CI 与同 SHA Pages**的成果调整。
 
 ## 最新完整验收 / Latest accepted production SHA

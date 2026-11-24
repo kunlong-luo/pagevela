@@ -1,3 +1,11 @@
+# Pagevela engineering acceptance / 2026-11-24
+
+## New merged feature gate — cross-tab conflict recovery (#323)
+
+- [#323](https://github.com/kunlong-luo/pagevela/pull/323) latest head `14520f0` [PR CI #45367991566](https://github.com/kunlong-luo/pagevela/actions/runs/45367991566) **success** (quality, full Chromium including two-tab rescue test, Firefox/WebKit critical, protected `build-and-test` actually executed). Auto-merged as **main `da3b68bc6c45db666e9c3ba47ce55e2ab73d7e80`**.
+- **Required new-main gates remain separate:** [main CI #45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) is running at this checkpoint, and same-SHA Pages still requires explicit success. Do not increase privacy/reliability or claim online protection based on successful PR CI alone. **Verified score remains 87/100**.
+- #324 documentation-only main `de81022` already passed [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45367413632) plus [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45369451198); it did not change the score. #325 same-ms primary-key defense is a separate open candidate. Older #323 candidate statuses below are historical records.
+
 ## Latest same-SHA acceptance — 2026-11-24 · main `8150287`
 
 - **[PR #322](https://github.com/kunlong-luo/pagevela/pull/322)** settings sanitizer pure module and corruption/market tests merged as `9a634df8a95b8069c2b44ea03577b79d945af227`; [main CI #45360517751](https://github.com/kunlong-luo/pagevela/actions/runs/45360517751) **success** (all browser shards + executed `build-and-test`) and [same-SHA Pages #45362570879](https://github.com/kunlong-luo/pagevela/actions/runs/45362570879) **build/deploy success**.
@@ -6,6 +14,15 @@
 - **[PR #323](https://github.com/kunlong-luo/pagevela/pull/323)** cross-tab active resume conflict guard is **candidate only**; [older head CI #45362557789](https://github.com/kunlong-luo/pagevela/actions/runs/45362557789) **failure** on user-visible recovery Toast despite persisted conflict drafts. Candidate fixes must pass latest PR-head CI and post-merge same-SHA CI/Pages before any safety claim or added points. Stable downloadable release remains **v2.8.3** (tag `501ca26`); do not backport post-tag changes into old assets.
 
 # Pagevela engineering acceptance / 2026-11-24
+
+## Acceptance follow-up: merged documentation release `de81022b` (2026-11-24)
+
+- [#324](https://github.com/kunlong-luo/pagevela/pull/324) was **merged** as `de81022b8ec4e1a9a041ae1c684266dd326b257b`; [full independent main CI #45367413632](https://github.com/kunlong-luo/pagevela/actions/runs/45367413632) **success** (quality, full Chromium, Firefox 2/2, WebKit 2/2, cross-browser summary and protected `build-and-test` **actually executed**); [identical-SHA Pages #45369451198](https://github.com/kunlong-luo/pagevela/actions/runs/45369451198) **build and deploy success**. No new tagged Release or ZIP/TAR has been created.
+- The [87/100 score](./ASSESSMENT_20261124_R2.md) remains evidence-based on deployed #321/#322 features. A documentation-only merge is *not* another point. [Earlier 86/100 report](./ASSESSMENT_20261124.md) remains historical.
+- [#323](https://github.com/kunlong-luo/pagevela/pull/323): stale-tab transaction/conflict-draft recovery candidate remains **OPEN and unscored**. Its previous [CI #45365050460](https://github.com/kunlong-luo/pagevela/actions/runs/45365050460) failed the Chromium two-tab E2E because the persistent Toast blocked layout clicks; the newer candidate moves that persistent warning to bottom-left with a nonblocking card and interactive close button, requiring latest-head Chromium + Firefox/WebKit + actual `build-and-test`, then new main SHA CI/Pages. Do not credit the previous failing run.
+- [#325](https://github.com/kunlong-luo/pagevela/pull/325): same-millisecond `profile_${Date.now()}` collision prevention for create/duplicate, preserving stored IDs and schema. [Latest CI #45368197300](https://github.com/kunlong-luo/pagevela/actions/runs/45368197300) was **still in progress** at the time of this snapshot; no merge/production acceptance or additional scoring yet.
+- Real Android OS Print/Save-as-PDF and installed PWA, legacy already-open tabs, photo/profile metadata recovery, private alert #298, and v2.8.3 archive independent SHA verification remain outstanding. This is a dated verification ledger, **not a live CI dashboard**.
+
 
 ## Latest verified delivery / 最新同 SHA 验收
 

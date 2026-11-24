@@ -1,6 +1,14 @@
 # Changelog
 
+> **2026-11-24 newest development update:** [#323](https://github.com/kunlong-luo/pagevela/pull/323) crossed its latest-head Chromium/Firefox/WebKit/`build-and-test` gate and merged as `da3b68b`. It prevents stale cross-tab active resume writes and keeps conflicting text/layout as manual drafts, with a nonblocking persistent recovery warning. **New-main full CI #45370012956 and same-SHA Pages are still required before calling this deployed or increasing the 87/100 score.** No changes to stable v2.8.3 downloadable assets. #325 profile ID collision prevention remains pending independently.
+
+
+
 ## Unreleased — post-v2.8.3 main development
+
+- **2026-11-24 documentation delivery validated:** [#324](https://github.com/kunlong-luo/pagevela/pull/324) synchronized the 87/100 engineering review, README (English/Chinese), changelog and status docs. Its merged main `de81022b` passed [full CI #45367413632](https://github.com/kunlong-luo/pagevela/actions/runs/45367413632) and [same-SHA Pages #45369451198](https://github.com/kunlong-luo/pagevela/actions/runs/45369451198). **No new point** for documentation-only delivery; **no new stable release package**.
+- **Not yet shipped:** [#323](https://github.com/kunlong-luo/pagevela/pull/323) adds cross-tab stale-writer conflict drafts, but a browser test exposed a persistent-warning pointer obstruction and the new fix still requires full latest-head CI and post-merge Pages; [#325](https://github.com/kunlong-luo/pagevela/pull/325) isolates collision-resistant IDs for rapid profile creation/duplication, also under browser CI. Neither PR counts toward the verified 87 score.
+
 
 - **2026-11-24 latest deployed main `8150287`:** [#322](https://github.com/kunlong-luo/pagevela/pull/322) extracted and unit-tested the persisted settings sanitizer, and [#321](https://github.com/kunlong-luo/pagevela/pull/321) delivered Auto Fit A4/Letter, Chinese/English, 1/3-page smoke coverage with cautious Estimated Fit messaging. [Full main CI #45362921101](https://github.com/kunlong-luo/pagevela/actions/runs/45362921101) and [same-SHA Pages #45364809316](https://github.com/kunlong-luo/pagevela/actions/runs/45364809316) success. [87/100 evidence-backed assessment](./docs/ASSESSMENT_20261124_R2.md) improves architecture +1 only. Cross-tab draft conflict guard [#323](https://github.com/kunlong-luo/pagevela/pull/323) remains an unmerged candidate after an earlier browser test failure and requires fresh CI/Pages. No new stable ZIP/TAR release.
 

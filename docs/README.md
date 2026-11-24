@@ -1,8 +1,14 @@
 # Pagevela 文档索引 / Documentation index
 
+> **2026-11-24 新合并 / Latest merged:** [#323](https://github.com/kunlong-luo/pagevela/pull/323) is in main `da3b68b` after successful latest PR CI, but [new main CI #45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) and identical SHA Pages still need confirmation. **Current proven score is 87/100**; this statement supersedes candidate-only historical notes below.
+
+
+
 > 这是 **文档导航页**，不是自动更新的 CI 面板。访问最新状态前请对照 [带日期的状态快照](./PROJECT_STATUS.md) 与 [GitHub Actions](https://github.com/kunlong-luo/pagevela/actions)。本文按用途区分现行说明与历史资料，避免把 10 月发布验收误当成今天的结果。
 >
 > This is the navigation entry for current guides and historical release records. Published assets, the main branch and deployed Pages may refer to different commits.
+>
+> **最新经验证据 / Latest accepted main:** `de81022b` [complete CI](https://github.com/kunlong-luo/pagevela/actions/runs/45367413632) + [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45369451198) success. 当前评分仍为 [87/100](./ASSESSMENT_20261124_R2.md)；#323、#325 候选尚未计分。
 
 ## 从这里开始 / Start here
 
