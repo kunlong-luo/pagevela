@@ -1,6 +1,6 @@
 # Pagevela v2.8.4 发布验收 / Release acceptance
 
-> **2026-11-24 · Release candidate, not a published acceptance report.** 本文明确区分已验证的底层改进与新版本正式验收。版本基于 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 之后的开发代码、文档整理和主键/多标签页安全修复。
+> **2026-11-24 · 正式发布已完成 / Published:** [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) annotated tag points to `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`. [New main CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722), [same-SHA Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138), [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) **success**. ZIP/TAR.GZ/SHA256SUMS exist; independent archive extraction/hash recomputation not confirmed.
 
 ## 候选变更 / Candidate scope
 
@@ -8,7 +8,16 @@
 - [#323](https://github.com/kunlong-luo/pagevela/pull/323)、[#325](https://github.com/kunlong-luo/pagevela/pull/325) 已在正式打包之前的 main `a8ec3ae` 通过 [完整 CI #45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) 和 [同 SHA Pages #45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806)，但**不是**这次 `2.8.4` 版本提交的验收结果。
 - 新的 README、文档目录与历史版本归档由文档整理 PR 交付；`pnpm run docs:check` 必须加入 CI 并通过。
 
-## 必需门禁 / Must pass before publication
+## 正式验收 / Verified gates (2026-11-24)
+
+- [x] [#328](https://github.com/kunlong-luo/pagevela/pull/328) merged; `package.json` version `2.8.4`.
+- [x] Full main CI [#45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) **success** with quality, full Chromium, Firefox/WebKit and executed `build-and-test`.
+- [x] Identical-SHA Pages [#45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138): **build + deploy success**.
+- [x] Release [#45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) **success**, annotated tag `v2.8.4` → `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`.
+- [x] Release assets present: `pagevela-2.8.4.zip` (1,503,102 bytes), `pagevela-2.8.4.tar.gz` (1,475,926 bytes), `SHA256SUMS.txt` (173 bytes).
+- [ ] Independently download, extract and recompute both archive SHA256 digests; **not independently verified**.
+
+## Original pre-publication checklist (historical)
 
 - [ ] v2.8.4 版本 PR 最新头：quality（TypeScript、strict critical、ESLint、Vitest、docs:check、构建、性能预算）+ Chromium 全量 + Firefox/WebKit 关键测试 + 实际执行的 `build-and-test` 全 success。
 - [ ] 版本 PR 经受保护分支合并，记录**完整** `main` SHA。
