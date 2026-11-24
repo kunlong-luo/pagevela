@@ -15,6 +15,7 @@ const initEditor = async (page: Page) => {
 
 const readConflictDrafts = (page: Page) => page.evaluate(() => new Promise<Array<{
   id: string; markdown: string; isAutoSave?: boolean;
+  settings?: { margin?: string };
 }>>((resolve, reject) => {
   const request = indexedDB.open('resume-craft');
   request.onerror = () => reject(request.error);
@@ -27,6 +28,7 @@ const readConflictDrafts = (page: Page) => page.evaluate(() => new Promise<Array
       db.close();
       resolve((records.result as Array<{
         id: string; markdown: string; isAutoSave?: boolean;
+  settings?: { margin?: string };
       }>).filter(item => item.id.startsWith('draft_conflict_')));
     };
   };
@@ -61,14 +63,28 @@ test('two tabs preserve the latest committed resume and the stale edits as manua
     '- Only synthetic data. This tab must not erase the other one.',
   ].join('\n');
   await bEditor.fill(stale);
+  // Also stage a compact layout through the real editor controls. The small
+  // pending-settings journal must not replay this rejected layout on reload.
+  await staleTab.locator('#resume-main-toolbar')
+    .getByRole('button', { name: 'Open layout settings' }).click();
+  const layout = staleTab.getByRole('dialog', { name: 'Layout' });
+  await layout.getByRole('button', { name: 'Narrow', exact: true }).click();
+  await expect(layout.getByRole('button', { name: 'Narrow', exact: true }))
+    .toHaveAttribute('aria-pressed', 'true');
+  await layout.getByRole('button', { name: 'Close Layout' }).click();
 
   // A conflict write is one atomic transaction: committed profile/document
   // stay as A, while B's unsaved markdown/layout becomes a manual draft.
   await expect.poll(async () => {
     const drafts = await readConflictDrafts(staleTab);
-    return drafts.some(draft => draft.markdown === stale && draft.isAutoSave === false);
+    return drafts.some(draft =>
+      draft.markdown === stale &&
+      draft.isAutoSave === false &&
+      draft.settings?.margin === 'compact');
   }, { timeout: 20000 }).toBe(true);
   await expect.poll(() => readActiveMarkdown(page)).toBe(latest);
+  await expect.poll(() => staleTab.evaluate(() =>
+    localStorage.getItem('resume-profile-settings-pending-v1'))).toBeNull();
   await expect(staleTab.getByText('Another tab changed this resume')).toBeVisible();
 
   await staleTab.reload();
