@@ -35,119 +35,39 @@
 
 ---
 
-## Documentation and project health
+## Documentation and current project status
 
-- [Documentation index](docs/README.md) — guides, architecture, brand and historical records
-- [Dated project status](docs/PROJECT_STATUS.md) — CI / deployment verification, open risks and issue ownership
-- [Release and security acceptance (2026-11-23)](docs/RELEASE_SECURITY_ACCEPTANCE_20261123.md) — CI → Pages → Release sequence, PWA offline and dependency-audit evidence
-- [Latest engineering reassessment (2026-11-24): 87/100](docs/ASSESSMENT_20261124_R2.md) — assessed against main `8150287` full CI and same-SHA Pages; [previous 86/100](docs/ASSESSMENT_20261124.md) remains archived; [84/100 historical 11/23 report](docs/ASSESSMENT_20261123.md) and [76/100 on 11/22](docs/ASSESSMENT_20261122.md) remain unchanged
-- [Release process](RELEASING.md) · [Contributing](CONTRIBUTING.md) · [Workspace migration](docs/WORKSPACE_TRANSFER.md)
+- **Current engineering assessment: [88/100](docs/ASSESSMENT.md)** — evidence-based, using deployed main `a8ec3ae`. [Latest production status](docs/PROJECT_STATUS.md) · [full CI and same-SHA Pages ledger](docs/ENGINEERING_ACCEPTANCE_20261124.md).
+- **One documentation index:** [docs/README.md](docs/README.md) — current technical guides, historical reports and separate marketing assets. Historical [87/100 report](docs/ASSESSMENT_20261124_R2.md) is preserved, not treated as current.
+- [Contributing](CONTRIBUTING.md) · [Release process](RELEASING.md) · [Changelog](CHANGELOG.md) · [Workspace backup/migration](docs/WORKSPACE_TRANSFER.md) · [Historical archive](docs/history/README.md).
 
-The latest GitHub Release and the latest deployed Pages commit are **not necessarily the same as current `main`**. Check the status document and current CI before making deployment claims.
+### Documentation layout
 
----
+```text
+README.md / README.zh-CN.md      Canonical English / Chinese guides
+CHANGELOG.md / RELEASE_NOTES.md  Version history and published notes
+docs/
+  README.md                      Documentation index
+  PROJECT_STATUS.md              Latest verified main + unresolved gates
+  ASSESSMENT.md                  Current seven-dimensional assessment
+  ENGINEERING_ACCEPTANCE_20261124.md  Exact-SHA CI/Pages evidence
+  [technical notes]              Current architecture, UI and data contracts
+  history/                        Historical snapshots and archived version guides
+    versions/                     v2.1 / v2.2 / v2.3 / v2.6 notes
+  channel-refresh/                Separate platform copy and tracking materials
+```
 
-## Development after v2.8.3 (not in the release archives)
+Check local document links with `pnpm run docs:check`. The documentation quality check also runs in CI. The former duplicate `README.en.md` entry was removed: **this README is the canonical English guide**.
 
-- **[PR #310](https://github.com/kunlong-luo/pagevela/pull/310)** moved cross-tab presence and storage-health messages into a tested editor Hook. Merge SHA `16b11ff` passed [full main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196).
-- **[PR #311](https://github.com/kunlong-luo/pagevela/pull/311)** fixed repeated Auto Fit presses loosening an already compact resume; merged as `e8fdda0`. The fix is independently verified in later main `d0d5486`: [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156) both passed.
-- **[PR #314](https://github.com/kunlong-luo/pagevela/pull/314)** now rejects failed/empty Quick PDF generation with branded feedback. Merged main `12c7044` passed [complete CI](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157). **[PR #316](https://github.com/kunlong-luo/pagevela/pull/316)** merged measured 1/2/3-page Auto Fit into `main` `6532c57`, but its [last PR-head CI](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364) **failed one Chromium test** (obsolete desktop Auto Fit accessible-name assertion). The subsequent main `6532c57` [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) **failed** and [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45321277493) **skipped**. **[PR #317](https://github.com/kunlong-luo/pagevela/pull/317)** fixed the outdated E2E and required-check bypass, passed [full PR-head CI](https://github.com/kunlong-luo/pagevela/actions/runs/45320641952), and merged as `e00bcbd`. The later documented `main` `202bcea`, including #317 and #318, has independently passed [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45324490754) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45326859873); #319 one-click restoration of the pre-fit layout then merged as `db8919f` after [full PR CI success](https://github.com/kunlong-luo/pagevela/actions/runs/45327296976); independent new-main CI and same-SHA Pages acceptance are still pending. See the [dated acceptance guide](docs/MEASURED_AUTO_FIT_20261124.md).
+## Development since the v2.8.3 archive
 
-These changes do **not** retroactively update the v2.8.3 ZIP/TAR.GZ. The [engineering acceptance log](docs/ENGINEERING_ACCEPTANCE_20261124.md) and [optimization roadmap](docs/PRODUCT_OPTIMIZATION_ROADMAP_20261124.md) distinguish verified deliveries from pending work. The dated engineering score remains **84/100**.
+Latest independently deployed main `a8ec3ae`: [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success**. It includes [#323](https://github.com/kunlong-luo/pagevela/pull/323) conflict-safe cross-tab IndexedDB writes with recoverable manual drafts and nonblocking user warnings, and [#325](https://github.com/kunlong-luo/pagevela/pull/325) collision-resistant new/duplicate resume-profile IDs. [#321](https://github.com/kunlong-luo/pagevela/pull/321) improved Auto Fit smoke coverage, and [#322](https://github.com/kunlong-luo/pagevela/pull/322) isolated settings sanitization.
 
-## 🆕 What's New in v2.8.3
+**Release boundary:** the latest formal downloadable tag is still [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3), built from `501ca26`. Later main changes are **not** in those archives. Independent extraction and SHA256 verification of release assets remain unrecorded. The owner-confirmed Android WeChat device test does not certify Android system printing, every OEM browser or installed-PWA offline cases.
 
-Reliability and maintainability patch for the local-first resume editor.
+## Release history
 
-- **Draft safety:** Serialized IndexedDB saves, periodic draft-history coordination and split-pane fixes.
-- **Keyboard architecture:** A dedicated tested Hook preserves Ctrl/Cmd+S local save, Ctrl/Cmd+P ATS browser print and Ctrl/Cmd+Shift+F Auto Fit.
-- **Production offline:** Service worker app-shell precaching and offline editor navigation are checked in Chromium.
-- **Cross-browser confidence:** Full Chromium, Firefox and WebKit checks; PDF parsing, post-export draft retention and same-SHA Pages-to-Release gates.
-- **Engineering governance:** Dependency registry audit, bilingual documentation and a documented 84/100 engineering review.
-
-v2.8.3 is published with branded ZIP/TAR.GZ and a checksum manifest after successful same-SHA CI and Pages deployment. Independent archive extraction/checksum validation, real Android system PDF, other OEM browsers, installed-PWA offline and private Dependabot alerts remain separate acceptance items.
-
-[Release notes](./RELEASE_NOTES.md) · [v2.8.3 acceptance](./docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md) · [Android issue #262](https://github.com/kunlong-luo/pagevela/issues/262)
-
----
-
-## 📦 Previously in v2.8.2
-
-A brand-consistency and compatibility release. **Pagevela** is the sole public product name.
-
-- **Consistent naming:** Package metadata, new ZIP/TAR.GZ downloads, release automation, promotion images/videos, issue templates and developer events use Pagevela.
-- **Correct public URLs:** Official Pages route checks, support links and privacy-respecting analytics use `/pagevela/`.
-- **Safe portable backups:** Newly exported workspace files identify as `pagevela-workspace-v1`; the importer still accepts earlier workspace backup versions.
-- **Encrypted-share continuity:** New encrypted links authenticate with Pagevela identifiers; existing v2/v3 protected links remain readable.
-- **Storage safety:** New support-prompt preferences use the Pagevela namespace. Established IndexedDB data and cross-tab write identifiers are deliberately retained until a verified, non-destructive database migration is available.
-
-This version does not certify additional Android hardware, browser printing, or offline scenarios. See [#262](https://github.com/kunlong-luo/pagevela/issues/262).
-
----
-
-## 📦 Previously in v2.8.1
-
-A **reliability-focused patch release** for Android/WeChat acceptance records and downloadable PDF integrity; no new resume schema, account service or editor controls.
-
-- **Direct Quick PDF integrity:** Automated Chromium E2E now opens the downloaded PDF with a real PDF parser, inspects each page for valid drawing operations, and confirms the unchanged fictional resume survives a browser reload after export.
-- **Android WeChat hardware sign-off:** The project owner has reported successful testing on a **real Android device using WeChat**. Exact device/app versions and individual PDF/PWA/other-browser outcomes have not been independently documented; no claim of universal Android compatibility.
-- **Brand and transfer audit:** Consolidated the live Pagevela migration decisions, retained legacy storage/share compatibility constants, and documented outstanding trademark and offsite listing evidence.
-- **Safe production release:** Full browser CI and identical-SHA GitHub Pages deployment remain mandatory. Release validation requires full main-push CI and a successful same-SHA GitHub Pages deployment; any unrecorded hardware or export scenarios remain explicitly unverified.
-
-**Privacy:** Workspace JSON backups remain unencrypted; no automatic account sync. ATS/browser-print PDF preserves selectable text; Quick PDF is raster. The former `/resume-craft/` site is not redirected.
-
-[Android hardware and export acceptance](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [Brand migration audit](https://github.com/kunlong-luo/pagevela/issues/202) · [v2.8.1 release details](./RELEASE_NOTES.md)
-
----
-
-## 📦 Previously in v2.8.0
-
-This release makes **mobile resume editing more reliable**, speeds up the welcome screen, and introduces CI-verified production deployment.
-
-- **Welcome and phone QR:** Show useful content before initializing the heavier editor. A branded, size-matched QR action beside **Start** opens a scan-friendly Pagevela modal.
-- **Mobile workspace:** Clear Form / Code / Preview navigation, 44px touch targets, streamlined quick actions without duplicate Fit / Check, and toolbar menus that remain reachable.
-- **Safer preview:** Resume footers and keyboard-focused inputs remain clear of the mobile action dock across compact and tablet widths.
-- **Bilingual branded components:** Shorter aligned labels, a global language switch next to Theme, consistent popovers and scrollbars; automated checks guard against visible native browser widgets.
-- **Release safety:** Full Chromium, Firefox and WebKit E2E plus the headed Firefox proof, followed by a required CI result before GitHub Pages automatically deploys the same SHA.
-- **Stable dependencies:** React / React DOM 19.3.1, Motion 14.4, Lucide 1.59, ESLint 10.13 and Vitest 5.0.5.
-
-**Privacy and limits:** Resume data remains local-first. ATS checks are guidance, not guaranteed employer acceptance. Use ATS/browser-print PDF for selectable text; workspace backups are unencrypted and moving devices/origins requires manual export/import.
-
-🎬 [Existing product demo](https://youtu.be/z3RNFD4s-kk) · [Try Pagevela](https://kunlong-luo.github.io/pagevela/) · [v2.8.0 announcement and media review kit](./docs/V2_8_0_RELEASE_KIT.md)
-
-See the [v2.8.0 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.0), [release notes](./RELEASE_NOTES.md) and [changelog](./CHANGELOG.md).
-
----
-
-## 📦 Previously in v2.7.0
-
-This release completes the public rename to **Pagevela** (displayed as **页帆** in Chinese), and improves the path from the welcome page to a finished resume.
-
-- **Clear first-run experience:** Choose a template and begin editing in fewer steps, without repeating onboarding.
-- **Better mobile PDF access:** The primary PDF action is easier to find on narrow screens; use the ATS/browser-print path for selectable text.
-- **Real bilingual product captures:** Automated welcome-page and editor screenshots cover Chinese and English interfaces.
-- **Refreshed tooling:** Tested production and development dependency updates are included.
-
-🎬 [Watch the new 26-second Pagevela demo](https://youtu.be/z3RNFD4s-kk) · [Try Pagevela](https://kunlong-luo.github.io/pagevela/) · [Capture and promotion media guide](./docs/PROMOTION_MEDIA.md)
-
-**Moving from an old browser origin?** Drafts remain local. Export your workspace and verify the new site's import before deleting the old copy; see the [workspace transfer guide](./docs/WORKSPACE_TRANSFER.md).
-
-See the [v2.7.0 release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.7.0), [full release notes](./RELEASE_NOTES.md), and [changelog](./CHANGELOG.md).
-
----
-
-## 📦 Previously in v2.6.0
-
-- **China-market resume portraits:** Optional 3:4 ID-style photo crop and top-right preview, stored locally with the relevant resume profile.
-- **Complete workspace migration:** Back up and restore all profiles, drafts, job-description text and locally stored photos using a versioned JSON file. The file is **not encrypted**; keep it private.
-- **Safer quick-reload recovery:** Recover pending profile layout and market settings when a reload interrupts autosave, without syncing personal resume text to a server.
-- **Compatibility and PDF regression coverage:** Added photo/PDF download and browser-origin migration tests, including explicit overwrite confirmation and profile isolation.
-
-**Important:** A new browser, device or site origin does not automatically have access to your existing resumes. Export your old workspace and verify the destination import before deleting anything. [Workspace transfer guide](./docs/WORKSPACE_TRANSFER.md).
-
-See the published [v2.6.0 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.6.0) and [full release notes](./RELEASE_NOTES.md). Previous: [v2.5.0 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.5.0).
-
----
+Published versions and historical release-specific details are in [RELEASE_NOTES.md](RELEASE_NOTES.md) and [CHANGELOG.md](CHANGELOG.md). Keep older release evidence for traceability, but use the latest status and assessment above for current claims.
 
 ## 💡 Why Choose Pagevela?
 
