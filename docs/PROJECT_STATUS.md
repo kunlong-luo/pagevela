@@ -1,6 +1,6 @@
 # Pagevela 项目状态 / Project status
 
-> **v2.8.4 发布候选：** 本次版本 PR 将 `package.json` 升为 `2.8.4`；此处下方的已验收 `a8ec3ae` 是**发布前**的稳定主分支源代码基线，不代表 v2.8.4 版本 SHA 已经过完整 CI/Pages/Release。只有实际出现 [v2.8.4 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 和带新 SHA 的成功日志，才能更新为正式发布。
+> **v2.8.4 验收提示：** 本页下方的 `a8ec3ae` 是**升版前**已完成的源码/部署基线。v2.8.4 是否发布成功，请独立核对 [Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)、新版本的完整 main CI、同 SHA Pages 与[验收表](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)，不能复用旧成功记录。
 
 
 > **核验日期：2026-11-24。** 本页是最近一次已核验的工程状态快照，不是实时 CI 面板。判断后续代码是否已上线，请分别查看 [main](https://github.com/kunlong-luo/pagevela/commits/main)、[Actions](https://github.com/kunlong-luo/pagevela/actions)、[Releases](https://github.com/kunlong-luo/pagevela/releases)。
