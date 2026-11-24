@@ -6,6 +6,8 @@
 
 ## [2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) — 2026-11-24
 
+> **2026-11-24 正式发布已验收：** tag `ea2a65b`；[完整 main CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。归档文件独立 SHA256 复核仍未验收。
+
 > **Previous independently deployed pre-release main:** `a8ec3ae15a819c3465a039cf11a659e0ca59afc8` — [full main CI #45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) and [same-SHA Pages #45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success**. The [current assessment is 88/100](./docs/ASSESSMENT.md). This was the independently deployed **pre-v2.8.4 source baseline**; the new v2.8.4 tag/assets must be verified against their own main CI/Pages/Release gates.
 
 - **Data safety:** [#323](https://github.com/kunlong-luo/pagevela/pull/323) rejects stale-tab active resume overwrites in one Dexie transaction and preserves recoverable manual drafts; the persistent bilingual warning no longer obstructs the editor. [#325](https://github.com/kunlong-luo/pagevela/pull/325) prevents same-millisecond profile primary-key collisions with UUID and a monotonic fallback. Neither changes existing stored IDs, the legacy database/channel/lock contract or the published backup format. Old-version already-open tabs and complete photo/metadata conflict recovery remain outside scope.
