@@ -42,6 +42,23 @@ export function describeStorageHealth(
     };
   }
 
+  if (detail.key === 'indexeddb-conflict') {
+    return {
+      status: 'error',
+      quotaExceeded: false,
+      toast: {
+        title: isEn ? 'Another tab changed this resume' : '另一标签页已修改此简历',
+        message: isEn
+          ? 'This tab did not overwrite the newer saved version. Its text and layout were copied to local Drafts (Backup → Drafts). Review both copies and reopen this tab before editing.'
+          : '本标签页没有覆盖其他标签页已保存的版本。当前文字和排版已复制到本地草稿（备份 → 草稿）；请核对两份内容，重新打开标签页后再继续编辑。',
+        type: 'error',
+        // Data-loss prevention must remain visible until the user dismisses it.
+        // A short toast could disappear before the async recovery is inspected.
+        duration: 0,
+      },
+    };
+  }
+
   const quotaExceeded = detail.quotaExceeded === true;
   return {
     status: 'error',
