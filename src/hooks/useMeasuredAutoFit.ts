@@ -48,7 +48,7 @@ export function useMeasuredAutoFit({
     runRef.current = null;
     setIsAutoFitting(false);
     const en = uiLanguage === 'en';
-    const targetLabel = en ? `${run.target} page(s)` : `${run.target} 页`;
+    const targetLabel = en ? `${run.target} ${run.target === 1 ? 'page' : 'pages'}` : `${run.target} 页`;
     const fitted = reason === 'fitted';
     const canceled = reason === 'canceled';
     const title = fitted

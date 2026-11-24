@@ -266,7 +266,7 @@ export const HeightGuard = React.memo(function HeightGuard({
           }`}
         >
           <Zap className={`w-3.5 h-3.5 ${isAutoFitting ? 'animate-spin text-slate-400' : metrics.isOver ? 'text-white' : 'text-indigo-600 dark:text-indigo-400'}`} />
-          <span>{isAutoFitting ? t.autoFittingBtn : metrics.isOver ? `${t.autoFitBtn} (${targetPageLimit}${lang === 'en' ? ' pages' : '页'})` : t.optimizeBtn}</span>
+          <span>{isAutoFitting ? t.autoFittingBtn : metrics.isOver ? `${t.autoFitBtn} (${targetPageLimit}${lang === 'en' ? (targetPageLimit === 1 ? ' page' : ' pages') : '页'})` : t.optimizeBtn}</span>
         </button>
       )}
           </motion.div>
