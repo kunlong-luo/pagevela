@@ -76,6 +76,27 @@ export function acknowledgeSavedProfileSettings(profiles: ResumeProfile[]): void
   }
 }
 
+/**
+ * A rejected cross-tab snapshot has been preserved in manual recovery drafts.
+ * Drop only the *exact matching* journal revision from that stale tab, so a
+ * later reload cannot accidentally replay its layout into the newer profile.
+ * A concurrent newer journal entry from another tab must remain untouched.
+ */
+export function discardConflictingProfileSettings(profiles: ResumeProfile[]): void {
+  const journal = readJournal();
+  let changed = false;
+  for (const profile of profiles) {
+    const pending = journal[profile.id];
+    if (!pending || pending.updatedAt !== profile.updatedAt) continue;
+    if (JSON.stringify(pending.settings) !== JSON.stringify(profile.settings)) continue;
+    delete journal[profile.id];
+    changed = true;
+  }
+  if (!changed) return;
+  if (Object.keys(journal).length) storage.set(STORAGE_KEYS.PENDING_PROFILE_SETTINGS, journal);
+  else storage.remove(STORAGE_KEYS.PENDING_PROFILE_SETTINGS);
+}
+
 export function discardPendingProfileSettings(profileId?: string): void {
   if (!profileId) {
     storage.remove(STORAGE_KEYS.PENDING_PROFILE_SETTINGS);
