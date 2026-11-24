@@ -1,6 +1,6 @@
 # Pagevela 工程复评与优化路线 / 2026-11-23
 
-> **2026-11-24 后续补充（不改动历史评分）：** [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 已从 `501ca26` 完成 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125) → [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172) → [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 的同 SHA 正式发布；下方“v2.8.2 仍为正式版”的措辞仅反映**本评估原始写作时点**。84/100 仍为 11 月 23 日基线，不自动提分。下一轮工作区安全 Hook 拆分仍须单独验收。
+> **2026-11-24 后续补充（不改动历史评分）：** [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 已从 `501ca26` 完成 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125) → [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172) → [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 的同 SHA正式发布；下方“v2.8.2 仍为正式版”的措辞仅反映**本评估原始写作时点**。后续工作区安全 Hook 拆分 [#310](https://github.com/kunlong-luo/pagevela/pull/310) 已合并并完成 [`16b11ff` main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196)。**84/100 仍为 11 月 23 日原始基线，不因这次新证据自动提分。**
 
 > **综合评分：84 / 100（良好，仍有工程与真机验收风险）。**
 > 这是一份可追溯的、**定性的工程评分**，不是用户满意度、第三方 ATS 认证、商标核验、渗透测试或 Android 实测报告。
