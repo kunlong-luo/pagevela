@@ -1,3 +1,11 @@
+# Pagevela engineering acceptance / 2026-11-24
+
+## New merged feature gate — cross-tab conflict recovery (#323)
+
+- [#323](https://github.com/kunlong-luo/pagevela/pull/323) latest head `14520f0` [PR CI #45367991566](https://github.com/kunlong-luo/pagevela/actions/runs/45367991566) **success** (quality, full Chromium including two-tab rescue test, Firefox/WebKit critical, protected `build-and-test` actually executed). Auto-merged as **main `da3b68bc6c45db666e9c3ba47ce55e2ab73d7e80`**.
+- **Required new-main gates remain separate:** [main CI #45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) is running at this checkpoint, and same-SHA Pages still requires explicit success. Do not increase privacy/reliability or claim online protection based on successful PR CI alone. **Verified score remains 87/100**.
+- #324 documentation-only main `de81022` already passed [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45367413632) plus [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45369451198); it did not change the score. #325 same-ms primary-key defense is a separate open candidate. Older #323 candidate statuses below are historical records.
+
 ## Latest same-SHA acceptance — 2026-11-24 · main `8150287`
 
 - **[PR #322](https://github.com/kunlong-luo/pagevela/pull/322)** settings sanitizer pure module and corruption/market tests merged as `9a634df8a95b8069c2b44ea03577b79d945af227`; [main CI #45360517751](https://github.com/kunlong-luo/pagevela/actions/runs/45360517751) **success** (all browser shards + executed `build-and-test`) and [same-SHA Pages #45362570879](https://github.com/kunlong-luo/pagevela/actions/runs/45362570879) **build/deploy success**.
