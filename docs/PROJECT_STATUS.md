@@ -1,3 +1,11 @@
+## 2026-11-24 最新验收：87/100 · main `8150287`
+
+- **最新已验证并部署 main：** `8150287513fccb28de80d409875b0ea04bcd1edf`（含 [#322](https://github.com/kunlong-luo/pagevela/pull/322) 设置清洗模块纯函数拆分、[#321](https://github.com/kunlong-luo/pagevela/pull/321) Auto Fit 纸型/语言/页数回归及“预估契合”提示）。[完整 CI #45362921101](https://github.com/kunlong-luo/pagevela/actions/runs/45362921101) 的 quality、Chromium、Firefox 2/2、WebKit 2/2、cross-browser 和实际 `build-and-test` 均 **success**；[同 SHA Pages #45364809316](https://github.com/kunlong-luo/pagevela/actions/runs/45364809316) build/deploy 均 **success**。
+- **前一已部署 main：** `9a634df8a95b8069c2b44ea03577b79d945af227`，[完整 CI #45360517751](https://github.com/kunlong-luo/pagevela/actions/runs/45360517751) 与[同 SHA Pages #45362570879](https://github.com/kunlong-luo/pagevela/actions/runs/45362570879) 均 success。
+- **当前 [87/100 七维度复评](./ASSESSMENT_20261124_R2.md)：** 仅相对 [历史 86 分](./ASSESSMENT_20261124.md) 为已上线 #322 的可测试纯函数/Store 领域拆分将架构从 15 提至 **16/20**；纸型矩阵虽已通过但 Android/PDF/完整笛卡尔组合缺口仍在，测试发布维度维持 9/10。其余维度不变。
+- **未验收的安全候选 [PR #323](https://github.com/kunlong-luo/pagevela/pull/323)** 旨在防止跨标签页过期覆盖并保留恢复草稿，但[旧候选 CI #45362557789](https://github.com/kunlong-luo/pagevela/actions/runs/45362557789) **failure**（冲突提示断言），修复后的 PR 仍需全量 latest-head CI、合并后全量 main CI 与同 SHA Pages，**不计入本次 87 分**。#282、#312、#262、#298 均未关闭。
+- **正式 Release 仍为 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)**：资产存在但没有独立下载/解压/哈希验收，旧归档不含 #321/#322。本页下方历史“pending”与 86 分记录为其原始快照，**已由本节最新记录取代**。
+
 # Pagevela 项目状态 / Project status
 
 ## 2026-11-24 最新已验证交付及独立复评（16:30 CST 后核对）
