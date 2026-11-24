@@ -1,5 +1,8 @@
 # Releasing Pagevela / 版本发布流程
 
+> **2026-11-24 v2.8.4 发布候选：** [版本验收清单](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md) 已准备。此时 `package.json` 将设置为 `2.8.4`，只有该版本合并后的完整 `main` CI、同 SHA Pages 以及 Release 工作流全部成功后，才可将 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 标记为正式发布。旧的 v2.8.3 发布证据与归档保持不变；不能复用其 CI / Pages 作为新版本验收。
+
+
 > **现行流程（2026-11-23）**：由 [PR #304](https://github.com/kunlong-luo/pagevela/pull/304) 合并引入的 `CI → Deploy Pages → Release` 门禁。此文是当前操作指南，而不是自动状态面板。发版前请核对 [最新项目状态](docs/PROJECT_STATUS.md) 和 [实际 Actions](https://github.com/kunlong-luo/pagevela/actions)。
 >
 > **2026-11-24 发布验收更新：** v2.8.3 已于 2026-11-23 从 [`501ca26`](https://github.com/kunlong-luo/pagevela/commit/501ca26a10a023f1a05ce3ce227b288a2a6565d4) 正式发布。该 SHA 的 [完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172)（build/deploy）与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 全部成功，tag 解析回同一提交。[v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 已列出 `pagevela-2.8.3.zip`、`pagevela-2.8.3.tar.gz` 及 `SHA256SUMS.txt`；**尚未独立完成二进制解压/逐项哈希校验**。旧 v2.8.2 标签和附件不覆盖。
