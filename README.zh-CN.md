@@ -37,7 +37,7 @@
 
 ## 📚 文档目录与最新工程状态
 
-- **当前工程复评：[88/100](docs/ASSESSMENT.md)**，以主分支 `a8ec3ae` 实际完整 CI 和同 SHA Pages 部署证据为准。[最新项目状态](docs/PROJECT_STATUS.md) · [按 SHA 的工程验收台账](docs/ENGINEERING_ACCEPTANCE_20261124.md)。
+- **当前工程复评：[88/100](docs/ASSESSMENT.md)**，且新版本已通过主分支完整 CI、同 SHA Pages 与正式 Release 验收。[最新项目状态](docs/PROJECT_STATUS.md) · [按 SHA 的工程验收台账](docs/ENGINEERING_ACCEPTANCE_20261124.md)。
 - **唯一文档导航：[docs/README.md](docs/README.md)**，现行技术说明、旧版本资料和平台宣传包分开维护。[历史 87 分报告](docs/ASSESSMENT_20261124_R2.md) 等仍保留，但不是当前评估结果。
 - [贡献指南](CONTRIBUTING.md) · [发布流程](RELEASING.md) · [变更记录](CHANGELOG.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md) · [历史资料索引](docs/history/README.md)。
 
@@ -59,15 +59,13 @@ docs/
 
 运行 `pnpm run docs:check` 检查本地文档链接，CI 的 quality 阶段也会执行。重复的 `README.en.md` 已移除，**英文统一使用 README.md**。
 
-## v2.8.4 发布信息
+## v2.8.4 — 最新正式发布
 
-**源码版本：`2.8.4`。** 是否正式发布，以 [GitHub v2.8.4 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 及新版本同 SHA CI/Pages、Release 验收证据为准，不能仅依据 `package.json` 声称发布完成。[中英文发布说明](RELEASE_NOTES.md) · [独立验收表](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
+**v2.8.4 已正式发布。** 注释标签对应 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`；[完整 main CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。
 
-## v2.8.3 之后已上线的开发改进
+[GitHub v2.8.4 发布页](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已提供 ZIP、TAR.GZ 和 SHA256SUMS 文件；**尚未独立下载、解压并重新计算 SHA256**，不标为通过。
 
-最新已验证主分支 `a8ec3ae`：[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) 与[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **均成功**。它包含 [#323](https://github.com/kunlong-luo/pagevela/pull/323) 防止旧标签页覆盖最新版简历、将冲突修改保存为可恢复手动草稿并给出不遮挡操作的警告；以及 [#325](https://github.com/kunlong-luo/pagevela/pull/325) 新建/复制档案 ID 防碰撞。[#321](https://github.com/kunlong-luo/pagevela/pull/321) 增强 Auto Fit 纸张/语言回归，[#322](https://github.com/kunlong-luo/pagevela/pull/322) 将设置清洗逻辑拆分为可测试模块。
-
-**正式发布边界：** 上一版 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 的 tag 为 `501ca26`，其旧压缩包不含后续主分支改进；v2.8.4 附件及发布状态须独立核对。旧发行文件尚未进行独立下载、解压和逐项 SHA256 比对。负责人确认过 Android 微信真机整体测试，但这不代表 Android 系统打印、所有 OEM 浏览器和已安装 PWA 离线功能均经独立验收。
+包含 [#323 跨标签页冲突恢复](https://github.com/kunlong-luo/pagevela/pull/323)、[#325 档案 ID 防碰撞](https://github.com/kunlong-luo/pagevela/pull/325)、Auto Fit/排版改进以及双语文档整理。[发布说明](RELEASE_NOTES.md) · [验收表](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。Android 系统打印、其他 OEM/已安装 PWA 及旧版标签页照片/完整元信息恢复仍需独立验收。
 
 ## 历史版本
 
