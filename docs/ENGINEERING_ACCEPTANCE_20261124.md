@@ -2,10 +2,18 @@
 
 > **验收台账，非实时 CI 面板。** 日期 2026-11-24；每条结论均以标明的 SHA 为界。若后续 main 被 PR 合并推进，此页不会自动对新 SHA 产生验收。正式 GitHub Release 版本与已经部署的主分支可以不同，不能相互代替。
 
-## P0 CI 门禁修复：required job 被跳过却允许自动合并
+## 2026-11-24 #317 已完成 PR 门禁，合并后主分支待验收
+
+- [PR #317](https://github.com/kunlong-luo/pagevela/pull/317) 已合并为 `e00bcbd8fda9a7f1b59d3ef926d9df9f2b7a43e2`，此前 PR 头为 `6605324fb9b824a72c20854f8f452624778e1359`。其 [最新头 CI #45320641952](https://github.com/kunlong-luo/pagevela/actions/runs/45320641952) **success**：quality、Chromium 全量（含 PWA offline）、Firefox/WebKit critical、**实际运行的 `build-and-test`** 均成功。
+- 修复内容分离：`e2e/mobile-four-primary-actions.e2e.ts` 只更正**桌面**工具栏无障碍按钮名称断言，移动端隐藏预览仍保留单步 Auto Fit；`.github/workflows/ci.yml` 将受保护的 `build-and-test` 设为 `if: always()`，实际 job step 中任一 `needs.quality / needs.e2e-chromium / needs.e2e-cross-browser` 非成功时明确退出失败，避免旧版 skipped 误放行。
+- 历史对照：#316 合并得到的前一主分支 `6532c57` [完整 CI #45320068534](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) 最终 **failure**；Firefox/WebKit 与 Chromium 均命中旧桌面断言。同 SHA [Pages #45321277493](https://github.com/kunlong-luo/pagevela/actions/runs/45321277493) **skipped**，不是部署成功。
+- **最新主分支验收边界：** `e00bcbd8fda9a7f1b59d3ef926d9df9f2b7a43e2` 的 [main CI #45322638640](https://github.com/kunlong-luo/pagevela/actions/runs/45322638640) 本次核验仍执行中。必须取得 quality + Chromium + Firefox 2/2 + WebKit 2/2 + cross-browser 汇总 + `build-and-test` 全部 success，再确认**相同 SHA** 的 Pages build/deploy success；目前不宣称新功能已经完成线上交付。
+- 正式发行仍为 v2.8.3（tag `501ca26`），其归档不包含本次合并。[#312](https://github.com/kunlong-luo/pagevela/issues/312) 继续开放：一键恢复自动排版前设置、移动端隐藏预览及纸型/语言/模板/Android 扩展矩阵。工程评分保持 84/100。
+
+## P0 CI 门禁修复：required job 被跳过却允许自动合并（历史分析）
 
 - 已读 GitHub [规则集 Protect main](https://github.com/kunlong-luo/pagevela/rules/23971861)：`main` 的 `required_status_checks` 目前只指定 **`build-and-test`**（integration ID `15368`），并非独立要求 `e2e-chromium`。原 [ci.yml](https://github.com/kunlong-luo/pagevela/blob/6532c570b852b0284359d73e7c00632571ef04fb/.github/workflows/ci.yml) 为 `build-and-test` 添加了依赖全成功的 **job-level if**；当 Chromium 失败时，`build-and-test` 变成 **skipped**，而跳过的必需检查可能被 GitHub 当作已满足，导致 PR #316 自动合并。
-- **热修复方案（待 PR CI 验收）**：`build-and-test` 改为**无条件 `if: always()`**，在真正执行的 job step 中核对 `quality / e2e-chromium / e2e-cross-browser` 三个 `needs.*.result` 都是 `success`；出现 `failure`、`cancelled` 或 `skipped` 时明确 `exit 1`。这避免仅依靠 job 的 skipped 状态完成保护门禁。保留 PR 对完整 Firefox/WebKit 分片的有意跳过（跨浏览器关键套件由 `e2e-cross-browser` 执行）。
+- **热修复方案（PR #317 已通过 PR CI 并合并，main 同 SHA 仍待验收）**：`build-and-test` 改为**无条件 `if: always()`**，在真正执行的 job step 中核对 `quality / e2e-chromium / e2e-cross-browser` 三个 `needs.*.result` 都是 `success`；出现 `failure`、`cancelled` 或 `skipped` 时明确 `exit 1`。这避免仅依靠 job 的 skipped 状态完成保护门禁。保留 PR 对完整 Firefox/WebKit 分片的有意跳过（跨浏览器关键套件由 `e2e-cross-browser` 执行）。
 - **重要边界**：仅修改 Workflow 不能追溯撤销 #316 的合并；旧 Chromium PR CI 故障必须保持在验收档案中，当前新的功能仍需要完整 main CI 和同 SHA Pages 验证。没有调整分支保护规则集，也没有降低要求。若此热修复 PR 仍未全绿，禁止抢先合并。
 
 ## 2026-11-24 #316 已合并，但 PR 及部署门禁尚未闭环
@@ -13,7 +21,7 @@
 - **GitHub 合并事实：** [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 已自动合并，新的 `main` SHA 为 `6532c570b852b0284359d73e7c00632571ef04fb`。原任务 #312 因合并自动关闭，但范围内仍存在撤销与设备验收工作，已**重新开放**。
 - **最后 PR head `5485b15`：** [CI #45318654364](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364) **failure**。quality **success**；Firefox/WebKit critical **success**；Chromium 全量 [job #138191856152](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364/job/138191856152) **222 passed / 1 failed / 1 skipped**。失败断言 `e2e/mobile-four-primary-actions.e2e.ts:98` 仍查询旧桌面按钮 `Auto fit to single page`，产品已经改为 `Fit to selected page target`。该失败不是随机波动，且不能当作所有 Chromium 检查通过。
 - **修正范围：** 单独的热修复 PR 将桌面工具栏 E2E 定位更新为新目标页数含义；移动端单步回退仍沿用旧名称，确保不把两个产品入口混淆。只修复测试，不修改应用逻辑或持久化协议。
-- **主分支部署：** [main CI #45320068534](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) 在本快照**尚在执行**；必须重新核对该 SHA 的所有浏览器分片、汇总和 `build-and-test`，以及后续同 SHA Pages。此前 `12c7044` 的 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 和 [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) success 不可移用到 `6532c57`。
+- **旧主分支部署结果：** [main CI #45320068534](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) 最终 **failure**，同 SHA Pages **skipped**；新合并 `e00bcbd` 的独立验收见本文最上方。此前 `12c7044` 的 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 和 [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) success 不可移用到 `6532c57`。
 - **发布边界：** 正式 v2.8.3 包仍在 `501ca26`。评分 84/100 不提升。#312 保持开放。
 
 ## 已完成同 SHA 交付闭环：编辑器安全 Hook #310
