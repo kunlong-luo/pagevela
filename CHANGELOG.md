@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — post-v2.8.3 main development
+
+- **#310 (deployed):** Editor presence and storage-health Hook extraction; `16b11ff` passed [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196).
+- **#311 (merged, new main acceptance pending):** Repeated Auto Fit no longer loosens compact layout; `e8fdda0` merged after [PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45306184066) passed.
+- **#314 (candidate only):** Empty Quick PDF safety and custom failure feedback in [PR #314](https://github.com/kunlong-luo/pagevela/pull/314), not yet merged or released.
+- Still open: measured Auto Fit #312, cross-tab conflict resolution, Android system PDF / installed PWA, private alerts #298, and independent v2.8.3 archive checksum checks.
+- No new stable version has been tagged for these changes. [Dated acceptance log](./docs/ENGINEERING_ACCEPTANCE_20261124.md).
+
 ## [2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) — 2026-11-23 (published)
 
 ### Reliability and architecture

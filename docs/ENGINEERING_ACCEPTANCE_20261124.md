@@ -14,7 +14,7 @@
 
 ## 尚待完成的独立变更
 
-- [#311](https://github.com/kunlong-luo/pagevela/pull/311)：Auto Fit 单调收紧、不再触及下限后反向放大；原头 `19a65ff` PR CI success，合并 #310 后同步后的头 `56ecc0e` **必须另行通过完整 PR CI** 并核对合并后新 SHA 的 main CI/Pages，不能复用原头结果。
+- [#311](https://github.com/kunlong-luo/pagevela/pull/311)：Auto Fit 单调收紧不再反向放大；同步后的头 `56ecc0e` 已通过 [PR CI #45306184066](https://github.com/kunlong-luo/pagevela/actions/runs/45306184066)，并合并为 `e8fdda0bbbdff0e0b66e7acf1e1b4be9dc059825`。新 main 的 CI/Pages 仍须另行核对，不复用 PR 头结果。
 - [#314](https://github.com/kunlong-luo/pagevela/pull/314)：Quick PDF 画布/Context/零有效页面失败保护，自定义错误提示、文本型打印回退；候选头 `0e71c07`，质量/静态扫描 success，但完整 Chromium/Firefox/WebKit 和 merged main/Pages 待验收。对应 [#313](https://github.com/kunlong-luo/pagevela/issues/313)。
 - [#312](https://github.com/kunlong-luo/pagevela/issues/312)：结合测量溢出页数的 Auto Fit 闭环尚未实现。即使 #311 合并，也不能宣称“一键一定排成一页”。
 - [#262](https://github.com/kunlong-luo/pagevela/issues/262)：Android 微信负责人反馈通过，但系统 Save-as-PDF、Chrome/OEM 和安装 PWA 离线矩阵未完整验收。
