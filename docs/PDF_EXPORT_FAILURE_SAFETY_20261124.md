@@ -1,6 +1,6 @@
 # Quick PDF raster failure handling / 快速 PDF 空白结果防护
 
-> **2026-11-24 PR 候选，未证明已部署。** 解决 [#313](https://github.com/kunlong-luo/pagevela/issues/313) 审查发现的潜在假成功：若浏览器返回空画布或无法建立 2D 渲染上下文，原流程可能执行 `pdf.save()` 并报告成功。本次不能被追记为已发布 v2.8.3 的功能。
+> **2026-11-24 已完成合并与同 SHA 验收。** [PR #314](https://github.com/kunlong-luo/pagevela/pull/314) 合并为 `12c7044c2584d25d0d2c94b3a74fb78330dbd407`；其 [PR CI #45311296133](https://github.com/kunlong-luo/pagevela/actions/runs/45311296133)、[完整 main CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947)、[同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) 均 **success**。线上 main 已包含修复，但历史 v2.8.3 ZIP/TAR 包不包含它。
 
 ## 保护边界
 
@@ -13,8 +13,8 @@
 
 - `src/tests/pdf-export-validation.test.ts`：A4/US Letter 正常画布尺寸、零/负/NaN/Infinity、上下文为空、零页/非整数页数等边界。
 - 现有 `e2e/pdf-download.e2e.ts`：以虚构简历执行真实下载，使用 pdf.js 解析每页并检查导出后原稿未丢。
-- 新增 `e2e/pdf-download-failure.e2e.ts`：在 Chromium 强制让 JPEG 编码失败，确认 Pagevela 自定义失败 Toast 可见、不错误显示快速 PDF 成功、回退打印路径仍可执行，并验证 IndexedDB 原稿未丢。**此用例尚待最新 PR 头 CI 真正运行通过，不能把提交测试文件等同测试已通过。**
-- 合并前需最新头 PR 的质量、Chrome 全量、Firefox/WebKit 关键回归和最终 `build-and-test`；合并后再次核验**新 main SHA** 的完整 CI → Pages build/deploy。由于这不是一个新版本发布流程，不能声称已有新的 v2.8.4 归档。
+- 新增 `e2e/pdf-download-failure.e2e.ts`：在 Chromium 注入 JPEG 编码失败，核对 Pagevela 自定义提示、打印回退路径及 IndexedDB 原稿保留；已随 #314 的完整 PR/main CI 验收通过。此测试不代表 OS 下载最终成功或白色有效图像像素检查。
+- #314 已通过质量、完整 Chromium、Firefox/WebKit、最终 `build-and-test`、合并后 CI/Pages；[Release workflow #45313984785](https://github.com/kunlong-luo/pagevela/actions/runs/45313984785) 成功没有新建 v2.8.4 标签或附件，历史 v2.8.3 不覆盖。
 - Android 微信/Chrome/OEM 的系统保存和离线 PWA 仍在 [#262](https://github.com/kunlong-luo/pagevela/issues/262) 分别验收；不会用 Chromium 替代真机证据。
 
 [文档索引](./README.md) · [项目状态](./PROJECT_STATUS.md) · [#313](https://github.com/kunlong-luo/pagevela/issues/313)。

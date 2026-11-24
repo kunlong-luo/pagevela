@@ -2,7 +2,7 @@
 
 > **更新日期：2026-11-24。** 最新正式发布版本是 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)；其 tag 解析到 `501ca26a10a023f1a05ce3ce227b288a2a6565d4`（短 SHA `501ca26`）。该 SHA 的 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125)、[Pages build/deploy](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 均为 **success**；Release 于 **2026-11-23 14:44 UTC** 发布。三个资产 `pagevela-2.8.3.zip`、`pagevela-2.8.3.tar.gz`、`SHA256SUMS.txt` 均出现在 GitHub Release 中。**本次核对未独立下载解压二进制包并逐项比对 SHA256**；不可将“资产存在”写成“校验通过”。
 
-> **2026-11-24 更新：** #310（`16b11ff`）及 #311、#315 后续汇总主分支 `d0d5486` 已完成 [完整 main CI #45309378710](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) 和 [同 SHA Pages #45310525156](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156)，均 success。该提交已部署；GitHub 正式 Release 仍是 v2.8.3（tag `501ca26`），历史 ZIP/TAR 不含后续新提交。[#314](https://github.com/kunlong-luo/pagevela/pull/314) Quick PDF 防护依然在 PR，须新头 CI/Pages 独立验收。工程评分沿用 [84/100](./ASSESSMENT_20261123.md)，不自动提分。
+> **2026-11-24 最新已部署 main：** [PR #314](https://github.com/kunlong-luo/pagevela/pull/314) PDF 失败防护已合并为 `12c7044c2584d25d0d2c94b3a74fb78330dbd407`，其 [完整 main CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 与 [同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) **success**。[#313](https://github.com/kunlong-luo/pagevela/issues/313) 已关闭；新 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 测量式 Auto Fit 仍未合并/部署。正式下载版本依然是 v2.8.3（tag `501ca26`）；工程评分仍为 [84/100](./ASSESSMENT_20261123.md)。
 
 ## 本次已核对的版本、分支和交付
 
@@ -30,10 +30,10 @@
 ## 尚未完成，不得写成通过
 
 1. **v2.8.3 发布资产二进制完整性：** Release 文件和校验和清单均存在，但本轮尚未独立下载解压、执行逐项 SHA256 比对；本项不应勾选。
-2. **本轮 PR 验收：** #310 合并为 `16b11ff` 并完成 [CI #45305029314](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) / [Pages #45307035196](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196)；[#311](https://github.com/kunlong-luo/pagevela/pull/311) 已合并为 `e8fdda0`，[#315](https://github.com/kunlong-luo/pagevela/pull/315) 已合并为 `d0d5486`，二者均包含于新 main `d0d5486` 的 [完整 CI #45309378710](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) 与 [同 SHA Pages #45310525156](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156) 成功验收。**单独 `e8fdda0` 的 main CI 被后续提交取消，不能写成通过**。#314 仍在 PR 验收，不包含于正式 v2.8.3 归档。
+2. **本轮交付验收：** #310/#311/#315/#314 已合并；最新主分支 `12c7044` [完整 CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 和 [同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) 全部 success。#313 已关闭。#316 是后续目标页数智能排版的独立候选，尚未完成 PR CI、合并或部署。
 3. **Android 真机 #262：** 负责人报告微信真机总体 PASS；系统 Save-as-PDF、Chrome/Samsung/OEM、安装后 PWA 离线尚无完整独立矩阵。
 4. **GitHub 私有安全告警 #298：** npm 注册表无公告不能证明私有 Dependabot 告警清零；旧 Workbox 依赖路径仍待研究。
-5. **功能优化：** [#312](https://github.com/kunlong-luo/pagevela/issues/312) 的 Auto Fit 真正根据预览溢出闭环仍未实现；[#313](https://github.com/kunlong-luo/pagevela/issues/313) 的空白 PDF 防护必须完成 PR CI/上线验证后才能关闭。#282、#200、#115、#202 继续跟踪；工程评分保持 84/100。
+5. **功能优化：** [#312](https://github.com/kunlong-luo/pagevela/issues/312) 的 1/2/3 页测量式 Auto Fit 已形成 [候选 PR #316](https://github.com/kunlong-luo/pagevela/pull/316)；仍需完整测试、合并后同 SHA Pages、撤销 UX 和扩展 A4/Letter 中英文手机验收。#282、#200、#115、#202 继续跟踪；84/100 暂不调整。
 
 ## 本轮工程验收状态（2026-11-24）
 
@@ -41,8 +41,15 @@
 | --- | --- |
 | PR #310，合并 SHA `16b11ff` | **已完成**：main [CI #45305029314](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) 和同 SHA [Pages #45307035196](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196) success |
 | PR #311，合并 SHA `e8fdda0` | PR 最新头 [CI #45306184066](https://github.com/kunlong-luo/pagevela/actions/runs/45306184066) success；含该修复的最新 main `d0d5486` [CI #45309378710](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) 与 [Pages #45310525156](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156) same-SHA success |
-| PR #314，Quick PDF 可靠性 | PR #314 仍开放；旧头 `f1266e` quality/Chromium 成功，Firefox/WebKit 安装阶段长时间未完成；已同步最新 main 并加入失败注入 E2E，需以新头的完整 CI 为准，**未合并/未发布** |
+| PR #314，合并 SHA `12c7044` | **已验收**：最新头 [PR CI #45311296133](https://github.com/kunlong-luo/pagevela/actions/runs/45311296133)、新 main [CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947)、同 SHA [Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) success；#313 已关闭 |
 | PR #315，合并 SHA `d0d5486` | 双语文档与工程验收已合并；其 [PR CI #45307976280](https://github.com/kunlong-luo/pagevela/actions/runs/45307976280)、新 main [CI #45309378710](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) 和 [同 SHA Pages #45310525156](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156) success |
+
+## 2026-11-24 最新 CI/Pages 快照
+
+- 已部署最新 main `12c7044c2584d25d0d2c94b3a74fb78330dbd407`：[完整 CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947)（quality、Chromium、Firefox/WebKit 全部分片、最终 `build-and-test`）及同 SHA [Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) 均成功。该提交包括 #310、#311、#315 与 #314。
+- [Release workflow #45313984785](https://github.com/kunlong-luo/pagevela/actions/runs/45313984785) 成功只是工作流结果，**最新正式 GitHub Release 仍是 v2.8.3**，没有新的 v2.8.4 发布附件；历史包不包含新 main。
+- 新 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 候选统一预览/工具栏/快捷键，并以实际溢出量适配已选 1/2/3 页，最多 24 次；扩展中英文/真机矩阵和可撤销性仍待验收，不能称作已上线。
+- [PDF #313](https://github.com/kunlong-luo/pagevela/issues/313) scoped fix 已完成；操作系统下载完成、Android 实机系统打印仍不属于此项证明范围。
 
 ## 已完成的最新 main 发布验证
 
@@ -55,6 +62,8 @@
 - [2026-11-24 功能优化路线图](./PRODUCT_OPTIMIZATION_ROADMAP_20261124.md) — 随已合并的 #311 纳入 main；单调收紧已修复，真实页数反馈闭环仍在 #312。
 - [Quick PDF 空白生成防护开发说明](./PDF_EXPORT_FAILURE_SAFETY_20261124.md) — 空画布/2D Context/零页防护、失败自定义提示与剩余验收门禁。
 - [#312](https://github.com/kunlong-luo/pagevela/issues/312) / [#313](https://github.com/kunlong-luo/pagevela/issues/313) — 后续真实溢出闭环与 PDF 错误反馈验收。
+
+- [测量式 Auto Fit 阶段开发说明](./MEASURED_AUTO_FIT_20261124.md) — #316 的实现范围、测试及剩余风险。
 
 ## 当前操作文档与历史
 

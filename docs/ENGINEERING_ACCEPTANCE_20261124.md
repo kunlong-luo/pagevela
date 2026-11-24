@@ -19,11 +19,18 @@
 - 含 #311 + #315 的 `d0d5486` [完整 main CI #45309378710](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) success，包含 quality、Chromium、Firefox 两片、WebKit 两片、cross-browser、`build-and-test`；[同 SHA Pages #45310525156](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156) build/deploy success。
 - 同 SHA [Release workflow #45310641741](https://github.com/kunlong-luo/pagevela/actions/runs/45310641741) success，**不等同新版本归档已发布**。GitHub 最新 Release 仍为 `v2.8.3`（tag `501ca26`），原压缩包未覆盖。
 
+## 2026-11-24 #314 Quick PDF 安全修复闭环
+
+- [PR #314](https://github.com/kunlong-luo/pagevela/pull/314) 最新头 `de36a9e` 的 [PR CI #45311296133](https://github.com/kunlong-luo/pagevela/actions/runs/45311296133) **success**，合并为 `12c7044c2584d25d0d2c94b3a74fb78330dbd407`。
+- 该 SHA 的 [完整 main CI #45312509947](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947)（quality、Chromium 全量、Firefox 2/2、WebKit 2/2、cross-browser 汇总、`build-and-test`）和 [同 SHA Pages #45313889157](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157) build/deploy 均成功。[#313](https://github.com/kunlong-luo/pagevela/issues/313) 已关闭。
+- 同 SHA [Release workflow #45313984785](https://github.com/kunlong-luo/pagevela/actions/runs/45313984785) 成功未产生新正式发行版本。发布 ZIP/TAR 仍是 v2.8.3 的旧 SHA `501ca26`，独立归档解压/哈希验证未完成。
+- 后续测量式 Auto Fit 的 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 尚未完成测试、合并或同 SHA Pages。撤销 UX 和低端移动设备矩阵继续在 #312。
+
 ## 尚待完成的独立变更
 
 - [#311](https://github.com/kunlong-luo/pagevela/pull/311)：Auto Fit 单调收紧修复已通过 PR CI 并合并，包含该改动的后续 main `d0d5486` CI/Pages 已独立验收通过。**真实测量溢出自动贴合**仍在 #312。
-- [#314](https://github.com/kunlong-luo/pagevela/pull/314)：Quick PDF 画布/Context/零页失败防护仍在 PR；先前头 `f1266e` quality/Chromium 成功，Firefox/WebKit 的安装步骤尚未结束；本轮同步 `d0d5486` 后新增失败注入 E2E，必须以新头 CI 及合并后 main/Pages 为准。对应 [#313](https://github.com/kunlong-luo/pagevela/issues/313)。
-- [#312](https://github.com/kunlong-luo/pagevela/issues/312)：结合测量溢出页数的 Auto Fit 闭环尚未实现。即使 #311 合并，也不能宣称“一键一定排成一页”。
+- [#314](https://github.com/kunlong-luo/pagevela/pull/314)：**已合并并通过 CI/Pages 同 SHA 验收**；实际 Android 系统打印/OS 下载完成不属于这次验证。
+- [#312](https://github.com/kunlong-luo/pagevela/issues/312)：新 [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 候选统一 1/2/3 页预览测量与有界收紧；**尚未完成 PR CI/线上部署/撤销与设备扩展矩阵**，不宣称任意简历可以一页。
 - [#262](https://github.com/kunlong-luo/pagevela/issues/262)：Android 微信负责人反馈通过，但系统 Save-as-PDF、Chrome/OEM 和安装 PWA 离线矩阵未完整验收。
 - [#298](https://github.com/kunlong-luo/pagevela/issues/298)：私有 Dependabot 告警不能用 Registry Security Inventory 的绿色状态替代；[#202](https://github.com/kunlong-luo/pagevela/issues/202) 法务/外部品牌事项仍未核实。
 
