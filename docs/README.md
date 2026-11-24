@@ -24,6 +24,8 @@
 - [v2.3 存储设计](./V2_3_STORAGE.md)、[v2.2 性能基线](./V2_2_PERFORMANCE.md)、[v2.1 UX/隐私](./V2_1_UX_PRIVACY.md)：**对应版本的技术设计**，不应被当作最新测试结论
 - [产品分析与隐私边界](./PRODUCT_ANALYTICS.md)；[品牌 UI 组件契约](./BRANDED_UI_CONTRACT.md)：现行工程规范
 - [架构路线图 #282](https://github.com/kunlong-luo/pagevela/issues/282)：编辑器拆分、存储安全、性能与 CI 回归
+- [Quick PDF 空白输出与错误反馈防护（2026-11-24）](./PDF_EXPORT_FAILURE_SAFETY_20261124.md)：画布/上下文/零有效页保护、品牌化失败提示、CI 与真机验收边界
+- [功能优化路线图（#311）](https://github.com/kunlong-luo/pagevela/pull/311)：Auto Fit、PDF、数据安全、移动端和性能优化优先级及未结门禁
 - [编辑器安全通知 Hook 拆分（2026-11-24）](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md)：多标签页存在检测、存储错误/恢复通知的行为契约、单元测试和未发布门禁
 - [编辑器快捷键 Hook 边界（2026-11-23）](./EDITOR_KEYBOARD_SHORTCUTS_20261123.md)：保存/打印/Auto Fit 的兼容契约与自动化回归
 
