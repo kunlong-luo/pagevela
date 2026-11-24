@@ -71,6 +71,9 @@ test('two tabs preserve the latest committed resume and the stale edits as manua
   await layout.getByRole('button', { name: 'Narrow', exact: true }).click();
   await expect(layout.getByRole('button', { name: 'Narrow', exact: true }))
     .toHaveAttribute('aria-pressed', 'true');
+  // The recovery warning stays visible without blocking the branded layout
+  // drawer. Do not force-click: that would conceal a real pointer obstruction.
+  await expect(staleTab.getByText('Another tab changed this resume')).toBeVisible();
   await layout.getByRole('button', { name: 'Close Layout' }).click();
 
   // A conflict write is one atomic transaction: committed profile/document
