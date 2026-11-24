@@ -1,3 +1,29 @@
+# Pagevela v2.8.4
+
+**中文名称：页帆 v2.8.4。**  
+**发布核验 / Release verification:** 此文件描述 v2.8.4 源码内容；正式发布以 [GitHub Release、tag 和附件](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 及 [CI/Pages 验收证据](./docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md) 为准。此文件本身不能证明发布或独立的 ZIP/TAR.GZ SHA256 校验已完成。
+
+## Highlights / 更新重点
+
+- **跨标签页数据防覆盖 / Cross-tab persistence safety：** [#323](https://github.com/kunlong-luo/pagevela/pull/323) 在同一 IndexedDB 事务中比较写入基线，阻止过时标签页把已提交的 Markdown/档案/JD 静默覆盖。冲突内容转为可以从“备份 → 草稿”找回的手动草稿；常驻双语安全提醒不遮挡操作。保留现有 Web Lock、IndexedDB 和加密分享兼容协议。
+- **档案 ID 防碰撞 / Unique profile IDs：** [#325](https://github.com/kunlong-luo/pagevela/pull/325) 给新建/复制操作使用 UUID 或包含进程序列的回退 ID，防止同毫秒时间戳产生重复主键；**不重写任何旧 ID**、不改数据库 schema 或备份格式。
+- **Auto Fit 与排版反馈 / Auto Fit & layout feedback：** [#316](https://github.com/kunlong-luo/pagevela/pull/316) 增加基于实际测量的 1/2/3 页目标，[#319](https://github.com/kunlong-luo/pagevela/pull/319) 提供一键恢复适配前排版，[#321](https://github.com/kunlong-luo/pagevela/pull/321) 增加纸张/语言/页数回归与准确的 `Estimated Fit` 提示。实际打印或 PDF 分页可能与预估不同。
+- **编辑器/导出可靠性 / Editor & export stability：** [#310](https://github.com/kunlong-luo/pagevela/pull/310) 将安全提示与多标签页检测提取为 Hook，[#311](https://github.com/kunlong-luo/pagevela/pull/311) 防止反复 Auto Fit 反向扩大间距，[#314](https://github.com/kunlong-luo/pagevela/pull/314) 为 Quick PDF 空白/失败输出提供安全反馈，[#322](https://github.com/kunlong-luo/pagevela/pull/322) 抽离可单独测试的设置清洗函数。
+- **工程、测试及文档 / Engineering and documentation：** [#317](https://github.com/kunlong-luo/pagevela/pull/317) 修复失败检查被 skipped 汇总任务绕过的 CI 风险，扩展 Chromium/Firefox/WebKit 回归；文档整理统一英文/中文 README、最新状态、88/100 七维度复评和按 SHA 的独立工程验收台账，并加入 `pnpm run docs:check`。
+
+## Compatibility & privacy / 兼容及隐私边界
+
+- 旧版 `resume-craft` IndexedDB/锁/BroadcastChannel 名称是**必须保留的数据协议标识**，不是当前公开品牌。旧版本工作区 JSON 与原加密分享格式的兼容性维持不变；不提供旧 `/resume-craft/` Pages 路径的跳转。
+- JSON 工作区备份是**未加密**的；无需注册不等于端到端云同步。旧代码仍打开的标签页、未保存照片/完整 Profile 元信息冲突恢复及跨设备同步**尚未全部解决**。
+- Android 微信真机总体通过的负责人确认不等于 Android 系统 Print/Save-as-PDF、全部 OEM 浏览器、安装 PWA 离线模式逐项验收；品牌商标和私有 GitHub 安全告警亦需另外核对。
+- 正式 Release 预期附件：`pagevela-2.8.4.zip`、`pagevela-2.8.4.tar.gz`、`SHA256SUMS.txt`。**只有发布工作流真实成功、确认附件出现后才能宣称已交付**；独立下载、解压、重新计算 SHA256 需要单独记录。既有 v2.8.3 及更早 Release、tags 和资产不可覆盖。
+
+**Changes since v2.8.3:** https://github.com/kunlong-luo/pagevela/compare/v2.8.3...v2.8.4
+
+[发布指南](./RELEASING.md) · [v2.8.4 验收](./docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md) · [当前工程评分](./docs/ASSESSMENT.md) · [Android #262](https://github.com/kunlong-luo/pagevela/issues/262) · [数据安全 #282](https://github.com/kunlong-luo/pagevela/issues/282)
+
+---
+
 # Pagevela v2.8.3
 
 **中文名称：** 页帆 v2.8.3
