@@ -3,6 +3,7 @@ import type { Language, ResumeSettings } from '../types';
 import { smartAutoFit } from '../lib/preview-utils';
 import { evaluateMeasuredFitProgress, hasFreshFitMeasurement } from '../lib/measured-auto-fit-policy';
 import { useToast } from '../components/ui/Toast';
+import { canRestoreMeasuredAutoFit, prepareAutoFitRestoreSettings, type AutoFitRestoreSnapshot } from '../lib/measured-auto-fit-restore';
 
 interface FitRun {
   markdown: string;
@@ -13,6 +14,7 @@ interface FitRun {
   lastOverflowPixels: number | null;
   stalledSteps: number;
   awaitingRevision: number | null;
+  restoreCaptured: boolean;
 }
 
 type FinishReason = 'fitted' | 'at-limit' | 'step-limit' | 'no-progress' | 'canceled';
@@ -27,6 +29,7 @@ interface Options {
   unscaledHeight: number;
   elementRef: RefObject<HTMLDivElement | null>;
   onChangeSettings: <K extends keyof ResumeSettings>(key: K, value: ResumeSettings[K]) => void;
+  onRestoreSettings: (settings: ResumeSettings) => void;
   uiLanguage: Language;
   disabled: boolean;
 }
@@ -38,11 +41,13 @@ interface Options {
  */
 export function useMeasuredAutoFit({
   settings, markdown, profileId, target, metrics, measurementRevision, unscaledHeight,
-  elementRef, onChangeSettings, uiLanguage, disabled,
+  elementRef, onChangeSettings, onRestoreSettings, uiLanguage, disabled,
 }: Options) {
   const { showToast } = useToast();
   const [isAutoFitting, setIsAutoFitting] = useState(false);
   const runRef = useRef<FitRun | null>(null);
+  const restoreRef = useRef<AutoFitRestoreSnapshot | null>(null);
+  const [canRestore, setCanRestore] = useState(false);
 
   const finish = useCallback((reason: FinishReason) => {
     const run = runRef.current;
@@ -76,10 +81,14 @@ export function useMeasuredAutoFit({
     const node = elementRef.current;
     if (disabled || !node || node.getClientRects().length === 0 || unscaledHeight <= 0) return false;
     if (runRef.current) return true;
+    // Starting a new fit supersedes the previous run's one-time restore.
+    // An older snapshot must never be offered after a fresh fit with no changes.
+    restoreRef.current = null;
+    setCanRestore(false);
     runRef.current = {
       markdown, profileId, target, expectedSettings: JSON.stringify(settings),
       steps: 0, lastOverflowPixels: null, stalledSteps: 0,
-      awaitingRevision: null,
+      awaitingRevision: null, restoreCaptured: false,
     };
     setIsAutoFitting(true);
     return true;
@@ -123,8 +132,20 @@ export function useMeasuredAutoFit({
     const timer = setTimeout(() => {
       if (runRef.current !== run) return;
       const adjusted = smartAutoFit(settings, (key, value) => {
-        run.expectedSettings = JSON.stringify({ ...settings, [key]: value });
+        const expectedSettings = JSON.stringify({ ...settings, [key]: value });
+        run.expectedSettings = expectedSettings;
         run.awaitingRevision = measurementRevision;
+        if (!run.restoreCaptured) {
+          // Capture only once an actual adjustment is made; never persist
+          // an extra copy of the profile settings to browser storage.
+          restoreRef.current = {
+            before: { ...settings }, expectedSettings, markdown, profileId, target,
+          };
+          run.restoreCaptured = true;
+        } else if (restoreRef.current) {
+          restoreRef.current.expectedSettings = expectedSettings;
+        }
+        setCanRestore(true);
         onChangeSettings(key, value);
       });
       if (!adjusted) {
@@ -140,7 +161,45 @@ export function useMeasuredAutoFit({
     target, settings, metrics.isOver, metrics.overflowPixels, measurementRevision, onChangeSettings,
   ]);
 
-  useEffect(() => () => { runRef.current = null; }, []);
+  // Invalidate a stale restore on any profile/content/target or manual style
+  // change rather than letting it overwrite subsequent user work.
+  useEffect(() => {
+    if (restoreRef.current && !canRestoreMeasuredAutoFit(restoreRef.current, {
+      settings, markdown, profileId, target, disabled,
+    })) {
+      restoreRef.current = null;
+      setCanRestore(false);
+    }
+  }, [disabled, markdown, profileId, target, settings]);
 
-  return { isAutoFitting, startAutoFit };
+  const restoreAutoFit = useCallback((): boolean => {
+    const snapshot = restoreRef.current;
+    if (runRef.current || !canRestoreMeasuredAutoFit(snapshot, {
+      settings, markdown, profileId, target, disabled,
+    })) {
+      restoreRef.current = null;
+      setCanRestore(false);
+      return false;
+    }
+    // Disarm before the atomic profile-settings write.
+    restoreRef.current = null;
+    setCanRestore(false);
+    onRestoreSettings(prepareAutoFitRestoreSettings(snapshot.before));
+    showToast({
+      title: uiLanguage === 'en' ? 'Layout restored' : '排版已恢复',
+      message: uiLanguage === 'en'
+        ? 'Restored the layout from before Auto Fit. Resume content was not changed.'
+        : '已恢复自动适配前的排版设置，简历正文没有更改。',
+      type: 'success',
+      duration: 4000,
+    });
+    return true;
+  }, [disabled, markdown, profileId, target, settings, onRestoreSettings, showToast, uiLanguage]);
+
+  useEffect(() => () => {
+    runRef.current = null;
+    restoreRef.current = null;
+  }, []);
+
+  return { isAutoFitting, startAutoFit, canRestoreAutoFit: canRestore && !isAutoFitting, restoreAutoFit };
 }

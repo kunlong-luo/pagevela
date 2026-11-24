@@ -1,8 +1,15 @@
 # Measured Auto Fit / 目标页数智能适配
 
-> **2026-11-24 最新状态：** #316 已合并测量式适配；[#317](https://github.com/kunlong-luo/pagevela/pull/317) 已合并修复跨浏览器旧断言和 CI 放行门禁为 `main` `e00bcbd`。**PR CI 已通过，新 main 同 SHA CI/Pages 尚未验收**，不能称为已完成线上交付。 [#312](https://github.com/kunlong-luo/pagevela/issues/312) 第二阶段先解决入口分裂、目标页数被重置、无界循环和无进度告知。不要把这份文档写成 v2.8.3 已发布功能，也不要保证任何简历都能压成一页。
+> **2026-11-24 最新部署验收：** #316 的测量式 1/2/3 页适配以及 #317 的 CI 防跳过修复已在 `main` `202bcea` 取得 [完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45324490754) 与 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45326859873) **success**。[#319](https://github.com/kunlong-luo/pagevela/pull/319) 的一键恢复仍是未发布的候选功能；[#312](https://github.com/kunlong-luo/pagevela/issues/312) 仍开放。**v2.8.3 正式压缩包不包含这些后续变更**；浏览器测量结果不等同实际系统打印分页保证。
 
-## 2026-11-24 代码/门禁交付更新（#317）
+### 2026-11-24 已验证主分支交付 / Verified main delivery
+
+- `main` `202bcead397ef9c3ef77d6f83f7ee715a6dfd4ee`：[完整 CI #45324490754](https://github.com/kunlong-luo/pagevela/actions/runs/45324490754) **success**，覆盖 quality、Chromium 全量、Firefox 2/2、WebKit 2/2、跨浏览器汇总以及实际执行的 protected `build-and-test`；[同 SHA Pages #45326859873](https://github.com/kunlong-luo/pagevela/actions/runs/45326859873) 的 **build/deploy 均 success**。
+- [Release 工作流 #45326978990](https://github.com/kunlong-luo/pagevela/actions/runs/45326978990) **success**，但复用发布门禁并没有创建新包：最新正式 Release 仍为 **v2.8.3**，tag `501ca26`，ZIP/TAR.GZ 不追溯包含 `202bcea` 之后的功能。
+- [#317](https://github.com/kunlong-luo/pagevela/pull/317) 的 CI 防跳过保护和 [#318](https://github.com/kunlong-luo/pagevela/pull/318) 的九份文档已随 `202bcea` 取得线上同 SHA 验收。此前 `6532c57` 的 CI **failure** 与 Pages **skipped** 是另一个提交的历史记录，不能覆盖。
+- [#319](https://github.com/kunlong-luo/pagevela/pull/319) 的 Auto Fit 一键恢复仍是**未合并的候选改动**。其新 E2E 基线修复的完整 PR 头 CI 仍待成功验收；本条已部署结论**不包括 #319**。[#312](https://github.com/kunlong-luo/pagevela/issues/312) 继续开放，评分仍 **84/100**。
+
+## 2026-11-24 代码/门禁交付更新（#317，历史快照）
 
 - [#316](https://github.com/kunlong-luo/pagevela/pull/316) 的测量式 Auto Fit 先在 `6532c57` 合并，但该 SHA 的 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) **failure**、[Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45321277493) **skipped**。原始失败日志和时间点记录在下方，不改写历史。
 - [#317](https://github.com/kunlong-luo/pagevela/pull/317) 已修复过期的**桌面** Auto Fit 按钮断言及 `build-and-test` 被 skipped 仍放行的规则缺陷，合并 SHA `e00bcbd8fda9a7f1b59d3ef926d9df9f2b7a43e2`。其 [最新 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45320641952) **success**，包含完整 Chromium、Firefox/WebKit 关键回归及真正执行的 `build-and-test`。
