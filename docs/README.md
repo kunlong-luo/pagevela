@@ -7,6 +7,8 @@
 >
 > **最后核验：** `main` `a8ec3ae` [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) + [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success**；[当前工程复评 88/100](./ASSESSMENT.md)；v2.8.3 是上一版正式发布附件；v2.8.4 的真实发布状态请核对 [GitHub Releases](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)。
 
+> **2026-11-24 发布已验收：** [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 的 annotated tag 指向 `ea2a65b`，且 [完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。[新版本验收](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md) · [88 分评分](./ASSESSMENT.md)。先前 `a8ec3ae` 是旧基线而非当前发布 SHA。
+
 ## 从哪里开始 / Start here
 
 | 目的 | 唯一推荐入口 |
