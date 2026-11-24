@@ -21,6 +21,7 @@ describe('workspace safety notification routing', () => {
     expect(english.toast.title).toBe('Another tab changed this resume');
     expect(english.toast.message).toContain('Drafts');
     expect(english.toast.message).toContain('did not overwrite');
+    expect(english.toast.duration).toBe(0);
 
     const chinese = describeStorageHealth({
       status: 'error', operation: 'set', key: 'indexeddb-conflict',
