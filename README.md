@@ -37,7 +37,7 @@
 
 ## Documentation and current project status
 
-- **Current engineering assessment: [88/100](docs/ASSESSMENT.md)** — evidence-based, using deployed main `a8ec3ae`. [Latest production status](docs/PROJECT_STATUS.md) · [full CI and same-SHA Pages ledger](docs/ENGINEERING_ACCEPTANCE_20261124.md).
+- **Current engineering assessment: [88/100](docs/ASSESSMENT.md)** — evidence-based; v2.8.4 has independent main CI, same-SHA Pages and Release proof. [Latest production status](docs/PROJECT_STATUS.md) · [full CI and same-SHA Pages ledger](docs/ENGINEERING_ACCEPTANCE_20261124.md).
 - **One documentation index:** [docs/README.md](docs/README.md) — current technical guides, historical reports and separate marketing assets. Historical [87/100 report](docs/ASSESSMENT_20261124_R2.md) is preserved, not treated as current.
 - [Contributing](CONTRIBUTING.md) · [Release process](RELEASING.md) · [Changelog](CHANGELOG.md) · [Workspace backup/migration](docs/WORKSPACE_TRANSFER.md) · [Historical archive](docs/history/README.md).
 
@@ -59,15 +59,13 @@ docs/
 
 Check local document links with `pnpm run docs:check`. The documentation quality check also runs in CI. The former duplicate `README.en.md` entry was removed: **this README is the canonical English guide**.
 
-## v2.8.4 release information
+## v2.8.4 — latest published release
 
-**Source version: `2.8.4`.** Check the actual [v2.8.4 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) and its same-SHA CI/Pages before treating downloadable archives as published. The package version alone is not proof of publication. [Release notes](RELEASE_NOTES.md) · [acceptance checklist](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md).
+**v2.8.4 is published.** The annotated tag points to `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`: [full main CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722), [same-SHA Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) and [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) all succeeded.
 
-## Development since the v2.8.3 archive
+The [GitHub v2.8.4 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) includes the ZIP, TAR.GZ and SHA256SUMS assets. Independent download, extraction and SHA256 recomputation **remain unverified**.
 
-Latest independently deployed main `a8ec3ae`: [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success**. It includes [#323](https://github.com/kunlong-luo/pagevela/pull/323) conflict-safe cross-tab IndexedDB writes with recoverable manual drafts and nonblocking user warnings, and [#325](https://github.com/kunlong-luo/pagevela/pull/325) collision-resistant new/duplicate resume-profile IDs. [#321](https://github.com/kunlong-luo/pagevela/pull/321) improved Auto Fit smoke coverage, and [#322](https://github.com/kunlong-luo/pagevela/pull/322) isolated settings sanitization.
-
-**Release boundary:** the previous [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) archives came from `501ca26` and do **not** include subsequent improvements. Check the publication status of the newer [v2.8.4 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) before downloading. Independent extraction and SHA256 verification of release assets remain unrecorded. The owner-confirmed Android WeChat device test does not certify Android system printing, every OEM browser or installed-PWA offline cases.
+Highlights: [cross-tab conflict recovery #323](https://github.com/kunlong-luo/pagevela/pull/323), [unique profile IDs #325](https://github.com/kunlong-luo/pagevela/pull/325), Auto Fit/layout fixes and bilingual documentation consolidation. [Release notes](RELEASE_NOTES.md) · [Acceptance record](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md). Android system print/OEM/PWA and complete old-tab/photo conflict recovery still require separate tests.
 
 ## Release history
 
