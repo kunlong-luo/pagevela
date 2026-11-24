@@ -70,5 +70,17 @@ export function prepareConflictingResumeDrafts(
       isAutoSave: false,
     });
   }
+  // The plain-text JD also lives in the active snapshot. Preserve a readable
+  // copy in the same local Drafts view rather than silently discarding it.
+  if (snapshot.jdText.length > 0 && snapshot.profiles.length > 0) {
+    drafts.push({
+      id: `${recoveryId}_jd`,
+      title: 'Conflict recovery · job description',
+      markdown: snapshot.jdText,
+      settings: snapshot.profiles[0].settings,
+      timestamp,
+      isAutoSave: false,
+    });
+  }
   return drafts;
 }
