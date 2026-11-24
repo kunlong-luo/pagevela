@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ResumeProfile, ResumeSettings } from '../types';
 import {
   acknowledgeSavedProfileSettings,
+  discardConflictingProfileSettings,
   discardPendingProfileSettings,
   recoverPendingProfile,
   stageProfileSettings,
@@ -91,6 +92,23 @@ describe('pending per-profile settings recovery', () => {
     expect(recoverPendingProfile(source)).toEqual(source);
     data.set(STORAGE_KEYS.PENDING_PROFILE_SETTINGS, '{not-json');
     expect(recoverPendingProfile(source)).toEqual(source);
+  });
+
+  it('drops only the rejected tab revision after a conflict, keeping newer pending edits', () => {
+    const older = { ...settings, margin: 'compact' as const };
+    const newer = { ...settings, margin: 'relaxed' as const };
+    stageProfileSettings('first', older, '2026-10-14T05:00:01.000Z');
+    stageProfileSettings('second', newer, '2026-10-14T05:00:04.000Z');
+    discardConflictingProfileSettings([
+      profile('first', '2026-10-14T05:00:01.000Z', older),
+      profile('second', '2026-10-14T05:00:03.000Z', older),
+    ]);
+    expect(recoverPendingProfile(profile('first')).settings).toEqual(settings);
+    expect(recoverPendingProfile(profile('second')).settings).toEqual(newer);
+    discardConflictingProfileSettings([
+      profile('second', '2026-10-14T05:00:04.000Z', newer),
+    ]);
+    expect(data.has(STORAGE_KEYS.PENDING_PROFILE_SETTINGS)).toBe(false);
   });
 
   it('drops old pending values when a workspace import replaces all profiles', () => {
