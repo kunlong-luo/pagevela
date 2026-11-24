@@ -9,6 +9,12 @@ test('restore pre-fit layout atomically while preserving the original draft', as
     localStorage.setItem('resume-onboarding-v1-complete', '1');
     localStorage.setItem('resume_ui_language', 'en');
     localStorage.setItem('height-guard-collapsed', 'false');
+    // Materialize a deterministic *pre-fit* baseline. The local-first store
+    // may not write resume-settings until the first user settings mutation.
+    // Without seeding it, the test falsely expects undefined settings back.
+    localStorage.setItem('resume-settings', JSON.stringify({
+      margin: 'standard', fontSize: 'standard', blockGap: 1, lineHeight: 1.6,
+    }));
   });
   await page.goto('/?page=editor');
   await page.getByRole('button', { name: 'Markdown source editor' }).click();
@@ -32,6 +38,9 @@ test('restore pre-fit layout atomically while preserving the original draft', as
     };
   });
   const before = await layout();
+  expect(before).toEqual({
+    margin: 'standard', fontSize: 'standard', blockGap: 1, lineHeight: 1.6,
+  });
   const twoPageTarget = page.getByRole('button', { name: 'Target 2 pages' });
   await twoPageTarget.click();
   await expect(twoPageTarget).toHaveAttribute('aria-pressed', 'true');
