@@ -13,7 +13,7 @@
 | 当前仓库与部署状态 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) | 日期、提交 SHA、CI / Pages、开放事项 |
 | 2026-11-24 工程交付证据 | [ENGINEERING_ACCEPTANCE_20261124.md](./ENGINEERING_ACCEPTANCE_20261124.md) · [编辑器 Hook](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md) | #310/#311/#315 同 SHA CI、Pages 验收及未结任务 |
 | 最新发布与安全验收证据 | [RELEASE_SECURITY_ACCEPTANCE_20261123.md](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) | PR #300–308、同 SHA CI / Pages / Release、PWA、安全审计及未结门禁 |
-| 项目评估和优先级 | [2026-11-24 复评 86 分](./ASSESSMENT_20261124.md) · [11/23 历史 84 分](./ASSESSMENT_20261123.md) · [11/22 历史 76 分](./ASSESSMENT_20261122.md) | 86/100 当前已部署工程复评、七维度证据、候选测试尚未计分及剩余风险 |
+| 项目评估和优先级 | [最新 87 分复评](./ASSESSMENT_20261124_R2.md) · [此前 86 分](./ASSESSMENT_20261124.md) · [11/23 历史 84 分](./ASSESSMENT_20261123.md) · [11/22 历史 76 分](./ASSESSMENT_20261122.md) | 87/100 已核验 main 与同 SHA Pages、七维度评分及 #323 候选风险 |
 | 新人贡献和开发 | [CONTRIBUTING.md](../CONTRIBUTING.md) · [UI 组件规范](./BRANDED_UI_CONTRACT.md) | TypeScript、测试、PR 与设计系统 |
 | 正式发布 | [RELEASING.md](../RELEASING.md) · [CHANGELOG.md](../CHANGELOG.md) · [RELEASE_NOTES.md](../RELEASE_NOTES.md) | 版本、历史变更、当前发布门禁 |
 | v2.8.3 实际发布验收 | [V2_8_3_RELEASE_ACCEPTANCE_20261123.md](./V2_8_3_RELEASE_ACCEPTANCE_20261123.md) | 已发布 tag、同 SHA 交付证据、ZIP/TAR/SHA256SUMS 清单及独立校验未结项 |
@@ -23,6 +23,8 @@
 
 ## 架构与工程 / Engineering
 
+- [Store 设置清洗模块与独立测试](./PROFILE_SETTINGS_SANITIZER_20261124.md)：#322 已完成同 SHA main CI/Pages 验收
+- [跨标签页冲突防护候选与边界 PR #323](https://github.com/kunlong-luo/pagevela/pull/323)：#323 仍需最新 CI + 同 SHA main/Pages，不能计入 87 分
 - [持久化架构及历史协议兼容](./PERSISTENCE_ARCHITECTURE_20261026.md)：Zustand / IndexedDB / Web Locks / 草稿和并发，包含分栏 Hook 拆分的历史记录
 - [v2.3 存储设计](./V2_3_STORAGE.md)、[v2.2 性能基线](./V2_2_PERFORMANCE.md)、[v2.1 UX/隐私](./V2_1_UX_PRIVACY.md)：**对应版本的技术设计**，不应被当作最新测试结论
 - [产品分析与隐私边界](./PRODUCT_ANALYTICS.md)；[品牌 UI 组件契约](./BRANDED_UI_CONTRACT.md)：现行工程规范

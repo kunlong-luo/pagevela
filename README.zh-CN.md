@@ -40,7 +40,7 @@
 - [文档总索引](docs/README.md)：使用指南、架构、品牌、历史资料统一入口
 - [项目状态快照](docs/PROJECT_STATUS.md)：已核验的 CI／Pages 状态与待办事项
 - [2026-11-23 发布与安全验收台账](docs/RELEASE_SECURITY_ACCEPTANCE_20261123.md)：最新 CI → Pages → Release 门禁、PWA 离线与依赖审计证据
-- [2026-11-24 工程重新复评：86/100](docs/ASSESSMENT_20261124.md)：基于已验证 main `63edf034` CI/Pages 的七维度证据；[11/23 历史 84 分](docs/ASSESSMENT_20261123.md) 与 [11/22 历史 76 分](docs/ASSESSMENT_20261122.md) 保留
+- [2026-11-24 最新工程复评：87/100](docs/ASSESSMENT_20261124_R2.md)：基于已验证 main `8150287` 完整 CI/同 SHA Pages，已计入 #322 模块化；[此前 86 分快照](docs/ASSESSMENT_20261124.md) 保留；[11/23 历史 84 分](docs/ASSESSMENT_20261123.md) 与 [11/22 历史 76 分](docs/ASSESSMENT_20261122.md) 保留
 - [版本发布流程](RELEASING.md) · [贡献指南](CONTRIBUTING.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md)
 
 **注意：** GitHub 最新 Release、当前 `main` 与已部署 Pages 不一定指向同一提交；判断是否正式上线，请先查看状态快照并核对最新 CI。
