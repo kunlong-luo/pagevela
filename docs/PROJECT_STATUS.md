@@ -9,6 +9,7 @@
 - **当前代码 main：** [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 已于 **2026-11-24 03:31 UTC** 自动合并为 `6532c570b852b0284359d73e7c00632571ef04fb`，与最近一次确认同 SHA Pages 的 `12c7044` 不同。GitHub 的合并事实不代表浏览器 CI 门禁全部通过。
 - **PR 头 `5485b15`：** [CI #45318654364](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364) **failure**：quality、Firefox/WebKit critical 成功，Chromium 全量 **222 passed / 1 failed / 1 skipped**，失败为 `e2e/mobile-four-primary-actions.e2e.ts:98` 使用旧 `Auto fit to single page` 断言，与新版桌面 `Fit to selected page target` 按钮可访问名称不符。最终 `build-and-test` 未形成完整通过的验收链。
 - **合并后 main：** [CI #45320068534](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) 在本次核对时**执行中**，不得直接宣称成功或同 SHA Pages 已部署。独立修复分支只改桌面 E2E 的过期断言，保留移动端单步回退标签和中英文产品语义；修复也必须重新经过受保护 PR CI、main CI 与同 SHA Pages。
+- **CI 保护根因：** [规则集 Protect main](https://github.com/kunlong-luo/pagevela/rules/23971861) 只要求 `build-and-test`；旧工作流在 Chromium 失败时将该汇总 job 跳过，被保护规则视为满足。热修复将该 job 改为 `always()` 真正运行，并对任意前置 job 非 success 明确报错，避免红测时再次自动合并。
 - **发布与未结项：** 正式 GitHub Release 仍是 v2.8.3 `501ca26`；[#312](https://github.com/kunlong-luo/pagevela/issues/312) 已重新开放，继续跟踪撤销 UX、隐藏预览/移动端真实测量及扩展设备矩阵；工程评分 **84/100** 不提高。
 
 ## 本次已核对的版本、分支和交付

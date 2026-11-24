@@ -43,7 +43,7 @@
 
 - **合并时间和 SHA：** [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 于 03:31 UTC 已自动合并至 `main` `6532c570b852b0284359d73e7c00632571ef04fb`，但这不是 CI 通过的证据。
 - **最后 PR 头 `5485b15`：** [CI #45318654364](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364) 中 quality 和 Firefox/WebKit critical 通过，Chromium 全量 **222 passed、1 failed、1 skipped**。失败在 `e2e/mobile-four-primary-actions.e2e.ts:98`，测试仍检查桌面 `Auto fit to single page`；新版桌面工具栏的真实 aria-label 是 `Fit to selected page target`。此处属于测试维护遗漏，不能据此认定测量循环已通过全部浏览器。
-- **修正策略：** 热修复只将**桌面**期望改为目标页数语义，保留移动表单单步回退的 `Auto fit to single page` 名称和对应测试，不牺牲准确的操作说明。重新测试且确认**新 main SHA 的 CI 与同 SHA Pages**之前，不将功能标记为已部署验收完成。
+- **修正策略：** 热修复只将**桌面**期望改为目标页数语义，保留移动表单单步回退的 `Auto fit to single page` 名称和对应测试，不牺牲准确的操作说明。**同时修复保护门禁漏洞**：当前规则集仅强制 `build-and-test`，当 Chromium 失败导致该 job 被 skipped 时，GitHub 仍可能完成 auto-merge；现改成该 job `if: always()` 且在 step 内明确验证每个依赖结果，不通过则 exit 1。重新测试且确认**新 main SHA 的 CI 与同 SHA Pages**之前，不将功能标记为已部署验收完成。
 - **持续跟踪：** [#312](https://github.com/kunlong-luo/pagevela/issues/312) 已恢复为开放状态，一键恢复布局、移动端隐藏预览和 Android 真机验收仍在范围内；发布包仍是旧 v2.8.3。
 
 ## 后续待开发

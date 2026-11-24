@@ -240,17 +240,27 @@ jobs:
       - quality
       - e2e-chromium
       - e2e-cross-browser
-    # The full-browser matrix intentionally skips on PRs. Without an explicit
-    # status condition GitHub can transitively skip this required final gate
-    # even though all three direct dependencies succeeded.
-    if: >-
-      always() &&
-      needs.quality.result == 'success' &&
-      needs.e2e-chromium.result == 'success' &&
-      needs.e2e-cross-browser.result == 'success'
+    # The branch ruleset requires build-and-test. GitHub accepts a skipped
+    # required check as satisfied, so NEVER skip this aggregator when a
+    # dependency fails. Always run it and explicitly fail non-success results.
+    # PRs intentionally skip e2e-browser-shard; e2e-cross-browser runs the
+    # Firefox/WebKit critical suite and is the required dependency here.
+    if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
-      - name: Confirm required CI gates
-        run: echo "quality, Chromium E2E, and cross-browser E2E all passed"
+      - name: Enforce every required CI result
+        env:
+          QUALITY_RESULT: ${{ needs.quality.result }}
+          CHROMIUM_RESULT: ${{ needs.e2e-chromium.result }}
+          CROSS_BROWSER_RESULT: ${{ needs.e2e-cross-browser.result }}
+        run: |
+          echo "quality=$QUALITY_RESULT chromium=$CHROMIUM_RESULT cross-browser=$CROSS_BROWSER_RESULT"
+          if [ "$QUALITY_RESULT" != "success" ] || \
+             [ "$CHROMIUM_RESULT" != "success" ] || \
+             [ "$CROSS_BROWSER_RESULT" != "success" ]; then
+            echo "::error::Required CI failed or was skipped; blocking the protected build-and-test gate."
+            exit 1
+          fi
+          echo "All required CI jobs succeeded."

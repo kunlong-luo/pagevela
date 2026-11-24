@@ -9,6 +9,7 @@
 | 需求 | 推荐入口 | 用途 |
 | --- | --- | --- |
 | 了解产品、功能、启动项目 | [English README](../README.md) · [中文 README](../README.zh-CN.md) | 产品概述、安装、主要功能 |
+| CI 汇总门禁与失败复盘 | [2026-11-24 工程验收](./ENGINEERING_ACCEPTANCE_20261124.md) · [CI 工作流](../.github/workflows/ci.yml) | 防止 `build-and-test` 因测试失败而 skipped、误触发自动合并；新修复仍待最新头验证 |
 | 当前仓库与部署状态 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) | 日期、提交 SHA、CI / Pages、开放事项 |
 | 2026-11-24 工程交付证据 | [ENGINEERING_ACCEPTANCE_20261124.md](./ENGINEERING_ACCEPTANCE_20261124.md) · [编辑器 Hook](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md) | #310/#311/#315 同 SHA CI、Pages 验收及未结任务 |
 | 最新发布与安全验收证据 | [RELEASE_SECURITY_ACCEPTANCE_20261123.md](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) | PR #300–308、同 SHA CI / Pages / Release、PWA、安全审计及未结门禁 |

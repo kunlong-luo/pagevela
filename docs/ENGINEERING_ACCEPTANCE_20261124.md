@@ -2,6 +2,12 @@
 
 > **验收台账，非实时 CI 面板。** 日期 2026-11-24；每条结论均以标明的 SHA 为界。若后续 main 被 PR 合并推进，此页不会自动对新 SHA 产生验收。正式 GitHub Release 版本与已经部署的主分支可以不同，不能相互代替。
 
+## P0 CI 门禁修复：required job 被跳过却允许自动合并
+
+- 已读 GitHub [规则集 Protect main](https://github.com/kunlong-luo/pagevela/rules/23971861)：`main` 的 `required_status_checks` 目前只指定 **`build-and-test`**（integration ID `15368`），并非独立要求 `e2e-chromium`。原 [ci.yml](https://github.com/kunlong-luo/pagevela/blob/6532c570b852b0284359d73e7c00632571ef04fb/.github/workflows/ci.yml) 为 `build-and-test` 添加了依赖全成功的 **job-level if**；当 Chromium 失败时，`build-and-test` 变成 **skipped**，而跳过的必需检查可能被 GitHub 当作已满足，导致 PR #316 自动合并。
+- **热修复方案（待 PR CI 验收）**：`build-and-test` 改为**无条件 `if: always()`**，在真正执行的 job step 中核对 `quality / e2e-chromium / e2e-cross-browser` 三个 `needs.*.result` 都是 `success`；出现 `failure`、`cancelled` 或 `skipped` 时明确 `exit 1`。这避免仅依靠 job 的 skipped 状态完成保护门禁。保留 PR 对完整 Firefox/WebKit 分片的有意跳过（跨浏览器关键套件由 `e2e-cross-browser` 执行）。
+- **重要边界**：仅修改 Workflow 不能追溯撤销 #316 的合并；旧 Chromium PR CI 故障必须保持在验收档案中，当前新的功能仍需要完整 main CI 和同 SHA Pages 验证。没有调整分支保护规则集，也没有降低要求。若此热修复 PR 仍未全绿，禁止抢先合并。
+
 ## 2026-11-24 #316 已合并，但 PR 及部署门禁尚未闭环
 
 - **GitHub 合并事实：** [PR #316](https://github.com/kunlong-luo/pagevela/pull/316) 已自动合并，新的 `main` SHA 为 `6532c570b852b0284359d73e7c00632571ef04fb`。原任务 #312 因合并自动关闭，但范围内仍存在撤销与设备验收工作，已**重新开放**。
