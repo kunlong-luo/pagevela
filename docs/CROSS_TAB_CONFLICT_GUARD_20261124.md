@@ -1,6 +1,6 @@
 # Pagevela 跨标签页主动保存冲突防护 / Active-snapshot conflict guard
 
-> 2026-11-24 **PR 候选说明，不代表已通过浏览器 CI 或已经上线**。相关架构跟踪：[Issue #282](https://github.com/kunlong-luo/pagevela/issues/282)。现有正式下载包仍为 v2.8.3；不得追溯包含本次修复或自行提高工程评分。
+> **2026-11-24 已部署验收：** [#323](https://github.com/kunlong-luo/pagevela/pull/323) 合并为 `da3b68b`；[主分支 CI #45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) + [同 SHA Pages #45372036914](https://github.com/kunlong-luo/pagevela/actions/runs/45372036914) 成功，随后 [main `a8ec3ae` CI](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) + [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) 再次覆盖。现行[工程评分 88/100](./ASSESSMENT.md) 的数据可靠性从 13 → 14/15。旧版标签页、照片/完整元信息和多设备同步仍未覆盖，正式下载包仍为 v2.8.3。
 
 ## 之前的实际风险
 
@@ -8,7 +8,7 @@
 - `BroadcastChannel` 仅显示“另一标签页正在编辑”的提醒，并没有阻止过期写入；Web Locks 单独也不具备读版本比较语义。
 - 用户数据以 IndexedDB 为准。不能把不同标签页的稿件自动拼接或悄悄选择最后一个写入者。
 
-## 本次候选实现
+## 已上线实现
 
 1. 页面在 `src/main.tsx` 从 IndexedDB 完成迁移与读取后，把 **原始** `markdown / profiles / jdText` 交给唯一的 `activeResumePersistence.setBaseline`；Zustand 仍在此后异步导入，避免启动时丢草稿。
 2. `persistActiveResumeIfUnchanged` 在 **一个 Dexie `rw` 事务** 内读取已提交的全部活跃正文、档案和 JD，与标签页编辑基线比较：
@@ -50,6 +50,6 @@
 
 ## 下阶段
 
-在 [#282](https://github.com/kunlong-luo/pagevela/issues/282) 中补充照片及完整 Profile 元信息的冲突恢复、跨版本标签页和不同设备矩阵；每一步作为独立 PR 验收，**不提前提高 86/100**。
+在 [#282](https://github.com/kunlong-luo/pagevela/issues/282) 中补充照片及完整 Profile 元信息的冲突恢复、跨版本标签页和不同设备矩阵；每一步作为独立 PR 验收，**仍保留 88/100 的未验收扣分项**。
 
 [现行存储架构](./PERSISTENCE_ARCHITECTURE_20261026.md) · [存储安全 Hook](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md) · [状态快照](./PROJECT_STATUS.md)

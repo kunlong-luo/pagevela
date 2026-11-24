@@ -18,8 +18,10 @@ describe('public version consistency', () => {
   });
 
   it('keeps all active English/Chinese release headings aligned', () => {
-    expect(read('README.md')).toContain(`## 🆕 What's New in v${version}`);
-    expect(read('README.zh-CN.md')).toContain(`## 🆕 v${version} 更新`);
+    // Canonical READMEs are current usage guides, not duplicated release-note
+    // timelines. Both must still link to the exact published stable version.
+    expect(read('README.md')).toContain(`releases/tag/v${version}`);
+    expect(read('README.zh-CN.md')).toContain(`releases/tag/v${version}`);
     expect(read('RELEASE_NOTES.md')).toMatch(new RegExp(`^# Pagevela v${version.replaceAll('.', '\\.')}\\n`));
     expect(read('PROMOTION.md')).toContain('# Resume Craft v2.6.0 Promotion Playbook');
     expect(read('PROMOTION.md')).toContain('Historical planning document:');

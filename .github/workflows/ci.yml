@@ -46,6 +46,9 @@ jobs:
       - name: Audit bilingual UI labels
         run: pnpm run i18n:audit
 
+      - name: Check local documentation links
+        run: pnpm run docs:check
+
       - name: Typecheck
         run: pnpm run typecheck
 

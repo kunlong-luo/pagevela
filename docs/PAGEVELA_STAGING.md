@@ -32,7 +32,7 @@ This establishes the **v2.7.0-codebase successor** production gate; each future 
 - Legacy `resume-craft` IndexedDB database, cross-tab channel and write lock remain intentionally unchanged to preserve drafts and concurrent-session behavior. New support-prompt storage uses `pagevela.support-prompt.v3` with legacy-state fallback. New backup exports use `pagevela-workspace-v1` and accept older files; new encrypted-share AAD is `pagevela-share-v3` with a legacy v2/v3 decryption fallback; PWA PDF cache was renamed to `pagevela-pdf-tools`. None of these compatible public changes is evidence that every historical identifier was destructively renamed.
 - `github.io/pagevela/` and the retired `github.io/resume-craft/` path share the same HTTPS **origin**, but PWA service-worker scopes and saved/installed launch URLs can differ. Do not assume old installed PWAs continue working.
 - Historical v2.6.0 release artifacts and original publication records are historical documents, not a requirement to keep promoting outdated URLs.
-- The prepared redirect source files under `docs/legacy-pages-redirect/site/` are **inactive reference material only**. Do not deploy them without a new explicit owner decision.
+- The unshipped old-site redirect experiment and its standalone test were removed from source on 2026-11-24, consistent with the owner's **do not redirect** decision. Git history and issue #202 retain the audit trail; do not recreate or deploy an old-origin redirect without fresh explicit approval.
 
 ## Remaining checks
 

@@ -49,7 +49,6 @@ describe('Pagevela public brand and compatibility', () => {
       'vite.config.ts',
       'README.md',
       'README.zh-CN.md',
-      'README.en.md',
       'docs/WORKSPACE_TRANSFER.md',
       'docs/PROMOTION_MEDIA.md',
       'SUPPORT.md',
@@ -74,7 +73,6 @@ describe('Pagevela public brand and compatibility', () => {
     expect(source('docs/PROMOTION_MEDIA.md')).toContain('select `main`');
     expect(source('docs/PAGEVELA_STAGING.md')).toContain('**Pagevela** is live at');
     expect(source('docs/WORKSPACE_TRANSFER.md')).toContain('former `/resume-craft/`');
-    expect(source('README.en.md')).toContain('Pagevela is live');
     expect(source('README.md')).toContain('https://kunlong-luo.github.io/pagevela/');
     expect(source('README.zh-CN.md')).toContain('https://kunlong-luo.github.io/pagevela/');
     expect(source('.github/workflows/capture-promotion-media.yml')).toContain('workflow_dispatch:');

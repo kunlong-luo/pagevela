@@ -35,119 +35,39 @@
 
 ---
 
-## 📚 项目文档与验收状态
+## 📚 文档目录与最新工程状态
 
-- [文档总索引](docs/README.md)：使用指南、架构、品牌、历史资料统一入口
-- [项目状态快照](docs/PROJECT_STATUS.md)：已核验的 CI／Pages 状态与待办事项
-- [2026-11-23 发布与安全验收台账](docs/RELEASE_SECURITY_ACCEPTANCE_20261123.md)：最新 CI → Pages → Release 门禁、PWA 离线与依赖审计证据
-- [2026-11-24 最新工程复评：87/100](docs/ASSESSMENT_20261124_R2.md)：基于已验证 main `8150287` 完整 CI/同 SHA Pages，已计入 #322 模块化；[此前 86 分快照](docs/ASSESSMENT_20261124.md) 保留；[11/23 历史 84 分](docs/ASSESSMENT_20261123.md) 与 [11/22 历史 76 分](docs/ASSESSMENT_20261122.md) 保留
-- [版本发布流程](RELEASING.md) · [贡献指南](CONTRIBUTING.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md)
+- **当前工程复评：[88/100](docs/ASSESSMENT.md)**，以主分支 `a8ec3ae` 实际完整 CI 和同 SHA Pages 部署证据为准。[最新项目状态](docs/PROJECT_STATUS.md) · [按 SHA 的工程验收台账](docs/ENGINEERING_ACCEPTANCE_20261124.md)。
+- **唯一文档导航：[docs/README.md](docs/README.md)**，现行技术说明、旧版本资料和平台宣传包分开维护。[历史 87 分报告](docs/ASSESSMENT_20261124_R2.md) 等仍保留，但不是当前评估结果。
+- [贡献指南](CONTRIBUTING.md) · [发布流程](RELEASING.md) · [变更记录](CHANGELOG.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md) · [历史资料索引](docs/history/README.md)。
 
-**注意：** GitHub 最新 Release、当前 `main` 与已部署 Pages 不一定指向同一提交；判断是否正式上线，请先查看状态快照并核对最新 CI。
+### 文档目录结构
 
----
+```text
+README.md / README.zh-CN.md       英文/中文唯一主指南
+CHANGELOG.md / RELEASE_NOTES.md   版本变更与正式发布说明
+docs/
+  README.md                       文档统一索引
+  PROJECT_STATUS.md               最新主分支与开放风险
+  ASSESSMENT.md                   最新七维度评分
+  ENGINEERING_ACCEPTANCE_20261124.md   同 SHA CI/Pages 证据
+  [技术文档]                       存储、排版、UI、发布契约
+  history/                         历史快照与旧版资料
+    versions/                      v2.1 / v2.2 / v2.3 / v2.6
+  channel-refresh/                 独立的中外平台运营素材及追踪
+```
 
-## v2.8.3 发布后的主分支开发（不包含在该版本压缩包内）
+运行 `pnpm run docs:check` 检查本地文档链接，CI 的 quality 阶段也会执行。重复的 `README.en.md` 已移除，**英文统一使用 README.md**。
 
-- **[#310](https://github.com/kunlong-luo/pagevela/pull/310) 编辑器架构：** 多标签页提醒与存储健康通知拆分到独立 Hook，合并提交 `16b11ff` 的 [完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45305029314) 与 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45307035196) 已验收。
-- **[#311](https://github.com/kunlong-luo/pagevela/pull/311) Auto Fit 稳定性：** 修复重复点击后紧凑间距反向放大和快捷键误报，已合并为 `e8fdda0`；PR CI 通过；包含该修复的后续主分支 `d0d5486` 的[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45309378710) 和[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45310525156) 已独立验收通过。
-- **[#314](https://github.com/kunlong-luo/pagevela/pull/314) Quick PDF：** 空白输出与异常反馈防护已合并为 `12c7044`，通过 [主分支完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45312509947) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45313889157)。**[#316](https://github.com/kunlong-luo/pagevela/pull/316) 测量式 Auto Fit：** 已合并到 `main` `6532c57`，预览可见时使用溢出量和 1/2/3 页目标；但[最后一次 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45318654364) 的 Chromium 全量仍有 **1 项旧桌面按钮名称断言失败**（222 通过、1 失败、1 跳过）。其后 `6532c57` 的[主分支 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45320068534) **失败**、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45321277493) **跳过**。[#317](https://github.com/kunlong-luo/pagevela/pull/317) 已修复旧断言与被跳过的汇总门禁，通过[完整 PR 头 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45320641952) 并合并为 `e00bcbd`。目前包含 #317 与文档 #318 的主分支 `202bcea` 已通过[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45324490754) 与[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45326859873) 独立验收；#319 一键恢复已通过[完整 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45327296976) 并合并为 `db8919f`；新主分支同 SHA CI/Pages 尚待独立验收。详见[验收说明](docs/MEASURED_AUTO_FIT_20261124.md)。
+## v2.8.3 之后已上线的开发改进
 
-以上改动不会追溯替换 v2.8.3 发布包。参见 [工程验收记录](docs/ENGINEERING_ACCEPTANCE_20261124.md) 和 [功能优化路线图](docs/PRODUCT_OPTIMIZATION_ROADMAP_20261124.md)。定性评分仍为 **84/100**。
+最新已验证主分支 `a8ec3ae`：[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) 与[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **均成功**。它包含 [#323](https://github.com/kunlong-luo/pagevela/pull/323) 防止旧标签页覆盖最新版简历、将冲突修改保存为可恢复手动草稿并给出不遮挡操作的警告；以及 [#325](https://github.com/kunlong-luo/pagevela/pull/325) 新建/复制档案 ID 防碰撞。[#321](https://github.com/kunlong-luo/pagevela/pull/321) 增强 Auto Fit 纸张/语言回归，[#322](https://github.com/kunlong-luo/pagevela/pull/322) 将设置清洗逻辑拆分为可测试模块。
 
-## 🆕 v2.8.3 更新
+**正式发布边界：** 最新可下载版本仍是 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3)，tag `501ca26`。后续主分支改进不会自动写入旧压缩包；旧发行文件尚未进行独立下载、解压和逐项 SHA256 比对。负责人确认过 Android 微信真机整体测试，但这不代表 Android 系统打印、所有 OEM 浏览器和已安装 PWA 离线功能均经独立验收。
 
-本次是**本地草稿可靠性与编辑器可维护性**的补丁升级。
+## 历史版本
 
-- **草稿更可靠：** IndexedDB 串行写入、周期性草稿历史协调和分栏回归修复。
-- **独立快捷键 Hook：** Ctrl/Cmd+S 本地保存、Ctrl/Cmd+P ATS 打印、Ctrl/Cmd+Shift+F 智能单页均保持原行为。
-- **真正的生产离线测试：** Service Worker 预缓存与 Chromium 离线编辑路由回归。
-- **跨浏览器发布：** Chromium、Firefox、WebKit 及 PDF 有效性、导出后草稿保留、同 SHA 发布门禁检查。
-- **工程文档：** 依赖注册表审计、中英文文档、84/100 工程复评和安全验收台账同步。
-
-v2.8.3 已完成同 SHA CI、Pages 及正式 Release，提供 Pagevela 命名的 ZIP/TAR.GZ 与 SHA256 清单。压缩包独立解压/哈希比对、Android 系统另存 PDF、其他 OEM 浏览器、安装后离线及 GitHub 私有 Dependabot 告警仍需分别验收。
-
-[版本说明](./RELEASE_NOTES.md) · [v2.8.3 验收清单](./docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md) · [Android 专项 #262](https://github.com/kunlong-luo/pagevela/issues/262)
-
----
-
-## 📦 之前的 v2.8.2 更新
-
-本次更新统一 **Pagevela** 项目名称与新发布文件命名，并且保持旧用户数据可以正常读取。
-
-- **统一品牌：** npm 包名、新版 ZIP/TAR.GZ 发布文件、推广图片与视频、Issue 模板和编辑器内部事件统一使用 Pagevela。
-- **修复官网路径：** 正式站点识别、项目支持链接和隐私保护统计统一使用 `/pagevela/`。
-- **备份兼容：** 新导出的工作区使用 `pagevela-workspace-v1`，仍可导入旧版本备份。
-- **加密分享兼容：** 新分享链接使用 Pagevela 的加密认证标识，旧版 v2/v3 加密链接继续支持解密。
-- **数据安全：** 新支持提示设置采用 Pagevela 前缀；为避免历史草稿丢失，已有 IndexedDB 和跨标签页锁标识仍保留兼容读取能力。
-
-本版本不宣称额外的 Android 真机打印、其他手机浏览器或离线功能已验收，这些事项仍由 [#262](https://github.com/kunlong-luo/pagevela/issues/262) 跟踪。
-
----
-
-## 📦 之前的 v2.8.1 更新
-
-本次补丁版本重点是 **Android 微信真机验收记录与 PDF 导出可靠性**，不增加账号系统，也不修改简历的数据格式和原生界面组件。
-
-- **PDF 文件完整性：** Chromium 自动化测试不再只检查 PDF 文件头，还会实际解析下载文件及其每一页，检查绘制内容，并验证导出后刷新不会丢失简历草稿。
-- **Android 微信实测：** 项目负责人已确认**真实 Android 手机中的微信测试通过**。尚未单独记录设备/微信版本、各项 PDF／PWA 验证结果，其他 Android 浏览器也不能据此自动宣称全部兼容。
-- **品牌迁移审计：** 整理已完成的 Pagevela 发布、历史分享协议兼容和旧网址不跳转的决定；商标核验与站外内容仍单独追踪。
-- **可靠发布：** 保留 Chromium / Firefox / WebKit 全量测试和相同 SHA 的 Pages 部署门禁。发布必须经过完整主分支 CI 与同一提交的 Pages 部署验证；尚未单独记录的真机导出、恢复场景仍标注为未验证。
-
-**隐私：** 工作区 JSON 未加密；ATS 浏览器打印能保留可选择的文字，Quick PDF 为光栅。旧 `/resume-craft/` 不会自动跳转。
-
-[Android 与导出验收记录](./docs/V2_8_1_ANDROID_RELEASE_ACCEPTANCE.md) · [品牌与迁移审计](https://github.com/kunlong-luo/pagevela/issues/202) · [v2.8.1 详细说明](./RELEASE_NOTES.md)
-
----
-
-## 📦 之前的 v2.8.0 更新
-
-本次发布重点提升**手机简历编辑、欢迎页加载、双语自定义组件统一**和生产发布质量。
-
-- **欢迎页加载与扫码：** 欢迎内容优先显示，完整编辑器按需初始化；顶部 **Start 左侧**新增尺寸统一的二维码按钮，点击打开品牌化扫码弹窗。
-- **移动端更顺手：** 统一 Form / Code / Preview 入口与至少 44px 的主要触摸目标，清理重复的 Fit / Check 快捷操作，确保工具菜单始终可见。
-- **预览不再被遮挡：** 修复窄屏和部分平板布局中，简历末尾文字及键盘聚焦输入被底部按钮遮挡的问题。
-- **双语与组件规范：** 精简中英文标签，把全局语言控制放到 Theme 旁边；统一弹出菜单、滚动条和确认框，不显示默认浏览器弹窗或原生选择器。
-- **可验证发布：** Chromium、Firefox、WebKit 全量测试分片、Firefox 有界面验证及必需 CI 全绿后，才自动部署相同提交 SHA 的 GitHub Pages。
-- **稳定依赖升级：** React / React DOM 19.3.1、Motion 14.4、Lucide 1.59、ESLint 10.13、Vitest 5.0.5。
-
-**隐私提示：** 简历仍主要保存在浏览器本地；ATS 检查不保证招聘系统认可；工作区备份 JSON 未加密，换设备或网站时需手动导入。需要可选择文字的 PDF 时建议使用 ATS／浏览器打印。
-
-🎬 [现有演示视频](https://youtu.be/z3RNFD4s-kk) · [在线体验](https://kunlong-luo.github.io/pagevela/) · [v2.8.0 双语发布文案与截图审核清单](./docs/V2_8_0_RELEASE_KIT.md)
-
-查看 [v2.8.0 GitHub Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.0)、[详细更新说明](./RELEASE_NOTES.md)与[版本日志](./CHANGELOG.md)。
-
----
-
-## 📦 之前的 v2.7.0 更新
-
-本次更新完成了 **Pagevela（页帆）** 的品牌迁移，并优化从欢迎页进入简历编辑器的使用流程。
-
-- **更快开始编辑：** 选择模板后直接进入编辑，减少重复的新手引导。
-- **移动端 PDF 更易使用：** 在窄屏上更容易找到主要 PDF 操作；需要文字可选中的文件时，请使用 ATS／浏览器打印导出方式。
-- **中英文真实界面截图：** 自动化获取双语欢迎页和编辑页截图，方便展示产品真实功能。
-- **依赖维护：** 已合并通过测试的生产和开发依赖更新。
-
-🎬 [观看新版 Pagevela 演示视频（26 秒）](https://youtu.be/z3RNFD4s-kk) · [立即体验](https://kunlong-luo.github.io/pagevela/) · [真实截图及推广素材说明](./docs/PROMOTION_MEDIA.md)
-
-**迁移提醒：** 简历数据仍主要保存在浏览器本地。切换网站地址或浏览器之前，请导出旧工作区并确认新网站导入成功，参见[工作区迁移说明](./docs/WORKSPACE_TRANSFER.md)。
-
-查看 [v2.7.0 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.7.0)、[完整更新说明](./RELEASE_NOTES.md)和[版本日志](./CHANGELOG.md)。
-
----
-
-## 📦 之前的 v2.6.0 更新
-
-- **国内简历证件照：** 可选上传 PNG/JPEG/WebP 照片，在本地裁剪为 3:4 证件照，并展示在中文简历页头右上方；照片随所属档案单独保存。
-- **完整工作区迁移：** 支持将全部简历档案、草稿、职位描述及关联照片导出为 JSON 文件，再经确认导入另一浏览器或网站。
-- **防止快速刷新丢失设置：** 当 IndexedDB 自动保存尚未完成时，刷新后可恢复待保存的排版及目标市场设置。
-- **兼容性与导出回归：** 新增跨来源迁移、照片档案隔离、PDF 下载和工作区覆盖取消等自动化测试。
-
-**隐私提示：** 完整工作区 JSON **未经加密**，可能包含姓名、联系方式、照片和求职信息，请勿公开分享。切换浏览器或域名不会自动迁移数据；导入成功前请保留原网站数据。详见[完整工作区迁移指南](./docs/WORKSPACE_TRANSFER.md)。
-
-查看已发布的 [v2.6.0 正式版本](https://github.com/kunlong-luo/pagevela/releases/tag/v2.6.0) 和[详细更新说明](./RELEASE_NOTES.md)。上一版：[v2.5.0 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.5.0)。
-
----
+之前 v2.8.3 / v2.8.2 / v2.8.1 / v2.8.0 / v2.7.0 / v2.6.0 的发布差异与兼容性说明集中在 [RELEASE_NOTES.md](RELEASE_NOTES.md)、[CHANGELOG.md](CHANGELOG.md) 和[历史资料索引](docs/history/README.md)，不再在主 README 重复粘贴旧的 CI 时间线。
 
 ## 💡 为什么选择 Pagevela？
 
