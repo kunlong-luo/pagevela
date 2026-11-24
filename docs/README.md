@@ -13,7 +13,7 @@
 | 当前仓库与部署状态 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) | 日期、提交 SHA、CI / Pages、开放事项 |
 | 2026-11-24 工程交付证据 | [ENGINEERING_ACCEPTANCE_20261124.md](./ENGINEERING_ACCEPTANCE_20261124.md) · [编辑器 Hook](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md) | #310/#311/#315 同 SHA CI、Pages 验收及未结任务 |
 | 最新发布与安全验收证据 | [RELEASE_SECURITY_ACCEPTANCE_20261123.md](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) | PR #300–308、同 SHA CI / Pages / Release、PWA、安全审计及未结门禁 |
-| 项目评估和优先级 | [ASSESSMENT_20261123.md](./ASSESSMENT_20261123.md) · [11/22 历史 76 分](./ASSESSMENT_20261122.md) | 84/100 新复评、逐项证据、评分变化和未结风险 |
+| 项目评估和优先级 | [2026-11-24 复评 86 分](./ASSESSMENT_20261124.md) · [11/23 历史 84 分](./ASSESSMENT_20261123.md) · [11/22 历史 76 分](./ASSESSMENT_20261122.md) | 86/100 当前已部署工程复评、七维度证据、候选测试尚未计分及剩余风险 |
 | 新人贡献和开发 | [CONTRIBUTING.md](../CONTRIBUTING.md) · [UI 组件规范](./BRANDED_UI_CONTRACT.md) | TypeScript、测试、PR 与设计系统 |
 | 正式发布 | [RELEASING.md](../RELEASING.md) · [CHANGELOG.md](../CHANGELOG.md) · [RELEASE_NOTES.md](../RELEASE_NOTES.md) | 版本、历史变更、当前发布门禁 |
 | v2.8.3 实际发布验收 | [V2_8_3_RELEASE_ACCEPTANCE_20261123.md](./V2_8_3_RELEASE_ACCEPTANCE_20261123.md) | 已发布 tag、同 SHA 交付证据、ZIP/TAR/SHA256SUMS 清单及独立校验未结项 |
