@@ -89,6 +89,8 @@ test('two tabs preserve the latest committed resume and the stale edits as manua
 
   await staleTab.reload();
   await expect.poll(() => readActiveMarkdown(staleTab)).toBe(latest);
+  await staleTab.getByRole('button', { name: 'Markdown source editor' }).click();
+  await expect(staleTab.locator('#markdown-textarea')).toHaveValue(latest);
   await expect.poll(async () => (await readConflictDrafts(staleTab))
     .some(draft => draft.markdown === stale)).toBe(true);
 
