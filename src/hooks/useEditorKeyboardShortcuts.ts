@@ -103,15 +103,21 @@ export function useEditorKeyboardShortcuts({
 
     const autoFit = () => {
       const currentState = useResumeStore.getState();
-      smartAutoFit(currentState.settings, currentState.updateSetting);
+      const adjusted = smartAutoFit(currentState.settings, currentState.updateSetting);
       trackAnalyticsEvent('auto_fit_used');
       showToast?.({
-        title: uiLanguage === 'en' ? 'Auto Fit applied' : '已触发一键贴合控页',
-        message: uiLanguage === 'en'
-          ? 'Adjusted line height and margins to better fit the resume on one page.'
-          : '微调行高与边距以压缩适应单页',
-        type: 'info',
-        duration: 2500,
+        title: adjusted
+          ? (uiLanguage === 'en' ? 'Auto Fit adjusted' : '已收紧排版')
+          : (uiLanguage === 'en' ? 'Auto Fit reached its limit' : '已到自动压缩下限'),
+        message: adjusted
+          ? (uiLanguage === 'en'
+            ? 'Tightened one layout setting. Check the preview and repeat if needed.'
+            : '已收紧一项排版参数；请检查预览，如仍超页可继续调整。')
+          : (uiLanguage === 'en'
+            ? 'No further automatic spacing reduction is available. Shorten the content or adjust the layout manually.'
+            : '无法继续自动压缩间距。请精简内容或手动调整排版。'),
+        type: adjusted ? 'info' : 'warning',
+        duration: 3000,
       });
     };
 
