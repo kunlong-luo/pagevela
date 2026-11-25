@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { useShallow } from 'zustand/react/shallow';
-import { ThemeMode } from '../../types';
+import { ThemeMode, type ResumeSettings } from '../../types';
 import { ProfileDropdown } from '../profile/ProfileDropdown';
 import { Tooltip } from '../ui';
 import { LanguageToggle } from '../ui/LanguageToggle';
@@ -63,8 +63,6 @@ export function Header({
     setIsCheckerOpen,
     setIsBackupHubOpen,
     setIsHelpLegalOpen,
-    replaceDocument,
-    settings,
     uiLanguage,
     themeMode,
     setThemeMode,
@@ -82,8 +80,6 @@ export function Header({
       setIsCheckerOpen: state.setIsCheckerOpen,
       setIsBackupHubOpen: state.setIsBackupHubOpen,
       setIsHelpLegalOpen: state.setIsHelpLegalOpen,
-      replaceDocument: state.replaceDocument,
-      settings: state.settings,
       uiLanguage: state.uiLanguage,
       themeMode: state.themeMode,
       setThemeMode: state.setThemeMode,
@@ -104,7 +100,7 @@ export function Header({
 
   const importReplacingDocument = async (
     nextMarkdown: string,
-    settingsPatch: Partial<typeof settings>,
+    settingsPatch: Partial<ResumeSettings>,
     templateId?: string,
   ) => {
     if (importBusyRef.current) return;
