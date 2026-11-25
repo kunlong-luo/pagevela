@@ -21,7 +21,8 @@
 2. `pagehide` 在没有 `visibilitychange` 时仍会触发；两事件连续时不重复提交已有快照；
 3. `visible` 和 `beforeunload` 不触发保存；移除监听后不再执行回调；
 4. 在异步事务未完成时绝不报告 `saved`；提交后才报告；
-5. IndexedDB 拒绝写入时记录失败，进度为 `failed`，不产生未处理的 Promise；\n6. 模拟冻结后重新回到可见状态，再编辑并切后台，确认仍能写入新版本（BFCache 风格恢复，不等于设备实测）。
+5. IndexedDB 拒绝写入时记录失败，进度为 `failed`，不产生未处理的 Promise；
+6. 模拟冻结后重新回到可见状态，再编辑并切后台，确认仍能写入新版本（BFCache 风格恢复，不等于设备实测）。
 
 现有 `src/tests/resume-persistence.test.ts` 继续验证并发写入、版本回执、失败恢复以及完整清理时禁止数据库复活。保留完整 PR CI（typecheck、lint、unit、Chromium、Firefox/WebKit、`build-and-test`）以及合并后 main 的同 SHA CI/Pages 两层门禁。若某项失败，不宣称已部署。
 
