@@ -30,6 +30,10 @@ import { usePWAInstall } from '../../hooks/usePWAInstall';
 import { trackAnalyticsEvent } from '../../lib/analytics';
 import { PdfExportMenu } from '../header/PdfExportMenu';
 import { MoreActionsMenu } from '../header/MoreActionsMenu';
+import { hasExistingResumeWork } from '../../lib/resume-content-protection';
+import { activeDraftHistoryPersistence } from '../../lib/resume-draft-persistence';
+import { useConfirm } from '../../context/ConfirmContext';
+import { useToast } from '../ui/Toast';
 
 const RawTextImportModal = React.lazy(() => import('../modals/RawTextImportModal').then(m => ({ default: m.RawTextImportModal })));
 const ShareResumeModal = React.lazy(() => import('../share/ShareResumeModal').then(m => ({ default: m.ShareResumeModal })));
@@ -94,6 +98,65 @@ export function Header({
   const quickActionsDialogRef = useRef<HTMLDivElement>(null);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { isInstallable, triggerInstall } = usePWAInstall();
+  const { confirm } = useConfirm();
+  const { showToast } = useToast();
+  const importBusyRef = useRef(false);
+
+  const importReplacingDocument = async (
+    nextMarkdown: string,
+    settingsPatch: Partial<typeof settings>,
+    templateId?: string,
+  ) => {
+    if (importBusyRef.current) return;
+    importBusyRef.current = true;
+    try {
+      const snapshot = useResumeStore.getState();
+      if (hasExistingResumeWork(snapshot.markdown, snapshot.profiles)) {
+        const en = snapshot.uiLanguage === 'en';
+        const approved = await confirm({
+          title: en ? 'Replace active resume?' : '替换当前简历？',
+          message: en
+            ? 'Importing will replace your active resume and reset its undo history. A recovery draft will be saved before replacing it.'
+            : '导入将覆盖当前活动简历并重置撤销历史。替换之前会先保存一份可恢复草稿。',
+          confirmText: en ? 'Save recovery draft and import' : '保存恢复草稿并导入',
+          cancelText: en ? 'Keep my resume' : '保留当前简历',
+          type: 'warning',
+        });
+        if (!approved) return;
+
+        // Never overwrite if the pre-import recovery snapshot cannot be stored.
+        const before = useResumeStore.getState();
+        const now = new Date();
+        await activeDraftHistoryPersistence.update(current => [{
+          id: `draft_before_import_${now.getTime()}_${Math.random().toString(36).slice(2, 9)}`,
+          title: en ? 'Before resume import' : '导入前的简历备份',
+          markdown: before.markdown,
+          settings: before.settings,
+          templateId: before.currentTemplateId,
+          timestamp: now.toLocaleString(en ? 'en-US' : 'zh-CN', { hour12: false }),
+          isAutoSave: false,
+        }, ...current]);
+      }
+      const latest = useResumeStore.getState();
+      latest.replaceDocument(
+        nextMarkdown,
+        { ...latest.settings, ...settingsPatch },
+        templateId ?? 'custom',
+      );
+    } catch (error) {
+      console.error('[resume-import] Could not save recovery draft:', error);
+      showToast({
+        title: isEn ? 'Import not applied' : '导入未执行',
+        message: isEn
+          ? 'Could not save the recovery draft. Your original resume is unchanged.'
+          : '无法保存导入前的恢复草稿，原简历未被覆盖。',
+        type: 'error',
+        duration: 6500,
+      });
+    } finally {
+      importBusyRef.current = false;
+    }
+  };
 
   useDialogFocus({
     isOpen: isMobileMenuOpen,
@@ -578,11 +641,7 @@ export function Header({
             isOpen={isRawTextModalOpen}
             onClose={() => setIsRawTextModalOpen(false)}
             onImport={(newMd, settingsPatch, templateId) => {
-              replaceDocument(
-                newMd,
-                { ...settings, ...settingsPatch },
-                templateId ?? 'custom',
-              );
+              void importReplacingDocument(newMd, settingsPatch, templateId);
             }}
             lang={lang}
           />
