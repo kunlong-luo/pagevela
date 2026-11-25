@@ -124,6 +124,9 @@ export function BackupDraftModal() {
       settings,
       templateId: currentTemplateId,
       timestamp: new Date().toLocaleString(isEn ? 'en-US' : 'zh-CN', { hour12: false }),
+      photoDataUrl: useResumeStore.getState().profiles.find(
+        profile => profile.id === useResumeStore.getState().activeProfileId,
+      )?.photoDataUrl ?? null,
       isAutoSave: false
     };
 
@@ -148,6 +151,11 @@ export function BackupDraftModal() {
     });
     if (confirmed) {
       onRestore(draft.markdown, draft.settings, draft.templateId);
+      if (Object.prototype.hasOwnProperty.call(draft, 'photoDataUrl')) {
+        // Historical drafts never included a portrait: retain the legacy
+        // behavior for them, but restore exact photo state for newer drafts.
+        useResumeStore.getState().setActiveProfilePhoto(draft.photoDataUrl ?? null);
+      }
       showToast(isEn ? 'Draft restored successfully!' : '草稿恢复成功！');
       setTimeout(() => onClose(), 800);
     }

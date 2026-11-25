@@ -37,9 +37,10 @@
 
 ## Documentation and current project status
 
-- **Current engineering assessment: [88/100](docs/ASSESSMENT.md)** — evidence-based; latest independently deployed main is `89dbce9` ([CI](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) / [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924)), while latest stable downloadable Release remains v2.8.4. [Latest production status](docs/PROJECT_STATUS.md) · [full CI and same-SHA Pages ledger](docs/ENGINEERING_ACCEPTANCE_20261124.md).
+- **Current engineering assessment: [88/100](docs/ASSESSMENT.md)** — evidence-based; latest independently deployed main is `349d94f` ([CI](https://github.com/kunlong-luo/pagevela/actions/runs/45559458566) / [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45560942223)), while latest stable downloadable Release remains v2.8.4. [Latest production status](docs/PROJECT_STATUS.md) · [full CI and same-SHA Pages ledger](docs/ENGINEERING_ACCEPTANCE_20261124.md).
 - **One documentation index:** [docs/README.md](docs/README.md) — current technical guides, historical reports and separate marketing assets. Historical [87/100 report](docs/ASSESSMENT_20261124_R2.md) is preserved, not treated as current.
-- [Contributing](CONTRIBUTING.md) · [Release process](RELEASING.md) · [Changelog](CHANGELOG.md) · [Workspace backup/migration](docs/WORKSPACE_TRANSFER.md) · [Historical archive](docs/history/README.md) · [Published archive verification](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md) (new CI candidate; not yet accepted).
+- **Content safety fixes in review:** [Resume content integrity / guarded import](docs/RESUME_CONTENT_INTEGRITY_20261125.md). These changes are PR candidates, not part of the published v2.8.4 release.
+- [Contributing](CONTRIBUTING.md) · [Release process](RELEASING.md) · [Changelog](CHANGELOG.md) · [Workspace backup/migration](docs/WORKSPACE_TRANSFER.md) · [Historical archive](docs/history/README.md) · [Published archive verification](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md) ([successful independent workflow](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)).
 
 ### Documentation layout
 
@@ -61,13 +62,13 @@ Check local document links with `pnpm run docs:check`. The documentation quality
 
 ## v2.8.4 release information
 
-**Pagevela [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) is published** (2026-11-24). Annotated tag `ea2a65b`; [full main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722), [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) and [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) all succeeded. Assets: `pagevela-2.8.4.zip`, `.tar.gz`, `SHA256SUMS.txt`. Independent archive extraction/SHA256 recomputation is still pending. [Release notes](RELEASE_NOTES.md) · [acceptance report](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md).
+**Pagevela [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) is published** (2026-11-24). Annotated tag `ea2a65b`; [full main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722), [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) and [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) all succeeded. Assets: `pagevela-2.8.4.zip`, `.tar.gz`, `SHA256SUMS.txt`. Independent archive download and SHA256 recomputation succeeded in [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817). [Release notes](RELEASE_NOTES.md) · [acceptance report](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md).
 
 ## Improvements included in v2.8.4
 
 Pre-release feature-acceptance baseline `a8ec3ae`: [full CI](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) and [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success**. It includes [#323](https://github.com/kunlong-luo/pagevela/pull/323) conflict-safe cross-tab IndexedDB writes with recoverable manual drafts and nonblocking user warnings, and [#325](https://github.com/kunlong-luo/pagevela/pull/325) collision-resistant new/duplicate resume-profile IDs. [#321](https://github.com/kunlong-luo/pagevela/pull/321) improved Auto Fit smoke coverage, and [#322](https://github.com/kunlong-luo/pagevela/pull/322) isolated settings sanitization.
 
-**Release boundary:** the prior [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) archives came from `501ca26` and do **not** include these improvements. The formally [published v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) tag is `ea2a65b` with full CI/Pages/Release evidence. Independent extraction and SHA256 verification of release assets remain unrecorded. The owner-confirmed Android WeChat device test does not certify Android system printing, every OEM browser or installed-PWA offline cases.
+**Release boundary:** the prior [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) archives came from `501ca26` and do **not** include these improvements. The formally [published v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) tag is `ea2a65b` with full CI/Pages/Release evidence. Independent release-archive verification succeeded in [#45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817). The owner-confirmed Android WeChat device test does not certify Android system printing, every OEM browser or installed-PWA offline cases.
 
 ## Release history
 

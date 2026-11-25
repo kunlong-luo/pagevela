@@ -109,6 +109,23 @@ export function FormSectionEditor({
               </div>
             ) : (
               <div className="space-y-4">
+                {Boolean(sec.textValue.trim()) && (
+                  <div>
+                    <label
+                      htmlFor={`${sec.id}-intro`}
+                      className="mb-1.5 block text-[10px] font-extrabold uppercase tracking-widest text-slate-500 dark:text-slate-400"
+                    >
+                      {lang === 'en' ? 'Section introduction (before entries)' : '章节引言（显示在条目之前）'}
+                    </label>
+                    <SmartMarkdownTextarea
+                      id={`${sec.id}-intro`}
+                      value={sec.textValue}
+                      onChange={onTextChange}
+                      minRows={3}
+                      className="w-full rounded-lg border border-slate-200 bg-slate-50/30 p-3 text-xs font-mono leading-relaxed text-slate-800 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                    />
+                  </div>
+                )}
                 {sec.items.length === 0 ? (
                   <div className="text-center py-6 border border-dashed border-slate-200 dark:border-slate-800 rounded-lg text-xs text-slate-400 dark:text-slate-500">{t.noItems}</div>
                 ) : (
