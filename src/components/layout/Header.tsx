@@ -102,6 +102,7 @@ export function Header({
     nextMarkdown: string,
     settingsPatch: Partial<ResumeSettings>,
     templateId?: string,
+    photoDataUrl?: string | null,
   ) => {
     if (importBusyRef.current) return;
     importBusyRef.current = true;
@@ -112,8 +113,8 @@ export function Header({
         const approved = await confirm({
           title: en ? 'Replace active resume?' : '替换当前简历？',
           message: en
-            ? 'Importing will replace your active resume and reset its undo history. A recovery draft will be saved before replacing it.'
-            : '导入将覆盖当前活动简历并重置撤销历史。替换之前会先保存一份可恢复草稿。',
+            ? 'Importing will replace your active resume and reset its undo history. A recovery draft will be saved first. The prior resume photo will be replaced or cleared.'
+            : '导入将覆盖活动简历并重置撤销历史，系统会先保存恢复草稿。原证件照也将被替换或清除。',
           confirmText: en ? 'Save recovery draft and import' : '保存恢复草稿并导入',
           cancelText: en ? 'Keep my resume' : '保留当前简历',
           type: 'warning',
@@ -139,6 +140,8 @@ export function Header({
         { ...latest.settings, ...settingsPatch },
         templateId ?? 'custom',
       );
+      // Never carry a previous person's portrait into a different imported resume.
+      useResumeStore.getState().setActiveProfilePhoto(photoDataUrl ?? null);
     } catch (error) {
       console.error('[resume-import] Could not save recovery draft:', error);
       showToast({
@@ -636,8 +639,8 @@ export function Header({
           <RawTextImportModal
             isOpen={isRawTextModalOpen}
             onClose={() => setIsRawTextModalOpen(false)}
-            onImport={(newMd, settingsPatch, templateId) => {
-              void importReplacingDocument(newMd, settingsPatch, templateId);
+            onImport={(newMd, settingsPatch, templateId, photoDataUrl) => {
+              void importReplacingDocument(newMd, settingsPatch, templateId, photoDataUrl);
             }}
             lang={lang}
           />
