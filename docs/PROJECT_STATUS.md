@@ -16,11 +16,11 @@
 | 优先级 | PR | 已提交内容 | 完成标准 |
 | --- | --- | --- | --- |
 | P0 | [#334 简历内容保护](https://github.com/kunlong-luo/pagevela/pull/334) | 模板 URL 一次性消耗、导入确认与导入前恢复草稿、Markdown/表单往返保留、照片恢复；修复旧欢迎页测试输入 | 完整 PR CI（包括 Chromium/Firefox/WebKit）成功，再合并并验证新 main 同 SHA Pages |
-| P1 | [#335 保存成功真实回执](https://github.com/kunlong-luo/pagevela/pull/335) | 只有最新 IndexedDB 修订真正落盘才显示“已保存”，旧手动快照不能误报成功 | 同上；[技术说明](./PERSISTENCE_ARCHITECTURE_20261026.md) |
+| P1 | [#335 保存成功真实回执](https://github.com/kunlong-luo/pagevela/pull/335) | 只有最新 IndexedDB 修订真正落盘才显示“已保存”，旧手动快照不能误报成功 | **已合并**至 `5564c869`，其 [main CI #45573233517](https://github.com/kunlong-luo/pagevela/actions/runs/45573233517) 因 WebKit 启动故障注入测试失败，待 #338 通过后重新做完整同 SHA 验收 |
 | P1 | [#336 IndexedDB 启动保护](https://github.com/kunlong-luo/pagevela/pull/336) | 迁移/读取失败时不呈现虚假空白简历，提供安全恢复页面 | **已合并**为 `d182c91`，合并后的 [主分支 CI #45570785806](https://github.com/kunlong-luo/pagevela/actions/runs/45570785806) 与同 SHA Pages 尚待独立验收，不等于已证实上线 |
-| P1 | [#337 完整本地数据清理](https://github.com/kunlong-luo/pagevela/pull/337) | 异常页与帮助中心共用完整清理；暂停写入队列，失败分阶段提示，防止删库后草稿复活 | [专项验收说明](./FULL_LOCAL_DATA_RESET_20261125.md) · **质量检查通过，完整 E2E / 合并后 CI+Pages 尚待验收** |
+| P1 | [#338 WebKit 回归修复](https://github.com/kunlong-luo/pagevela/pull/338) | 对 IndexedDB 拒绝访问测试使用可验证的 `SecurityError`，不跳过 WebKit | PR 全绿，基线同步后复验，合并后同 SHA CI+Pages |\n| P1 | [#337 完整本地数据清理](https://github.com/kunlong-luo/pagevela/pull/337) | 异常页与帮助中心共用完整清理；暂停写入队列，失败分阶段提示，防止删库后草稿复活 | [专项验收说明](./FULL_LOCAL_DATA_RESET_20261125.md) · **质量检查通过，完整 E2E / 合并后 CI+Pages 尚待验收** |
 
-> #334/#335/#337 为尚未合并候选；#336 已合并但其合并 SHA 的完整生产 CI/Pages 仍需单独核查。不同时间的 CI 失败不能以质量检查绿灯代替最终 `build-and-test`。
+> #334/#337/#338 为尚未合并候选；#335/#336 已合并但当前 main `5564c869` 的完整 CI 因 WebKit 回归失败。不同时间的 CI 失败不能以质量检查绿灯代替最终 `build-and-test`。
 
 ## 仍需解决与验收的风险
 
