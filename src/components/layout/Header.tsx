@@ -130,6 +130,8 @@ export function Header({
           markdown: before.markdown,
           settings: before.settings,
           templateId: before.currentTemplateId,
+          photoDataUrl: before.profiles.find(profile => profile.id === before.activeProfileId)
+            ?.photoDataUrl ?? null,
           timestamp: now.toLocaleString(en ? 'en-US' : 'zh-CN', { hour12: false }),
           isAutoSave: false,
         }, ...current]);
