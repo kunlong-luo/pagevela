@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import type { Language } from '../types';
 import type { ToastItem } from '../components/ui/Toast';
 import { useResumeStore } from '../store/useResumeStore';
-import { activeResumePersistence } from '../lib/resume-persistence';
+import { activeResumePersistence, isCommittedSnapshotCurrent } from '../lib/resume-persistence';
 import { smartAutoFit } from '../lib/preview-utils';
 import { trackAnalyticsEvent } from '../lib/analytics';
 
@@ -71,11 +71,16 @@ export function useEditorKeyboardShortcuts({
     const save = () => {
       // Read the live store at keydown time, not a stale React render snapshot.
       const currentState = useResumeStore.getState();
-      void activeResumePersistence.saveNow({
+      const snapshot = {
         markdown: currentState.markdown,
         profiles: currentState.profiles,
         jdText: currentState.jdText,
-      }).then(() => {
+      };
+      void activeResumePersistence.saveNow(snapshot).then(() => {
+        // A newer edit may have happened while the manual IndexedDB write was
+        // queued. Do not toast "saved" for an older revision.
+        const latest = useResumeStore.getState();
+        if (!isCommittedSnapshotCurrent(snapshot, latest)) return;
         const now = new Date();
         const pad = (num: number) => String(num).padStart(2, '0');
         setLastSaved([pad(now.getHours()), pad(now.getMinutes()), pad(now.getSeconds())].join(':'));
