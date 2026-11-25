@@ -179,7 +179,7 @@ export class ErrorBoundary extends Component<Props, State> {
                               ? 'The browser could not delete the resume database. Preferences were kept. Reload and retry after closing other tabs.'
                               : '浏览器未能删除简历数据库；偏好设置未清除。请关闭其他标签页、重新加载后重试。')}
                       </p>
-                    }
+                    )}
                     <div className="mt-3 flex justify-center gap-2">
                       <button type="button" disabled={this.state.resetBusy} onClick={() => this.setState({ confirmReset: false })} className="rounded-lg border border-slate-600 px-3 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700 disabled:opacity-50">
                         {uiLanguage === 'en' ? 'Cancel' : '取消'}
