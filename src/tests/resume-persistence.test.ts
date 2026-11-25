@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createResumePersistenceCoordinator, type PersistedResumeSnapshot } from '../lib/resume-persistence';
+import { createResumePersistenceCoordinator, isCommittedSnapshotCurrent, type PersistedResumeSnapshot } from '../lib/resume-persistence';
 import { RESUME_DB_NAME, RESUME_DB_WRITE_LOCK_NAME, RESUME_TABS_CHANNEL_NAME } from '../lib/resume-storage-contract';
 
 const snapshot = (markdown: string): PersistedResumeSnapshot => ({
@@ -156,6 +156,22 @@ describe('truthful IndexedDB save acknowledgement', () => {
     expect(lateStatuses).toEqual(['saving', 'saved']);
     await vi.advanceTimersByTimeAsync(500);
     expect(lateStatuses).toHaveLength(2);
+  });
+});
+
+describe('manual-save success guard', () => {
+  it('does not claim an older committed revision is the currently edited one', () => {
+    const initial = { markdown: 'before', profiles: [], jdText: '' };
+    expect(isCommittedSnapshotCurrent(initial, initial)).toBe(true);
+    expect(isCommittedSnapshotCurrent(initial, {
+      ...initial, markdown: 'after',
+    })).toBe(false);
+    expect(isCommittedSnapshotCurrent(initial, {
+      ...initial, profiles: [...initial.profiles],
+    })).toBe(false);
+    expect(isCommittedSnapshotCurrent(initial, {
+      ...initial, jdText: 'new job',
+    })).toBe(false);
   });
 });
 
