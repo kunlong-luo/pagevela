@@ -145,6 +145,7 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
             <button
               key={tab}
               type="button"
+              disabled={clearBusy || clearError !== null}
               onClick={() => { setActiveTab(tab); setConfirmClear(false); }}
               className={`flex items-center gap-2 border-b-2 px-3 py-3 text-xs font-bold transition ${activeTab === tab ? 'border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400' : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400'}`}
             >
