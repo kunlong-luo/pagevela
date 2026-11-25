@@ -2,7 +2,9 @@
 
 > **截至 2026-11-24：88/100**（项目自定的七维度定性工程评分，不是第三方认证）。评分以已完成 **main 完整 CI 和同 SHA Pages build/deploy** 的代码为准；PR 通过但未部署、文档整理、未独立测试的 Android/打印场景不额外加分。
 
-> **后续同日版本交付（评分保持 88）**：v2.8.4 正式 tag `ea2a65b` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；最新纯文档 main `dfad007` 也通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。下文 `a8ec3ae` 是评分所依托的原始**功能验收基线**，不是最新 main。
+> **后续同日版本交付（评分保持 88）**：v2.8.4 正式 tag `ea2a65b` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；此前纯文档 main `dfad007` 也通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。下文 `a8ec3ae` 是评分所依托的原始**功能验收基线**，不是最新 main。
+
+> **2026-11-25 说明（不加分）：** [#330](https://github.com/kunlong-luo/pagevela/pull/330) 文档合并后的 main `89dbce9` 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924)；本报告的 `a8ec3ae` 是 88 分数据可靠性成果的原始功能基线，不代表最新 main。新的发布包独立核验工作流仍为候选，**未从它取得下载校验成功证据**；评分保持 88/100。
 
 ## 已独立验收的基线 / Proven baseline
 

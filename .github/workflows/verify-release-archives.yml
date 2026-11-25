@@ -1,0 +1,88 @@
+name: Verify Release Archives
+
+# Release events emitted by GITHUB_TOKEN cannot start new workflows.
+# Verify remotely published bytes when verifier changes on main, every week,
+# or by manual dispatch selecting a published stable tag.
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-release-archives.yml'
+      - 'scripts/verify_release_assets.py'
+      - 'scripts/tests/test_verify_release_assets.py'
+  schedule:
+    - cron: '43 5 * * 1'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Published stable tag (empty = latest GitHub Release)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-release-archives-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  published-archives:
+    name: Verify downloaded ZIP, TAR.GZ and SHA256SUMS
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout verification scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Unit-test verifier with synthetic archives
+        run: python3 -m unittest discover -s scripts/tests -p 'test_verify_release_assets.py' -v
+
+      - name: Download published release assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          TAG="${INPUT_TAG:-}"
+          if [ -z "$TAG" ]; then
+            TAG="$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName --jq '.tagName')"
+          fi
+          if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Only published stable vX.Y.Z tags can be checked."
+            exit 1
+          fi
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json isDraft,isPrerelease \
+            --jq 'if .isDraft or .isPrerelease then error("Release is not stable/published") else . end'
+          mkdir -p release-verification
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --dir release-verification \
+            --pattern 'pagevela-*.zip' \
+            --pattern 'pagevela-*.tar.gz' \
+            --pattern 'SHA256SUMS.txt'
+          echo "VERSION=${TAG#v}" >> "$GITHUB_ENV"
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+
+      - name: Verify SHA-256, ZIP CRC, TAR.GZ and identical contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_release_assets.py \
+            --dir release-verification \
+            --version "$VERSION" \
+            --report release-verification/verification-report.json
+          {
+            echo "### $TAG published-archive verification"
+            echo "Downloaded published GitHub Release assets, not local build outputs."
+            echo "SHA-256, ZIP CRC, TAR.GZ data, safe paths and identical contents verified."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload verification report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: published-archive-verification
+          path: release-verification/verification-report.json
+          if-no-files-found: warn
+          retention-days: 30

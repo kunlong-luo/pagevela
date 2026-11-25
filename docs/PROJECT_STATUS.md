@@ -1,12 +1,12 @@
 # Pagevela 项目状态 / Project status
 
-> **核验于 2026-11-24。** [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已正式发布；最新另行验收的 `main` 为纯文档更新 `dfad007`。本页是带 SHA 的状态快照，不是实时 CI 面板。未来提交请核对 [Actions](https://github.com/kunlong-luo/pagevela/actions) 与 [Releases](https://github.com/kunlong-luo/pagevela/releases)。
+> **核验于 2026-11-25。** [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 仍为正式 Release；最新已完整 CI + 同 SHA Pages 验收的 `main` 是文档合并 `89dbce9`。本页是带 SHA 的状态快照，不是实时 CI 面板。未来提交请核对 [Actions](https://github.com/kunlong-luo/pagevela/actions) 与 [Releases](https://github.com/kunlong-luo/pagevela/releases)。
 
 ## 最新正式交付
 
 | 范围 | 版本 / 完整提交及证据 | 状态 |
 | --- | --- | --- |
-| **最新已独立验收 main** | `dfad007b6fc094598b8718077d30f4c1be8f2a47`：[完整 CI #45396241838](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) · [同 SHA Pages #45398234063](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063) | quality、Chromium、Firefox/WebKit、`build-and-test`、Pages build/deploy 均 **success**；仅更新发行资料 |
+| **最新已独立验收 main** | `89dbce95e61bc4b309441ec9689977c40866edb7`（[#330](https://github.com/kunlong-luo/pagevela/pull/330)）：[完整 CI #45400998819](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) · [同 SHA Pages #45402787924](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924) | quality、Chromium、Firefox/WebKit 四分片、实际 `build-and-test` 及 Pages build/deploy **success**；同 SHA 再次 [CI #45407652247](https://github.com/kunlong-luo/pagevela/actions/runs/45407652247) success，后续重复 Pages skipped 不推翻首次已成功部署 |
 | **正式 Release v2.8.4** | annotated tag `905af3c2` 指向 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`：[CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) · [Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) · [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) | **三项成功**；发布于 2026-11-24 |
 | **发行附件** | `pagevela-2.8.4.zip`、`pagevela-2.8.4.tar.gz`、`SHA256SUMS.txt` | GitHub 列出了三个附件和各自 SHA256 digest；**独立下载、解压、复算尚未通过** |
 | **功能改进基线** | `a8ec3ae`：[完整 CI #45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) · [同 SHA Pages #45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) | #323/#325 已合并并包含在 v2.8.4 |
@@ -17,6 +17,10 @@
 - [#323](https://github.com/kunlong-luo/pagevela/pull/323)：事务级防过期标签页覆盖，冲突文本/排版进入可恢复手动草稿，持续提醒不遮挡布局工具；[#325](https://github.com/kunlong-luo/pagevela/pull/325)：同毫秒创建/复制档案防主键冲突。
 - [#321](https://github.com/kunlong-luo/pagevela/pull/321)：Auto Fit A4/Letter/语言/页数回归；[#322](https://github.com/kunlong-luo/pagevela/pull/322)：持久化设置清洗独立模块。
 - 中英文 README 精简、[文档统一索引](./README.md)、历史版本归档以及 `pnpm run docs:check`，已随 v2.8.4 对应的主分支门禁验收；未部署的旧站跳转试验已从代码删除。
+
+## 下一工程候选（2026-11-25，未合并 / 未上线）
+
+- 增加 [发布包独立完整性验证](./RELEASE_ARCHIVE_INTEGRITY_20261125.md)：从 GitHub Releases 真实下载 ZIP、TAR.GZ、SHA256SUMS，重新计算哈希、检验 ZIP/TAR 读取安全和双方文件内容一致；增加虚构反例单测与每周只读检查。**当前只是新 PR 候选**；必须先通过最新 PR 完整 CI，合并后独立校验工作流显示 success，并保存 Run 链接，才可勾选 v2.8.4 的发行包验收。
 
 ## 尚待独立验收
 
