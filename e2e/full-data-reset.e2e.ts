@@ -4,6 +4,10 @@ import { readActiveMarkdown } from './helpers/indexeddb';
 test('runtime crash reset clears IndexedDB and app data, not another app on the origin', async ({ page }) => {
   const original = '# Original private resume\n\n## Experience\n- Must be removed by explicit reset';
   await page.addInitScript((markdown) => {
+    // Init scripts run on every reload. Seed only once or a post-reset reload
+    // would reintroduce the test fixture and defeat the deletion assertion.
+    if (sessionStorage.getItem('pagevela-e2e-reset-fixture')) return;
+    sessionStorage.setItem('pagevela-e2e-reset-fixture', '1');
     localStorage.setItem('resume_ui_language', 'en');
     localStorage.setItem('resume-onboarding-v1-complete', '1');
     localStorage.setItem('resume-markdown', markdown);
