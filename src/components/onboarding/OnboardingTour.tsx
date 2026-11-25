@@ -25,17 +25,24 @@ const steps = [
 
 export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
   // Replay overlays should not re-render for every unrelated editor/store update.
-  const { settings, uiLanguage, applyTemplate, replaceDocument } = useResumeStore(
+  const { settings, uiLanguage, markdown, profiles, applyTemplate, replaceDocument } = useResumeStore(
     useShallow((state) => ({
       settings: state.settings,
       uiLanguage: state.uiLanguage,
+      markdown: state.markdown,
+      profiles: state.profiles,
       applyTemplate: state.applyTemplate,
       replaceDocument: state.replaceDocument,
     })),
   );
   const isEn = uiLanguage === 'en';
   const isResumeEn = settings.lang === 'en';
-  const isFirstRun = storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1';
+  // Losing a localStorage marker must not make an IndexedDB resume safe to erase.
+  const isUneditedStarter = profiles.length === 1 &&
+    profiles[0]?.id === 'profile_default' &&
+    profiles[0]?.markdown === markdown &&
+    (markdown === STARTER_MARKDOWN || markdown === STARTER_MARKDOWN_EN);
+  const isFirstRun = storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1' && isUneditedStarter;
   // A first visit should offer a start choice, not force three tutorial screens.
   // Replaying the tutorial from Help still begins at the first teaching step.
   const [step, setStep] = useState(() => isFirstRun ? 2 : 0);
@@ -72,9 +79,9 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
 
   useEffect(() => {
     if (!isOpen) return;
-    setStep(storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1' ? 2 : 0);
+    setStep(isFirstRun ? 2 : 0);
     setPendingReplacement(null);
-  }, [isOpen]);
+  }, [isOpen, isFirstRun]);
 
   useEffect(() => {
     if (!isOpen) return;
