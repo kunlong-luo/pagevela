@@ -102,6 +102,10 @@ export function normalizePortableWorkspaceBackup(
       draft.templateId = item.templateId;
     }
     if (typeof item.isAutoSave === 'boolean') draft.isAutoSave = item.isAutoSave;
+    if (Object.prototype.hasOwnProperty.call(item, 'photoDataUrl')) {
+      if (item.photoDataUrl !== null && !safePortrait(item.photoDataUrl)) return null;
+      draft.photoDataUrl = item.photoDataUrl;
+    }
     drafts.push(draft);
     draftIds.add(item.id);
   }
