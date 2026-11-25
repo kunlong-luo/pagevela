@@ -37,3 +37,7 @@ PR 的 typecheck、lint、单元测试、Chromium 全套、Firefox/WebKit 分片
 尚未解决：急速关闭页面的 `pagehide` flush 耐久性、长 PDF Canvas 内存、Auto Fit/系统打印、剪贴板权限失败提示、GitHub 私有安全告警与 Android 真实设备矩阵。
 
 [持久化架构](./PERSISTENCE_ARCHITECTURE_20261026.md) · [工作区跨浏览器备份](./WORKSPACE_TRANSFER.md) · [项目状态](./PROJECT_STATUS.md)
+
+## 故障恢复补充
+
+清理失败后，异常页的「复制简历文本备份」仍应可用（操作进行中除外），尽可能从尚未丢失的内存状态保存原文；不能因为部分清除失败而禁用最后的备份入口。
