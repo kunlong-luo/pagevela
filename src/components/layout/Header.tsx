@@ -458,7 +458,7 @@ export function Header({
           <ProfileDropdown lang={uiLanguage} />
 
           {/* Real-time save and storage health indicator */}
-          {storageStatus === 'error' ? (
+          {storageStatus === 'error' || saveStatus === 'failed' ? (
             <Tooltip
               content={storageErrorIsQuota
                 ? (isEn
