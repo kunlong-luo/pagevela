@@ -59,8 +59,10 @@ describe('analytics pageview boot contract', () => {
     const main = readFileSync(new URL('../main.tsx', import.meta.url), 'utf8');
     const calls = main.match(/^initAnalyticsPageview\(\);$/gm) ?? [];
     expect(calls).toHaveLength(1);
+    const bootstrapCall = 'void bootstrap().catch(showStartupRecovery);';
+    expect(main).toContain(bootstrapCall);
     expect(main.indexOf('initAnalyticsPageview();')).toBeLessThan(
-      main.indexOf('void bootstrap();'),
+      main.indexOf(bootstrapCall),
     );
   });
 
