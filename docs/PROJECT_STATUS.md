@@ -15,10 +15,10 @@
 
 ## 下一阶段待验收
 
-- **浏览器切后台提前保存：** `src/lib/resume-lifecycle.ts` 使用 `visibilitychange → hidden` 提前发起当前 FIFO IndexedDB 写入，`pagehide` 兜底；不靠阻塞 `beforeunload`。新代码与测试处于**本次 PR 候选阶段**，尚未获得完整 PR/主分支 CI 与 Pages，详见 [生命周期保存验收](./BACKGROUND_SAVE_LIFECYCLE_20261125.md)。
+- **浏览器切后台提前保存 [PR #339](https://github.com/kunlong-luo/pagevela/pull/339)：** `src/lib/resume-lifecycle.ts` 使用 `visibilitychange → hidden` 提前发起当前 FIFO IndexedDB 写入，`pagehide` 兜底；不靠阻塞 `beforeunload`。新代码与测试处于**本次 PR 候选阶段**，尚未获得完整 PR/主分支 CI 与 Pages，详见 [生命周期保存验收](./BACKGROUND_SAVE_LIFECYCLE_20261125.md)。
 - **低内存 PDF / Auto Fit / Android：** [#312](https://github.com/kunlong-luo/pagevela/issues/312) 真实打印分页/组合、[#262](https://github.com/kunlong-luo/pagevela/issues/262) 系统打印/OEM 浏览器/安装 PWA、长简历 canvas 内存；负责人确认的安卓微信整体成功**不等于**这些单项完成。
 - **隐私 / 兼容 / 架构：** 旧版已打开的标签页、跨设备同步、照片/完整档案元数据冲突、明文工作区 JSON、Store/导出域拆分、[#298 私有安全告警](https://github.com/kunlong-luo/pagevela/issues/298)、商标与外部媒体更新。
-- **历史重复 PR：** [#333](https://github.com/kunlong-luo/pagevela/pull/333) 为旧发布完整性文档草稿；其独立验收证据已并入 #337，需确认没有遗漏后按“由主分支文档替代”关闭，不要把 draft 当成尚未核验发行包。
+- **历史重复 PR：** [#333](https://github.com/kunlong-luo/pagevela/pull/333) 是已**关闭、未合并**的旧发布完整性文档草稿；归档验收证据已由 #337 合并至主分支并通过完整 CI/Pages，避免旧文档覆盖更新的状态。
 
 **工程评分仍为 [88/100](./ASSESSMENT.md)**（七维度内部复评）；上述发布与安全补强已通过新主分支门禁，但目前没有 Android 全矩阵/低端设备性能等独立证据足以支持提高评分。保留历史失败 CI 记录，不倒填成成功。
 
