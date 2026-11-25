@@ -133,6 +133,22 @@ export function Header({
           timestamp: now.toLocaleString(en ? 'en-US' : 'zh-CN', { hour12: false }),
           isAutoSave: false,
         }, ...current]);
+        const afterBackup = useResumeStore.getState();
+        // The editor can change while the IndexedDB backup transaction awaits.
+        // A snapshot of the old text is not enough to safely replace newer edits.
+        if (afterBackup.activeProfileId !== before.activeProfileId ||
+            afterBackup.markdown !== before.markdown ||
+            afterBackup.settings !== before.settings) {
+          showToast({
+            title: en ? 'Resume changed during import' : '导入期间简历已发生变化',
+            message: en
+              ? 'Your latest edits were kept. Please reopen Import to retry.'
+              : '新修改未被覆盖。请重新打开导入，确认最新版本。',
+            type: 'warning',
+            duration: 6000,
+          });
+          return;
+        }
       }
       const latest = useResumeStore.getState();
       latest.replaceDocument(
