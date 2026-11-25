@@ -20,7 +20,7 @@ interface ResumeState {
   currentTemplateId: string;
   lastSaved: string;
   isSaving: boolean;
-  saveStatus: 'saved' | 'editing' | 'saving';
+  saveStatus: 'saved' | 'editing' | 'saving' | 'failed';
   storageStatus: 'ok' | 'error';
   storageErrorIsQuota: boolean;
   history: string[];
@@ -48,6 +48,7 @@ interface ResumeState {
   setThemeMode: (mode: ThemeMode) => void;
   setCurrentTemplateId: (id: string) => void;
   setLastSaved: (lastSaved: string) => void;
+  acknowledgePersistence: (status: 'idle' | 'saving' | 'saved' | 'failed') => void;
   setStorageHealth: (status: 'ok' | 'error', isQuotaExceeded?: boolean) => void;
   setCustomFileName: (name: string) => void;
   setIsCheckerOpen: (open: boolean) => void;
@@ -82,8 +83,6 @@ interface ResumeState {
 
 // Module-level variable for debouncing history push & save status
 let debounceTimer: NodeJS.Timeout | null = null;
-let typingTimer: NodeJS.Timeout | null = null;
-let saveStatusTimer: NodeJS.Timeout | null = null;
 let isUndoRedoAction = false;
 
 // Helper to initialize markdown
@@ -404,6 +403,21 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     set({ currentTemplateId, profiles: updatedProfiles });
   },
   setLastSaved: (lastSaved) => set({ lastSaved }),
+  acknowledgePersistence: (status) => {
+    if (status === 'idle') return;
+    if (status === 'saving') {
+      set({ isSaving: true, saveStatus: 'saving' });
+    } else if (status === 'failed') {
+      set({ isSaving: false, saveStatus: 'failed' });
+    } else {
+      // This timestamp represents a completed IndexedDB write, not a timer.
+      set({
+        lastSaved: new Date().toLocaleTimeString(),
+        isSaving: false,
+        saveStatus: 'saved',
+      });
+    }
+  },
   setStorageHealth: (storageStatus, storageErrorIsQuota = false) => set({
     storageStatus,
     storageErrorIsQuota,
@@ -631,8 +645,6 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
       : getInitialTemplateId(active.markdown);
 
     if (debounceTimer) clearTimeout(debounceTimer);
-    if (typingTimer) clearTimeout(typingTimer);
-    if (saveStatusTimer) clearTimeout(saveStatusTimer);
 
     storage.set(STORAGE_KEYS.ACTIVE_PROFILE_ID, active.id);
     storage.set(STORAGE_KEYS.SETTINGS, settings);
@@ -685,8 +697,6 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     storage.set(STORAGE_KEYS.SETTINGS, nextSettings);
 
     if (debounceTimer) clearTimeout(debounceTimer);
-    if (typingTimer) clearTimeout(typingTimer);
-    if (saveStatusTimer) clearTimeout(saveStatusTimer);
 
     set({
       markdown: nextMarkdown,
@@ -736,8 +746,6 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     storage.set(STORAGE_KEYS.SETTINGS, nextSettings);
 
     if (debounceTimer) clearTimeout(debounceTimer);
-    if (typingTimer) clearTimeout(typingTimer);
-    if (saveStatusTimer) clearTimeout(saveStatusTimer);
 
     set({
       markdown: template.content,
@@ -765,32 +773,17 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
         ? { ...p, markdown: newVal, updatedAt: new Date().toISOString() }
         : p
     );
-    if (typingTimer) clearTimeout(typingTimer);
-    if (saveStatusTimer) clearTimeout(saveStatusTimer);
 
-    if (immediate) {
-      set({
-        markdown: newVal,
-        profiles: updatedProfiles,
-        lastSaved: new Date().toLocaleTimeString(),
-        isSaving: false,
-        saveStatus: 'saved',
-        measuredPageCount: null
-      });
-    } else {
-      set({ markdown: newVal, profiles: updatedProfiles, isSaving: true, saveStatus: 'editing', measuredPageCount: null });
-      
-      typingTimer = setTimeout(() => {
-        set({ saveStatus: 'saving' });
-        saveStatusTimer = setTimeout(() => {
-          set({
-            lastSaved: new Date().toLocaleTimeString(),
-            isSaving: false,
-            saveStatus: 'saved'
-          });
-        }, 400);
-      }, 350);
-    }
+    set({
+      markdown: newVal,
+      profiles: updatedProfiles,
+      isSaving: true,
+      saveStatus: 'saving',
+      measuredPageCount: null,
+    });
+    // Never report "saved" from typing timers. The persistence coordinator
+    // acknowledges the actual IndexedDB transaction for the latest revision.
+    void immediate;
 
     if (isUndoRedoAction) {
       isUndoRedoAction = false;
