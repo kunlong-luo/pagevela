@@ -22,7 +22,12 @@ const MAX_TEXT_IMPORT_FILE_SIZE = 2 * 1024 * 1024;
 interface RawTextImportModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onImport: (markdown: string, settingsPatch?: Partial<ReturnType<typeof useResumeStore.getState>['settings']>, templateId?: string) => void;
+  onImport: (
+    markdown: string,
+    settingsPatch?: Partial<ReturnType<typeof useResumeStore.getState>['settings']>,
+    templateId?: string,
+    photoDataUrl?: string | null,
+  ) => void;
   lang?: string;
 }
 
@@ -36,6 +41,7 @@ interface LoadedFileInfo {
   detectedMarket?: string;
   detectedSettings?: Partial<ReturnType<typeof useResumeStore.getState>['settings']>;
   detectedTemplateId?: string;
+  detectedPhotoDataUrl?: string | null;
   isFullBackup?: boolean;
 }
 
@@ -149,6 +155,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
     let detectedMarketStr = '';
     let detectedSettings: LoadedFileInfo['detectedSettings'];
     let detectedTemplateId: string | undefined;
+    let detectedPhotoDataUrl: string | null = null;
     let isFullBackup = false;
 
     if (normalizedFileName.endsWith('.json')) {
@@ -181,6 +188,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
           processedContent = backup.markdown;
           detectedSettings = backup.settings;
           detectedTemplateId = backup.templateId;
+          detectedPhotoDataUrl = backup.photoDataUrl ?? null;
           detectedMarketStr = backup.settings.marketRegion || '';
           isFullBackup = true;
         } else if ('basics' in record || 'work' in record || 'skills' in record) {
@@ -232,6 +240,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
       detectedMarket: detectedMarketStr,
       detectedSettings,
       detectedTemplateId,
+      detectedPhotoDataUrl,
       isFullBackup,
     });
   };
@@ -379,7 +388,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
       generatedMarkdown = adapted.adaptedMarkdown;
     }
     const detectedLang = detectResumeLanguage(generatedMarkdown, settings.lang || 'zh');
-    onImport(generatedMarkdown, { lang: detectedLang });
+    onImport(generatedMarkdown, { lang: detectedLang }, undefined, null);
     setRawText('');
     onClose();
   };
@@ -416,6 +425,7 @@ export function RawTextImportModal({ isOpen, onClose, onImport, lang = 'zh' }: R
         lang: detectedLang,
       },
       selectedFile.detectedTemplateId,
+      selectedFile.detectedPhotoDataUrl ?? null,
     );
     setSelectedFile(null);
     onClose();
