@@ -93,14 +93,20 @@ export function useResumeActions({ contentRef, onPdfExportComplete }: UseResumeA
       onPdfExportComplete?.();
     } catch (err) {
       console.error('Quick PDF export error:', err);
+      const exceededRasterBudget = err instanceof Error &&
+        err.message.includes('Quick PDF raster exceeds memory budget');
       setIsExportingPDF(false);
       setPdfExportProgress(null);
 
       showToast?.({
         title: uiLanguage === 'en' ? 'Quick PDF could not be generated' : '快速 PDF 生成失败',
-        message: uiLanguage === 'en'
-          ? 'No PDF download was confirmed. Opening the text-preserving browser print option instead.'
-          : '未确认生成可下载的 PDF。将尝试打开保留文字的浏览器打印方式。',
+        message: exceededRasterBudget
+          ? (uiLanguage === 'en'
+            ? 'This document exceeds the safe Quick PDF image-memory budget. Opening the text-preserving browser print option instead.'
+            : '简历过长，超出快速 PDF 图像内存安全预算。将改用保留文字的浏览器打印方式。')
+          : (uiLanguage === 'en'
+            ? 'No PDF download was confirmed. Opening the text-preserving browser print option instead.'
+            : '未确认生成可下载的 PDF。将尝试打开保留文字的浏览器打印方式。'),
         type: 'warning',
         duration: 6500,
       });
