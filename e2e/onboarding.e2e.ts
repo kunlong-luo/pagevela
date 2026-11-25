@@ -6,7 +6,7 @@ test.describe('first-run onboarding', () => {
   test('missing onboarding marker cannot bypass the saved-resume confirmation', async ({ page }) => {
     await page.addInitScript(() => {
       localStorage.removeItem('resume-onboarding-v1-complete');
-      localStorage.setItem('resume-markdown', '# Keep This Resume\\n\\nUnique work history.');
+      localStorage.setItem('resume-markdown', '# Keep This Resume\n\nUnique work history.');
     });
     await page.goto('/?page=editor');
     const tour = page.getByRole('dialog', { name: /Getting started tour|新手引导/ });
@@ -15,7 +15,7 @@ test.describe('first-run onboarding', () => {
     await expect(tour.getByTestId('onboarding-quick-start')).toBeVisible();
     await tour.getByTestId('onboarding-quick-start').click();
     await tour.getByRole('button', { name: /Start completely blank|从完全空白简历开始/ }).click();
-    await expect(tour.getByText(/Replace your current resume\\?|要替换当前简历吗？/)).toBeVisible();
+    await expect(tour.getByText(/Replace your current resume\?|要替换当前简历吗？/)).toBeVisible();
     await tour.getByRole('button', { name: /Keep current resume|保留当前简历/ }).click();
     await expect.poll(() => readActiveMarkdown(page)).toContain('Keep This Resume');
   });
