@@ -26,4 +26,4 @@
 - `pagehide` 的异步 `flush` 无法保证极快关页时提交成功；需要单独的关闭/重新打开耐久性验收。
 - 全量工作区恢复、Android 系统打印与 PDF 低内存的证据仍是独立事项。
 
-[工程状态](./PROJECT_STATUS.md) · [持久化架构](./PERSISTENCE_ARCHITECTURE_20261026.md) · [保存成功回执候选](./INDEXEDDB_SAVE_ACKNOWLEDGEMENT_20261125.md)
+[工程状态](./PROJECT_STATUS.md) · [持久化架构](./PERSISTENCE_ARCHITECTURE_20261026.md) · [保存成功回执候选 PR #335](https://github.com/kunlong-luo/pagevela/pull/335)
