@@ -3,6 +3,23 @@ import { readActiveMarkdown } from './helpers/indexeddb';
 
 test.describe('first-run onboarding', () => {
 
+  test('missing onboarding marker cannot bypass the saved-resume confirmation', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.removeItem('resume-onboarding-v1-complete');
+      localStorage.setItem('resume-markdown', '# Keep This Resume\\n\\nUnique work history.');
+    });
+    await page.goto('/?page=editor');
+    const tour = page.getByRole('dialog', { name: /Getting started tour|新手引导/ });
+    await expect(tour).toBeVisible();
+    // Recovering saved content takes the returning-user path, even without the marker.
+    await expect(tour.getByTestId('onboarding-quick-start')).toBeVisible();
+    await tour.getByTestId('onboarding-quick-start').click();
+    await tour.getByRole('button', { name: /Start completely blank|从完全空白简历开始/ }).click();
+    await expect(tour.getByText(/Replace your current resume\\?|要替换当前简历吗？/)).toBeVisible();
+    await tour.getByRole('button', { name: /Keep current resume|保留当前简历/ }).click();
+    await expect.poll(() => readActiveMarkdown(page)).toContain('Keep This Resume');
+  });
+
   for (const language of ['zh', 'en'] as const) {
     for (const width of [320, 390, 1280]) {
       test(`skip chooser enters editing without losing resume: ${language} at ${width}px`, async ({ page }) => {
