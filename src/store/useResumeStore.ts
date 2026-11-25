@@ -783,7 +783,6 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
     });
     // Never report "saved" from typing timers. The persistence coordinator
     // acknowledges the actual IndexedDB transaction for the latest revision.
-    void immediate;
 
     if (isUndoRedoAction) {
       isUndoRedoAction = false;
