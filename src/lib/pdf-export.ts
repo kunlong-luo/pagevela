@@ -1,7 +1,7 @@
 import { CSS_PX_PER_MM } from './page-layout';
 import { Language, PaperSize } from '../types';
 import { getPaperSpec } from './paper';
-import { assertRasterCanvasDimensions, requireRasterCanvasContext, assertPdfPageCount } from './pdf-export-validation';
+import { assertRasterCanvasDimensions, assertQuickPdfRasterBudget, requireRasterCanvasContext, assertPdfPageCount } from './pdf-export-validation';
 
 export interface DirectPDFExportOptions {
   filename?: string;
@@ -278,6 +278,8 @@ export async function exportDirectPDF(
     return el.offsetTop;
   });
 
+  let sourceRaster: HTMLCanvasElement | null = null;
+  let pageRaster: HTMLCanvasElement | null = null;
   try {
     reportProgress('正在加载渲染引擎与排版组件...', 'Loading the rendering engine and layout tools...');
     const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
@@ -290,8 +292,18 @@ export async function exportDirectPDF(
     // Let the offscreen clone settle before capture.
     await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
 
+    const rasterScale = Math.min(2, Math.max(1.5, window.devicePixelRatio || 1.5));
+    // The entire resume is captured as one bitmap. Reject oversized captures
+    // BEFORE html2canvas can allocate a huge GPU/CPU surface. Do not silently
+    // degrade image quality: the caller offers text-preserving browser Print.
+    assertQuickPdfRasterBudget(
+      Math.max(windowWidthPx, clone.scrollWidth, clone.offsetWidth),
+      Math.max(windowHeightPx, clone.scrollHeight, clone.offsetHeight),
+      rasterScale,
+    );
+
     const canvas = await html2canvas(clone, {
-      scale: Math.min(2, Math.max(1.5, window.devicePixelRatio || 1.5)),
+      scale: rasterScale,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
@@ -313,9 +325,12 @@ export async function exportDirectPDF(
       compress: true
     });
 
+    sourceRaster = canvas;
+    // Check actual renderer output as well as the preflight dimensions.
+    assertRasterCanvasDimensions(canvas.width, canvas.height);
+    assertQuickPdfRasterBudget(canvas.width, canvas.height, 1);
     // Calculate canvas page slice height in canvas pixels based on paper aspect ratio
     const idealPageCanvasHeight = Math.floor(canvas.width * (pageHeight / pageWidth));
-    assertRasterCanvasDimensions(canvas.width, canvas.height);
     const mainCtx = requireRasterCanvasContext(
       canvas.getContext('2d', { willReadFrequently: true }),
       'source',
@@ -330,6 +345,15 @@ export async function exportDirectPDF(
     let currentY = 0;
     let pageCount = 0;
     let renderedPages = 0;
+
+    // One scratch raster for every page: re-allocating a full A4/Letter
+    // canvas on each iteration causes avoidable peak memory and GC pressure.
+    // jsPDF consumes a fresh JPEG data URL synchronously for every page.
+    const pageCanvas = document.createElement('canvas');
+    pageRaster = pageCanvas;
+    pageCanvas.width = canvas.width;
+    pageCanvas.height = idealPageCanvasHeight;
+    const ctx = requireRasterCanvasContext(pageCanvas.getContext('2d'), 'page');
 
     while (currentY < canvas.height) {
       // Check if remaining slice from currentY to canvas.height is completely blank/white
@@ -357,10 +381,6 @@ export async function exportDirectPDF(
       const sliceHeight = splitY - currentY;
       if (sliceHeight <= 0) break;
 
-      const pageCanvas = document.createElement('canvas');
-      pageCanvas.width = canvas.width;
-      pageCanvas.height = idealPageCanvasHeight; // maintain standard canvas ratio
-      const ctx = requireRasterCanvasContext(pageCanvas.getContext('2d'), 'page');
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
 
@@ -391,6 +411,17 @@ export async function exportDirectPDF(
 
     return true;
   } finally {
+    // Release native pixel buffers immediately on success AND failure.
+    // The exported PDF already owns its JPEG data; this never clears source
+    // resume content, drafts, user photos or any IndexedDB records.
+    if (pageRaster) {
+      pageRaster.width = 0;
+      pageRaster.height = 0;
+    }
+    if (sourceRaster) {
+      sourceRaster.width = 0;
+      sourceRaster.height = 0;
+    }
     if (document.body.contains(exportWrapper)) {
       document.body.removeChild(exportWrapper);
     }
