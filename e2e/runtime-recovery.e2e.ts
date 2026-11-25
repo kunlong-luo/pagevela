@@ -39,14 +39,29 @@ test('does not present an editable starter when IndexedDB is unavailable', async
     localStorage.setItem('resume_ui_language', 'en');
     localStorage.setItem('resume-onboarding-v1-complete', '1');
     localStorage.setItem('resume-markdown', markdown);
-    // Mimic Android private-mode / browser policy that blocks IndexedDB.
-    Object.defineProperty(window, 'indexedDB', {
+    // Simulate a browser policy rejecting actual IndexedDB operations. Some
+    // WebKit environments do not let an init script shadow window.indexedDB;
+    // override IDBFactory.open instead so Dexie gets a rejected open request
+    // in Chromium, Firefox and WebKit alike.
+    Object.defineProperty(window.indexedDB, 'open', {
       configurable: true,
-      value: undefined,
+      value: () => {
+        throw new DOMException('IndexedDB blocked by browser policy', 'SecurityError');
+      },
     });
   }, resume);
 
   await page.goto('/?page=editor');
+  // Prove the policy stub took effect rather than passing because the editor
+  // happened to fail for an unrelated reason.
+  await expect(page.evaluate(() => {
+    try {
+      indexedDB.open('pagevela-storage-denial-fixture');
+      return false;
+    } catch (error) {
+      return error instanceof DOMException && error.name === 'SecurityError';
+    }
+  })).resolves.toBe(true);
   const recovery = page.getByRole('alert');
   await expect(recovery.getByRole('heading', { name: 'Pagevela could not start' })).toBeVisible();
   await expect(recovery).toContainText('Saved resumes could not be read from this browser');
