@@ -66,6 +66,40 @@ describe('resume persistence write coordinator', () => {
     expect(committed).toHaveLength(2);
   });
 
+  it('drops pending autosaves when the user confirms a permanent reset', async () => {
+    vi.useFakeTimers();
+    const committed = vi.fn(async () => undefined);
+    const coordinator = createResumePersistenceCoordinator(350, {
+      writeSnapshot: committed,
+      acknowledgeProfiles: () => undefined,
+    });
+    coordinator.schedule(snapshot('pending older resume'));
+    await coordinator.suspendForReset();
+    await vi.advanceTimersByTimeAsync(3000);
+    expect(committed).not.toHaveBeenCalled();
+    coordinator.schedule(snapshot('must not recreate database'));
+    await coordinator.flush();
+    expect(committed).not.toHaveBeenCalled();
+    await expect(coordinator.saveNow(snapshot('manual write after reset'))).rejects.toThrow('resume-reset-in-progress');
+  });
+
+  it('drains an active IndexedDB write before permitting database deletion', async () => {
+    let release: (() => void) | undefined;
+    let drained = false;
+    const coordinator = createResumePersistenceCoordinator(0, {
+      writeSnapshot: () => new Promise<void>(resolve => { release = resolve; }),
+      acknowledgeProfiles: () => undefined,
+    });
+    const inFlight = coordinator.saveNow(snapshot('in-flight write'));
+    await vi.waitFor(() => expect(release).toBeTypeOf('function'));
+    const suspended = coordinator.suspendForReset().then(() => { drained = true; });
+    await Promise.resolve();
+    expect(drained).toBe(false);
+    release?.();
+    await Promise.all([inFlight, suspended]);
+    expect(drained).toBe(true);
+  });
+
   it('recovers the write queue after a rejected save without acknowledging failed data', async () => {
     const acknowledged = vi.fn();
     let attempts = 0;
