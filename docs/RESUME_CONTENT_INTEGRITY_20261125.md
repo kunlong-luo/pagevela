@@ -1,6 +1,6 @@
 # 简历内容完整性与安全替换验收 · 2026-11-25
 
-> **状态：修复 PR 候选，尚未并入 main / 上线。** 本文记录修复范围、可运行回归及尚未验收的事项，不能以提交代码替代 Chromium/Firefox/WebKit CI 或 Android 真机证据。
+> **状态：[#334](https://github.com/kunlong-luo/pagevela/pull/334) 已合并为 `07368d64`，并由 [main 完整 CI #45588914443](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) 与 [同 SHA Pages #45590609387](https://github.com/kunlong-luo/pagevela/actions/runs/45590609387) 验收成功。** 本文记录修复范围、可运行回归及尚未验收的事项，不能以提交代码替代 Chromium/Firefox/WebKit CI 或 Android 真机证据。
 
 ## 故障路径与修复
 

@@ -4,6 +4,7 @@ import './index.css';
 import { initAnalyticsPageview } from './lib/analytics';
 import { migrateLegacyStorageToIndexedDb } from './lib/storage-migration';
 import { activeResumePersistence } from './lib/resume-persistence';
+import { installResumeLifecycleFlush } from './lib/resume-lifecycle';
 import { resumeRepository } from './lib/resume-repository';
 import { setResumeBootstrapSnapshot } from './lib/resume-bootstrap-state';
 
@@ -78,7 +79,9 @@ async function bootstrap() {
     jdText: previous.jdText,
   });
 
-  const unsubscribe = useResumeStore.subscribe((state) => {
+  // This subscription is owned by the page, including BFCache restore. It
+  // must not be detached on beforeunload when the page may be cached.
+  useResumeStore.subscribe((state) => {
     if (
       state.markdown === previous.markdown &&
       state.profiles === previous.profiles &&
@@ -95,10 +98,9 @@ async function bootstrap() {
     });
   });
 
-  const flushBeforeExit = () => {
-    void persistence.flush();
-  };
-  window.addEventListener('pagehide', flushBeforeExit);
+  // Flush when mobile browsers background/freeze the page, not just on the
+  // potentially skipped pagehide event. IndexedDB completion is still async.
+  installResumeLifecycleFlush(persistence);
 
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -112,11 +114,6 @@ async function bootstrap() {
     </StrictMode>,
   );
 
-  // Keep references reachable for the lifetime of the page.
-  window.addEventListener('beforeunload', () => {
-    unsubscribe();
-    flushBeforeExit();
-  }, { once: true });
 }
 
 // Recover from failures before React and ErrorBoundary can mount (for example,
