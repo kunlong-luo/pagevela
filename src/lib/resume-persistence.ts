@@ -11,6 +11,16 @@ export interface PersistedResumeSnapshot {
   jdText: string;
 }
 
+/** Compare with live store state before announcing a manual-save success toast. */
+export function isCommittedSnapshotCurrent(
+  saved: PersistedResumeSnapshot,
+  current: PersistedResumeSnapshot,
+): boolean {
+  return saved.markdown === current.markdown &&
+    saved.profiles === current.profiles &&
+    saved.jdText === current.jdText;
+}
+
 /** 'saved' is emitted only after the latest requested IndexedDB write commits. */
 export type ResumeSaveProgress = 'idle' | 'saving' | 'saved' | 'failed';
 
