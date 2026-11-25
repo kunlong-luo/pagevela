@@ -4,7 +4,7 @@
 
 > **后续同日版本交付（评分保持 88）**：v2.8.4 正式 tag `ea2a65b` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；此前纯文档 main `dfad007` 也通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。下文 `a8ec3ae` 是评分所依托的原始**功能验收基线**，不是最新 main。
 
-> **2026-11-25 说明（不加分）：** [#330](https://github.com/kunlong-luo/pagevela/pull/330) 文档合并后的 main `89dbce9` 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924)；本报告的 `a8ec3ae` 是 88 分数据可靠性成果的原始功能基线，不代表最新 main。新的发布包独立核验工作流仍为候选，**未从它取得下载校验成功证据**；评分保持 88/100。
+> **2026-11-25 更新（评分不变）：** [#332](https://github.com/kunlong-luo/pagevela/pull/332) 合并后的 main `0140b2a` 已通过 [完整 CI #45568793140](https://github.com/kunlong-luo/pagevela/actions/runs/45568793140) 和 [同 SHA Pages #45570418074](https://github.com/kunlong-luo/pagevela/actions/runs/45570418074)；[v2.8.4 发布包独立 ZIP/TAR/SHA256 校验 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) 亦成功。本报告的 `a8ec3ae` 仍是 88 分原始功能验收基线，不能把未合并的内容安全/存储恢复 PR 算作线上成果。评分保持 **88/100**。
 
 ## 已独立验收的基线 / Proven baseline
 
@@ -14,7 +14,7 @@
 | 完整 main CI | [#45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) | **success**：quality、Chromium 全量、Firefox 2/2、WebKit 2/2、cross-browser、实际执行的受保护 `build-and-test` |
 | 同 SHA GitHub Pages | [#45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) | **success**：build 和 deploy 都成功 |
 | 上一个数据安全基线 | `da3b68bc6c45db666e9c3ba47ce55e2ab73d7e80` | [完整 CI #45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) + [同 SHA Pages #45372036914](https://github.com/kunlong-luo/pagevela/actions/runs/45372036914) **success** |
-| 最新正式 GitHub Release | [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)，tag `ea2a65b`；[main CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均 success | ZIP/TAR.GZ/SHA256SUMS 存在，但未独立下载解压/复算 SHA256；版本升级不另加分 |
+| 最新正式 GitHub Release | [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)，tag `ea2a65b`；[main CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均 success | ZIP/TAR.GZ/SHA256SUMS 已通过 [独立验证 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)；版本升级不另加分 |
 
 ## 七维度评分 / Weighted rubric
 
@@ -25,7 +25,7 @@
 | 架构与可维护性 | **16/20** | Hook 与 #322 settings sanitizer 已独立拆分；大型 Zustand Store、编辑器/导出模块仍待分离 |
 | 隐私与数据可靠性 | **14/15** | **较历史 87 分 +1**：[#323](https://github.com/kunlong-luo/pagevela/pull/323) 事务级阻止过期标签页覆盖并保存冲突手动草稿，恢复提醒持续可见且不挡操作；[#325](https://github.com/kunlong-luo/pagevela/pull/325) 防止同毫秒档案主键碰撞。均取得上述完整 main CI/Pages。同分项仍扣分：旧版已打开标签页、照片/全部元数据冲突、多设备同步和备份 JSON 明文 |
 | 性能 | **8/10** | 有产物预算，但未提供低端 Android、长简历输入耗时/内存的可重复对照数据 |
-| 测试与发布可靠性 | **9/10** | Chromium 全量、Firefox/WebKit 4 分片、required `build-and-test`、同 SHA Pages；真机打印及归档独立 SHA256 尚未全部验收 |
+| 测试与发布可靠性 | **9/10** | Chromium 全量、Firefox/WebKit 4 分片、required `build-and-test`、同 SHA Pages；真机打印仍未独立验收；v2.8.4 归档已通过独立 SHA256 验收 |
 | 文档与交付治理 | **9/10** | 最新文档导航与可追溯 CI 链接；外部媒体、商标及 GitHub 私有安全告警未完成独立审查 |
 | **总分** | **88/100** | **87 → 88 仅因已上线且有双标签页 E2E 的数据安全改进；#325 是同维度补强，未重复加分。** |
 
@@ -35,7 +35,7 @@
 - [#312](https://github.com/kunlong-luo/pagevela/issues/312)：全纸型 × 中文/英文 × 模板/页数的组合、隐藏预览和实际打印分页；
 - [#262](https://github.com/kunlong-luo/pagevela/issues/262)：负责人确认过 Android 微信真实设备整体验收，**不等于**每条系统打印、PDF 下载/打开、OEM 浏览器、安装 PWA 单项验收；
 - [#298](https://github.com/kunlong-luo/pagevela/issues/298)：GitHub 私有安全告警待另行核对；registry audit 成功不能替代；
-- 备份 JSON 无加密；Release ZIP/TAR.GZ 附带 `SHA256SUMS.txt`，但尚无独立下载、解压和逐项计算的证据；商标和站外内容仍需外部确认。
+- 备份 JSON 无加密；Release ZIP/TAR.GZ 附带 `SHA256SUMS.txt`，且已由 [验证工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) 独立下载及复算；商标和站外内容仍需外部确认。
 
 ## 历史评分（不覆盖原始时点的判断）
 
