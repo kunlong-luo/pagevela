@@ -20,6 +20,10 @@
 | **[#334](https://github.com/kunlong-luo/pagevela/pull/334) 简历内容安全** | `07368d64` | [#45588914443](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) **success** | [#45590609387](https://github.com/kunlong-luo/pagevela/actions/runs/45590609387) **success** |
 | **[#337](https://github.com/kunlong-luo/pagevela/pull/337) 完整清理及技术文档** | **`bb347487`** | [#45591475788](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) **success** | [#45593665011](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011) **success** |
 
+| **[#339](https://github.com/kunlong-luo/pagevela/pull/339) 切后台保存** | **`f88407d0`** | [#45615761703](https://github.com/kunlong-luo/pagevela/actions/runs/45615761703) **success** | [#45617579641](https://github.com/kunlong-luo/pagevela/actions/runs/45617579641) **success** |
+
+**待验收：** [#340](https://github.com/kunlong-luo/pagevela/pull/340) 的 [PR CI #45616120212](https://github.com/kunlong-luo/pagevela/actions/runs/45616120212) 已全部 success、合并为 `0c5c445`；[新 main CI #45618268263](https://github.com/kunlong-luo/pagevela/actions/runs/45618268263) 和同 SHA Pages 尚待独立确认，故不计入上表。[#341](https://github.com/kunlong-luo/pagevela/pull/341) 尾部栅格检测仍为新的 PR 候选。
+
 **额外发行证据：** [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) success，annotated tag `v2.8.4` 解引用为 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`；[独立验证 ZIP/TAR.GZ/SHA256 工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **success**，已真实下载、读取归档并复算。
 
 **检查含义：** 完整主分支 CI 实际包含 quality、完整 Chromium、Firefox 1/2 和 2/2、WebKit 1/2 和 2/2、cross-browser 汇总以及最终受保护 `build-and-test`。Pages 的 build 与 deploy 必须都为 success；一个绿色的 `Push on main`、`Release workflow` 或 report-only registry audit **不能**替代上述两个门禁。
