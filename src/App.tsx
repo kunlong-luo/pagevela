@@ -9,6 +9,8 @@ const EditorWorkspace = lazy(() => import('./components/EditorWorkspace').then(m
 import { storage, STORAGE_KEYS } from './lib/storage';
 import { trackAnalyticsEvent } from './lib/analytics';
 import { updateSiteSeo } from './lib/seo';
+import { hasExistingResumeWork } from './lib/resume-content-protection';
+import { useConfirm } from './context/ConfirmContext';
 
 const SharedResumePage = lazy(() => import('./components/share/SharedResumePage').then(m => ({ default: m.SharedResumePage })));
 
@@ -31,6 +33,7 @@ export default function App() {
   const [currentRoute, setCurrentRoute] = useState<AppRoute>(() => getRouteFromLocation());
   const themeMode = useResumeStore((state) => state.themeMode);
   const uiLanguage = useResumeStore((state) => state.uiLanguage);
+  const { confirm } = useConfirm();
 
   // Update only fixed product metadata, never any resume or shared-link content.
   useEffect(() => {
@@ -81,19 +84,39 @@ export default function App() {
     };
   }, []);
 
-  // Check URL template query parameter on initial load
+  // A template deep-link is a one-time *request*, not persistent state.
+  // Remove it before asking for confirmation so reload/StrictMode/back cannot
+  // silently apply a template again to an edited IndexedDB resume.
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    try {
-      const searchParams = new URLSearchParams(window.location.search);
-      const templateParam = searchParams.get('template');
-      if (templateParam) {
-        useResumeStore.getState().applyTemplate(templateParam);
+    if (typeof window === 'undefined' || sharePayload || getRouteFromLocation() !== 'editor') return;
+    const url = new URL(window.location.href);
+    const templateId = url.searchParams.get('template');
+    if (!templateId) return;
+    url.searchParams.delete('template');
+    window.history.replaceState(window.history.state, '', url.toString());
+
+    const openRequestedTemplate = async () => {
+      const current = useResumeStore.getState();
+      if (hasExistingResumeWork(current.markdown, current.profiles)) {
+        const isEn = current.uiLanguage === 'en';
+        const approved = await confirm({
+          title: isEn ? 'Replace active resume?' : '替换当前简历？',
+          message: isEn
+            ? 'This link requests a different resume template. Replacing the current resume cannot be undone. Export a backup first if needed.'
+            : '此链接请求载入另一份简历模板，将覆盖当前活动简历内容。建议先导出备份。',
+          confirmText: isEn ? 'Replace resume' : '确认替换简历',
+          cancelText: isEn ? 'Keep current resume' : '保留当前简历',
+          type: 'warning',
+        });
+        if (!approved) return;
       }
-    } catch (e) {
-      console.error('Failed to read template parameter', e);
-    }
-  }, []);
+      if (useResumeStore.getState().applyTemplate(templateId)) {
+        storage.set(STORAGE_KEYS.ONBOARDING_COMPLETE, '1');
+        storage.remove(STORAGE_KEYS.ONBOARDING_FIRST_VISIT);
+      }
+    };
+    void openRequestedTemplate();
+  }, [confirm, sharePayload]);
 
   const navigateTo = useCallback((route: AppRoute, options?: { templateId?: string }) => {
     setCurrentRoute(route);
@@ -104,7 +127,9 @@ export default function App() {
       storage.set(STORAGE_KEYS.ONBOARDING_COMPLETE, '1');
       storage.remove(STORAGE_KEYS.ONBOARDING_FIRST_VISIT);
     }
-    const nextUrl = buildRouteUrl(route, options);
+    // Explicit selections are applied above; never leave a destructive template
+    // action in the browser URL where reload would repeat it.
+    const nextUrl = buildRouteUrl(route);
     if (typeof window !== 'undefined' && nextUrl && window.location.href !== nextUrl) {
       window.history.pushState(null, '', nextUrl);
     }
@@ -135,7 +160,13 @@ export default function App() {
     );
   }
 
-  const isFirstTimeOnboarding = storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1';
+  const state = useResumeStore.getState();
+  const hasPendingTemplateLink = typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).has('template');
+  const isFirstTimeOnboarding =
+    storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1' &&
+    !hasExistingResumeWork(state.markdown, state.profiles) &&
+    !hasPendingTemplateLink;
 
   return (
     <div className="animate-fadeIn transition-opacity duration-300">
