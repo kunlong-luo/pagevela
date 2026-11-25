@@ -54,6 +54,28 @@ describe('resume lifecycle persistence', () => {
     remove();
   });
 
+  it('keeps accepting and persisting edits after a hidden tab becomes visible again', async () => {
+    const signals = lifecycleSignals();
+    const commits: string[] = [];
+    const coordinator = createResumePersistenceCoordinator(30_000, {
+      writeSnapshot: async value => { commits.push(value.markdown); },
+      acknowledgeProfiles: () => undefined,
+    });
+    const remove = installResumeLifecycleFlush(coordinator, signals.documentRef, signals.windowRef);
+
+    coordinator.schedule({ markdown: 'before background', profiles: [], jdText: '' });
+    signals.changeVisibility('hidden');
+    await vi.waitFor(() => expect(commits).toEqual(['before background']));
+    signals.changeVisibility('visible');
+
+    // Simulates a BFCache-restored or resumed page: the original coordinator
+    // still observes edits, and the next hidden event flushes the new revision.
+    coordinator.schedule({ markdown: 'after restore', profiles: [], jdText: '' });
+    signals.changeVisibility('hidden');
+    await vi.waitFor(() => expect(commits).toEqual(['before background', 'after restore']));
+    remove();
+  });
+
   it('does not flush on a visible tab or on beforeunload; pagehide remains a fallback', async () => {
     const signals = lifecycleSignals();
     const flush = vi.fn(async () => undefined);
