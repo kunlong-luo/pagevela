@@ -15,7 +15,8 @@
 
 ## 下一阶段待验收
 
-- **浏览器切后台提前保存 [PR #339](https://github.com/kunlong-luo/pagevela/pull/339)：** `src/lib/resume-lifecycle.ts` 使用 `visibilitychange → hidden` 提前发起当前 FIFO IndexedDB 写入，`pagehide` 兜底；不靠阻塞 `beforeunload`。新代码与测试处于**本次 PR 候选阶段**，尚未获得完整 PR/主分支 CI 与 Pages，详见 [生命周期保存验收](./BACKGROUND_SAVE_LIFECYCLE_20261125.md)。
+- **浏览器切后台提前保存 [PR #339](https://github.com/kunlong-luo/pagevela/pull/339)：** `src/lib/resume-lifecycle.ts` 使用 `visibilitychange → hidden` 提前发起当前 FIFO IndexedDB 写入，`pagehide` 兜底；不靠阻塞 `beforeunload`。**PR CI #45612775424 已成功，已合并为主分支 `f88407d0`**；[新 main CI #45615761703](https://github.com/kunlong-luo/pagevela/actions/runs/45615761703) 和同 SHA Pages **待独立验收**，详见 [生命周期保存验收](./BACKGROUND_SAVE_LIFECYCLE_20261125.md)。
+- **Quick PDF 大画布内存候选：** [专项方案](./QUICK_PDF_MEMORY_GUARD_20261125.md) 已提交分配前像素/单边预算、单页缓冲复用、拒绝危险渲染时保留文字的打印回退和模拟超限 E2E。完整 PR CI、合并后同 SHA CI/Pages 和 Android 内存实测仍是单独门槛。
 - **低内存 PDF / Auto Fit / Android：** [#312](https://github.com/kunlong-luo/pagevela/issues/312) 真实打印分页/组合、[#262](https://github.com/kunlong-luo/pagevela/issues/262) 系统打印/OEM 浏览器/安装 PWA、长简历 canvas 内存；负责人确认的安卓微信整体成功**不等于**这些单项完成。
 - **隐私 / 兼容 / 架构：** 旧版已打开的标签页、跨设备同步、照片/完整档案元数据冲突、明文工作区 JSON、Store/导出域拆分、[#298 私有安全告警](https://github.com/kunlong-luo/pagevela/issues/298)、商标与外部媒体更新。
 - **历史重复 PR：** [#333](https://github.com/kunlong-luo/pagevela/pull/333) 是已**关闭、未合并**的旧发布完整性文档草稿；归档验收证据已由 #337 合并至主分支并通过完整 CI/Pages，避免旧文档覆盖更新的状态。

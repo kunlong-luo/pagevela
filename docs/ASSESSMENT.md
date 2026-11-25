@@ -6,6 +6,8 @@
 
 > **2026-11-25 最新复核（仍为 88/100）：** [#334](https://github.com/kunlong-luo/pagevela/pull/334) 的 `07368d64` 已完成 [主分支 CI #45588914443](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) + [同 SHA Pages #45590609387](https://github.com/kunlong-luo/pagevela/actions/runs/45590609387)；[#337](https://github.com/kunlong-luo/pagevela/pull/337) 的 `bb347487` 已完成 [主分支 CI #45591475788](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) + [同 SHA Pages #45593665011](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011)。这些数据保护补强已实际部署，但未完成 Android 系统打印/OEM/PWA、低端性能和跨设备冲突矩阵，因此保守保持 88 分。本轮切后台提前保存仍为未合并 PR 候选。历史的 `a8ec3ae` 是原始评分基线，并非现在最新的 main。
 
+> **2026-11-25 后续候选说明（88 分不变）：** [#339](https://github.com/kunlong-luo/pagevela/pull/339) 已经由 [完整 PR CI #45612775424](https://github.com/kunlong-luo/pagevela/actions/runs/45612775424) 合并为 `f88407d0`，但尚未确认该 SHA 的 main CI/Pages；Quick PDF 大画布保护为另一待验收 PR 候选。没有长简历 Android 峰值内存、PDF 下载和 OEM 系统打印的真实测量，性能 8/10 不上调。
+
 ## 已独立验收的基线 / Proven baseline
 
 | 核验对象 | Git SHA / 可核查证据 | 结果 |
