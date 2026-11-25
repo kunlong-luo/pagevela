@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, FilePlus2, FileText, MousePointer2, Sliders, Upl
 import { BLANK_MARKDOWN, STARTER_MARKDOWN, STARTER_MARKDOWN_EN } from '../../data';
 import { storage, STORAGE_KEYS } from '../../lib/storage';
 import { useResumeStore } from '../../store/useResumeStore';
+import { useShallow } from 'zustand/react/shallow';
 
 interface OnboardingTourProps {
   isOpen: boolean;
@@ -23,7 +24,15 @@ const steps = [
 ] as const;
 
 export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
-  const { settings, uiLanguage, applyTemplate, replaceDocument } = useResumeStore();
+  // Replay overlays should not re-render for every unrelated editor/store update.
+  const { settings, uiLanguage, applyTemplate, replaceDocument } = useResumeStore(
+    useShallow((state) => ({
+      settings: state.settings,
+      uiLanguage: state.uiLanguage,
+      applyTemplate: state.applyTemplate,
+      replaceDocument: state.replaceDocument,
+    })),
+  );
   const isEn = uiLanguage === 'en';
   const isResumeEn = settings.lang === 'en';
   const isFirstRun = storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) !== '1';
@@ -295,47 +304,50 @@ export function OnboardingTour({ isOpen, onClose }: OnboardingTourProps) {
           )}
 
           {step < 2 ? (
-            <div className="mt-5 flex items-center justify-between gap-3">
-              {step > 0 ? (
+            <div className="mt-5 space-y-3">
+              <div className="flex items-center justify-between gap-3">
+                {step > 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => setStep((value) => Math.max(0, value - 1))}
+                    className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 dark:border-slate-700 px-3 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    {isEn ? 'Back' : '上一步'}
+                  </button>
+                ) : (
+                  <div className="flex gap-1.5" aria-hidden="true">
+                    {[0, 1, 2].map((index) => (
+                      <span
+                        key={index}
+                        className={`h-1.5 rounded-full transition-all ${
+                          index === step
+                            ? 'w-6 bg-indigo-600'
+                            : 'w-1.5 bg-slate-200 dark:bg-slate-700'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
                 <button
                   type="button"
-                  onClick={() => setStep((value) => Math.max(0, value - 1))}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 px-3 py-2.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                  data-testid="onboarding-next"
+                  onClick={() => setStep((value) => Math.min(2, value + 1))}
+                  className="inline-flex min-h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-indigo-500"
                 >
-                  <ArrowLeft className="w-3.5 h-3.5" />
-                  {isEn ? 'Back' : '上一步'}
+                  {isEn ? 'Next' : '下一步'}
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </button>
-              ) : (
-                <div className="flex gap-1.5" aria-hidden="true">
-                  {[0, 1, 2].map((index) => (
-                    <span
-                      key={index}
-                      className={`h-1.5 rounded-full transition-all ${
-                        index === step
-                          ? 'w-6 bg-indigo-600'
-                          : 'w-1.5 bg-slate-200 dark:bg-slate-700'
-                      }`}
-                    />
-                  ))}
-                </div>
-              )}
-              <button
-                type="button"
-                onClick={() => setStep((value) => Math.min(2, value + 1))}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-indigo-500"
-              >
-                {isEn ? 'Next' : '下一步'}
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              </div>
               {step === 0 && (
                 <button
                   type="button"
                   data-testid="onboarding-quick-start"
                   onClick={() => setStep(2)}
-                  className="mt-3 inline-flex w-full min-h-11 items-center justify-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50/70 px-4 py-2.5 text-xs font-bold text-indigo-700 transition-colors hover:bg-indigo-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-900/60"
+                  className="inline-flex w-full min-h-11 items-center justify-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50/70 px-4 py-2.5 text-xs font-bold text-indigo-700 transition-colors hover:bg-indigo-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 dark:border-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:bg-indigo-900/60"
                 >
                   {isEn ? 'Choose how to start instead' : '直接选择开始方式'}
-                  <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 </button>
               )}
             </div>
