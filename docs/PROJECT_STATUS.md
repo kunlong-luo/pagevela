@@ -6,21 +6,20 @@
 
 | 事项 | 证据 | 结果 |
 | --- | --- | --- |
-| **最新已独立验收并部署 main** | `0140b2a1d4c3d9b6a8240d2ed4721a5ce973270d`（[#332](https://github.com/kunlong-luo/pagevela/pull/332)）：[主分支完整 CI #45568793140](https://github.com/kunlong-luo/pagevela/actions/runs/45568793140) · [同 SHA Pages #45570418074](https://github.com/kunlong-luo/pagevela/actions/runs/45570418074) | **两项 success**，已包括引导重播、窄屏菜单测试及启动模块恢复 |
-| **已发布正式版本** | `v2.8.4`，tag 对应 `ea2a65b`：[正式 CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) · [Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) · [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) | **success**；后来合并到 main 的代码不自动加入已发布 v2.8.4 下载包 |
-| **发行包独立核验** | `pagevela-2.8.4.zip`、`pagevela-2.8.4.tar.gz`、`SHA256SUMS.txt`：[独立验证 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) | **success**：真实附件下载/解压/哈希复算验证通过；[#333](https://github.com/kunlong-luo/pagevela/pull/333) 的文档 PR 仍为 draft，需分开记录 |
-| **工程评分** | [ASSESSMENT.md](./ASSESSMENT.md) | **88/100**（自定七维度评分；未上线候选不加分） |
+| **最新已独立验收并部署 main** | `0fea9fc9ac122b7282d6e00302846763783d0f55`（[#338](https://github.com/kunlong-luo/pagevela/pull/338)）：[主分支完整 CI #45584515860](https://github.com/kunlong-luo/pagevela/actions/runs/45584515860) · [同 SHA Pages #45586651728](https://github.com/kunlong-luo/pagevela/actions/runs/45586651728) | **均 success**，包含已合并的 #332 引导恢复、#335 真实保存回执、#336 启动读取保护和 #338 WebKit 回归 |
+| **已发布正式版本** | `v2.8.4`，tag 对应 `ea2a65b`：[正式 CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) · [Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) · [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) | **三项 success**；后续 main 代码不自动进入已发布 v2.8.4 压缩包 |
+| **v2.8.4 归档独立核验** | [工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) | **success**：独立下载 ZIP/TAR.GZ/SHA256SUMS，完成 SHA-256 与 49 个文件一致性检查；[正式验收](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md) |
+| **工程评分** | [ASSESSMENT.md](./ASSESSMENT.md) | **88/100**（七维度内部评分，不因发布或尚未上线的 PR 加分） |
 
-## 修复候选与已合并待独立验收项
+## 本阶段候选（未合并/未上线）
 
-| 优先级 | PR | 已提交内容 | 完成标准 |
+| 优先级 | PR | 已提交内容 | 必须完成的门槛 |
 | --- | --- | --- | --- |
-| P0 | [#334 简历内容保护](https://github.com/kunlong-luo/pagevela/pull/334) | 模板 URL 一次性消耗、导入确认与导入前恢复草稿、Markdown/表单往返保留、照片恢复；修复旧欢迎页测试输入 | 完整 PR CI（包括 Chromium/Firefox/WebKit）成功，再合并并验证新 main 同 SHA Pages |
-| P1 | [#335 保存成功真实回执](https://github.com/kunlong-luo/pagevela/pull/335) | 只有最新 IndexedDB 修订真正落盘才显示“已保存”，旧手动快照不能误报成功 | **已合并**至 `5564c869`，其 [main CI #45573233517](https://github.com/kunlong-luo/pagevela/actions/runs/45573233517) 因 WebKit 启动故障注入测试失败，待 #338 通过后重新做完整同 SHA 验收 |
-| P1 | [#336 IndexedDB 启动保护](https://github.com/kunlong-luo/pagevela/pull/336) | 迁移/读取失败时不呈现虚假空白简历，提供安全恢复页面 | **已合并**为 `d182c91`，合并后的 [主分支 CI #45570785806](https://github.com/kunlong-luo/pagevela/actions/runs/45570785806) 与同 SHA Pages 尚待独立验收，不等于已证实上线 |
-| P1 | [#338 WebKit 回归修复](https://github.com/kunlong-luo/pagevela/pull/338) | 对 IndexedDB 拒绝访问测试使用可验证的 `SecurityError`，不跳过 WebKit | PR 全绿，基线同步后复验，合并后同 SHA CI+Pages |\n| P1 | [#337 完整本地数据清理](https://github.com/kunlong-luo/pagevela/pull/337) | 异常页与帮助中心共用完整清理；暂停写入队列，失败分阶段提示，防止删库后草稿复活 | [专项验收说明](./FULL_LOCAL_DATA_RESET_20261125.md) · **质量检查通过，完整 E2E / 合并后 CI+Pages 尚待验收** |
+| P0 | [#334 简历内容保护](https://github.com/kunlong-luo/pagevela/pull/334) | 模板 URL 一次性消耗、导入覆盖确认及可恢复草稿、表单/Markdown 无损往返、照片恢复 | 最新 PR quality、Chromium、Firefox/WebKit、最终 `build-and-test` 成功；合并后 main 同 SHA CI/Pages |
+| P1 | [#337 完整本地数据清理](https://github.com/kunlong-luo/pagevela/pull/337) | 异常页和帮助中心使用统一确认清理；停止活跃/草稿写入，按阶段报告部分失败且不擦除其他应用的数据 | [专项验收说明](./FULL_LOCAL_DATA_RESET_20261125.md) · 完整 CI、合并后 main 同 SHA CI/Pages |
+| 文档 | [#333 发布归档历史文档](https://github.com/kunlong-luo/pagevela/pull/333) | draft 内容与 #337 中已同步的发行验收资料重叠 | 只有相关文档实际合并、确认链接和证据一致后，才能将重复 draft 标记为已被替代 |
 
-> #334/#337/#338 为尚未合并候选；#335/#336 已合并但当前 main `5564c869` 的完整 CI 因 WebKit 回归失败。不同时间的 CI 失败不能以质量检查绿灯代替最终 `build-and-test`。
+> #335、#336、#338 **已合并**且包含在经完整 main CI/Pages 证明的 `0fea9fc` 中。此前 `d182c91`、`5564c869` 的 WebKit 失败流水保留为历史事实，不冒充成功；新的 `0fea9fc` 检查才是当前已验证基线。详细下一阶段优先级见 [2026-11-25 路线图](./NEXT_PHASE_ROADMAP_20261125.md)。
 
 ## 仍需解决与验收的风险
 
@@ -33,4 +32,4 @@
 
 不修改历史 `resume-craft` IndexedDB、Web Lock、BroadcastChannel 等数据协议标识，不使用原生浏览器确认窗，不改写已发布 tag 或发行附件。已验证合并须保存确切 `main` SHA 的完整 CI/Pages 成功证据；单个 PR 通过不替代上线验收。
 
-[文档目录](./README.md) · [工程验收台账](./ENGINEERING_ACCEPTANCE_20261124.md) · [数据完整清理候选](./FULL_LOCAL_DATA_RESET_20261125.md) · [v2.8.4 Release 验收](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)
+[文档目录](./README.md) · [工程验收台账](./ENGINEERING_ACCEPTANCE_20261124.md) · [数据完整清理候选](./FULL_LOCAL_DATA_RESET_20261125.md) · [下一阶段路线图](./NEXT_PHASE_ROADMAP_20261125.md) · [v2.8.4 Release 验收](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)
