@@ -37,8 +37,9 @@
 
 ## 📚 文档目录与最新工程状态
 
-- **当前工程复评：[88/100](docs/ASSESSMENT.md)**；最新独立验收主分支为 `89dbce9`（[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) / [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924)），正式 Release 仍为 v2.8.4。[最新项目状态](docs/PROJECT_STATUS.md) · [按 SHA 的工程验收台账](docs/ENGINEERING_ACCEPTANCE_20261124.md)。
+- **当前工程复评：[88/100](docs/ASSESSMENT.md)**；最新独立验收主分支为 `0140b2a`（[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45568793140) / [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45570418074)），正式 Release 仍为 v2.8.4。[最新项目状态](docs/PROJECT_STATUS.md) · [按 SHA 的工程验收台账](docs/ENGINEERING_ACCEPTANCE_20261124.md)。
 - **唯一文档导航：[docs/README.md](docs/README.md)**，现行技术说明、旧版本资料和平台宣传包分开维护。[历史 87 分报告](docs/ASSESSMENT_20261124_R2.md) 等仍保留，但不是当前评估结果。
+- **数据清理与异常恢复（待合并）：** [完整本地数据清理设计与验收](docs/FULL_LOCAL_DATA_RESET_20261125.md)。运行时异常和帮助中心将使用同一套 IndexedDB/localStorage 清理保护，不属于已发布的 v2.8.4。
 - [贡献指南](CONTRIBUTING.md) · [发布流程](RELEASING.md) · [变更记录](CHANGELOG.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md) · [历史资料索引](docs/history/README.md) · [发布包独立校验设计](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md)（代码候选，尚未验收通过）。
 
 ### 文档目录结构
@@ -61,13 +62,13 @@ docs/
 
 ## v2.8.4 发布信息
 
-**[Pagevela v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已正式发布**（2026-11-24），标注 tag `ea2a65b`。[新主分支完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。ZIP、TAR.GZ 与 SHA256SUMS 已上传；**独立解压及重新计算 SHA256 仍未验收**。[发布说明](RELEASE_NOTES.md) · [验收表](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
+**[Pagevela v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已正式发布**（2026-11-24），标注 tag `ea2a65b`。[新主分支完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。ZIP、TAR.GZ 与 SHA256SUMS 已上传；[独立下载、解压和 SHA256 校验工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **成功**。[发布说明](RELEASE_NOTES.md) · [验收表](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
 
 ## v2.8.4 已包含的功能改进
 
 正式升版前的功能验收基线 `a8ec3ae`：[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) 与[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **均成功**。它包含 [#323](https://github.com/kunlong-luo/pagevela/pull/323) 防止旧标签页覆盖最新版简历、将冲突修改保存为可恢复手动草稿并给出不遮挡操作的警告；以及 [#325](https://github.com/kunlong-luo/pagevela/pull/325) 新建/复制档案 ID 防碰撞。[#321](https://github.com/kunlong-luo/pagevela/pull/321) 增强 Auto Fit 纸张/语言回归，[#322](https://github.com/kunlong-luo/pagevela/pull/322) 将设置清洗逻辑拆分为可测试模块。
 
-**正式发布边界：** 上一版 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 的 tag 为 `501ca26`，其旧压缩包不含后续主分支改进；v2.8.4 已正式发布（tag `ea2a65b`，CI/Pages/Release 全成功），但附件独立解压哈希仍须单独核对。旧发行文件尚未进行独立下载、解压和逐项 SHA256 比对。负责人确认过 Android 微信真机整体测试，但这不代表 Android 系统打印、所有 OEM 浏览器和已安装 PWA 离线功能均经独立验收。
+**正式发布边界：** 上一版 [v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 的 tag 为 `501ca26`，其旧压缩包不含后续主分支改进；v2.8.4 已正式发布（tag `ea2a65b`，CI/Pages/Release 全成功），且 v2.8.4 附件已通过 [独立下载与 SHA256 校验](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)。负责人确认过 Android 微信真机整体测试，但这不代表 Android 系统打印、所有 OEM 浏览器和已安装 PWA 离线功能均经独立验收。
 
 ## 历史版本
 
