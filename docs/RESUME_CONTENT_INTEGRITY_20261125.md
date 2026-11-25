@@ -11,12 +11,13 @@
 | Markdown → 表单 → Markdown | 含 `###` 条目的章节介绍文字 `textValue` 在输出时被忽略 | `parseFormToMarkdown` 在条目前保留原介绍，不静默丢弃 |
 | 表单章节「文本 ⇄ 条目」 | 文本转条目可能直接清空 `textValue`；条目转文本可能隐藏旧条目或造成重复 | `convertFormSectionType` 保留自由文本，将条目完整转写为可编辑文本并清理隐藏条目 |
 | 普通文本、PDF、MD、JSON 导入 | `replaceDocument` 直接替换并清空撤销记录 | 检测已有用户工作后执行品牌确认，确认后先将旧内容持久化为手动恢复草稿；草稿写入失败则中止替换 |
-| 通过通用导入载入备份 | 已验证备份证件照未传递；导入另一人简历可能沿用旧头像 | 传递已校验的 JPEG `photoDataUrl`，否则清理旧证件照，避免跨简历错配 |
+| 通过通用导入载入备份 | 已验证备份证件照未传递；导入另一人简历可能沿用旧头像 | 传递已校验的 JPEG `photoDataUrl`，否则清理旧证件照，避免跨简历错配；导入前恢复草稿包含原照片，可通过草稿恢复 |
 
 ## 自动化覆盖
 
 - `src/tests/resume-content-protection.test.ts`：未编辑初始档案、编辑过的档案、多个档案、无首次标记和空白内容。
 - `src/tests/form-section-conversion.test.ts`：自由正文、教育字段、章节前言、模式切换及 Markdown 往返保留。
+- `src/tests/portable-workspace-backup.test.ts`：恢复草稿的 JPEG 照片完整往返，拒绝外部和不安全照片 URL。
 - `e2e/resume-data-integrity.e2e.ts`：模板直链清理与刷新保留、已有简历拒绝 URL 覆盖、导入前同意并保存手动恢复草稿。
 - 相关已有回归：`src/tests/markdown-parser.test.ts`、`e2e/onboarding.e2e.ts`、`e2e/template-center.e2e.ts`、`e2e/pdf-import.e2e.ts`。
 
