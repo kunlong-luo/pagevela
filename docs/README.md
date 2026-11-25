@@ -1,6 +1,6 @@
 # Pagevela 文档目录 / Documentation index
 
-> 唯一文档导航：英文 [README.md](../README.md) · 中文 [README.zh-CN.md](../README.zh-CN.md)。正式版 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已通过正式 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 Release。最近一次确认 **main 完整 CI + 同 SHA Pages 均成功** 的提交为 `349d94f`（[CI](https://github.com/kunlong-luo/pagevela/actions/runs/45559458566) · [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45560942223)）；[独立发行附件 ZIP/TAR/SHA256 校验](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)已成功。后续 main `0140b2a` (#332) 和修复候选 PR 必须单独核对其 CI/Pages，不能沿用该验收。工程评分仍 [88/100](./ASSESSMENT.md)。
+> 唯一文档导航：英文 [README.md](../README.md) · 中文 [README.zh-CN.md](../README.zh-CN.md)。正式版 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已通过正式 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 Release。最近一次确认 **main 完整 CI + 同 SHA Pages 均成功** 的提交为 `0140b2a`（[#332 主分支 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45568793140) · [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45570418074)）；[独立发行附件 ZIP/TAR/SHA256 校验](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)已成功。后续修复候选 PR 仍需分别通过完整 CI，合并后重新核对各自 main SHA 的部署证据。工程评分仍 [88/100](./ASSESSMENT.md)。
 
 ## 从哪里开始 / Start here
 
