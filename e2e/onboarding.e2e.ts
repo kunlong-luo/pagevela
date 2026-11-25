@@ -286,8 +286,15 @@ test.describe('first-run onboarding', () => {
         const pageErrors: string[] = [];
         page.on('pageerror', (error) => pageErrors.push(error.message));
         await page.goto('/?page=editor');
-        await page.getByRole('button', { name: /More actions|更多操作/ }).click();
-        await page.getByRole('button', { name: /^(Help|帮助)$/ }).click();
+        if (width < 768) {
+          // The desktop More actions button is intentionally hidden on mobile.
+          // Exercise the visible quick actions sheet instead.
+          await page.getByRole('button', { name: /Open quick actions menu|打开快捷功能菜单/ }).click();
+          await page.getByTestId('mobile-quick-action-help').click();
+        } else {
+          await page.getByRole('button', { name: /More actions|更多操作/ }).click();
+          await page.getByRole('button', { name: /^(Help|帮助)$/ }).click();
+        }
         await page.getByRole('button', { name: /Replay the interface tour|重新观看新手教程/ }).click();
 
         const tour = page.getByRole('dialog', { name: /Getting started tour|新手引导/ });
