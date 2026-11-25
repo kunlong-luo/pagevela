@@ -1,6 +1,6 @@
 # Pagevela 文档目录 / Documentation index
 
-> 唯一文档导航：英文主指南 [README.md](../README.md) · 中文主指南 [README.zh-CN.md](../README.zh-CN.md)。[v2.8.4 正式发布](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 和 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；后续文档 `dfad007` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。当前工程评分 [88/100](./ASSESSMENT.md)。最新实际部署 main `89dbce9` 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) + [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924)；发布附件独立下载校验尚未完成。
+> 唯一文档导航：英文主指南 [README.md](../README.md) · 中文主指南 [README.zh-CN.md](../README.zh-CN.md)。[v2.8.4 正式发布](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 和 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；后续文档 `dfad007` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。当前工程评分 [88/100](./ASSESSMENT.md)。最新实际部署 main `89dbce9` 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) + [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924)；发布包 [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **success**（49 个相同文件）；新源码 `349d94f` 的主分支 CI/Pages 单独验收。
 
 ## 从哪里开始 / Start here
 
@@ -10,7 +10,7 @@
 | 最新 main、部署、开放风险 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) |
 | 七维度工程评分与扣分证据 | [ASSESSMENT.md](./ASSESSMENT.md) |
 | CI / Pages / Release 按 SHA 验收台账 | [ENGINEERING_ACCEPTANCE_20261124.md](./ENGINEERING_ACCEPTANCE_20261124.md) |
-| 发布包 ZIP/TAR/SHA256 独立验证 | [RELEASE_ARCHIVE_INTEGRITY_20261125.md](./RELEASE_ARCHIVE_INTEGRITY_20261125.md)（新流程 PR 候选） |
+| 发布包 ZIP/TAR/SHA256 独立验证 | [RELEASE_ARCHIVE_INTEGRITY_20261125.md](./RELEASE_ARCHIVE_INTEGRITY_20261125.md)（v2.8.4 已独立核验） |
 | 版本历史和变更 | [CHANGELOG](../CHANGELOG.md) · [RELEASE_NOTES](../RELEASE_NOTES.md) |
 | 如何发布、开发及审查 | [RELEASING](../RELEASING.md) · [CONTRIBUTING](../CONTRIBUTING.md) · [SECURITY](../SECURITY.md) |
 | 备份、导入和隐私边界 | [WORKSPACE_TRANSFER](./WORKSPACE_TRANSFER.md) · [PRODUCT_ANALYTICS](./PRODUCT_ANALYTICS.md) |

@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | **最新已独立验收 main** | `89dbce95e61bc4b309441ec9689977c40866edb7`（[#330](https://github.com/kunlong-luo/pagevela/pull/330)）：[完整 CI #45400998819](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) · [同 SHA Pages #45402787924](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924) | quality、Chromium、Firefox/WebKit 四分片、实际 `build-and-test` 及 Pages build/deploy **success**；同 SHA 再次 [CI #45407652247](https://github.com/kunlong-luo/pagevela/actions/runs/45407652247) success，后续重复 Pages skipped 不推翻首次已成功部署 |
 | **正式 Release v2.8.4** | annotated tag `905af3c2` 指向 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`：[CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) · [Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) · [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) | **三项成功**；发布于 2026-11-24 |
-| **发行附件** | `pagevela-2.8.4.zip`、`pagevela-2.8.4.tar.gz`、`SHA256SUMS.txt` | GitHub 列出了三个附件和各自 SHA256 digest；**独立下载、解压、复算尚未通过** |
+| **发行附件** | `pagevela-2.8.4.zip`、`pagevela-2.8.4.tar.gz`、`SHA256SUMS.txt` | GitHub 列出了三个附件和各自 SHA256 digest；**已独立验证成功**：[Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)；49 个文件相同，JSON 附件 `14997601035` |
 | **功能改进基线** | `a8ec3ae`：[完整 CI #45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) · [同 SHA Pages #45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) | #323/#325 已合并并包含在 v2.8.4 |
 | **工程评分** | [88/100](./ASSESSMENT.md) | 数据可靠性从 13 升到 14/15；不因发版或文档工作重复加分 |
 
@@ -18,9 +18,10 @@
 - [#321](https://github.com/kunlong-luo/pagevela/pull/321)：Auto Fit A4/Letter/语言/页数回归；[#322](https://github.com/kunlong-luo/pagevela/pull/322)：持久化设置清洗独立模块。
 - 中英文 README 精简、[文档统一索引](./README.md)、历史版本归档以及 `pnpm run docs:check`，已随 v2.8.4 对应的主分支门禁验收；未部署的旧站跳转试验已从代码删除。
 
-## 下一工程候选（2026-11-25，未合并 / 未上线）
+## 2026-11-25 新交付（源码与部署分开）
 
-- 增加 [发布包独立完整性验证](./RELEASE_ARCHIVE_INTEGRITY_20261125.md)：从 GitHub Releases 真实下载 ZIP、TAR.GZ、SHA256SUMS，重新计算哈希、检验 ZIP/TAR 读取安全和双方文件内容一致；增加虚构反例单测与每周只读检查。**当前只是新 PR 候选**；必须先通过最新 PR 完整 CI，合并后独立校验工作流显示 success，并保存 Run 链接，才可勾选 v2.8.4 的发行包验收。
+- [PR #331](https://github.com/kunlong-luo/pagevela/pull/331) 的 [PR-head 全量 CI #45558156328](https://github.com/kunlong-luo/pagevela/actions/runs/45558156328) success，合并为新 main `349d94f`；[Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **success**：独立下载 v2.8.4 发布 ZIP/TAR.GZ/SHA256SUMS、重算 SHA-256、验证 ZIP CRC 与 TAR.GZ，核对 **49 个相同文件（4,771,193 未压缩字节）**；保存 JSON 报告 `published-archive-verification`（artifact `14997601035`）。
+- 记录本快照时，新 main [完整 CI #45559458566](https://github.com/kunlong-luo/pagevela/actions/runs/45559458566) **仍在进行**，该 SHA 的同 SHA Pages 尚未成功核实，不能把本项归档校验的成功当作已上线的证据。最新完整已部署基线仍为上方 `89dbce9`。
 
 ## 尚待独立验收
 

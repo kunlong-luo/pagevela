@@ -39,7 +39,7 @@
 
 - **当前工程复评：[88/100](docs/ASSESSMENT.md)**；最新独立验收主分支为 `89dbce9`（[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) / [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924)），正式 Release 仍为 v2.8.4。[最新项目状态](docs/PROJECT_STATUS.md) · [按 SHA 的工程验收台账](docs/ENGINEERING_ACCEPTANCE_20261124.md)。
 - **唯一文档导航：[docs/README.md](docs/README.md)**，现行技术说明、旧版本资料和平台宣传包分开维护。[历史 87 分报告](docs/ASSESSMENT_20261124_R2.md) 等仍保留，但不是当前评估结果。
-- [贡献指南](CONTRIBUTING.md) · [发布流程](RELEASING.md) · [变更记录](CHANGELOG.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md) · [历史资料索引](docs/history/README.md) · [发布包独立校验设计](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md)（代码候选，尚未验收通过）。
+- [贡献指南](CONTRIBUTING.md) · [发布流程](RELEASING.md) · [变更记录](CHANGELOG.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md) · [历史资料索引](docs/history/README.md) · [发布包独立完整性验收](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md)（[Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)，**已通过**）。
 
 ### 文档目录结构
 
@@ -61,7 +61,7 @@ docs/
 
 ## v2.8.4 发布信息
 
-**[Pagevela v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已正式发布**（2026-11-24），标注 tag `ea2a65b`。[新主分支完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。ZIP、TAR.GZ 与 SHA256SUMS 已上传；**独立解压及重新计算 SHA256 仍未验收**。[发布说明](RELEASE_NOTES.md) · [验收表](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
+**[Pagevela v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已正式发布**（2026-11-24），标注 tag `ea2a65b`。[新主分支完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。ZIP、TAR.GZ 与 SHA256SUMS 已上传；**2026-11-25 已完成独立下载校验**：[Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) success，ZIP/TAR 内容 49 个文件一致，SHA-256 符合清单。[发布说明](RELEASE_NOTES.md) · [验收表](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
 
 ## v2.8.4 已包含的功能改进
 

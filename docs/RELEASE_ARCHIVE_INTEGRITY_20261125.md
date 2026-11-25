@@ -1,10 +1,10 @@
 # 发布包独立完整性核验 / Published Release archive verification
 
-> **方案日期：2026-11-25。当前状态：待 PR 全量 CI、合并后独立工作流运行并核对结果。** 本文不宣称 v2.8.4 发布包已经独立通过校验。正式 [v2.8.4 Release](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 及其 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) / [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) / [Release workflow](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 已在 2026-11-24 成功，**不等于附件下载字节已独立重算**。
+> **2026-11-25：v2.8.4 发布包已独立验收。** [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **success**：独立下载 v2.8.4 发布 ZIP/TAR.GZ/SHA256SUMS、重算 SHA-256、验证 ZIP CRC 与 TAR.GZ，核对 **49 个相同文件（4,771,193 未压缩字节）**；保存 JSON 报告 `published-archive-verification`（artifact `14997601035`）。 [PR #331](https://github.com/kunlong-luo/pagevela/pull/331) 合并为源码 `349d94f05749fcfa52b29ebd9ab2a9e19a44caaf`；该 SHA 新主分支 CI/Pages 属于**另一项验收**，不能从归档核验成功推断已经部署。
 
 ## 改进目的
 
-发布包已有 `pagevela-X.Y.Z.zip`、`pagevela-X.Y.Z.tar.gz` 与 `SHA256SUMS.txt`；原工作流在打包时写出校验和。之前只检查过 GitHub 附件列表及服务端 digest，没有将**发布后重新下载的真实文件**解码并和原始清单比对。这一步独立于 CI、Pages 和 GitHub Release 元数据。
+发布包已有 `pagevela-X.Y.Z.zip`、`pagevela-X.Y.Z.tar.gz` 与 `SHA256SUMS.txt`；原工作流在打包时写出校验和。此前只确认了平台附件与服务端摘要；2026-11-25 已从发布页实际下载字节、重新计算摘要并比较 ZIP/TAR 文件内容。这一步独立于 CI、Pages 和 GitHub Release 元数据。
 
 本次增加：
 
@@ -27,7 +27,7 @@ python3 scripts/verify_release_assets.py --version 2.8.4 --dir ./release-verific
 python3 -m unittest discover -s scripts/tests -p 'test_verify_release_assets.py' -v
 ```
 
-在 GitHub Actions → **Verify Release Archives** → Run workflow：留空 `tag` 将校验最新正式 Release；填写 `v2.8.4` 可重验该固定标签。每周自动检查默认最新 Release。核验通过时，Actions 的 Run、Job 结果与 `published-archive-verification` 附件报告必须另行记录到 [v2.8.4 发行验收表](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。若工作流没有运行、下载失败、单测失败或 ZIP/TAR 内容不一致，必须保持**未验收**。
+在 GitHub Actions → **Verify Release Archives** → Run workflow：留空 `tag` 将校验最新正式 Release；填写 `v2.8.4` 可重验该固定标签。每周自动检查默认最新 Release。v2.8.4 的首次核验 Run 为 [#45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)，报告 artifact ID `14997601035`；可手动重跑其他稳定标签。**每一次新版本或重跑都需独立保留证据**，不能直接复用本次成功。
 
 ## 能证明 / 不能证明
 

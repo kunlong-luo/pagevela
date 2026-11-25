@@ -2,11 +2,11 @@
 
 ## Unreleased
 
-- **2026-11-25 release integrity candidate (not yet merged):** Add a read-only workflow that downloads the latest/specified published Release, recomputes ZIP/TAR.GZ SHA-256 against the manifest, checks archive stream safety and identical files, and saves an audit report. Add synthetic negative unit tests to CI and verify archives before future tag creation. See [release archive integrity](./docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md). This does **not** retroactively validate v2.8.4 assets until the new independent workflow actually passes.
+- **2026-11-25 release integrity [PR #331](https://github.com/kunlong-luo/pagevela/pull/331) merged:** Add a read-only workflow that downloads the latest/specified published Release, recomputes ZIP/TAR.GZ SHA-256 against the manifest, checks archive stream safety and identical files, and saves an audit report. Add synthetic negative unit tests to CI and verify archives before future tag creation. See [release archive integrity](./docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md). v2.8.4 ZIP/TAR downloads were independently verified at [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) (**success**, 49 matching files and original SHA256SUMS). The new main CI/Pages must be checked separately.
 
 ## [2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) — 2026-11-24
 
-> **2026-11-24 正式发布已验收：** tag `ea2a65b`；[完整 main CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。归档文件独立 SHA256 复核仍未验收。
+> **2026-11-24 正式发布已验收：** tag `ea2a65b`；[完整 main CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。2026-11-25 ZIP/TAR 已在 [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) 实际下载后完成 SHA256/49 文件对比（success）。
 
 > **Previous independently deployed pre-release main:** `a8ec3ae15a819c3465a039cf11a659e0ca59afc8` — [full main CI #45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) and [same-SHA Pages #45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) **success**. The [current assessment is 88/100](./docs/ASSESSMENT.md). This was the independently deployed **pre-v2.8.4 source baseline**; the new v2.8.4 tag/assets must be verified against their own main CI/Pages/Release gates.
 

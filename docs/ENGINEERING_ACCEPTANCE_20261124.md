@@ -1,6 +1,6 @@
 # Pagevela 工程验收台账 / Engineering acceptance ledger
 
-> **截至 2026-11-24。** 本文件只记录按提交 SHA 独立核对过的 CI、Pages 与 Release 证据；[项目状态](./PROJECT_STATUS.md) 负责当前摘要，[评分报告](./ASSESSMENT.md) 负责评估。一次 PR 成功 **不能替代**合并后新 main SHA 的完整 CI、同 SHA Pages。
+> **2026-11-25 补充独立发行归档验收。** 本文件只记录按提交 SHA 独立核对过的 CI、Pages 与 Release 证据；[项目状态](./PROJECT_STATUS.md) 负责当前摘要，[评分报告](./ASSESSMENT.md) 负责评估。一次 PR 成功 **不能替代**合并后新 main SHA 的完整 CI、同 SHA Pages。
 
 ## 已完成的生产验收 / Verified same-SHA deliveries
 
@@ -16,7 +16,9 @@
 | **v2.8.4 发布** | `ea2a65b` | [#45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) **success** | [#45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) **success** |
 | **后续文档 main** | `dfad007` | [#45396241838](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) **success** | [#45398234063](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063) **success** |
 
-**额外发行证据：** [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) success，annotated tag `v2.8.4` 解引用为 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`；附件存在但**未独立下载/解压/哈希复算**。
+**2026-11-25 独立归档验收：** [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **success**，v2.8.4 真实下载的两个归档与 SHA256SUMS 均一致，ZIP/TAR 内 49 个文件（4,771,193 未压缩字节）逐项一致；JSON 附件 `published-archive-verification`（artifact `14997601035`）。这不等于新 main `349d94f` 的 CI/Pages 已通过。
+
+**额外发行证据：** [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) success，annotated tag `v2.8.4` 解引用为 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`；当时只确认附件存在；后续独立验收已由 [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) 完成。
 
 **检查含义：** 完整主分支 CI 实际包含 quality、完整 Chromium、Firefox 1/2 和 2/2、WebKit 1/2 和 2/2、cross-browser 汇总以及最终受保护 `build-and-test`。Pages 的 build 与 deploy 必须都为 success；一个绿色的 `Push on main`、`Release workflow` 或 report-only registry audit **不能**替代上述两个门禁。
 
