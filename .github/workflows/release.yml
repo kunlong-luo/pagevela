@@ -201,6 +201,14 @@ jobs:
           )
           sha256sum "pagevela-${VERSION}.zip" "pagevela-${VERSION}.tar.gz" > SHA256SUMS.txt
 
+      - name: Verify packaged archive checksums and identical ZIP/TAR.GZ contents
+        if: steps.version.outputs.should_release == 'true'
+        shell: bash
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python3 scripts/verify_release_assets.py --dir . --version "$VERSION"
+
       - name: Refuse a superseded main commit before tagging
         if: steps.version.outputs.should_release == 'true'
         shell: bash
