@@ -37,9 +37,9 @@
 
 ## Documentation and current project status
 
-- **Current engineering assessment: [88/100](docs/ASSESSMENT.md)** — evidence-based; current formal release is v2.8.4, and the latest separately verified documentation main is `dfad007`. [Latest production status](docs/PROJECT_STATUS.md) · [full CI and same-SHA Pages ledger](docs/ENGINEERING_ACCEPTANCE_20261124.md).
+- **Current engineering assessment: [88/100](docs/ASSESSMENT.md)** — evidence-based; latest independently deployed main is `89dbce9` ([CI](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) / [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924)), while latest stable downloadable Release remains v2.8.4. [Latest production status](docs/PROJECT_STATUS.md) · [full CI and same-SHA Pages ledger](docs/ENGINEERING_ACCEPTANCE_20261124.md).
 - **One documentation index:** [docs/README.md](docs/README.md) — current technical guides, historical reports and separate marketing assets. Historical [87/100 report](docs/ASSESSMENT_20261124_R2.md) is preserved, not treated as current.
-- [Contributing](CONTRIBUTING.md) · [Release process](RELEASING.md) · [Changelog](CHANGELOG.md) · [Workspace backup/migration](docs/WORKSPACE_TRANSFER.md) · [Historical archive](docs/history/README.md).
+- [Contributing](CONTRIBUTING.md) · [Release process](RELEASING.md) · [Changelog](CHANGELOG.md) · [Workspace backup/migration](docs/WORKSPACE_TRANSFER.md) · [Historical archive](docs/history/README.md) · [Published archive verification](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md) (new CI candidate; not yet accepted).
 
 ### Documentation layout
 

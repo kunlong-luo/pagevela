@@ -5,9 +5,7 @@
 
 > **现行流程（2026-11-23）**：由 [PR #304](https://github.com/kunlong-luo/pagevela/pull/304) 合并引入的 `CI → Deploy Pages → Release` 门禁。此文是当前操作指南，而不是自动状态面板。发版前请核对 [最新项目状态](docs/PROJECT_STATUS.md) 和 [实际 Actions](https://github.com/kunlong-luo/pagevela/actions)。
 >
-> **2026-11-24 发布验收更新：** v2.8.3 已于 2026-11-23 从 [`501ca26`](https://github.com/kunlong-luo/pagevela/commit/501ca26a10a023f1a05ce3ce227b288a2a6565d4) 正式发布。该 SHA 的 [完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45194841125)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45197119172)（build/deploy）与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45197385098) 全部成功，tag 解析回同一提交。[v2.8.3](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.3) 已列出 `pagevela-2.8.3.zip`、`pagevela-2.8.3.tar.gz` 及 `SHA256SUMS.txt`；**尚未独立完成二进制解压/逐项哈希校验**。旧 v2.8.2 标签和附件不覆盖。
-
-> 后续新提交属于下一轮验收，不可沿用 `501ca26` 的生产验证结果；参见 [发布验收](docs/V2_8_3_RELEASE_ACCEPTANCE_20261123.md) 和 [项目状态](docs/PROJECT_STATUS.md)。
+> **2026-11-25 下一步：** [发布包完整性复核](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md) 已设计为独立只读流程；必须下载实际已发布附件、重新计算 SHA256SUMS 和对比两种归档内容，另行记录成功 Run 后方可称该项已完成。v2.8.4 已发行资产保持不变。
 
 ## 版本与交付对象
 
@@ -18,13 +16,13 @@
 
 ## 自动发布顺序
 
-1. 经 PR 审核，将已验证的修复和文档合并到 `main`，待需发布内容准备完毕后，另建正常 PR 把 `package.json` 从旧版本提高到新的稳定版本（例如 `2.8.3`）。
+1. 经 PR 审核，将已验证的修复和文档合并到 `main`，待需发布内容准备完毕后，另建正常 PR 把 `package.json` 从旧版本提高到新的稳定版本（例如未来的 `X.Y.Z`）。
 2. **版本 PR** 通过质量、完整 Chromium（含生产 SW 离线导航）、Firefox/WebKit 关键回归、CodeQL 和最终 `build-and-test`，然后合并。
 3. **main-push CI** 在版本合并 SHA 上完成：`quality`、Chromium 全量、Firefox/WebKit 全量分片与最终 `build-and-test` 必须均为 success。
 4. 成功的 CI 触发 `Deploy Pages`。它检验 SHA 未被后续 `main` 替代，并实际完成 `build`、预缓存检测和 `deploy`。
 5. **只有成功的 CI-gated Pages 工作流** 才自动触发 `Release`。该工作流再次从 GitHub Actions API 核实当前 `main` 的同 SHA 成功 `CI`（且 `build-and-test` 成功）及 `Deploy Pages`（且 `deploy` 成功），不信任默认分支 `GITHUB_SHA` 代替上游 SHA。
-6. `Release` 对新版本使用 frozen pnpm 锁文件，运行稳定依赖检查、标准/严格类型检查、双语标签审计、ESLint、Vitest、生产构建、PWA app-shell precache 验证和性能预算。**先生成 ZIP、TAR.GZ 和 SHA256SUMS.txt，再校验最新 main，创建或复用未发布的同 SHA 标签，最后发布 GitHub Release**。
-7. 核对 `vX.Y.Z` 标签确实指向被 CI 与 Pages 验证的提交、两个附件能下载且校验和正确，并核对官网线上同 SHA 部署记录。以上均通过才可宣称版本交付完成。
+6. `Release` 对新版本使用 frozen pnpm 锁文件，运行稳定依赖检查、标准/严格类型检查、双语标签审计、ESLint、Vitest、生产构建、PWA app-shell precache 验证和性能预算。**先生成 ZIP、TAR.GZ 和 SHA256SUMS.txt，用独立校验脚本验证本地包、清单及 ZIP/TAR 文件完全一致，再校验最新 main，创建或复用未发布的同 SHA 标签，最后发布 GitHub Release**（新增校验仅对将来正式发版生效）。
+7. 核对 `vX.Y.Z` 标签指向被 CI 与 Pages 验证的提交，官网线上同 SHA 部署已成功。**发布后**使用 [Verify Release Archives](.github/workflows/verify-release-archives.yml) 从 GitHub Release 重新下载真实附件，逐项重算 SHA-256、验证安全归档路径、CRC 和文件一致性；记录此独立工作流的 Run 与 JSON 报告。若未运行或失败，包完整性仍标为未验收。
 
 `Release` 的自动触发条件是 `Deploy Pages` 的成功完成事件，不再是简单的 `package.json` push。由于这个流程在 #304 合并时版本未变化，**v2.8.3 首次新版本发布现已有实证**：完整 CI、同 SHA Pages、自动 Release 及 tag/归档列出已完成；下一版本仍必须重新检查真实运行记录，不能由本次结果代替。
 

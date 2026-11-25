@@ -12,6 +12,10 @@
 - [x] 发布附件存在：`pagevela-2.8.4.zip`（1,503,102 字节）、`pagevela-2.8.4.tar.gz`（1,475,926 字节）、`SHA256SUMS.txt`（173 字节）；GitHub 提供服务端 digest，**并不等于独立复算**。
 - [ ] 独立下载、解压、读取 `SHA256SUMS.txt`，对 ZIP/TAR.GZ 逐项复算 SHA-256：**尚无独立验收记录，不能勾选**。2026-11-24 本次校验环境无法解析 GitHub 下载域名；GitHub 返回的附件 digest 不能替代独立解压与复算。
 
+## 2026-11-25 附件复核计划（尚未通过）
+
+为填补仍未勾选的独立哈希门禁，已起草 [只读发布包校验流程](./RELEASE_ARCHIVE_INTEGRITY_20261125.md)。它会直接下载 v2.8.4 发布附件，核对两条 SHA-256、ZIP CRC、TAR.GZ 读取、危险归档路径和逐文件相等；只有合并后对应 Actions 工作流成功，且报告明确记录 v2.8.4，才能将以上 **[ ]** 改为 **[x]**。单测成功、候选脚本存在、GH 服务端 digest、主分支部署成功均不能替代独立下载验收。
+
 ## 本次交付范围
 
 - [#323](https://github.com/kunlong-luo/pagevela/pull/323) 跨标签页过期写入保护和手动恢复草稿；[#325](https://github.com/kunlong-luo/pagevela/pull/325) 档案 ID 唯一性；Auto Fit / Quick PDF / 编辑器安全通知可靠性提升。

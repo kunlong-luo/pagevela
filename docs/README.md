@@ -1,6 +1,6 @@
 # Pagevela 文档目录 / Documentation index
 
-> 唯一文档导航：英文主指南 [README.md](../README.md) · 中文主指南 [README.zh-CN.md](../README.zh-CN.md)。[v2.8.4 正式发布](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 和 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；后续文档 `dfad007` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。当前工程评分 [88/100](./ASSESSMENT.md)，发行包独立解压/哈希仍未完成。
+> 唯一文档导航：英文主指南 [README.md](../README.md) · 中文主指南 [README.zh-CN.md](../README.zh-CN.md)。[v2.8.4 正式发布](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 和 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；后续文档 `dfad007` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。当前工程评分 [88/100](./ASSESSMENT.md)。最新实际部署 main `89dbce9` 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) + [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924)；发布附件独立下载校验尚未完成。
 
 ## 从哪里开始 / Start here
 
@@ -10,6 +10,7 @@
 | 最新 main、部署、开放风险 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) |
 | 七维度工程评分与扣分证据 | [ASSESSMENT.md](./ASSESSMENT.md) |
 | CI / Pages / Release 按 SHA 验收台账 | [ENGINEERING_ACCEPTANCE_20261124.md](./ENGINEERING_ACCEPTANCE_20261124.md) |
+| 发布包 ZIP/TAR/SHA256 独立验证 | [RELEASE_ARCHIVE_INTEGRITY_20261125.md](./RELEASE_ARCHIVE_INTEGRITY_20261125.md)（新流程 PR 候选） |
 | 版本历史和变更 | [CHANGELOG](../CHANGELOG.md) · [RELEASE_NOTES](../RELEASE_NOTES.md) |
 | 如何发布、开发及审查 | [RELEASING](../RELEASING.md) · [CONTRIBUTING](../CONTRIBUTING.md) · [SECURITY](../SECURITY.md) |
 | 备份、导入和隐私边界 | [WORKSPACE_TRANSFER](./WORKSPACE_TRANSFER.md) · [PRODUCT_ANALYTICS](./PRODUCT_ANALYTICS.md) |
@@ -22,7 +23,7 @@
 - **引导与启动可靠性：** [引导重播按钮排版及启动恢复（2026-11-25，待独立 CI 验收）](./ONBOARDING_REPLAY_STARTUP_RECOVERY_20261125.md)。
 - **编辑器和排版：** [Auto Fit 测量](./MEASURED_AUTO_FIT_20261124.md) · [恢复前布局](./AUTO_FIT_RESTORE_20261124.md) · [快捷键 Hook](./EDITOR_KEYBOARD_SHORTCUTS_20261123.md) · [存储通知 Hook](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md) · [品牌 UI 组件契约](./BRANDED_UI_CONTRACT.md)。
 - **导出、性能、路线图：** [Quick PDF 异常防护](./PDF_EXPORT_FAILURE_SAFETY_20261124.md) · [优化路线图（原始 2026-11-24 审查）](./PRODUCT_OPTIMIZATION_ROADMAP_20261124.md) · [工程架构长期任务 #282](https://github.com/kunlong-luo/pagevela/issues/282)。
-- **发布/品牌：** [v2.8.4 发布核验](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md) · [供应链历史台账](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) · [品牌兼容协议](./PAGEVELA_BRAND_IMPLEMENTATION_CONTRACT.md) · [品牌迁移完成范围](./PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md)。
+- **发布/品牌：** [v2.8.4 发布核验](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md) · [发布归档独立完整性流程](./RELEASE_ARCHIVE_INTEGRITY_20261125.md) · [供应链历史台账](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) · [品牌兼容协议](./PAGEVELA_BRAND_IMPLEMENTATION_CONTRACT.md) · [品牌迁移完成范围](./PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md)。
 
 ## 目录结构 / Directory structure
 
