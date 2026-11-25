@@ -7,6 +7,15 @@ import { activeResumePersistence } from './lib/resume-persistence';
 import { resumeRepository } from './lib/resume-repository';
 import { setResumeBootstrapSnapshot } from './lib/resume-bootstrap-state';
 
+// Treat a failed IndexedDB hydration as a protected stop, not an empty resume.
+// The user may still have all their real profiles in the unavailable database.
+class ResumeStorageUnavailableError extends Error {
+  constructor() {
+    super('resume-storage-unavailable');
+    this.name = 'ResumeStorageUnavailableError';
+  }
+}
+
 // Suppress benign ResizeObserver loop notification messages that can occur during layout/zoom updates
 if (typeof window !== 'undefined') {
   window.addEventListener('error', (event) => {
@@ -37,7 +46,8 @@ async function bootstrap() {
     setResumeBootstrapSnapshot({ markdown, profiles, jdText });
   } catch (error) {
     setResumeBootstrapSnapshot(null);
-    console.error('[bootstrap] IndexedDB migration failed; continuing with legacy storage:', error);
+    console.error('[bootstrap] IndexedDB migration or read failed; refusing to render a replacement workspace:', error);
+    throw new ResumeStorageUnavailableError();
   }
 
   // Import Store consumers only AFTER the IndexedDB snapshot is available.
@@ -139,9 +149,14 @@ function showStartupRecovery(error: unknown) {
 
   const description = document.createElement('p');
   description.className = 'mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300';
-  description.textContent = isEnglish
-    ? 'A required module failed to load. Your saved resume data has not been cleared. Check your connection and reload to try again.'
-    : '必要的程序模块加载失败。已保存的简历数据没有被清除。请检查网络后重新加载。';
+  const storageUnavailable = error instanceof ResumeStorageUnavailableError;
+  description.textContent = storageUnavailable
+    ? (isEnglish
+      ? 'Saved resumes could not be read from this browser. Editing is paused to avoid showing an empty or outdated resume. No data was cleared. Check browser storage permissions and reload to retry.'
+      : '浏览器无法读取已保存的简历。为避免显示空白或过期简历，编辑功能已暂停。没有清除任何数据；请检查浏览器存储权限，然后重新加载。')
+    : (isEnglish
+      ? 'A required module failed to load. Your saved resume data has not been cleared. Check your connection and reload to try again.'
+      : '必要的程序模块加载失败。已保存的简历数据没有被清除。请检查网络后重新加载。');
 
   const retry = document.createElement('button');
   retry.type = 'button';
