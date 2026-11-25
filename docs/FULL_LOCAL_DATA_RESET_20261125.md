@@ -1,6 +1,6 @@
 # Pagevela 本地数据完整清理与错误恢复 / 2026-11-25
 
-> **修复候选：尚未通过完整 PR CI、合并和同 SHA Pages 验收。** 正式 Release 仍为 v2.8.4；原 88/100 工程评分不因本文件提高。实际验证依照 [PROJECT_STATUS](./PROJECT_STATUS.md)。
+> **已上线验收：[#337](https://github.com/kunlong-luo/pagevela/pull/337) 合并为 `bb347487`，通过 [完整 CI #45591475788](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) 和 [同 SHA Pages #45593665011](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011)。** 正式 Release 仍为 v2.8.4；原 88/100 工程评分不因本文件提高。实际验证依照 [PROJECT_STATUS](./PROJECT_STATUS.md)。
 
 ## 问题与根因
 
@@ -8,7 +8,7 @@
 - 帮助中心已有 IndexedDB 删除，但与异常页是两条不同代码路径，删除失败只写 console，不向用户说明。
 - 清理时自动保存的延迟计时器、活动快照保存队列和草稿轮转队列可能继续执行，**在 IndexedDB 删除后重新创建数据**。
 
-## 当前修复（PR 候选）
+## 当前实现（已合并）
 
 1. 两个已有的**自定义确认 UI** 共用 `src/lib/resume-full-reset.ts`：`clearPagevelaLocalData()`。
 2. 用户主动确认后先暂停 `activeResumePersistence` 和 `activeDraftHistoryPersistence` 的新操作，清除自动保存延迟任务并等待已进入数据库的事务完成；失败则不开始删除。
@@ -32,7 +32,7 @@
 
 ## 交付门槛与待办
 
-PR 的 typecheck、lint、单元测试、Chromium 全套、Firefox/WebKit 分片、最终 `build-and-test` 必须全绿；之后合并到 main 并独立检查同 SHA CI 与 Pages build/deploy。**没有达到门槛之前，不计作线上修复。**
+[#337](https://github.com/kunlong-luo/pagevela/pull/337) 的 typecheck、lint、单元测试、Chromium 全套、Firefox/WebKit 分片、最终 `build-and-test` 已通过；合并后 main `bb347487` 的 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) 和 [Pages build/deploy](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011) 也成功。**不等于**全部 Android 真机或跨标签旧客户端都已验证。
 
 尚未解决：急速关闭页面的 `pagehide` flush 耐久性、长 PDF Canvas 内存、Auto Fit/系统打印、剪贴板权限失败提示、GitHub 私有安全告警与 Android 真实设备矩阵。
 

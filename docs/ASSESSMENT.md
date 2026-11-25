@@ -4,13 +4,13 @@
 
 > **后续同日版本交付（评分保持 88）**：v2.8.4 正式 tag `ea2a65b` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；此前纯文档 main `dfad007` 也通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。下文 `a8ec3ae` 是评分所依托的原始**功能验收基线**，不是最新 main。
 
-> **2026-11-25 更新（评分不变）：** [#335](https://github.com/kunlong-luo/pagevela/pull/335) 与 [#338](https://github.com/kunlong-luo/pagevela/pull/338) 均合并后的 main `0fea9fc` 已通过 [完整 CI #45584515860](https://github.com/kunlong-luo/pagevela/actions/runs/45584515860) 和 [同 SHA Pages #45586651728](https://github.com/kunlong-luo/pagevela/actions/runs/45586651728)；[v2.8.4 发布包独立 ZIP/TAR/SHA256 校验 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) 亦成功。本报告的 `a8ec3ae` 仍是 88 分原始功能验收基线，[#334](https://github.com/kunlong-luo/pagevela/pull/334) 虽已合并为 `07368d64`，但其主分支 CI/Pages 尚待独立验收；[#337](https://github.com/kunlong-luo/pagevela/pull/337) 仍为候选，二者不能提前算作线上成果。评分保持 **88/100**。
+> **2026-11-25 最新复核（仍为 88/100）：** [#334](https://github.com/kunlong-luo/pagevela/pull/334) 的 `07368d64` 已完成 [主分支 CI #45588914443](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) + [同 SHA Pages #45590609387](https://github.com/kunlong-luo/pagevela/actions/runs/45590609387)；[#337](https://github.com/kunlong-luo/pagevela/pull/337) 的 `bb347487` 已完成 [主分支 CI #45591475788](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) + [同 SHA Pages #45593665011](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011)。这些数据保护补强已实际部署，但未完成 Android 系统打印/OEM/PWA、低端性能和跨设备冲突矩阵，因此保守保持 88 分。本轮切后台提前保存仍为未合并 PR 候选。历史的 `a8ec3ae` 是原始评分基线，并非现在最新的 main。
 
 ## 已独立验收的基线 / Proven baseline
 
 | 核验对象 | Git SHA / 可核查证据 | 结果 |
 | --- | --- | --- |
-| 最新已部署 main | `a8ec3ae15a819c3465a039cf11a659e0ca59afc8`（包含 [#323](https://github.com/kunlong-luo/pagevela/pull/323)、[#325](https://github.com/kunlong-luo/pagevela/pull/325)） | 生产源代码 |
+| 数据安全评分的历史功能基线 | `a8ec3ae15a819c3465a039cf11a659e0ca59afc8`（包含 [#323](https://github.com/kunlong-luo/pagevela/pull/323)、[#325](https://github.com/kunlong-luo/pagevela/pull/325)） | 生产源代码 |
 | 完整 main CI | [#45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) | **success**：quality、Chromium 全量、Firefox 2/2、WebKit 2/2、cross-browser、实际执行的受保护 `build-and-test` |
 | 同 SHA GitHub Pages | [#45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) | **success**：build 和 deploy 都成功 |
 | 上一个数据安全基线 | `da3b68bc6c45db666e9c3ba47ce55e2ab73d7e80` | [完整 CI #45370012956](https://github.com/kunlong-luo/pagevela/actions/runs/45370012956) + [同 SHA Pages #45372036914](https://github.com/kunlong-luo/pagevela/actions/runs/45372036914) **success** |

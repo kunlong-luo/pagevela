@@ -57,3 +57,10 @@ Run `pnpm run typecheck`, `pnpm run lint`, `pnpm run test`, `pnpm run build`, an
 **候选变更，不属于已发布 v2.8.4。** 原来的 `handleMarkdownChange` 仅凭打字定时器更新「已保存」，与实际 IndexedDB 提交脱钩。新 `activeResumePersistence.subscribeProgress` 按写入修订序号报告 `idle/saving/saved/failed`，旧快照落盘不使正在编辑的新快照变成「已保存」。懒加载编辑器订阅当前状态，写入失败在 Header 维持失败显示；Ctrl/Cmd+S 旧快照提交不向有更新改动的用户弹出虚假的成功通知。
 
 单元测试覆盖慢写入、交错修订、失败恢复、晚订阅和手动保存过期快照；完整操作、检查项与剩余风险见 [IndexedDB 保存回执验收报告](./INDEXEDDB_SAVE_ACKNOWLEDGEMENT_20261125.md)。该报告仅作为候选代码的验收清单；PR CI、合并后 main CI 与同 SHA Pages 未齐全之前，不写为完成。
+
+
+## 2026-11-25: Backgrounding and BFCache save lifecycle (PR candidate)
+
+- `src/lib/resume-lifecycle.ts` connects `visibilitychange` (`hidden` only) and `pagehide` to the existing `activeResumePersistence.flush()` queue; there is no new writer, localStorage markdown fallback or second storage baseline. It moves the flush attempt earlier when the editor is backgrounded by a mobile OS.
+- `main.tsx` keeps the Zustand persistence subscription alive for the **page lifetime**, including BFCache restores; the old `beforeunload` unsubscribe/flush hook is removed. Read [background lifecycle acceptance](./BACKGROUND_SAVE_LIFECYCLE_20261125.md).
+- Neither lifecycle event can synchronously await IndexedDB; a browser kill or abrupt power loss may still discard in-flight edits. Latest committed revision alone controls the `saved` status. Full unit/CI and new main+Pages must pass before calling the follow-up deployed.

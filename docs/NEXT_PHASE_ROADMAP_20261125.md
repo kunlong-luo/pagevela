@@ -6,15 +6,15 @@
 
 | 任务 | 进度和边界 | 可核验的完成标准 |
 | --- | --- | --- |
-| [#334 内容不被替换](https://github.com/kunlong-luo/pagevela/pull/334) | **PR 完整 CI #45587102689 已成功，合并为 `07368d64`**；内容覆盖保护已入 main，但尚未确认新 SHA 的生产部署 | [主分支 CI #45588914443](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) 和同 SHA Pages；重载/导入/切表单后现有正文与照片不丢 |
+| [#334 内容不被替换](https://github.com/kunlong-luo/pagevela/pull/334) | **已上线：`07368d64`**；完整 main CI/Pages 已通过 | [主分支 CI #45588914443](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) 和 [同 SHA Pages #45590609387](https://github.com/kunlong-luo/pagevela/actions/runs/45590609387) 均 success；重载/导入/切表单后现有正文与照片不丢 |
 | [#335 真实已保存回执](https://github.com/kunlong-luo/pagevela/pull/335) | **已合并**，只有已提交的最新 IndexedDB 快照可显示已保存 | 合并后的 main SHA 全 CI/Pages；失败、竞争修订、晚订阅及真实储存延迟测试持续通过 |
 | [#336 启动读取失败保护](https://github.com/kunlong-luo/pagevela/pull/336) · [#338 WebKit 测试修复](https://github.com/kunlong-luo/pagevela/pull/338) | **均已合并**，WebKit 的 IndexedDB 拒绝访问测试用真实失败操作注入；旧失败 Run 不涂绿 | 最新 main `0fea9fc`：[CI #45584515860](https://github.com/kunlong-luo/pagevela/actions/runs/45584515860) + [同 SHA Pages #45586651728](https://github.com/kunlong-luo/pagevela/actions/runs/45586651728) success |
-| [#337 清理全量本地数据](https://github.com/kunlong-luo/pagevela/pull/337) | 两处确认 UI 共用完整清理、停止自动保存/草稿队列并等待在途写入、分阶段显示失败；候选尚未合并 | [清理专项测试](./FULL_LOCAL_DATA_RESET_20261125.md)；全部 CI、合并后 main 同 SHA Pages，跨来源数据不删；旧版其他标签页仍需先关闭 |
+| [#337 清理全量本地数据](https://github.com/kunlong-luo/pagevela/pull/337) | **已上线：`bb347487`**。两处确认 UI 共用完整清理、等待写入队列、分阶段显示失败 | [清理专项测试](./FULL_LOCAL_DATA_RESET_20261125.md)；[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) + [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011) success，跨来源数据不删；旧版其他标签页仍需先关闭 |
 | v2.8.4 归档完整性 | 真实归档独立校验已成功，而一些原始文档尚遗留「待校验」字样 | [归档工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) success；统一 [发布验收报告](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)、[发布手册](../RELEASING.md) 和 [Release Notes](../RELEASE_NOTES.md)；不改动已发布附件 |
 
 ## 下阶段 P1：性能与移动端真实体验
 
-1. **页签生命周期与保存耐久性。** 检查 `pagehide`、`visibilitychange`、手机杀进程及离线断电：异步 IndexedDB 写入不能在页面终止后得到完成保证。先记录等待写入、失败/恢复与重载回读 E2E，考虑更早的写入触发和离开页面前的状态提示；不伪称「关闭即保证保存」。
+1. **页签生命周期与保存耐久性（当前 PR 候选）：** [切后台提前写入专项说明](./BACKGROUND_SAVE_LIFECYCLE_20261125.md)。 检查 `pagehide`、`visibilitychange`、手机杀进程及离线断电：异步 IndexedDB 写入不能在页面终止后得到完成保证。先记录等待写入、失败/恢复与重载回读 E2E，考虑更早的写入触发和离开页面前的状态提示；不伪称「关闭即保证保存」。
 2. **长简历/弱设备 Quick PDF。** 量化 A4/Letter、1/2/3+ 页图片导出的 Canvas/内存峰值、耗时、取消和失败时草稿保留，优先限制峰值，之后再比较方案。必须包含 PDF 文本/可读性要求，不能用降低分辨率掩盖问题。
 3. **Android 验收矩阵。** 按 [#262](https://github.com/kunlong-luo/pagevela/issues/262) 分别记录微信内置浏览器、Chrome、OEM、安装后 PWA 的 PDF 下载/打印、应用回前台和离线。负责人确认的微信整体成功继续保留，但不扩展到尚未测试的每个分项。
 4. **Auto Fit 收敛与打印。** 按 [#312](https://github.com/kunlong-luo/pagevela/issues/312) 在完整纸型/语言/内容组合中收集实际页面测量和打印结果，保留撤销与字号底线，不承诺任意文档可强制一页。

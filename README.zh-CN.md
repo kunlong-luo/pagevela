@@ -37,11 +37,11 @@
 
 ## 📚 文档目录与最新工程状态
 
-- **当前工程复评：[88/100](docs/ASSESSMENT.md)**；最新独立验收主分支为 `0fea9fc`（[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45584515860) / [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45586651728)），正式 Release 仍为 v2.8.4。[下一阶段工程路线图](docs/NEXT_PHASE_ROADMAP_20261125.md) · [最新项目状态](docs/PROJECT_STATUS.md) · [按 SHA 的工程验收台账](docs/ENGINEERING_ACCEPTANCE_20261124.md)。
+- **当前工程复评：[88/100](docs/ASSESSMENT.md)**；最新独立验收主分支为 `bb347487`（[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) / [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011)），正式 Release 仍为 v2.8.4。[下一阶段工程路线图](docs/NEXT_PHASE_ROADMAP_20261125.md) · [最新项目状态](docs/PROJECT_STATUS.md) · [按 SHA 的工程验收台账](docs/ENGINEERING_ACCEPTANCE_20261124.md)。
 - **唯一文档导航：[docs/README.md](docs/README.md)**，现行技术说明、旧版本资料和平台宣传包分开维护。[历史 87 分报告](docs/ASSESSMENT_20261124_R2.md) 等仍保留，但不是当前评估结果。
-- **简历防覆盖修复已合并、线上验收待完成：** [#334](https://github.com/kunlong-luo/pagevela/pull/334) 已通过完整 PR CI，合并为 `07368d64`；[内容完整性说明](docs/RESUME_CONTENT_INTEGRITY_20261125.md)。仍须该 main 提交的完整 CI 与同 SHA Pages 证据。
-- **数据清理与异常恢复（待合并）：** [完整本地数据清理设计与验收](docs/FULL_LOCAL_DATA_RESET_20261125.md)。运行时异常和帮助中心将使用同一套 IndexedDB/localStorage 清理保护，不属于已发布的 v2.8.4。
-- [贡献指南](CONTRIBUTING.md) · [发布流程](RELEASING.md) · [变更记录](CHANGELOG.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md) · [历史资料索引](docs/history/README.md) · [发布包独立校验设计](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md)（代码候选，尚未验收通过）。
+- **简历防覆盖修复已验收上线：** [#334](https://github.com/kunlong-luo/pagevela/pull/334) 合并为 `07368d64`，通过 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) 与 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45590609387)；[内容完整性说明](docs/RESUME_CONTENT_INTEGRITY_20261125.md)。
+- **完整本地数据清理已验收上线：** [#337](https://github.com/kunlong-luo/pagevela/pull/337) 的异常页/帮助中心清理保护已经通过 `bb347487` 的完整 CI 和 Pages。[本地数据完整清理规范](docs/FULL_LOCAL_DATA_RESET_20261125.md)。**下一阶段候选：** [切后台提前保存](docs/BACKGROUND_SAVE_LIFECYCLE_20261125.md)；尚未合并、不在 v2.8.4 安装包内。
+- [贡献指南](CONTRIBUTING.md) · [发布流程](RELEASING.md) · [变更记录](CHANGELOG.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md) · [历史资料索引](docs/history/README.md) · [发布包独立校验设计](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md)（[独立验收成功 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)）。
 
 ### 文档目录结构
 
