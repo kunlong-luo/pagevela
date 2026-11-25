@@ -129,6 +129,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="space-y-3 pt-2">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button
+                  disabled={this.state.resetBusy || this.state.resetError !== null}
                   onClick={this.handleCopyBackup}
                   className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/20 active:translate-y-px"
                 >
@@ -137,6 +138,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 </button>
 
                 <button
+                  disabled={this.state.resetBusy}
                   onClick={this.handleReload}
                   className="w-full py-2.5 px-4 bg-slate-700 hover:bg-slate-650 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer active:translate-y-px"
                 >
