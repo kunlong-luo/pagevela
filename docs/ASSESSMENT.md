@@ -4,7 +4,7 @@
 
 > **后续同日版本交付（评分保持 88）**：v2.8.4 正式 tag `ea2a65b` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；此前纯文档 main `dfad007` 也通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。下文 `a8ec3ae` 是评分所依托的原始**功能验收基线**，不是最新 main。
 
-> **2026-11-25 更新（评分不变）：** [#335](https://github.com/kunlong-luo/pagevela/pull/335) 与 [#338](https://github.com/kunlong-luo/pagevela/pull/338) 均合并后的 main `0fea9fc` 已通过 [完整 CI #45584515860](https://github.com/kunlong-luo/pagevela/actions/runs/45568793140) 和 [同 SHA Pages #45586651728](https://github.com/kunlong-luo/pagevela/actions/runs/45570418074)；[v2.8.4 发布包独立 ZIP/TAR/SHA256 校验 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) 亦成功。本报告的 `a8ec3ae` 仍是 88 分原始功能验收基线，不能把未合并的内容安全/存储恢复 PR 算作线上成果。评分保持 **88/100**。
+> **2026-11-25 更新（评分不变）：** [#335](https://github.com/kunlong-luo/pagevela/pull/335) 与 [#338](https://github.com/kunlong-luo/pagevela/pull/338) 均合并后的 main `0fea9fc` 已通过 [完整 CI #45584515860](https://github.com/kunlong-luo/pagevela/actions/runs/45584515860) 和 [同 SHA Pages #45586651728](https://github.com/kunlong-luo/pagevela/actions/runs/45586651728)；[v2.8.4 发布包独立 ZIP/TAR/SHA256 校验 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) 亦成功。本报告的 `a8ec3ae` 仍是 88 分原始功能验收基线，[#334](https://github.com/kunlong-luo/pagevela/pull/334) 虽已合并为 `07368d64`，但其主分支 CI/Pages 尚待独立验收；[#337](https://github.com/kunlong-luo/pagevela/pull/337) 仍为候选，二者不能提前算作线上成果。评分保持 **88/100**。
 
 ## 已独立验收的基线 / Proven baseline
 

@@ -17,6 +17,7 @@
 | **后续文档 main** | `dfad007` | [#45396241838](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) **success** | [#45398234063](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063) **success** |
 | **[#332](https://github.com/kunlong-luo/pagevela/pull/332) 引导/模块启动恢复** | `0140b2a` | [#45568793140](https://github.com/kunlong-luo/pagevela/actions/runs/45568793140) **success** | [#45570418074](https://github.com/kunlong-luo/pagevela/actions/runs/45570418074) **success** |
 | **[#335 保存回执](https://github.com/kunlong-luo/pagevela/pull/335) + [#338 WebKit 保护](https://github.com/kunlong-luo/pagevela/pull/338)** | `0fea9fc` | [#45584515860](https://github.com/kunlong-luo/pagevela/actions/runs/45584515860) **success** | [#45586651728](https://github.com/kunlong-luo/pagevela/actions/runs/45586651728) **success** |
+| **[#334](https://github.com/kunlong-luo/pagevela/pull/334) 内容安全修复（刚合并，未验收 main）** | `07368d64` | [PR 全量 CI #45587102689](https://github.com/kunlong-luo/pagevela/actions/runs/45587102689) **success**；main [#45588914443](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) **pending** | 同 SHA Pages **待确认**；不能计入已验证上线基线 |
 
 **额外发行证据：** [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) success，annotated tag `v2.8.4` 解引用为 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`；[独立验证 ZIP/TAR.GZ/SHA256 工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **success**，已真实下载、读取归档并复算。
 

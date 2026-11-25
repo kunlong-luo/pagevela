@@ -39,8 +39,9 @@
 
 - **Current engineering assessment: [88/100](docs/ASSESSMENT.md)** — evidence-based; latest independently verified main is `0fea9fc` ([CI](https://github.com/kunlong-luo/pagevela/actions/runs/45584515860) / [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45586651728)), while latest stable downloadable Release remains v2.8.4. [Next-phase roadmap](docs/NEXT_PHASE_ROADMAP_20261125.md) · [Latest production status](docs/PROJECT_STATUS.md) · [full CI and same-SHA Pages ledger](docs/ENGINEERING_ACCEPTANCE_20261124.md).
 - **One documentation index:** [docs/README.md](docs/README.md) — current technical guides, historical reports and separate marketing assets. Historical [87/100 report](docs/ASSESSMENT_20261124_R2.md) is preserved, not treated as current.
+- **Resume overwrite protection merged (production acceptance pending):** [#334](https://github.com/kunlong-luo/pagevela/pull/334) passed full PR CI and merged as `07368d64`. Its new main CI and same-SHA Pages must pass before this change can be described as deployed. [Data integrity contract](docs/RESUME_CONTENT_INTEGRITY_20261125.md).
 - **Data deletion reliability (PR candidate):** [Full local-data reset and recovery contract](docs/FULL_LOCAL_DATA_RESET_20261125.md) — the crash screen and Privacy settings share guarded IndexedDB/localStorage deletion; this is not part of v2.8.4.
-- [Contributing](CONTRIBUTING.md) · [Release process](RELEASING.md) · [Changelog](CHANGELOG.md) · [Workspace backup/migration](docs/WORKSPACE_TRANSFER.md) · [Historical archive](docs/history/README.md) · [Published archive verification](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md) (new CI candidate; not yet accepted).
+- [Contributing](CONTRIBUTING.md) · [Release process](RELEASING.md) · [Changelog](CHANGELOG.md) · [Workspace backup/migration](docs/WORKSPACE_TRANSFER.md) · [Historical archive](docs/history/README.md) · [Published archive verification](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md) ([archive integrity workflow passed](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)).
 
 ### Documentation layout
 

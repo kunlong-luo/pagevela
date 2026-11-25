@@ -6,7 +6,7 @@
 
 | 任务 | 进度和边界 | 可核验的完成标准 |
 | --- | --- | --- |
-| [#334 内容不被替换](https://github.com/kunlong-luo/pagevela/pull/334) | 已提交导入确认、替换前恢复草稿、模板直链一次性消费、表单 ↔ Markdown 保留与真实简历检测；并非已上线 | 最新 HEAD 全量 PR CI、合并后 main 完整 CI + 同 SHA Pages；重载/导入/切表单后现有正文及照片不丢 |
+| [#334 内容不被替换](https://github.com/kunlong-luo/pagevela/pull/334) | **PR 完整 CI #45587102689 已成功，合并为 `07368d64`**；内容覆盖保护已入 main，但尚未确认新 SHA 的生产部署 | [主分支 CI #45588914443](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) 和同 SHA Pages；重载/导入/切表单后现有正文与照片不丢 |
 | [#335 真实已保存回执](https://github.com/kunlong-luo/pagevela/pull/335) | **已合并**，只有已提交的最新 IndexedDB 快照可显示已保存 | 合并后的 main SHA 全 CI/Pages；失败、竞争修订、晚订阅及真实储存延迟测试持续通过 |
 | [#336 启动读取失败保护](https://github.com/kunlong-luo/pagevela/pull/336) · [#338 WebKit 测试修复](https://github.com/kunlong-luo/pagevela/pull/338) | **均已合并**，WebKit 的 IndexedDB 拒绝访问测试用真实失败操作注入；旧失败 Run 不涂绿 | 最新 main `0fea9fc`：[CI #45584515860](https://github.com/kunlong-luo/pagevela/actions/runs/45584515860) + [同 SHA Pages #45586651728](https://github.com/kunlong-luo/pagevela/actions/runs/45586651728) success |
 | [#337 清理全量本地数据](https://github.com/kunlong-luo/pagevela/pull/337) | 两处确认 UI 共用完整清理、停止自动保存/草稿队列并等待在途写入、分阶段显示失败；候选尚未合并 | [清理专项测试](./FULL_LOCAL_DATA_RESET_20261125.md)；全部 CI、合并后 main 同 SHA Pages，跨来源数据不删；旧版其他标签页仍需先关闭 |

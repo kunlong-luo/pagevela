@@ -15,6 +15,7 @@
 | 版本历史和变更 | [CHANGELOG](../CHANGELOG.md) · [RELEASE_NOTES](../RELEASE_NOTES.md) |
 | 如何发布、开发及审查 | [RELEASING](../RELEASING.md) · [CONTRIBUTING](../CONTRIBUTING.md) · [SECURITY](../SECURITY.md) |
 | 备份、导入和隐私边界 | [WORKSPACE_TRANSFER](./WORKSPACE_TRANSFER.md) · [PRODUCT_ANALYTICS](./PRODUCT_ANALYTICS.md) |
+| 简历覆盖保护、表单/Markdown/照片恢复（#334 已合并、线上验收待完成） | [RESUME_CONTENT_INTEGRITY_20261125.md](./RESUME_CONTENT_INTEGRITY_20261125.md) |
 | 本地数据完整清理、错误恢复（待 CI 验收） | [FULL_LOCAL_DATA_RESET_20261125.md](./FULL_LOCAL_DATA_RESET_20261125.md) |
 | 完整历史资料 | [history/README.md](./history/README.md) |
 | 各平台运营素材（与技术文档分离） | [channel-refresh/README.md](./channel-refresh/README.md) |
