@@ -17,6 +17,7 @@ import { usePeriodicDraftHistory } from '../hooks/usePeriodicDraftHistory';
 import { useEditorKeyboardShortcuts } from '../hooks/useEditorKeyboardShortcuts';
 import { useEditorSafetyNotifications } from '../hooks/useEditorSafetyNotifications';
 import { storage, STORAGE_KEYS } from '../lib/storage';
+import { activeResumePersistence } from '../lib/resume-persistence';
 
 const ResumeChecker = lazy(() => import('./resume-checker/ResumeChecker').then(m => ({ default: m.ResumeChecker })));
 const IframeWarningModal = lazy(() => import('./IframeWarningModal').then(m => ({ default: m.IframeWarningModal })));
@@ -65,6 +66,12 @@ export function EditorWorkspace({ onNavigateToLanding, initialOpenOnboarding }: 
       pdfExportProgress: state.pdfExportProgress,
     })),
   );
+
+  // The header may only say "Saved" once the latest IndexedDB write commits.
+  // Immediate replay also handles commits/failures before this lazy route mounted.
+  useEffect(() => activeResumePersistence.subscribeProgress(status => {
+    useResumeStore.getState().acknowledgePersistence(status);
+  }), []);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLElement>(null);

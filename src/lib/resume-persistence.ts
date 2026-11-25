@@ -11,6 +11,19 @@ export interface PersistedResumeSnapshot {
   jdText: string;
 }
 
+/** Compare with live store state before announcing a manual-save success toast. */
+export function isCommittedSnapshotCurrent(
+  saved: PersistedResumeSnapshot,
+  current: PersistedResumeSnapshot,
+): boolean {
+  return saved.markdown === current.markdown &&
+    saved.profiles === current.profiles &&
+    saved.jdText === current.jdText;
+}
+
+/** 'saved' is emitted only after the latest requested IndexedDB write commits. */
+export type ResumeSaveProgress = 'idle' | 'saving' | 'saved' | 'failed';
+
 /**
  * The saved document in another tab is authoritative on a conflict. The local
  * text/layout is preserved as manual recovery drafts, never silently merged.
@@ -63,9 +76,30 @@ export function createResumePersistenceCoordinator(
   });
   const acknowledgeProfiles = dependencies.acknowledgeProfiles ?? acknowledgeSavedProfileSettings;
   let timer: ReturnType<typeof setTimeout> | null = null;
-  let pending: PersistedResumeSnapshot | null = null;
+  let pending: { snapshot: PersistedResumeSnapshot; revision: number } | null = null;
   let writeChain: Promise<void> = Promise.resolve();
   let hasWriteFailure = false;
+  let latestRevision = 0;
+  let progress: ResumeSaveProgress = 'idle';
+  const progressListeners = new Set<(status: ResumeSaveProgress) => void>();
+
+  const notifyProgress = (status: ResumeSaveProgress) => {
+    progress = status;
+    for (const listener of progressListeners) listener(status);
+  };
+
+  /** A late-mounting editor receives the last known status immediately. */
+  const subscribeProgress = (listener: (status: ResumeSaveProgress) => void) => {
+    progressListeners.add(listener);
+    listener(progress);
+    return () => { progressListeners.delete(listener); };
+  };
+
+  const beginRevision = () => {
+    const revision = ++latestRevision;
+    notifyProgress('saving');
+    return revision;
+  };
 
   const emitHealth = (status: 'error' | 'recovered', error?: unknown) => {
     if (typeof window === 'undefined' || typeof CustomEvent === 'undefined') return;
@@ -97,7 +131,7 @@ export function createResumePersistenceCoordinator(
     hasWriteFailure = false;
   };
 
-  const persist = (snapshot: PersistedResumeSnapshot) => {
+  const persist = (snapshot: PersistedResumeSnapshot, revision: number) => {
     // A failed write must not poison every later autosave attempt.
     writeChain = writeChain
       .catch(() => undefined)
@@ -117,9 +151,12 @@ export function createResumePersistenceCoordinator(
 
           if (hasWriteFailure) emitHealth('recovered');
           hasWriteFailure = false;
+          // Never mark a newer scheduled/uncommitted edit as already saved.
+          if (revision === latestRevision) notifyProgress('saved');
         } catch (error) {
           if (!hasWriteFailure) emitHealth('error', error);
           hasWriteFailure = true;
+          if (revision === latestRevision) notifyProgress('failed');
           throw error;
         }
       });
@@ -136,7 +173,7 @@ export function createResumePersistenceCoordinator(
       timer = null;
     }
     pending = null;
-    return persist(snapshot);
+    return persist(snapshot, beginRevision());
   };
 
   const flush = async () => {
@@ -144,20 +181,20 @@ export function createResumePersistenceCoordinator(
       clearTimeout(timer);
       timer = null;
     }
-    const snapshot = pending;
+    const next = pending;
     pending = null;
-    if (snapshot) await persist(snapshot);
+    if (next) await persist(next.snapshot, next.revision);
     await writeChain;
   };
 
   const schedule = (snapshot: PersistedResumeSnapshot) => {
-    pending = snapshot;
+    pending = { snapshot, revision: beginRevision() };
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       timer = null;
       const next = pending;
       pending = null;
-      if (next) void persist(next).catch((error) => {
+      if (next) void persist(next.snapshot, next.revision).catch((error) => {
         console.error('[resume-persistence] IndexedDB autosave failed:', error);
       });
     }, debounceMs);
@@ -167,7 +204,7 @@ export function createResumePersistenceCoordinator(
     await flush();
   };
 
-  return { schedule, saveNow, flush, dispose, setBaseline };
+  return { schedule, saveNow, flush, dispose, setBaseline, subscribeProgress };
 }
 
 // Shared by the bootstrapped app and the explicit portable workspace importer.
