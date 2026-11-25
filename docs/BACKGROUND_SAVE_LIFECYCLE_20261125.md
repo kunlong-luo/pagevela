@@ -1,6 +1,6 @@
 # 页签切后台 / 页面退出时的简历保存 / 2026-11-25
 
-> **[PR #339](https://github.com/kunlong-luo/pagevela/pull/339) 修复候选，尚未合并或部署。** 正式 GitHub Release 仍为 v2.8.4；当前验收源代码的确切 SHA、CI 与 Pages 见 [项目状态](./PROJECT_STATUS.md)。这是本地浏览器保存的可靠性增强，不是云同步或数据绝对不丢失的保证。
+> **[PR #339](https://github.com/kunlong-luo/pagevela/pull/339) 已合并并通过同 SHA 生产验收：`f88407d0` [完整 CI #45615761703](https://github.com/kunlong-luo/pagevela/actions/runs/45615761703) 与 [Pages #45617579641](https://github.com/kunlong-luo/pagevela/actions/runs/45617579641) 均 success。** 正式 GitHub Release 仍为 v2.8.4；当前验收源代码的确切 SHA、CI 与 Pages 见 [项目状态](./PROJECT_STATUS.md)。这是本地浏览器保存的可靠性增强，不是云同步或数据绝对不丢失的保证。
 
 ## 发现的问题
 
