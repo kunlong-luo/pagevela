@@ -105,6 +105,35 @@ describe('draft history persistence coordinator', () => {
     expect(listener).toHaveBeenCalledTimes(1);
   });
 
+  it('discards queued draft mutations and prevents draft reads after a confirmed reset', async () => {
+    let release: (() => void) | undefined;
+    const stored: ResumeDraft[] = [];
+    const coordinator = createDraftHistoryPersistenceCoordinator({
+      mutateDrafts: async change => {
+        if (stored.length === 0) {
+          await new Promise<void>(resolve => { release = resolve; });
+        }
+        const next = change([...stored]);
+        if (next) stored.splice(0, stored.length, ...next);
+        return [...stored];
+      },
+      readDrafts: async () => [...stored],
+      withWriteLock: async action => action(),
+    });
+
+    const first = coordinator.update(current => [draft('first'), ...current]);
+    await vi.waitFor(() => expect(release).toBeTypeOf('function'));
+    const queued = coordinator.update(current => [draft('must-not-return'), ...current]);
+    const rejectedQueued = expect(queued).rejects.toThrow('resume-reset-in-progress');
+    const suspended = coordinator.suspendForReset();
+    release?.();
+    await Promise.all([first, suspended, rejectedQueued]);
+    expect(stored.map(d => d.id)).toEqual(['first']);
+    await expect(coordinator.update(current => [draft('too-late'), ...current]))
+      .rejects.toThrow('resume-reset-in-progress');
+    await expect(coordinator.read()).rejects.toThrow('resume-reset-in-progress');
+  });
+
   it('queues reads after preceding commits and keeps manual changes unchanged on a no-op', async () => {
     const { coordinator, stored } = memoryCoordinator([draft('original')]);
     const first = coordinator.update(drafts => [draft('next'), ...drafts]);

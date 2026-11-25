@@ -79,6 +79,7 @@ export function createResumePersistenceCoordinator(
   let pending: { snapshot: PersistedResumeSnapshot; revision: number } | null = null;
   let writeChain: Promise<void> = Promise.resolve();
   let hasWriteFailure = false;
+  let resetSuspended = false;
   let latestRevision = 0;
   let progress: ResumeSaveProgress = 'idle';
   const progressListeners = new Set<(status: ResumeSaveProgress) => void>();
@@ -132,10 +133,12 @@ export function createResumePersistenceCoordinator(
   };
 
   const persist = (snapshot: PersistedResumeSnapshot, revision: number) => {
+    if (resetSuspended) return Promise.reject(new Error('resume-reset-in-progress'));
     // A failed write must not poison every later autosave attempt.
     writeChain = writeChain
       .catch(() => undefined)
       .then(async () => {
+        if (resetSuspended) throw new Error('resume-reset-in-progress');
         try {
           const commitSnapshot = async () => {
             await writeSnapshot(snapshot);
@@ -168,6 +171,7 @@ export function createResumePersistenceCoordinator(
    * debounced snapshot prevents a stale timer from replaying an older draft.
    */
   const saveNow = (snapshot: PersistedResumeSnapshot): Promise<void> => {
+    if (resetSuspended) return Promise.reject(new Error('resume-reset-in-progress'));
     if (timer) {
       clearTimeout(timer);
       timer = null;
@@ -177,6 +181,10 @@ export function createResumePersistenceCoordinator(
   };
 
   const flush = async () => {
+    if (resetSuspended) {
+      await writeChain.catch(() => undefined);
+      return;
+    }
     if (timer) {
       clearTimeout(timer);
       timer = null;
@@ -188,23 +196,33 @@ export function createResumePersistenceCoordinator(
   };
 
   const schedule = (snapshot: PersistedResumeSnapshot) => {
+    if (resetSuspended) return;
     pending = { snapshot, revision: beginRevision() };
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       timer = null;
       const next = pending;
       pending = null;
-      if (next) void persist(next.snapshot, next.revision).catch((error) => {
+      if (next && !resetSuspended) void persist(next.snapshot, next.revision).catch((error) => {
         console.error('[resume-persistence] IndexedDB autosave failed:', error);
       });
     }, debounceMs);
+  };
+
+  /** Drain in-flight writes, cancel pending edits and block any later save. */
+  const suspendForReset = async () => {
+    resetSuspended = true;
+    if (timer) clearTimeout(timer);
+    timer = null;
+    pending = null;
+    await writeChain.catch(() => undefined);
   };
 
   const dispose = async () => {
     await flush();
   };
 
-  return { schedule, saveNow, flush, dispose, setBaseline, subscribeProgress };
+  return { schedule, saveNow, flush, dispose, setBaseline, subscribeProgress, suspendForReset };
 }
 
 // Shared by the bootstrapped app and the explicit portable workspace importer.

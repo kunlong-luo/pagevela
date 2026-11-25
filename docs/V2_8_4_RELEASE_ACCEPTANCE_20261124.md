@@ -10,11 +10,11 @@
 - [x] 正式 Release：[run #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) **success**；[GitHub v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 于 2026-11-24 发布。
 - [x] Annotated tag 对象 `905af3c2` 指向版本提交 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`，与三条发布流程一致。
 - [x] 发布附件存在：`pagevela-2.8.4.zip`（1,503,102 字节）、`pagevela-2.8.4.tar.gz`（1,475,926 字节）、`SHA256SUMS.txt`（173 字节）；GitHub 提供服务端 digest，**并不等于独立复算**。
-- [ ] 独立下载、解压、读取 `SHA256SUMS.txt`，对 ZIP/TAR.GZ 逐项复算 SHA-256：**尚无独立验收记录，不能勾选**。2026-11-24 本次校验环境无法解析 GitHub 下载域名；GitHub 返回的附件 digest 不能替代独立解压与复算。
+- [x] **2026-11-25 发布归档独立下载/完整性验收成功。** [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **success**：独立下载 v2.8.4 发布 ZIP/TAR.GZ/SHA256SUMS、重算 SHA-256、验证 ZIP CRC 与 TAR.GZ，核对 **49 个相同文件（4,771,193 未压缩字节）**；保存 JSON 报告 `published-archive-verification`（artifact `14997601035`）。 2026-11-24 其他环境无法下载的历史记录已被此真实成功工作流取代；已发布 tag 和附件未被覆盖。
 
-## 2026-11-25 附件复核计划（尚未通过）
+## 2026-11-25 实际附件验收证据
 
-为填补仍未勾选的独立哈希门禁，已起草 [只读发布包校验流程](./RELEASE_ARCHIVE_INTEGRITY_20261125.md)。它会直接下载 v2.8.4 发布附件，核对两条 SHA-256、ZIP CRC、TAR.GZ 读取、危险归档路径和逐文件相等；只有合并后对应 Actions 工作流成功，且报告明确记录 v2.8.4，才能将以上 **[ ]** 改为 **[x]**。单测成功、候选脚本存在、GH 服务端 digest、主分支部署成功均不能替代独立下载验收。
+[Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **success**：独立下载 v2.8.4 发布 ZIP/TAR.GZ/SHA256SUMS、重算 SHA-256、验证 ZIP CRC 与 TAR.GZ，核对 **49 个相同文件（4,771,193 未压缩字节）**；保存 JSON 报告 `published-archive-verification`（artifact `14997601035`）。 这不等于新 `main` `349d94f` 的完整 CI/同 SHA Pages 已通过；也不等于签名、可复现构建或 Android 系统打印验收。
 
 ## 本次交付范围
 

@@ -28,10 +28,16 @@ export function createDraftHistoryPersistenceCoordinator(
   });
   const listeners = new Set<(drafts: ResumeDraft[]) => void>();
   let chain: Promise<void> = Promise.resolve();
+  let resetSuspended = false;
 
   // Failures reach the initiating UI but must not prevent the next save.
   const enqueue = <T>(action: () => Promise<T>): Promise<T> => {
-    const task = chain.then(action);
+    if (resetSuspended) return Promise.reject(new Error('resume-reset-in-progress'));
+    const task = chain.then(() => {
+      // An action queued before reset must not reopen IndexedDB after deletion.
+      if (resetSuspended) throw new Error('resume-reset-in-progress');
+      return action();
+    });
     chain = task.then(() => undefined, () => undefined);
     return task;
   };
@@ -48,12 +54,18 @@ export function createDraftHistoryPersistenceCoordinator(
   /** Prevent periodic saves from running during a confirmed workspace restore. */
   const exclusive = <T>(action: () => Promise<T>): Promise<T> => enqueue(action);
 
+  /** Finish in-flight draft operations; disallow later mutations and reads. */
+  const suspendForReset = async () => {
+    resetSuspended = true;
+    await chain;
+  };
+
   const subscribe = (listener: (drafts: ResumeDraft[]) => void) => {
     listeners.add(listener);
     return () => { listeners.delete(listener); };
   };
 
-  return { update, read, exclusive, subscribe };
+  return { update, read, exclusive, subscribe, suspendForReset };
 }
 
 export const activeDraftHistoryPersistence = createDraftHistoryPersistenceCoordinator();

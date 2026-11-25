@@ -2,6 +2,7 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Copy, RotateCcw, Check } from 'lucide-react';
 import { storage, STORAGE_KEYS } from '../../lib/storage';
 import { resumeRepository } from '../../lib/resume-repository';
+import { clearPagevelaLocalData, ResumeResetError, type ResumeResetFailureStage } from '../../lib/resume-full-reset';
 import { useResumeStore } from '../../store/useResumeStore';
 import { trackAnalyticsEvent } from '../../lib/analytics';
 import { en } from '../../i18n/locales/en';
@@ -21,6 +22,8 @@ interface State {
   errorInfo: ErrorInfo | null;
   copied: boolean;
   confirmReset: boolean;
+  resetBusy: boolean;
+  resetError: ResumeResetFailureStage | null;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
@@ -30,10 +33,12 @@ export class ErrorBoundary extends Component<Props, State> {
     errorInfo: null,
     copied: false,
     confirmReset: false,
+    resetBusy: false,
+    resetError: null,
   };
 
   public static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error, errorInfo: null, copied: false, confirmReset: false };
+    return { hasError: true, error, errorInfo: null, copied: false, confirmReset: false, resetBusy: false, resetError: null };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -74,9 +79,20 @@ export class ErrorBoundary extends Component<Props, State> {
     this.setState({ confirmReset: true });
   };
 
-  private confirmResetData = () => {
-    storage.clearAllResumeData();
-    window.location.reload();
+  private confirmResetData = async () => {
+    if (this.state.resetBusy) return;
+    this.setState({ resetBusy: true, resetError: null });
+    try {
+      await clearPagevelaLocalData();
+      trackAnalyticsEvent('local_data_cleared');
+      window.location.reload();
+    } catch (error) {
+      console.error('[error-boundary-reset] Could not complete local data reset:', error);
+      this.setState({
+        resetBusy: false,
+        resetError: error instanceof ResumeResetError ? error.stage : 'database',
+      });
+    }
   };
 
   public render() {
@@ -113,6 +129,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="space-y-3 pt-2">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button
+                  disabled={this.state.resetBusy}
                   onClick={this.handleCopyBackup}
                   className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/20 active:translate-y-px"
                 >
@@ -121,6 +138,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 </button>
 
                 <button
+                  disabled={this.state.resetBusy}
                   onClick={this.handleReload}
                   className="w-full py-2.5 px-4 bg-slate-700 hover:bg-slate-650 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer active:translate-y-px"
                 >
@@ -142,12 +160,32 @@ export class ErrorBoundary extends Component<Props, State> {
                 ) : (
                   <div role="group" aria-label={t.confirmReset} className="rounded-xl border border-amber-500/40 bg-amber-950/25 p-3">
                     <p className="text-xs text-amber-100">{t.confirmReset}</p>
+                    <p className="mt-1 text-[11px] text-amber-200/90">
+                      {uiLanguage === 'en'
+                        ? 'This removes every Pagevela resume, profile, draft, and local preference. Other tabs should be closed first.'
+                        : '此操作还会删除全部页帆简历、档案、草稿及偏好；建议先关闭其他页帆标签页。'}
+                    </p>
+                    {this.state.resetError && (
+                      <p role="alert" className="mt-2 rounded-lg border border-rose-500/50 bg-rose-950/60 p-2 text-xs text-rose-100">
+                        {this.state.resetError === 'preferences'
+                          ? (uiLanguage === 'en'
+                            ? 'Partial reset: IndexedDB may already be deleted, but some preferences remain. No success was reported. Reload to inspect storage before retrying.'
+                            : '部分清除：IndexedDB 可能已删除，但仍有偏好未能清除。请重新加载并检查后重试。')
+                          : this.state.resetError === 'suspend'
+                            ? (uiLanguage === 'en'
+                              ? 'Could not stop an ongoing save. No deletion was attempted. Reload and try again.'
+                              : '无法结束正在进行的保存，本次未开始删除。请重新加载后重试。')
+                            : (uiLanguage === 'en'
+                              ? 'The browser could not delete the resume database. Preferences were kept. Reload and retry after closing other tabs.'
+                              : '浏览器未能删除简历数据库；偏好设置未清除。请关闭其他标签页、重新加载后重试。')}
+                      </p>
+                    )}
                     <div className="mt-3 flex justify-center gap-2">
-                      <button type="button" onClick={() => this.setState({ confirmReset: false })} className="rounded-lg border border-slate-600 px-3 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700">
+                      <button type="button" disabled={this.state.resetBusy} onClick={() => this.setState({ confirmReset: false })} className="rounded-lg border border-slate-600 px-3 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700 disabled:opacity-50">
                         {uiLanguage === 'en' ? 'Cancel' : '取消'}
                       </button>
-                      <button type="button" onClick={this.confirmResetData} className="rounded-lg bg-rose-600 px-3 py-2 text-xs font-bold text-white hover:bg-rose-500">
-                        {t.reset}
+                      <button type="button" disabled={this.state.resetBusy || this.state.resetError !== null} onClick={this.confirmResetData} className="rounded-lg bg-rose-600 px-3 py-2 text-xs font-bold text-white hover:bg-rose-500 disabled:opacity-50">
+                        {this.state.resetBusy ? (uiLanguage === 'en' ? 'Deleting…' : '正在清除…') : t.reset}
                       </button>
                     </div>
                   </div>

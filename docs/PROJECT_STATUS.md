@@ -1,33 +1,35 @@
 # Pagevela 项目状态 / Project status
 
-> **核验于 2026-11-25。** [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 仍为正式 Release；最新已完整 CI + 同 SHA Pages 验收的 `main` 为 `349d94f`。发行包独立下载、哈希复算和归档检查工作流成功，但工程修复分支仍须单独通过 PR 及合并后的同 SHA 验收。本页是带 SHA 的状态快照，实时状态请核对 [Actions](https://github.com/kunlong-luo/pagevela/actions)。
+> **核验日期：2026-11-25。** 唯一正式版仍为 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)。这是按提交 SHA 留存的验收记录，非实时 CI 控制台；最新状态请查 [Actions](https://github.com/kunlong-luo/pagevela/actions) 与 [Pull requests](https://github.com/kunlong-luo/pagevela/pulls)。
 
-## 最新正式交付
+## 主分支与正式交付
 
-| 范围 | 版本 / 完整提交及证据 | 状态 |
+| 事项 | 证据 | 结果 |
 | --- | --- | --- |
-| **最新已独立验收 main** | `349d94f05749fcfa52b29ebd9ab2a9e19a44caaf`：[完整 CI #45559458566](https://github.com/kunlong-luo/pagevela/actions/runs/45559458566) · [同 SHA Pages #45560942223](https://github.com/kunlong-luo/pagevela/actions/runs/45560942223) | **success**；质量、跨浏览器及生产构建与部署已验证。此 SHA 仍不含本次未合并的修复 PR |
-| **正式 Release v2.8.4** | annotated tag `905af3c2` 指向 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`：[CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) · [Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) · [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) | **三项成功**；发布于 2026-11-24 |
-| **发行附件** | `pagevela-2.8.4.zip`、`pagevela-2.8.4.tar.gz`、`SHA256SUMS.txt`；[独立验证 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) | **success**：已按工作流完成真实下载、ZIP/TAR.GZ 读取及 SHA256 复算；[#333](https://github.com/kunlong-luo/pagevela/pull/333) 独立验收文档 PR 尚为 draft，不能视为已合并 |
-| **功能改进基线** | `a8ec3ae`：[完整 CI #45372820105](https://github.com/kunlong-luo/pagevela/actions/runs/45372820105) · [同 SHA Pages #45374647806](https://github.com/kunlong-luo/pagevela/actions/runs/45374647806) | #323/#325 已合并并包含在 v2.8.4 |
-| **工程评分** | [88/100](./ASSESSMENT.md) | 数据可靠性从 13 升到 14/15；不因发版或文档工作重复加分 |
+| **最新已独立验收并部署 main** | `0fea9fc9ac122b7282d6e00302846763783d0f55`（[#338](https://github.com/kunlong-luo/pagevela/pull/338)）：[主分支完整 CI #45584515860](https://github.com/kunlong-luo/pagevela/actions/runs/45584515860) · [同 SHA Pages #45586651728](https://github.com/kunlong-luo/pagevela/actions/runs/45586651728) | **均 success**，包含已合并的 #332 引导恢复、#335 真实保存回执、#336 启动读取保护和 #338 WebKit 回归 |
+| **已发布正式版本** | `v2.8.4`，tag 对应 `ea2a65b`：[正式 CI #45387428722](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) · [Pages #45388989138](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) · [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) | **三项 success**；后续 main 代码不自动进入已发布 v2.8.4 压缩包 |
+| **v2.8.4 归档独立核验** | [工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) | **success**：独立下载 ZIP/TAR.GZ/SHA256SUMS，完成 SHA-256 与 49 个文件一致性检查；[正式验收](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md) |
+| **工程评分** | [ASSESSMENT.md](./ASSESSMENT.md) | **88/100**（七维度内部评分，不因发布或尚未上线的 PR 加分） |
 
-## 已交付内容
+## 本阶段合并待验收与修复候选
 
-- [#323](https://github.com/kunlong-luo/pagevela/pull/323)：事务级防过期标签页覆盖，冲突文本/排版进入可恢复手动草稿，持续提醒不遮挡布局工具；[#325](https://github.com/kunlong-luo/pagevela/pull/325)：同毫秒创建/复制档案防主键冲突。
-- [#321](https://github.com/kunlong-luo/pagevela/pull/321)：Auto Fit A4/Letter/语言/页数回归；[#322](https://github.com/kunlong-luo/pagevela/pull/322)：持久化设置清洗独立模块。
-- 中英文 README 精简、[文档统一索引](./README.md)、历史版本归档以及 `pnpm run docs:check`，已随 v2.8.4 对应的主分支门禁验收；未部署的旧站跳转试验已从代码删除。
+| 优先级 | PR | 已提交内容 | 必须完成的门槛 |
+| --- | --- | --- | --- |
+| P0 | [#334 简历内容保护](https://github.com/kunlong-luo/pagevela/pull/334) | 模板 URL 一次性消耗、导入覆盖确认及可恢复草稿、表单/Markdown 无损往返、照片恢复 | **PR 全 CI #45587102689 success，已合并为 `07368d64`**；该主分支 [完整 CI #45588914443](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) 和同 SHA Pages **仍待验收** |
+| P1 | [#337 完整本地数据清理](https://github.com/kunlong-luo/pagevela/pull/337) | 异常页和帮助中心使用统一确认清理；停止活跃/草稿写入，按阶段报告部分失败且不擦除其他应用的数据 | [专项验收说明](./FULL_LOCAL_DATA_RESET_20261125.md) · 完整 CI、合并后 main 同 SHA CI/Pages |
+| 文档 | [#333 发布归档历史文档](https://github.com/kunlong-luo/pagevela/pull/333) | draft 内容与 #337 中已同步的发行验收资料重叠 | 只有相关文档实际合并、确认链接和证据一致后，才能将重复 draft 标记为已被替代 |
 
-## 当前修复候选（2026-11-25，未合并 / 未上线）
+> #334 已合并但尚无新 SHA 完整主分支验收；#335、#336、#338 **已合并**且包含在经完整 main CI/Pages 证明的 `0fea9fc` 中。此前 `d182c91`、`5564c869` 的 WebKit 失败流水保留为历史事实，不冒充成功；新的 `0fea9fc` 检查才是当前已验证基线。详细下一阶段优先级见 [2026-11-25 路线图](./NEXT_PHASE_ROADMAP_20261125.md)。
 
-- [引导与启动恢复 PR #332](https://github.com/kunlong-luo/pagevela/pull/332)：修复窄屏回归测试路径与标记丢失下的覆盖保护；仅最新完整 CI 成功才可合并。
-- [简历内容完整性候选](./RESUME_CONTENT_INTEGRITY_20261125.md)：模板直链一次性消耗、Markdown/表单章节内容保留、普通导入前自定义确认与恢复草稿、旧证件照隔离。单元/E2E 及合并后的 Pages 证据仍待 CI 验收。
-- [发布档案校验 PR #333](https://github.com/kunlong-luo/pagevela/pull/333) 仍为 draft 文档记录，但 main 的 [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) 已成功；不得把文档未合并写成归档验证失败。
+## 仍需解决与验收的风险
 
-## 尚待独立验收
+- **数据与浏览器：** 极快关闭标签时 `pagehide` 异步 flush 不能保证落盘；其他已打开旧版本标签页可能阻塞清理；完整工作区 JSON 是明文，建议妥善保管。 [跨标签页事务防护](./CROSS_TAB_CONFLICT_GUARD_20261124.md) 已解决部分竞争，但不能解决所有旧客户端。
+- **PDF / 移动端：** [Auto Fit #312](https://github.com/kunlong-luo/pagevela/issues/312) 真实打印分页；[Android 真机 #262](https://github.com/kunlong-luo/pagevela/issues/262) 系统打印/OEM 浏览器/已安装 PWA；低内存设备的长 PDF 全页面 canvas 导出。已确认的 Android 微信整体测试，不等于其他分项成功。
+- **其他技术债：** PDF 导出大内存风险、剪贴板权限拒绝时成功提示、编辑器大 Store/大组件模块化、存储健康事件源隔离。
+- **外部事项：** [GitHub 私有告警 #298](https://github.com/kunlong-luo/pagevela/issues/298) 仍需授权核查；品牌商标及媒体改名需分别验收。
 
-- [#282](https://github.com/kunlong-luo/pagevela/issues/282) 已关闭，仍保留后续架构风险追踪：旧版已打开标签页、照片/全部档案元数据恢复、Store/导出架构；[#312](https://github.com/kunlong-luo/pagevela/issues/312)：Auto Fit 完整组合与系统打印；[#262](https://github.com/kunlong-luo/pagevela/issues/262)：Android 系统打印/OEM 浏览器/已安装 PWA 分项。负责人确认过 Android 微信整体验收，但不能替代这些独立证据。
-- [#298](https://github.com/kunlong-luo/pagevela/issues/298)：GitHub 私有安全告警；站外媒体、商标。备份 JSON 为明文。v2.8.4 附件的独立哈希校验见上方成功工作流。
-- 原有 IndexedDB、Web Lock、BroadcastChannel、分享加密兼容标识不更名；旧 `/resume-craft/` Pages 不提供重定向。
+## 兼容与治理规则
 
-[文档目录](./README.md) · [CI/Pages 详细台账](./ENGINEERING_ACCEPTANCE_20261124.md) · [v2.8.4 发布验收](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)
+不修改历史 `resume-craft` IndexedDB、Web Lock、BroadcastChannel 等数据协议标识，不使用原生浏览器确认窗，不改写已发布 tag 或发行附件。已验证合并须保存确切 `main` SHA 的完整 CI/Pages 成功证据；单个 PR 通过不替代上线验收。
+
+[文档目录](./README.md) · [工程验收台账](./ENGINEERING_ACCEPTANCE_20261124.md) · [数据完整清理候选](./FULL_LOCAL_DATA_RESET_20261125.md) · [下一阶段路线图](./NEXT_PHASE_ROADMAP_20261125.md) · [v2.8.4 Release 验收](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)

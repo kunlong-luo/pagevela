@@ -22,8 +22,7 @@ import {
 } from 'lucide-react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { trackAnalyticsEvent } from '../../lib/analytics';
-import { storage } from '../../lib/storage';
-import { deleteResumeDatabase } from '../../lib/resume-db';
+import { clearPagevelaLocalData, ResumeResetError, type ResumeResetFailureStage } from '../../lib/resume-full-reset';
 import { useDialogFocus } from '../../hooks/useDialogFocus';
 
 interface HelpLegalModalProps {
@@ -39,8 +38,12 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
   const displayName = getProductDisplayName(uiLanguage);
   const [activeTab, setActiveTab] = useState<Tab>('guide');
   const [confirmClear, setConfirmClear] = useState(false);
+  const [clearBusy, setClearBusy] = useState(false);
+  const [clearError, setClearError] = useState<ResumeResetFailureStage | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
-  useDialogFocus({ isOpen, dialogRef, onClose });
+  useDialogFocus({ isOpen, dialogRef, onClose: () => {
+    if (!clearBusy && !clearError) onClose();
+  } });
 
   const openGuideTool = (eventName: string) => {
     onClose();
@@ -48,15 +51,16 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
   };
 
   const clearLocalData = async () => {
+    if (clearBusy || clearError) return;
+    setClearBusy(true);
     try {
-      // Delete the durable IndexedDB layer first. If that fails, leave the
-      // remaining app preferences untouched so the user can retry.
-      await deleteResumeDatabase();
-      if (!storage.clearAllResumeData()) return;
+      await clearPagevelaLocalData();
       trackAnalyticsEvent('local_data_cleared');
       window.location.reload();
     } catch (error) {
-      console.error('[clear-local-data] Failed to clear IndexedDB:', error);
+      console.error('[clear-local-data] Could not fully clear browser data:', error);
+      setClearError(error instanceof ResumeResetError ? error.stage : 'database');
+      setClearBusy(false);
     }
   };
 
@@ -127,7 +131,7 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
               </p>
             </div>
           </div>
-          <button type="button" onClick={onClose} aria-label={isEn ? 'Close help' : '关闭帮助'} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <button type="button" disabled={clearBusy || clearError !== null} onClick={onClose} aria-label={isEn ? 'Close help' : '关闭帮助'} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-50">
             <X className="h-5 w-5" />
           </button>
         </header>
@@ -141,6 +145,7 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
             <button
               key={tab}
               type="button"
+              disabled={clearBusy || clearError !== null}
               onClick={() => { setActiveTab(tab); setConfirmClear(false); }}
               className={`flex items-center gap-2 border-b-2 px-3 py-3 text-xs font-bold transition ${activeTab === tab ? 'border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400' : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400'}`}
             >
@@ -230,9 +235,22 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
                       ) : (
                         <div className="mt-3 rounded-lg border border-rose-300 bg-white p-3 dark:border-rose-800 dark:bg-slate-900">
                           <div className="flex items-center gap-2 text-[11px] font-bold text-rose-700 dark:text-rose-300"><AlertTriangle className="h-4 w-4" />{isEn ? `Delete all local ${PRODUCT_NAME} data?` : `确定删除全部 ${displayName} 本地数据？`}</div>
+                          <p className="mt-2 text-[11px] text-rose-700 dark:text-rose-300">{isEn ? 'Close other Pagevela tabs before deleting. This removes every local resume, draft, photo and preference.' : '删除前请关闭其他页帆标签页；这会删除全部本地简历、草稿、照片及偏好设置。'}</p>
+                          {clearError && (
+                            <div role="alert" className="mt-2 rounded-lg border border-rose-300 bg-rose-50 p-2 text-[11px] text-rose-800 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-200">
+                              {clearError === 'preferences'
+                                ? (isEn ? 'Partial reset: IndexedDB may already be deleted, but browser preferences were not fully cleared.' : '部分清除：IndexedDB 可能已删除，但浏览器偏好未能全部清除。')
+                                : clearError === 'suspend'
+                                  ? (isEn ? 'Could not stop ongoing writes. No deletion was attempted.' : '无法结束正在进行的写入，本次未执行删除。')
+                                  : (isEn ? 'IndexedDB deletion failed. Browser preferences were not cleared.' : 'IndexedDB 删除失败，未清除浏览器偏好。')}
+                              <button type="button" className="mt-2 block rounded-md bg-slate-900 px-2 py-1 text-white" onClick={() => window.location.reload()}>
+                                {isEn ? 'Reload to retry safely' : '重新加载后安全重试'}
+                              </button>
+                            </div>
+                          )}
                           <div className="mt-2 flex gap-2">
-                            <button type="button" onClick={() => setConfirmClear(false)} className="rounded-lg border border-slate-300 px-3 py-1.5 text-[11px] font-bold dark:border-slate-700">{isEn ? 'Cancel' : '取消'}</button>
-                            <button type="button" onClick={clearLocalData} className="rounded-lg bg-rose-600 px-3 py-1.5 text-[11px] font-bold text-white hover:bg-rose-700">{isEn ? 'Delete permanently' : '永久删除'}</button>
+                            <button type="button" disabled={clearBusy || clearError !== null} onClick={() => setConfirmClear(false)} className="rounded-lg border border-slate-300 px-3 py-1.5 text-[11px] font-bold dark:border-slate-700 disabled:opacity-50">{isEn ? 'Cancel' : '取消'}</button>
+                            <button type="button" disabled={clearBusy || clearError !== null} onClick={clearLocalData} className="rounded-lg bg-rose-600 px-3 py-1.5 text-[11px] font-bold text-white hover:bg-rose-700 disabled:opacity-50">{clearBusy ? (isEn ? 'Deleting…' : '正在清除…') : (isEn ? 'Delete permanently' : '永久删除')}</button>
                           </div>
                         </div>
                       )}
@@ -265,7 +283,7 @@ export function HelpLegalModal({ isOpen, onClose }: HelpLegalModalProps) {
           <span className="font-mono text-[10px] text-slate-400 dark:text-slate-500">{PRODUCT_NAME} v{__APP_VERSION__}</span>
           <div className="flex items-center gap-2">
             <a href="https://github.com/kunlong-luo/pagevela/discussions" target="_blank" rel="noopener noreferrer" onClick={() => trackAnalyticsEvent('feedback_opened')} className="inline-flex items-center gap-1 px-3 py-1.5 font-bold text-indigo-600 hover:underline dark:text-indigo-400">{isEn ? 'Feedback' : '反馈'}<ExternalLink className="h-3 w-3" /></a>
-            <button type="button" onClick={onClose} className="tactile-btn-primary tactile-btn-primary-hover rounded-lg px-4 py-1.5 font-bold text-white">{isEn ? 'Done' : '完成'}</button>
+            <button type="button" disabled={clearBusy || clearError !== null} onClick={onClose} className="tactile-btn-primary tactile-btn-primary-hover rounded-lg px-4 py-1.5 font-bold text-white disabled:opacity-50">{isEn ? 'Done' : '完成'}</button>
           </div>
         </footer>
       </div>

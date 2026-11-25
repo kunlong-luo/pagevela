@@ -1,18 +1,18 @@
 # Releasing Pagevela / 版本发布流程
 
-> **2026-11-24 v2.8.4 已正式发布：** [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) tag 指向 `ea2a65b`，新版本[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) → [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) → [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 全成功。附件存在，但 ZIP/TAR.GZ 独立下载解压及 SHA256 复算尚未验收，详见 [验收报告](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
+> **2026-11-24 v2.8.4 已正式发布：** [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) tag 指向 `ea2a65b`，新版本[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722) → [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) → [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 全成功。附件已由 [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **独立下载并完成 SHA256、ZIP/TAR 完整性与 49 文件一致性验收**，详见 [验收报告](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。
 
 
 > **现行流程（2026-11-23）**：由 [PR #304](https://github.com/kunlong-luo/pagevela/pull/304) 合并引入的 `CI → Deploy Pages → Release` 门禁。此文是当前操作指南，而不是自动状态面板。发版前请核对 [最新项目状态](docs/PROJECT_STATUS.md) 和 [实际 Actions](https://github.com/kunlong-luo/pagevela/actions)。
 >
-> **2026-11-25 下一步：** [发布包完整性复核](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md) 已设计为独立只读流程；必须下载实际已发布附件、重新计算 SHA256SUMS 和对比两种归档内容，另行记录成功 Run 后方可称该项已完成。v2.8.4 已发行资产保持不变。
+> **2026-11-25 最新验收：** [发布包独立核验](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md) 已由 [Verify Release Archives #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) 成功完成。后续版本仍须各自独立验收；原 v2.8.4 文件和 tag 不变。
 
 ## 版本与交付对象
 
 - 版本以 `package.json` 的稳定三段号 `X.Y.Z` 为准。禁止 alpha、beta、rc、canary、next 等预发布标签。
 - GitHub Release 附件为 `pagevela-X.Y.Z.zip`、`pagevela-X.Y.Z.tar.gz`、`SHA256SUMS.txt`；原有历史文件的名称、内容和校验和保持不变。
 - 官方站点是 <https://kunlong-luo.github.io/pagevela/>。不配置 `/resume-craft/` 自动跳转；保持旧用户 IndexedDB、备份和加密分享兼容。
-- **四个独立的验收对象：** PR 测试、main-push 完整 CI、同 SHA Pages `deploy`、GitHub Release 标签与附件。必须分别核对，不以单个绿色徽标替代。
+- **五个独立的验收对象：** PR 测试、main-push 完整 CI、同 SHA Pages `deploy`、GitHub Release 标签与附件、从正式 Release 重新下载 ZIP/TAR 并独立核验完整性。必须分别核对，不以单个绿色徽标替代。
 
 ## 自动发布顺序
 
