@@ -2,7 +2,9 @@
 
 ## Unreleased
 
-- **2026-11-25 release integrity candidate (not yet merged):** Add a read-only workflow that downloads the latest/specified published Release, recomputes ZIP/TAR.GZ SHA-256 against the manifest, checks archive stream safety and identical files, and saves an audit report. Add synthetic negative unit tests to CI and verify archives before future tag creation. See [release archive integrity](./docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md). This does **not** retroactively validate v2.8.4 assets until the new independent workflow actually passes.
+- **2026-11-25 full browser-data reset candidate (not released):** Unify Runtime ErrorBoundary and Help/Privacy reset actions; stop active resume and draft writes before deleting IndexedDB and Pagevela-owned localStorage; explicitly report partial deletion failures instead of pretending the reset succeeded. Add unit and browser E2E coverage. See [complete reset contract](./docs/FULL_LOCAL_DATA_RESET_20261125.md); full CI and deployed same-SHA main remain separate gates.
+
+- **2026-11-25 release integrity candidate (not yet merged):** Add a read-only workflow that downloads the latest/specified published Release, recomputes ZIP/TAR.GZ SHA-256 against the manifest, checks archive stream safety and identical files, and saves an audit report. Add synthetic negative unit tests to CI and verify archives before future tag creation. See [release archive integrity](./docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md). Independent v2.8.4 archive download/checksum verification later passed in [workflow #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817); the related documentation PR is still a separate change.
 
 ## [2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) — 2026-11-24
 
