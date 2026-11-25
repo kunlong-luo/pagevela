@@ -17,7 +17,8 @@
 | 备份、导入和隐私边界 | [WORKSPACE_TRANSFER](./WORKSPACE_TRANSFER.md) · [PRODUCT_ANALYTICS](./PRODUCT_ANALYTICS.md) |
 | 简历覆盖保护、表单/Markdown/照片恢复（#334 已上线） | [RESUME_CONTENT_INTEGRITY_20261125.md](./RESUME_CONTENT_INTEGRITY_20261125.md) |
 | 本地数据完整清理、错误恢复（#337 已上线） | [FULL_LOCAL_DATA_RESET_20261125.md](./FULL_LOCAL_DATA_RESET_20261125.md) |
-| 切后台保存与 BFCache（下一阶段 PR 候选） | [BACKGROUND_SAVE_LIFECYCLE_20261125.md](./BACKGROUND_SAVE_LIFECYCLE_20261125.md) |
+| 切后台保存与 BFCache（#339 已合并、主分支验收待完成） | [BACKGROUND_SAVE_LIFECYCLE_20261125.md](./BACKGROUND_SAVE_LIFECYCLE_20261125.md) |
+| Quick PDF 内存预算、分页缓冲和长简历回退（PR 候选） | [QUICK_PDF_MEMORY_GUARD_20261125.md](./QUICK_PDF_MEMORY_GUARD_20261125.md) |
 | 完整历史资料 | [history/README.md](./history/README.md) |
 | 各平台运营素材（与技术文档分离） | [channel-refresh/README.md](./channel-refresh/README.md) |
 
@@ -26,7 +27,7 @@
 - **数据可靠性：** [持久化架构](./PERSISTENCE_ARCHITECTURE_20261026.md) · [跨标签冲突防护 #323](./CROSS_TAB_CONFLICT_GUARD_20261124.md) · [档案 ID #325](./PROFILE_ID_UNIQUENESS_20261124.md) · [设置清洗 #322](./PROFILE_SETTINGS_SANITIZER_20261124.md) · [#334 导入保护](https://github.com/kunlong-luo/pagevela/pull/334) · [#335 保存真实回执](https://github.com/kunlong-luo/pagevela/pull/335) · [#337 完整清理](./FULL_LOCAL_DATA_RESET_20261125.md)。
 - **引导与启动可靠性：** [#332 引导及模块加载恢复](./ONBOARDING_REPLAY_STARTUP_RECOVERY_20261125.md) · [#336 IndexedDB 读取保护与 #338 WebKit 回归](./STORAGE_BOOTSTRAP_GUARD_20261125.md)；已包含在有完整 main CI/Pages 证据的版本中。
 - **编辑器和排版：** [Auto Fit 测量](./MEASURED_AUTO_FIT_20261124.md) · [恢复前布局](./AUTO_FIT_RESTORE_20261124.md) · [快捷键 Hook](./EDITOR_KEYBOARD_SHORTCUTS_20261123.md) · [存储通知 Hook](./EDITOR_SAFETY_NOTIFICATIONS_20261124.md) · [品牌 UI 组件契约](./BRANDED_UI_CONTRACT.md)。
-- **导出、性能、路线图：** [Quick PDF 异常防护](./PDF_EXPORT_FAILURE_SAFETY_20261124.md) · [优化路线图（原始 2026-11-24 审查）](./PRODUCT_OPTIMIZATION_ROADMAP_20261124.md) · [工程架构长期任务 #282](https://github.com/kunlong-luo/pagevela/issues/282)。
+- **导出、性能、路线图：** [Quick PDF 异常防护](./PDF_EXPORT_FAILURE_SAFETY_20261124.md) · [Quick PDF 内存候选](./QUICK_PDF_MEMORY_GUARD_20261125.md) · [优化路线图（原始 2026-11-24 审查）](./PRODUCT_OPTIMIZATION_ROADMAP_20261124.md) · [工程架构长期任务 #282](https://github.com/kunlong-luo/pagevela/issues/282)。
 - **发布/品牌：** [v2.8.4 发布核验](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md) · [发布归档独立完整性流程](./RELEASE_ARCHIVE_INTEGRITY_20261125.md) · [供应链历史台账](./RELEASE_SECURITY_ACCEPTANCE_20261123.md) · [品牌兼容协议](./PAGEVELA_BRAND_IMPLEMENTATION_CONTRACT.md) · [品牌迁移完成范围](./PAGEVELA_BRAND_MIGRATION_AUDIT_20261025.md)。
 
 ## 目录结构 / Directory structure
