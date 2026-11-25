@@ -8,6 +8,7 @@
 | --- | --- |
 | 产品介绍、功能、运行命令 | [English README](../README.md) · [中文 README](../README.zh-CN.md) |
 | 最新 main、部署、开放风险 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) |
+| 下一阶段计划（数据、PDF、Android、架构） | [NEXT_PHASE_ROADMAP_20261125.md](./NEXT_PHASE_ROADMAP_20261125.md) |
 | 七维度工程评分与扣分证据 | [ASSESSMENT.md](./ASSESSMENT.md) |
 | CI / Pages / Release 按 SHA 验收台账 | [ENGINEERING_ACCEPTANCE_20261124.md](./ENGINEERING_ACCEPTANCE_20261124.md) |
 | 发布包 ZIP/TAR/SHA256 独立验证 | [RELEASE_ARCHIVE_INTEGRITY_20261125.md](./RELEASE_ARCHIVE_INTEGRITY_20261125.md)（新流程 PR 候选） |
