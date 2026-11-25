@@ -27,3 +27,12 @@
 - 全量工作区恢复、Android 系统打印与 PDF 低内存的证据仍是独立事项。
 
 [工程状态](./PROJECT_STATUS.md) · [持久化架构](./PERSISTENCE_ARCHITECTURE_20261026.md) · [保存成功回执候选 PR #335](https://github.com/kunlong-luo/pagevela/pull/335)
+
+
+## 2026-11-25 WebKit regression follow-up (PR candidate)
+
+After #336 merged as main `d182c91`, [main CI #45570785806](https://github.com/kunlong-luo/pagevela/actions/runs/45570785806) reported a WebKit 2/2 failure: the IndexedDB-blocked bootstrap E2E did not reach the expected recovery screen. The original test replaced `window.indexedDB` with `undefined`, an injection technique that does not consistently override WebKit browser-provided properties.
+
+The follow-up changes **only the browser test**: it replaces `IDBFactory.open` with a deterministic `SecurityError`, then directly verifies that an IndexedDB open attempt is denied before asserting the protected startup screen. This retains the same production guard, data protection and failure copy; it does **not** skip WebKit or weaken the expected UI.
+
+The fix requires its own successful PR CI, followed by new main same-SHA CI and Pages before the WebKit/production acceptance gate can be closed. Do not mark the previous failed main run as passed.
