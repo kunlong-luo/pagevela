@@ -54,14 +54,15 @@ test('does not present an editable starter when IndexedDB is unavailable', async
   await page.goto('/?page=editor');
   // Prove the policy stub took effect rather than passing because the editor
   // happened to fail for an unrelated reason.
-  await expect(page.evaluate(() => {
+  const blocked = await page.evaluate(() => {
     try {
       indexedDB.open('pagevela-storage-denial-fixture');
       return false;
     } catch (error) {
       return error instanceof DOMException && error.name === 'SecurityError';
     }
-  })).resolves.toBe(true);
+  });
+  expect(blocked).toBe(true);
   const recovery = page.getByRole('alert');
   await expect(recovery.getByRole('heading', { name: 'Pagevela could not start' })).toBeVisible();
   await expect(recovery).toContainText('Saved resumes could not be read from this browser');
