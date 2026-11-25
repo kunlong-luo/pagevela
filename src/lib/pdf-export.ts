@@ -2,6 +2,7 @@ import { CSS_PX_PER_MM } from './page-layout';
 import { Language, PaperSize } from '../types';
 import { getPaperSpec } from './paper';
 import { assertRasterCanvasDimensions, assertQuickPdfRasterBudget, requireRasterCanvasContext, assertPdfPageCount } from './pdf-export-validation';
+import { isRasterSliceBlank } from './pdf-raster-scan';
 
 export interface DirectPDFExportOptions {
   filename?: string;
@@ -95,53 +96,6 @@ function findSmartSplitY(
 
   // Fallback if no white gap found: split at idealY
   return idealY;
-}
-
-/**
- * Intelligent helper to check if a horizontal canvas slice is completely blank/white background.
- * Prevents appending trailing empty pages to exported PDF documents.
- */
-function isCanvasSliceBlank(
-  mainCtx: CanvasRenderingContext2D,
-  canvasWidth: number,
-  startY: number,
-  endY: number
-): boolean {
-  if (endY <= startY) return true;
-  const height = endY - startY;
-  if (height <= 2) return true;
-
-  const startX = Math.floor(canvasWidth * 0.03);
-  const endX = Math.floor(canvasWidth * 0.97);
-  const sampleStep = Math.max(1, Math.floor((endX - startX) / 60));
-
-  try {
-    // Sample horizontal rows instead of reading the entire remaining bitmap.
-    // Large multi-page canvases can otherwise allocate tens of MB per check.
-    const rowStep = Math.max(2, Math.floor(height / 80));
-    const probeRows = new Set<number>([
-      startY,
-      Math.max(startY, endY - 2),
-    ]);
-    for (let y = startY; y < endY; y += rowStep) probeRows.add(y);
-
-    for (const y of probeRows) {
-      const imgData = mainCtx.getImageData(startX, y, endX - startX, 1);
-      const data = imgData.data;
-      for (let i = 0; i < data.length; i += 4 * sampleStep) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-        const a = data[i + 3];
-        if (a > 15 && (r < 240 || g < 240 || b < 240)) {
-          return false;
-        }
-      }
-    }
-  } catch {
-    return false;
-  }
-  return true;
 }
 
 /**
@@ -357,7 +311,7 @@ export async function exportDirectPDF(
 
     while (currentY < canvas.height) {
       // Check if remaining slice from currentY to canvas.height is completely blank/white
-      if (mainCtx && isCanvasSliceBlank(mainCtx, canvas.width, currentY, canvas.height)) {
+      if (isRasterSliceBlank(mainCtx, canvas.width, currentY, canvas.height)) {
         break;
       }
 
