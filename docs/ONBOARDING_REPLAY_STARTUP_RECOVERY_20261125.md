@@ -8,10 +8,13 @@
 2. **引导弹窗的多余更新**：重播组件先前订阅整个 Zustand Store，编辑器状态的无关更新也会触发引导重渲染。现在使用 `useShallow` 只读取真正需要的状态和操作。
 3. **启动过程可能白屏的路径**：`main.tsx` 初始化阶段使用 `Promise.all` 动态导入 React 应用及 Providers。若某模块加载失败，原先的 `void bootstrap()` 没有顶层拒绝处理，React ErrorBoundary 尚未挂载，页面没有可操作的恢复入口。现在在此情形展示轻量、双语的启动恢复界面和重新加载按钮；**不执行任何清空本地简历数据的操作**。
 
+4. **运行时异常页无法复制当前简历**：原异常页仅查询已废弃的旧版 `localStorage` 正文键；在已完成 IndexedDB 迁移的浏览器中，该键已删除，备份按钮可能无内容可复制。现在优先复制 Zustand 的活动简历状态；为空时尝试 IndexedDB，最后才回退到旧键。旧数据迁移流程和数据库内容不被修改。
+
 ## 自动回归覆盖
 
 - `e2e/onboarding.e2e.ts`：中文 / 英文 × 320 / 390 / 1280 px 重播流程；检查“下一步”按钮文案、禁止折行、可见性和快捷入口另起一行，再前进到步骤 3，并检查没有页面脚本异常。
 - 同文件的启动失败用例：拦截初始化动态 `App.tsx` 模块请求，确认不再出现空白页面，而是出现恢复提示和重试按钮。
+- `e2e/runtime-recovery.e2e.ts`：用旧键写入模拟简历并在初始化中迁移到 IndexedDB，再阻断编辑器懒加载以触发 React ErrorBoundary；确认旧键已移除、错误界面备份按钮仍能复制完整活动简历。
 - PR 门禁要求：TypeScript、Lint、Vitest、Chromium 完整回归、Firefox/WebKit 关键回归、`build-and-test`；合并后核对 main CI 和同 SHA Pages。单独的用例及分支提交并不代表上述门禁已经通过。
 
 ## 仍未证明的事项
