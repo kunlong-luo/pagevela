@@ -66,6 +66,25 @@ describe('cross-origin portable workspace backups', () => {
     });
   });
 
+  it('preserves a recovery draft portrait through export and restore', () => {
+    const source = {
+      ...original,
+      drafts: [{ ...drafts[0], photoDataUrl: photo }],
+    };
+    const restored = normalizePortableWorkspaceBackup(
+      JSON.parse(serializePortableWorkspaceBackup(source, settings)), settings,
+    );
+    expect(restored?.drafts[0].photoDataUrl).toBe(photo);
+    expect(restored?.drafts[0].markdown).toBe('# Previous');
+  });
+
+  it('rejects unsafe draft portrait data instead of accepting a malicious backup', () => {
+    expect(normalizePortableWorkspaceBackup({
+      ...original,
+      drafts: [{ ...drafts[0], photoDataUrl: 'https://example.org/photo.jpg' }],
+    }, settings)).toBeNull();
+  });
+
   it('preserves valid empty resume and draft content during migration', () => {
     const source = {
       ...original,

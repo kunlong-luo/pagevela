@@ -50,6 +50,8 @@ export interface ResumeDraft {
   settings: ResumeSettings;
   timestamp: string;
   isAutoSave?: boolean;
+  /** Optional local JPEG portrait snapshot; legacy drafts may omit it. */
+  photoDataUrl?: string | null;
 }
 
 export interface ResumeProfile {

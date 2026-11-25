@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { ThemeMode } from '../../types';
-import { storage, STORAGE_KEYS } from '../../lib/storage';
 import { useConfirm } from '../../context/ConfirmContext';
+import { hasExistingResumeWork } from '../../lib/resume-content-protection';
 import { LandingNavbar } from './LandingNavbar';
 import { LandingHero } from './LandingHero';
 import { LandingShowcase } from './LandingShowcase';
@@ -18,7 +18,7 @@ interface LandingPageProps {
 }
 
 export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps) {
-  const { uiLanguage, setUiLanguage, themeMode, setThemeMode, lastSaved, markdown } = useResumeStore();
+  const { uiLanguage, setUiLanguage, themeMode, setThemeMode, lastSaved, markdown, profiles } = useResumeStore();
   const isEn = uiLanguage === 'en';
   const { confirm } = useConfirm();
 
@@ -35,7 +35,7 @@ export function LandingPage({ onOpenEditor, onSelectTemplate }: LandingPageProps
     setThemeMode(nextMode);
   };
 
-  const hasExistingResume = storage.getString(STORAGE_KEYS.ONBOARDING_COMPLETE) === '1' && Boolean(markdown.trim());
+  const hasExistingResume = hasExistingResumeWork(markdown, profiles);
 
   const handleSelectTemplate = async (templateId: string) => {
     if (hasExistingResume) {

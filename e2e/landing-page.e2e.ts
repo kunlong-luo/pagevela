@@ -126,6 +126,8 @@ test.describe('landing-to-editor navigation', () => {
     await page.addInitScript(() => {
       window.localStorage.setItem('resume_ui_language', 'en');
       window.localStorage.setItem('resume-onboarding-v1-complete', '1');
+      // A completion flag alone does not prove a resume was saved.
+      window.localStorage.setItem('resume-markdown', '# Saved Candidate\\n\\n## Experience\\n- Keep my career history');
     });
     await page.goto('/');
     await page.getByRole('button', { name: 'Use Template' }).first().click();
@@ -191,12 +193,25 @@ test.describe('landing-to-editor navigation', () => {
     await page.addInitScript(() => {
       window.localStorage.setItem('resume_ui_language', 'en');
       window.localStorage.setItem('resume-onboarding-v1-complete', '1');
+      window.localStorage.setItem('resume-markdown', '# Saved Candidate\\n\\n## Experience\\n- Existing content');
     });
     await page.goto('/');
 
     await expect(page.getByTestId('landing-nav-cta')).toHaveCount(0);
     await expect(page.getByTestId('landing-hero-cta')).toContainText('Continue Editing');
     await expect(page.getByRole('button', { name: 'Open Editor' })).toHaveCount(0);
+  });
+
+  test('a completed-tour flag without user work does not fabricate a saved resume', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('resume_ui_language', 'en');
+      window.localStorage.setItem('resume-onboarding-v1-complete', '1');
+    });
+    await page.goto('/');
+    await expect(page.getByTestId('landing-hero-cta')).toContainText('Start Building (Free)');
+    await page.getByRole('button', { name: 'Use Template' }).first().click();
+    await expect(page.getByRole('dialog', { name: 'Replace active resume?' })).toHaveCount(0);
+    await expect(page.locator('#editor-pane')).toBeVisible();
   });
 
   test('mobile header remains usable without an editor button', async ({ page }) => {

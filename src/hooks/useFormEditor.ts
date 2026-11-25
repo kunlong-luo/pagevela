@@ -3,6 +3,7 @@ import { formatChineseEnglishSpacing } from '../lib/format-utils';
 import { FormItem, FormSection, ResumeFormModel } from '../lib/form-types';
 import { parseMarkdownToForm, parseFormToMarkdown, getSectionCategory } from '../lib/markdown-parser';
 import { getPresetSection, getStarTemplate, scrollToSectionElement } from '../lib/form-helpers';
+import { convertFormSectionType } from '../lib/form-section-conversion';
 import { useConfirm } from '../context/ConfirmContext';
 import { useToast } from '../components/ui/Toast';
 import { getTranslation } from '../i18n';
@@ -110,55 +111,11 @@ export function useFormEditor(
   };
 
   const handleSectionTypeChange = (sectionId: string, newType: 'text' | 'items') => {
-    const updatedSections = localModel.sections.map(sec => {
-      if (sec.id === sectionId) {
-        if (newType === 'items' && sec.items.length === 0) {
-          const category = getSectionCategory(sec.title);
-          const newItem: FormItem = {
-            id: `item_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-            org: '',
-            role: '',
-            time: '',
-            content: '',
-          };
-          if (category === 'edu') {
-            newItem.degree = '';
-            newItem.gpa = '';
-            newItem.courses = '';
-            newItem.honors = '';
-          }
-          return { ...sec, type: newType, items: [newItem], textValue: '' };
-        } else if (newType === 'text' && !sec.textValue && sec.items.length > 0) {
-          let textVal = '';
-          const gpaTitle = contentLang === 'en' ? 'GPA / Performance' : '在校表现';
-          const coursesTitle = contentLang === 'en' ? 'Core Courses' : '主修课程';
-          const honorsTitle = contentLang === 'en' ? 'Honors & Awards' : '荣誉成就';
-
-          sec.items.forEach(item => {
-            const heading = [item.org, item.degree, item.role, item.time].filter(Boolean).join(' ｜ ');
-            if (heading) {
-              textVal += `### ${heading}\n`;
-            }
-            if (item.gpa && item.gpa.trim()) {
-              textVal += `- **${gpaTitle}**：${item.gpa.trim()}\n`;
-            }
-            if (item.courses && item.courses.trim()) {
-              textVal += `- **${coursesTitle}**：${item.courses.trim()}\n`;
-            }
-            if (item.honors && item.honors.trim()) {
-              textVal += `- **${honorsTitle}**：${item.honors.trim()}\n`;
-            }
-            if (item.content) {
-              textVal += `${item.content.trim()}\n`;
-            }
-            textVal += '\n';
-          });
-          return { ...sec, type: newType, textValue: textVal.trim() };
-        }
-        return { ...sec, type: newType };
-      }
-      return sec;
-    });
+    const updatedSections = localModel.sections.map(section =>
+      section.id === sectionId
+        ? convertFormSectionType(section, newType, contentLang)
+        : section,
+    );
     handleModelChange({ ...localModel, sections: updatedSections });
   };
 

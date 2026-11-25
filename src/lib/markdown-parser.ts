@@ -891,7 +891,13 @@ export function parseFormToMarkdown(model: ResumeFormModel): string {
 
   model.sections.forEach(sec => {
     md += `## ${sec.title}\n`;
-    
+
+    // Mixed sections can contain a preface before their ### entries. The
+    // parser retains it in textValue; never silently discard it on form edits.
+    if (sec.type === 'items' && sec.textValue.trim()) {
+      md += `\n${sec.textValue.trim()}\n`;
+    }
+
     if (sec.type === 'items') {
       md += '\n';
       sec.items.forEach(item => {

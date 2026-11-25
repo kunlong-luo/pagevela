@@ -9,7 +9,14 @@ test.describe('first-run onboarding', () => {
       localStorage.setItem('resume-markdown', '# Keep This Resume\n\nUnique work history.');
     });
     await page.goto('/?page=editor');
+    // Existing IndexedDB-backed user content must NOT trigger the first-run
+    // tour automatically. Explicitly replay it to test replacement safety.
+    await expect(page.locator('#editor-pane')).toBeVisible();
     const tour = page.getByRole('dialog', { name: /Getting started tour|新手引导/ });
+    await expect(tour).toHaveCount(0);
+    await page.getByRole('button', { name: /More actions|更多操作/ }).click();
+    await page.getByRole('button', { name: /^(Help|帮助)$/ }).click();
+    await page.getByRole('button', { name: /Replay the interface tour|重新观看新手教程/ }).click();
     await expect(tour).toBeVisible();
     // Recovering saved content takes the returning-user path, even without the marker.
     await expect(tour.getByTestId('onboarding-quick-start')).toBeVisible();

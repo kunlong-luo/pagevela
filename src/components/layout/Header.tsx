@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { useShallow } from 'zustand/react/shallow';
-import { ThemeMode } from '../../types';
+import { ThemeMode, type ResumeSettings } from '../../types';
 import { ProfileDropdown } from '../profile/ProfileDropdown';
 import { Tooltip } from '../ui';
 import { LanguageToggle } from '../ui/LanguageToggle';
@@ -30,6 +30,10 @@ import { usePWAInstall } from '../../hooks/usePWAInstall';
 import { trackAnalyticsEvent } from '../../lib/analytics';
 import { PdfExportMenu } from '../header/PdfExportMenu';
 import { MoreActionsMenu } from '../header/MoreActionsMenu';
+import { hasExistingResumeWork } from '../../lib/resume-content-protection';
+import { activeDraftHistoryPersistence } from '../../lib/resume-draft-persistence';
+import { useConfirm } from '../../context/ConfirmContext';
+import { useToast } from '../ui/Toast';
 
 const RawTextImportModal = React.lazy(() => import('../modals/RawTextImportModal').then(m => ({ default: m.RawTextImportModal })));
 const ShareResumeModal = React.lazy(() => import('../share/ShareResumeModal').then(m => ({ default: m.ShareResumeModal })));
@@ -59,8 +63,6 @@ export function Header({
     setIsCheckerOpen,
     setIsBackupHubOpen,
     setIsHelpLegalOpen,
-    replaceDocument,
-    settings,
     uiLanguage,
     themeMode,
     setThemeMode,
@@ -78,8 +80,6 @@ export function Header({
       setIsCheckerOpen: state.setIsCheckerOpen,
       setIsBackupHubOpen: state.setIsBackupHubOpen,
       setIsHelpLegalOpen: state.setIsHelpLegalOpen,
-      replaceDocument: state.replaceDocument,
-      settings: state.settings,
       uiLanguage: state.uiLanguage,
       themeMode: state.themeMode,
       setThemeMode: state.setThemeMode,
@@ -94,6 +94,86 @@ export function Header({
   const quickActionsDialogRef = useRef<HTMLDivElement>(null);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { isInstallable, triggerInstall } = usePWAInstall();
+  const { confirm } = useConfirm();
+  const { showToast } = useToast();
+  const importBusyRef = useRef(false);
+
+  const importReplacingDocument = async (
+    nextMarkdown: string,
+    settingsPatch: Partial<ResumeSettings> | undefined,
+    templateId?: string,
+    photoDataUrl?: string | null,
+  ) => {
+    if (importBusyRef.current) return;
+    importBusyRef.current = true;
+    try {
+      const snapshot = useResumeStore.getState();
+      if (hasExistingResumeWork(snapshot.markdown, snapshot.profiles)) {
+        const en = snapshot.uiLanguage === 'en';
+        const approved = await confirm({
+          title: en ? 'Replace active resume?' : '替换当前简历？',
+          message: en
+            ? 'Importing will replace your active resume and reset its undo history. A recovery draft will be saved first. The prior resume photo will be replaced or cleared.'
+            : '导入将覆盖活动简历并重置撤销历史，系统会先保存恢复草稿。原证件照也将被替换或清除。',
+          confirmText: en ? 'Save recovery draft and import' : '保存恢复草稿并导入',
+          cancelText: en ? 'Keep my resume' : '保留当前简历',
+          type: 'warning',
+        });
+        if (!approved) return;
+
+        // Never overwrite if the pre-import recovery snapshot cannot be stored.
+        const before = useResumeStore.getState();
+        const now = new Date();
+        await activeDraftHistoryPersistence.update(current => [{
+          id: `draft_before_import_${now.getTime()}_${Math.random().toString(36).slice(2, 9)}`,
+          title: en ? 'Before resume import' : '导入前的简历备份',
+          markdown: before.markdown,
+          settings: before.settings,
+          templateId: before.currentTemplateId,
+          photoDataUrl: before.profiles.find(profile => profile.id === before.activeProfileId)
+            ?.photoDataUrl ?? null,
+          timestamp: now.toLocaleString(en ? 'en-US' : 'zh-CN', { hour12: false }),
+          isAutoSave: false,
+        }, ...current]);
+        const afterBackup = useResumeStore.getState();
+        // The editor can change while the IndexedDB backup transaction awaits.
+        // A snapshot of the old text is not enough to safely replace newer edits.
+        if (afterBackup.activeProfileId !== before.activeProfileId ||
+            afterBackup.markdown !== before.markdown ||
+            afterBackup.settings !== before.settings) {
+          showToast({
+            title: en ? 'Resume changed during import' : '导入期间简历已发生变化',
+            message: en
+              ? 'Your latest edits were kept. Please reopen Import to retry.'
+              : '新修改未被覆盖。请重新打开导入，确认最新版本。',
+            type: 'warning',
+            duration: 6000,
+          });
+          return;
+        }
+      }
+      const latest = useResumeStore.getState();
+      latest.replaceDocument(
+        nextMarkdown,
+        { ...latest.settings, ...settingsPatch },
+        templateId ?? 'custom',
+      );
+      // Never carry a previous person's portrait into a different imported resume.
+      useResumeStore.getState().setActiveProfilePhoto(photoDataUrl ?? null);
+    } catch (error) {
+      console.error('[resume-import] Could not save recovery draft:', error);
+      showToast({
+        title: isEn ? 'Import not applied' : '导入未执行',
+        message: isEn
+          ? 'Could not save the recovery draft. Your original resume is unchanged.'
+          : '无法保存导入前的恢复草稿，原简历未被覆盖。',
+        type: 'error',
+        duration: 6500,
+      });
+    } finally {
+      importBusyRef.current = false;
+    }
+  };
 
   useDialogFocus({
     isOpen: isMobileMenuOpen,
@@ -577,12 +657,8 @@ export function Header({
           <RawTextImportModal
             isOpen={isRawTextModalOpen}
             onClose={() => setIsRawTextModalOpen(false)}
-            onImport={(newMd, settingsPatch, templateId) => {
-              replaceDocument(
-                newMd,
-                { ...settings, ...settingsPatch },
-                templateId ?? 'custom',
-              );
+            onImport={(newMd, settingsPatch, templateId, photoDataUrl) => {
+              void importReplacingDocument(newMd, settingsPatch, templateId, photoDataUrl);
             }}
             lang={lang}
           />
