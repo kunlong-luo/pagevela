@@ -100,7 +100,7 @@ export function Header({
 
   const importReplacingDocument = async (
     nextMarkdown: string,
-    settingsPatch: Partial<ResumeSettings>,
+    settingsPatch: Partial<ResumeSettings> | undefined,
     templateId?: string,
     photoDataUrl?: string | null,
   ) => {
