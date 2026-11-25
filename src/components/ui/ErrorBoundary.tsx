@@ -1,6 +1,8 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Copy, RotateCcw, Check } from 'lucide-react';
 import { storage, STORAGE_KEYS } from '../../lib/storage';
+import { resumeRepository } from '../../lib/resume-repository';
+import { useResumeStore } from '../../store/useResumeStore';
 import { trackAnalyticsEvent } from '../../lib/analytics';
 import { en } from '../../i18n/locales/en';
 import { zh } from '../../i18n/locales/zh';
@@ -42,7 +44,18 @@ export class ErrorBoundary extends Component<Props, State> {
 
   private handleCopyBackup = async () => {
     try {
-      const savedMarkdown = storage.getString(STORAGE_KEYS.MARKDOWN);
+      // Core draft content moved to IndexedDB. Legacy localStorage alone is
+      // insufficient for emergency backup, especially after a successful migration.
+      // Prefer the live in-memory editor state so recent unsaved edits are included.
+      let markdown = useResumeStore.getState().markdown;
+      if (!markdown) {
+        try {
+          markdown = (await resumeRepository.getActiveMarkdown()) ?? '';
+        } catch (readError) {
+          console.warn('IndexedDB unavailable while preparing emergency backup:', readError);
+        }
+      }
+      const savedMarkdown = markdown || storage.getString(STORAGE_KEYS.MARKDOWN);
       if (savedMarkdown) {
         await navigator.clipboard.writeText(savedMarkdown);
         this.setState({ copied: true });
