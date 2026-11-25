@@ -1,6 +1,6 @@
 # Pagevela 文档目录 / Documentation index
 
-> 唯一文档导航：英文主指南 [README.md](../README.md) · 中文主指南 [README.zh-CN.md](../README.zh-CN.md)。[v2.8.4 正式发布](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 和 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；后续文档 `dfad007` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。当前工程评分 [88/100](./ASSESSMENT.md)。最新实际部署 main `89dbce9` 已通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45400998819) + [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45402787924)；发布附件独立下载校验尚未完成。
+> 唯一文档导航：英文主指南 [README.md](../README.md) · 中文主指南 [README.zh-CN.md](../README.zh-CN.md)。最新已验收 main `349d94f`：[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45559458566) · [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45560942223)；[v2.8.4 正式发布](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)，其发行附件已由 [独立校验工作流](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) 成功核验。当前工程评分 [88/100](./ASSESSMENT.md)。修复 PR 尚未合并时不视为线上交付。
 
 ## 从哪里开始 / Start here
 
@@ -14,6 +14,7 @@
 | 版本历史和变更 | [CHANGELOG](../CHANGELOG.md) · [RELEASE_NOTES](../RELEASE_NOTES.md) |
 | 如何发布、开发及审查 | [RELEASING](../RELEASING.md) · [CONTRIBUTING](../CONTRIBUTING.md) · [SECURITY](../SECURITY.md) |
 | 备份、导入和隐私边界 | [WORKSPACE_TRANSFER](./WORKSPACE_TRANSFER.md) · [PRODUCT_ANALYTICS](./PRODUCT_ANALYTICS.md) |
+| 内容丢失、导入替换与模板直链防护（PR 候选） | [RESUME_CONTENT_INTEGRITY_20261125.md](./RESUME_CONTENT_INTEGRITY_20261125.md) |
 | 完整历史资料 | [history/README.md](./history/README.md) |
 | 各平台运营素材（与技术文档分离） | [channel-refresh/README.md](./channel-refresh/README.md) |
 
