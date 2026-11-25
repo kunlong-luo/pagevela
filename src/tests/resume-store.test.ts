@@ -37,6 +37,32 @@ describe('resume store state consistency', () => {
     });
   });
 
+  it('never marks a changed resume as saved from a typing timer', () => {
+    vi.useFakeTimers();
+    try {
+      const state = useResumeStore.getState();
+      state.handleMarkdownChange('pending IndexedDB commit');
+      expect(useResumeStore.getState().saveStatus).toBe('saving');
+      expect(useResumeStore.getState().isSaving).toBe(true);
+
+      vi.advanceTimersByTime(1500);
+      // Only the persistence coordinator may acknowledge a successful write.
+      expect(useResumeStore.getState().saveStatus).toBe('saving');
+
+      useResumeStore.getState().acknowledgePersistence('failed');
+      expect(useResumeStore.getState().saveStatus).toBe('failed');
+      expect(useResumeStore.getState().isSaving).toBe(false);
+
+      useResumeStore.getState().acknowledgePersistence('saving');
+      expect(useResumeStore.getState().saveStatus).toBe('saving');
+      useResumeStore.getState().acknowledgePersistence('saved');
+      expect(useResumeStore.getState().saveStatus).toBe('saved');
+      expect(useResumeStore.getState().isSaving).toBe(false);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it('invalidates measured page count when content or layout changes', () => {
     useResumeStore.setState({ measuredPageCount: 2 });
 

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- **2026-11-25 IndexedDB save acknowledgement (PR candidate; not yet deployed):** Replace timer-driven “Saved” indicator with revision-aware acknowledgements after the latest actual IndexedDB commit; handle stale in-flight writes and failures, replay progress for the lazy editor, suppress outdated Ctrl/Cmd+S success toasts, and add latency/failure regression tests. [Acceptance and remaining risks](./docs/INDEXEDDB_SAVE_ACKNOWLEDGEMENT_20261125.md). No version bump or new published artifact yet.
+
 - **2026-11-25 release integrity candidate (not yet merged):** Add a read-only workflow that downloads the latest/specified published Release, recomputes ZIP/TAR.GZ SHA-256 against the manifest, checks archive stream safety and identical files, and saves an audit report. Add synthetic negative unit tests to CI and verify archives before future tag creation. See [release archive integrity](./docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md). This does **not** retroactively validate v2.8.4 assets until the new independent workflow actually passes.
 
 ## [2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) — 2026-11-24
