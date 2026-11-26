@@ -6,6 +6,9 @@
 
 > **2026-11-26 最新核验（仍为 88/100）：** #339 的 `f88407d0` 已通过 [主分支 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45615761703) 与 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45617579641)；[#340](https://github.com/kunlong-luo/pagevela/pull/340) PDF 大画布预算的 `0c5c445b` 通过 [CI #45619738725](https://github.com/kunlong-luo/pagevela/actions/runs/45619738725) / [Pages #45620379121](https://github.com/kunlong-luo/pagevela/actions/runs/45620379121)；[#341](https://github.com/kunlong-luo/pagevela/pull/341) 尾页逐像素防漏的 **`626729fc`** 通过 [CI #45622118977](https://github.com/kunlong-luo/pagevela/actions/runs/45622118977) / [Pages #45624338741](https://github.com/kunlong-luo/pagevela/actions/runs/45624338741)。后者为当前**最新独立完成 CI+Pages 双门禁的主分支**。[#342](https://github.com/kunlong-luo/pagevela/pull/342) 页间智能分页完整性仍为 PR 候选，不能提前加分。原 `a8ec3ae` 只代表当时的 88 分初始可靠性基线。缺少低端 Android 的 CPU/Canvas 内存峰值、真实系统打印/PWA/OEM 组合验收，因此性能维度依旧 **8/10**，总分维持 **88/100**。
 
+
+> **2026-11-26 追加验收快照：** [#342](https://github.com/kunlong-luo/pagevela/pull/342) PR CI 成功并合并为 `d278f8894534c7599da9060777222d942f64d041`，[main CI #45744581862](https://github.com/kunlong-luo/pagevela/actions/runs/45744581862) 尚未完成，同 SHA Pages 尚未验收。[#343](https://github.com/kunlong-luo/pagevela/pull/343) 与 [#344](https://github.com/kunlong-luo/pagevela/pull/344) 原 HEAD 的全部必需 PR 测试均成功，但仍为候选，需基于最新 main 重新验收。评分保持 **88/100**；已验证网站可继续公开运营，v2.8.5 新正式发行尚未满足门槛。真实设备内存、系统打印及私有安全告警未独立核验。
+
 ## 已独立验收的基线 / Proven baseline
 
 | 核验对象 | Git SHA / 可核查证据 | 结果 |
