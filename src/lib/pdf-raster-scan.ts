@@ -54,3 +54,104 @@ export function isRasterSliceBlank(
 
   return true;
 }
+
+/**
+ * Find a genuine white band near the intended PDF page boundary.
+ *
+ * The historical smart split only checked one of every ~20 horizontal pixels,
+ * ignored the outer 4% of the page, and treated nearly-white text as blank.
+ * That could choose a gap through a faint glyph, line or icon. Instead, scan
+ * every pixel in the existing 180px look-back window using bounded readbacks.
+ *
+ * A failed readback returns the original page boundary; it is never treated as
+ * proof that a row is blank. Manual page breaks are handled by the caller.
+ */
+export function findSmartRasterSplitY(
+  context: Pick<CanvasRenderingContext2D, 'getImageData'>,
+  canvasWidth: number,
+  canvasHeight: number,
+  startY: number,
+  idealPageCanvasHeight: number,
+): number {
+  if (
+    !Number.isSafeInteger(canvasWidth) || canvasWidth <= 0 ||
+    !Number.isSafeInteger(canvasHeight) || canvasHeight <= 0 ||
+    !Number.isSafeInteger(startY) || startY < 0 || startY >= canvasHeight ||
+    !Number.isSafeInteger(idealPageCanvasHeight) || idealPageCanvasHeight <= 0
+  ) {
+    throw new Error('Quick PDF smart split has invalid dimensions');
+  }
+
+  const idealY = startY + idealPageCanvasHeight;
+  if (!Number.isSafeInteger(idealY)) {
+    throw new Error('Quick PDF smart split has invalid dimensions');
+  }
+  if (idealY >= canvasHeight) return canvasHeight;
+
+  // Preserve the old maximum 180px / minimum 65%-page look-back window;
+  // only the unreliable sparse row/column sampling changes.
+  const minSearchY = Math.max(
+    startY + Math.floor(idealPageCanvasHeight * 0.65),
+    idealY - 180,
+  );
+  const rowCount = idealY - minSearchY + 1;
+  const whiteRows = new Uint8Array(rowCount);
+  const rowsPerRead = Math.max(1, Math.floor(MAX_PROBE_PIXELS / canvasWidth));
+
+  try {
+    for (let topY = minSearchY; topY <= idealY;) {
+      const rows = Math.min(rowsPerRead, idealY - topY + 1);
+      const data = context.getImageData(0, topY, canvasWidth, rows).data;
+      if (data.length !== canvasWidth * rows * 4) return idealY;
+
+      for (let row = 0; row < rows; row++) {
+        const rowStart = row * canvasWidth * 4;
+        const rowEnd = rowStart + canvasWidth * 4;
+        let white = true;
+        for (let pixel = rowStart; pixel < rowEnd; pixel += 4) {
+          if (
+            data[pixel + 3] > 0 &&
+            (data[pixel] !== 255 || data[pixel + 1] !== 255 || data[pixel + 2] !== 255)
+          ) {
+            white = false;
+            break;
+          }
+        }
+        whiteRows[topY + row - minSearchY] = white ? 1 : 0;
+      }
+      topY += rows;
+    }
+  } catch {
+    return idealY;
+  }
+
+  // Preserve the largest white band preference. A four-row gap is the same
+  // minimum as before; the old gap-size variable counted index differences,
+  // so require at least five consecutive blank rows for equivalent behavior.
+  let bestY = idealY;
+  let bestLength = 0;
+  let runBottom = -1;
+  let runTop = -1;
+  const considerRun = () => {
+    if (runBottom < 0) return;
+    const length = runBottom - runTop + 1;
+    if (length >= 5 && length > bestLength) {
+      bestLength = length;
+      bestY = Math.floor((runBottom + runTop) / 2);
+    }
+    runBottom = -1;
+    runTop = -1;
+  };
+
+  for (let y = idealY; y >= minSearchY; y--) {
+    if (whiteRows[y - minSearchY] === 1) {
+      if (runBottom < 0) runBottom = y;
+      runTop = y;
+    } else {
+      considerRun();
+    }
+  }
+  considerRun();
+
+  return bestY;
+}
