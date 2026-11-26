@@ -12,7 +12,7 @@
 | [#337 清理全量本地数据](https://github.com/kunlong-luo/pagevela/pull/337) | **已上线：`bb347487`**。两处确认 UI 共用完整清理、等待写入队列、分阶段显示失败 | [清理专项测试](./FULL_LOCAL_DATA_RESET_20261125.md)；[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) + [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011) success，跨来源数据不删；旧版其他标签页仍需先关闭 |
 | v2.8.4 归档完整性 | 归档独立校验及发布验收文档已统一，重复 PR #333 已关闭 | [归档工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) success；统一 [发布验收报告](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)、[发布手册](../RELEASING.md) 和 [Release Notes](../RELEASE_NOTES.md)；不改动已发布附件 |
 
-**发版前收敛：** #343 引导重播与 #344 剪贴板回退原 HEAD 已通过 PR CI，仍需集成、合并及同 SHA 部署；此后另行走 v2.8.5 正式版本门禁。
+**发版前收敛：** [#343](https://github.com/kunlong-luo/pagevela/pull/343) 引导重播已合并，待 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45750449141) 及同 SHA Pages；[#344](https://github.com/kunlong-luo/pagevela/pull/344) 剪贴板回退集成 PR CI 已通过，现同步 #343 后再次验收；两项生产验收完成后另行走 v2.8.5 正式版本门禁。
 
 ## 下阶段 P1：性能与移动端真实体验
 

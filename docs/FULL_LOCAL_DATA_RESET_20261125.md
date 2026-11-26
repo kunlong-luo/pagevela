@@ -53,4 +53,4 @@
 - 在 `e2e/runtime-recovery.e2e.ts` 用虚构简历模拟剪贴板 NotAllowedError，分别验证中英文可见、只读、完整正文、无虚假成功及 IndexedDB 不变；原成功复制用例继续保留。将该文件纳入 PR Firefox/WebKit 关键回归。
 - 本变更需要当前 HEAD 的 quality、完整 Chromium、关键 Firefox/WebKit 与 build-and-test；合并后完整 main CI 和同 SHA Pages 独立核验。当前评分 88/100；未经真实浏览器验收不加分，不宣称所有微信/OEM 剪贴板场景已解决。
 
-**2026-11-26 验收快照：** [原 PR CI #45743859794](https://github.com/kunlong-luo/pagevela/actions/runs/45743859794) 的 quality、Chromium、Firefox/WebKit 关键回归及 build-and-test 全部成功。当前分支已同步通过完整 CI/Pages 的 `d278f889`，新 HEAD 仍须重新测试；未合并，不计入线上能力。
+**2026-11-26 验收快照：** 原 PR CI #45743859794 与 [集成 PR CI #45746913427](https://github.com/kunlong-luo/pagevela/actions/runs/45746913427) 均成功；现同步已合并 #343 的 `54102021093732e0ff2c79be89f03ae4880774d3`，新 HEAD 须重新测试；未合并，不计入线上能力。

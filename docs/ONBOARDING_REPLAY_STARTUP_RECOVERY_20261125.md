@@ -1,6 +1,6 @@
 # 2026-11-25 引导重播与启动恢复检查
 
-> 本文记录待 PR / CI 验收的源代码修复，不是已经通过的线上验收。正式版本仍是 v2.8.4；不改变 IndexedDB、存储迁移、备份格式或发布附件。
+> 2026-11-26 复核：原 [#332](https://github.com/kunlong-luo/pagevela/pull/332) 引导重播及启动恢复已包含于后续通过完整 CI 与 Pages 的主分支；最新已验收基线 `626729fc`：[CI](https://github.com/kunlong-luo/pagevela/actions/runs/45622118977) · [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45624338741)。正式发行包仍为 v2.8.4。本文新增的连续重播与实际文字边界测试为待验收候选，不改变运行时代码、IndexedDB、存储迁移或发布附件。
 
 ## 排查结果和改动
 
@@ -17,6 +17,14 @@
 - `e2e/runtime-recovery.e2e.ts`：用旧键写入模拟简历并在初始化中迁移到 IndexedDB，再阻断编辑器懒加载以触发 React ErrorBoundary；确认旧键已移除、错误界面备份按钮仍能复制完整活动简历。
 - PR 门禁要求：TypeScript、Lint、Vitest、Chromium 完整回归、Firefox/WebKit 关键回归、`build-and-test`；合并后核对 main CI 和同 SHA Pages。单独的用例及分支提交并不代表上述门禁已经通过。
 
+## 2026-11-26 下一阶段回归增强（候选）
+
+- 继续使用现有中文 / 英文 × 320 / 390 / 1280 px 六组测试，不新增平行测试文件或重复文档。
+- 通过 DOM Range 测量每个非空文本节点的实际布局矩形，并检查按钮 scrollWidth/clientWidth，避免仅凭 nowrap 或可见性误判文字未被裁切。保留 1 CSS px 的取整容差；不是截图或像素级视觉验收。
+- 在第 3 步使用 Escape 关闭引导，从桌面帮助或移动快捷菜单再次重播；确认下一步仍可见且文案完整，点击进入第 2 步而非沿用上次步骤，退出后对比原 IndexedDB 正文且无 pageerror。
+- 变更仅涉及已有 E2E 和本专项说明。先通过 PR quality、Chromium 全量、Firefox/WebKit 关键回归与 build-and-test；合并后完整 main CI 和同 SHA Pages 独立验收。未运行成功前不增加工程评分。
+- [#342](https://github.com/kunlong-luo/pagevela/pull/342) PDF 页间完整性候选保持独立，不因本测试分支而重启其 CI。正式发布仍须完成全部相关门禁；真机系统打印、OEM/PWA 和长简历性能不由本测试证明。
+
 ## 仍未证明的事项
 
 - 用户反馈的“经常崩溃”目前没有具体错误堆栈、设备、浏览器和触发动作；不能断言已找出全部崩溃根因。启动白屏属于已从源码确认的**缺少异常兜底的风险路径**，不是现场复现证据。
@@ -24,3 +32,6 @@
 - 发生错误时，尽量先使用现有 ErrorBoundary 的文本备份入口；不要因页面异常直接清空浏览器站点数据。
 
 [返回文档索引](./README.md) · [项目状态](./PROJECT_STATUS.md)
+
+
+**2026-11-26 后续验收：** [#343](https://github.com/kunlong-luo/pagevela/pull/343) [集成 PR CI #45745901473](https://github.com/kunlong-luo/pagevela/actions/runs/45745901473) 全部必需任务成功，已合并 `54102021093732e0ff2c79be89f03ae4880774d3`；[main CI #45750449141](https://github.com/kunlong-luo/pagevela/actions/runs/45750449141) 与同 SHA Pages 尚待独立验收。此为自动化回归，不等于真机验收。
