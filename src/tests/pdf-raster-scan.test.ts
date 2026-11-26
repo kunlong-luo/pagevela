@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { isRasterSliceBlank } from '../lib/pdf-raster-scan';
+import { isRasterSliceBlank, findSmartRasterSplitY } from '../lib/pdf-raster-scan';
 
 function makeRaster(
   marker?: { x: number; y: number; red?: number; alpha?: number },
@@ -55,5 +55,77 @@ describe('Quick PDF trailing raster preservation', () => {
 
     const incomplete = { getImageData: vi.fn(() => ({ data: new Uint8ClampedArray(3) })) } as unknown as Pick<CanvasRenderingContext2D, 'getImageData'>;
     expect(isRasterSliceBlank(incomplete, 10, 0, 1)).toBe(false);
+  });
+});
+
+
+function makeSplitScan(
+  pageWidth: number,
+  whiteBands: Array<[number, number]>,
+  faintEdge?: { x: number; y: number },
+) {
+  const getImageData = vi.fn((_x: number, top: number, width: number, height: number) => {
+    const data = new Uint8ClampedArray(width * height * 4);
+    data.fill(255);
+    for (let row = 0; row < height; row++) {
+      const y = top + row;
+      const isWhiteBand = whiteBands.some(([first, last]) => y >= first && y <= last);
+      if (!isWhiteBand) data[row * width * 4] = 0;
+      if (faintEdge?.y === y && faintEdge.x < width) {
+        data[(row * width + faintEdge.x) * 4] = 254;
+      }
+    }
+    return { data } as ImageData;
+  });
+  return {
+    context: { getImageData } as unknown as Pick<CanvasRenderingContext2D, 'getImageData'>,
+    getImageData,
+    width: pageWidth,
+  };
+}
+
+describe('Quick PDF smart page-boundary gap safety', () => {
+  it('selects the longest real white band within the existing 180px/65% look-back', () => {
+    const { context, getImageData, width } = makeSplitScan(1600, [
+      [1100, 1107],
+      [1180, 1190],
+    ]);
+    expect(findSmartRasterSplitY(context, width, 2400, 0, 1200)).toBe(1185);
+    expect(getImageData).toHaveBeenCalled();
+    expect(getImageData.mock.calls.every(([, , w, rows]) => w * rows <= 32_768)).toBe(true);
+    expect(getImageData.mock.calls.every(([x, , w]) => x === 0 && w === width)).toBe(true);
+    expect(getImageData.mock.calls.reduce((total, [, , , rows]) => total + rows, 0)).toBe(181);
+  });
+
+  it('does not treat a single faint edge pixel as a gap crossing a text stroke', () => {
+    const { context, width } = makeSplitScan(
+      1600,
+      [[1100, 1107], [1180, 1190]],
+      { x: 1599, y: 1185, },
+    );
+    // Old sampled-column and near-white checks would still choose 1185.
+    // The exact-pixel scan rejects that gap and picks the earlier clean one.
+    expect(findSmartRasterSplitY(context, width, 2400, 0, 1200)).toBe(1103);
+  });
+
+  it('does not shrink the page for a white gap shorter than five rows', () => {
+    const { context } = makeSplitScan(816, [[1150, 1153]]);
+    expect(findSmartRasterSplitY(context, 816, 2400, 0, 1200)).toBe(1200);
+  });
+
+  it('keeps the ideal boundary when reading pixels fails or returns malformed data', () => {
+    const unavailable = { getImageData: vi.fn(() => { throw new Error('readback blocked'); }) };
+    expect(findSmartRasterSplitY(unavailable, 800, 2400, 0, 1200)).toBe(1200);
+    const malformed = { getImageData: vi.fn(() => ({ data: new Uint8ClampedArray(2) as Uint8ClampedArray })) } as unknown as Pick<CanvasRenderingContext2D, 'getImageData'>;
+    expect(findSmartRasterSplitY(malformed, 800, 2400, 0, 1200)).toBe(1200);
+  });
+
+  it('preserves last-page clipping, layout limits and rejects invalid dimensions', () => {
+    const context = makeSplitScan(1600, [[1180, 1190]]).context;
+    expect(findSmartRasterSplitY(context, 1600, 1200, 0, 1200)).toBe(1200);
+    expect(findSmartRasterSplitY(context, 1600, 1800, 900, 1000)).toBe(1800);
+    expect(() => findSmartRasterSplitY(context, 0, 2000, 0, 1200)).toThrow('invalid dimensions');
+    expect(() => findSmartRasterSplitY(context, 800, 2000, -1, 1200)).toThrow('invalid dimensions');
+    expect(() => findSmartRasterSplitY(context, 800, 2000, 0, 0)).toThrow('invalid dimensions');
   });
 });

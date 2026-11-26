@@ -1,6 +1,6 @@
 # Quick PDF 大画布内存保护 / Raster memory guard — 2026-11-25
 
-> **[PR #340](https://github.com/kunlong-luo/pagevela/pull/340) 已通过 [完整 PR CI #45616120212](https://github.com/kunlong-luo/pagevela/actions/runs/45616120212) 并合并为主分支 `0c5c445`；新 main CI/Pages 仍需独立验收。** 当前正式 GitHub Release 仍为 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)。本次优化直接作用于 Quick PDF 的图像导出，不修改 ATS 浏览器打印。状态和准确 SHA 以 [项目状态](./PROJECT_STATUS.md) 与 GitHub Actions 为准。
+> **[PR #340](https://github.com/kunlong-luo/pagevela/pull/340) 已合并为 `0c5c445be24d600fabb992870bb6d500c48a871b`，[CI #45619738725](https://github.com/kunlong-luo/pagevela/actions/runs/45619738725) 和 [Pages #45620379121](https://github.com/kunlong-luo/pagevela/actions/runs/45620379121) 均 success，完成线上验收。** 当前正式 GitHub Release 仍为 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)。本次优化直接作用于 Quick PDF 的图像导出，不修改 ATS 浏览器打印。状态和准确 SHA 以 [项目状态](./PROJECT_STATUS.md) 与 GitHub Actions 为准。
 
 ## 源代码审查发现的可复现风险
 
