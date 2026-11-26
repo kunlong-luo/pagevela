@@ -1,6 +1,6 @@
 # Quick PDF 智能分页边界内容完整性 / 2026-11-26
 
-> **本阶段修复候选：尚未取得完整 PR / main CI 与同 SHA Pages 验收。** 已上线的前置修复包括 [#340 内存预算](./QUICK_PDF_MEMORY_GUARD_20261125.md) 和 [#341 尾页防丢](./PDF_TRAILING_CONTENT_INTEGRITY_20261125.md)。当前 GitHub 正式下载版仍是 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)；浏览器版可包含后续合并改动，不能与该发布包混为一谈。
+> **[PR #342](https://github.com/kunlong-luo/pagevela/pull/342) 修复候选：尚未取得最新提交的完整 PR CI / 合并后 main CI 与同 SHA Pages 验收。** 已上线的前置修复包括 [#340 内存预算](./QUICK_PDF_MEMORY_GUARD_20261125.md) 和 [#341 尾页防丢](./PDF_TRAILING_CONTENT_INTEGRITY_20261125.md)。当前 GitHub 正式下载版仍是 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4)；浏览器版可包含后续合并改动，不能与该发布包混为一谈。
 
 ## 真实风险和影响范围
 
