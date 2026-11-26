@@ -310,16 +310,19 @@ test.describe('first-run onboarding', () => {
         const pageErrors: string[] = [];
         page.on('pageerror', (error) => pageErrors.push(error.message));
         await page.goto('/?page=editor');
-        if (width < 768) {
-          // The desktop More actions button is intentionally hidden on mobile.
-          // Exercise the visible quick actions sheet instead.
-          await page.getByRole('button', { name: /Open quick actions menu|打开快捷功能菜单/ }).click();
-          await page.getByTestId('mobile-quick-action-help').click();
-        } else {
-          await page.getByRole('button', { name: /More actions|更多操作/ }).click();
-          await page.getByRole('button', { name: /^(Help|帮助)$/ }).click();
-        }
-        await page.getByRole('button', { name: /Replay the interface tour|重新观看新手教程/ }).click();
+        const before = await readActiveMarkdown(page);
+        const openReplay = async () => {
+          if (width < 768) {
+            // Use the visible mobile quick actions sheet.
+            await page.getByRole('button', { name: /Open quick actions menu|打开快捷功能菜单/ }).click();
+            await page.getByTestId('mobile-quick-action-help').click();
+          } else {
+            await page.getByRole('button', { name: /More actions|更多操作/ }).click();
+            await page.getByRole('button', { name: /^(Help|帮助)$/ }).click();
+          }
+          await page.getByRole('button', { name: /Replay the interface tour|重新观看新手教程/ }).click();
+        };
+        await openReplay();
 
         const tour = page.getByRole('dialog', { name: /Getting started tour|新手引导/ });
         const next = tour.getByTestId('onboarding-next');
@@ -327,6 +330,27 @@ test.describe('first-run onboarding', () => {
         await expect(next).toHaveCSS('white-space', 'nowrap');
         await expect(next).toBeVisible();
         await expect(next).toBeInViewport();
+        // nowrap alone does not prove that the actual text fits its button.
+        const expectNextLabelFits = async () => {
+          await expect.poll(() => next.evaluate((button) => {
+            const walker = document.createTreeWalker(button, NodeFilter.SHOW_TEXT);
+            const bounds = button.getBoundingClientRect();
+            let measured = false;
+            while (walker.nextNode()) {
+              const node = walker.currentNode;
+              if (!node.textContent?.trim()) continue;
+              const range = document.createRange();
+              range.selectNodeContents(node);
+              for (const rect of Array.from(range.getClientRects())) {
+                measured = true;
+                if (rect.left < bounds.left - 1 || rect.right > bounds.right + 1 ||
+                    rect.top < bounds.top - 1 || rect.bottom > bounds.bottom + 1) return false;
+              }
+            }
+            return measured && button.scrollWidth <= button.clientWidth + 1;
+          })).toBe(true);
+        };
+        await expectNextLabelFits();
 
         const quickStart = tour.getByTestId('onboarding-quick-start');
         await expect(quickStart).toBeVisible();
@@ -341,10 +365,25 @@ test.describe('first-run onboarding', () => {
           name: /Step 2.*Adjust layout and tools here|第二步.*调整排版与工具/,
         })).toBeVisible();
         await expect(next).toHaveText(language === 'en' ? 'Next' : '下一步');
+        await expectNextLabelFits();
         await next.click();
         await expect(tour.getByRole('heading', {
           name: /Step 3.*How would you like to start|第三步.*你想从哪里开始/,
         })).toBeVisible();
+        await page.keyboard.press('Escape');
+        await expect(tour).toBeHidden();
+        // A second replay must restart at the first step, not retain step 3.
+        await openReplay();
+        await expect(tour).toBeVisible();
+        await expect(next).toHaveText(language === 'en' ? 'Next' : '下一步');
+        await expectNextLabelFits();
+        await next.click();
+        await expect(tour.getByRole('heading', {
+          name: /Step 2.*Adjust layout and tools here|第二步.*调整排版与工具/,
+        })).toBeVisible();
+        await page.keyboard.press('Escape');
+        await expect(tour).toBeHidden();
+        await expect.poll(() => readActiveMarkdown(page)).toBe(before);
         expect(pageErrors).toEqual([]);
       });
     }
