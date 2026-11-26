@@ -4,10 +4,10 @@
 
 > **后续同日版本交付（评分保持 88）**：v2.8.4 正式 tag `ea2a65b` 通过 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138)、[Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140)；此前纯文档 main `dfad007` 也通过 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45396241838) 和 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45398234063)。下文 `a8ec3ae` 是评分所依托的原始**功能验收基线**，不是最新 main。
 
-> **2026-11-26 最新核验（仍为 88/100）：** [#342](https://github.com/kunlong-luo/pagevela/pull/342) 智能分页内容保护已上线；最新独立验收主分支为 `d278f8894534c7599da9060777222d942f64d041`（[完整 CI #45744581862](https://github.com/kunlong-luo/pagevela/actions/runs/45744581862) / [同 SHA Pages #45745920845](https://github.com/kunlong-luo/pagevela/actions/runs/45745920845) 均成功）。前序 #339–#341 验收见 [工程台账](./ENGINEERING_ACCEPTANCE_20261124.md)。原 `a8ec3ae` 是历史评分基线。缺少低端 Android CPU/Canvas 内存峰值、真实系统打印/PWA/OEM 组合验收，性能维度仍为 **8/10**，总分保持 **88/100**。
+> **2026-11-26 最新核验（仍为 88/100）：** [#343](https://github.com/kunlong-luo/pagevela/pull/343) 已上线，最新独立验收主分支 `54102021093732e0ff2c79be89f03ae4880774d3`（[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45750449141) / [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45751810942) 均成功）；[#342](https://github.com/kunlong-luo/pagevela/pull/342) 已验收，历史证据见 [工程台账](./ENGINEERING_ACCEPTANCE_20261124.md)。缺少低端 Android CPU/Canvas 内存峰值和真实打印/PWA/OEM 组合验收，性能仍 **8/10**。
 
 
-> **2026-11-26 后续集成：** [#343](https://github.com/kunlong-luo/pagevela/pull/343) [集成 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45745901473) 成功并已合并为 `54102021093732e0ff2c79be89f03ae4880774d3`，[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45750449141) 与同 SHA Pages 待验；[#344](https://github.com/kunlong-luo/pagevela/pull/344) [集成 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45746913427) 成功，现同步 #343 后重新验收，尚未合并。已验证网站可公开运营，v2.8.5 正式发行尚未满足门槛。真实设备内存、系统打印及私有安全告警未独立核验。
+> **后续集成：** #344 [最新 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45750538872) 成功，合并 `70ff373294ced7a7f703e013d3019a3b0e7fdf0c`，[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45809323743) 与 Pages 尚未完成独立验收。#345 交接机制建设未取得全新会话盲测，不因新增文档加分。正式版本仍 v2.8.4；实时状态见 [PROJECT_STATUS](./PROJECT_STATUS.md)。
 
 ## 已独立验收的基线 / Proven baseline
 

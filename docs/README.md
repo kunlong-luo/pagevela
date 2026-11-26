@@ -1,11 +1,12 @@
 # Pagevela 文档目录 / Documentation index
 
-> 唯一文档导航：英文 [README.md](../README.md) · 中文 [README.zh-CN.md](../README.zh-CN.md)。正式版 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已通过正式 [CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 Release。最近一次确认 **main 完整 CI + 同 SHA Pages 均成功** 的提交为 `d278f889`（[#342 主分支完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45744581862) · [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45745920845)）；[独立发行附件 ZIP/TAR/SHA256 校验](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)已成功。后续修复候选 PR 仍需分别通过完整 CI，合并后重新核对各自 main SHA 的部署证据。工程评分仍 [88/100](./ASSESSMENT.md)。
+> 唯一文档导航：英文 [README.md](../README.md) · 中文 [README.zh-CN.md](../README.zh-CN.md) · [AGENTS.md](../AGENTS.md)（新会话首先阅读）。实时任务与版本状态以 [PROJECT_STATUS.md](./PROJECT_STATUS.md) 和 [GitHub Actions](https://github.com/kunlong-luo/pagevela/actions) 为准；可核验历史证据见 [工程台账](./ENGINEERING_ACCEPTANCE_20261124.md)，评分见 [ASSESSMENT.md](./ASSESSMENT.md)。
 
 ## 从哪里开始 / Start here
 
 | 目的 | 唯一推荐入口 |
 | --- | --- |
+| 新会话、开发原则、任务完成及交接 | [AGENTS.md](../AGENTS.md) |
 | 产品介绍、功能、运行命令 | [English README](../README.md) · [中文 README](../README.zh-CN.md) |
 | 最新 main、部署、开放风险 | [PROJECT_STATUS.md](./PROJECT_STATUS.md) |
 | 下一阶段计划（数据、PDF、Android、架构） | [NEXT_PHASE_ROADMAP_20261125.md](./NEXT_PHASE_ROADMAP_20261125.md) |
@@ -40,7 +41,7 @@ CHANGELOG.md / RELEASE_NOTES.md
 docs/
   README.md                  Single documentation index
   PROJECT_STATUS.md          Current verified status and open gates
-  ASSESSMENT.md              Current 88/100 assessment
+  ASSESSMENT.md              Current engineering assessment
   ENGINEERING_ACCEPTANCE_20261124.md   Git SHA / CI / Pages evidence
   [technical notes]          Active design, storage, UI and release contracts
   history/

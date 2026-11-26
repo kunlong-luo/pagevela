@@ -37,13 +37,13 @@
 
 ## 📚 文档目录与最新工程状态
 
-- **当前工程复评：[88/100](docs/ASSESSMENT.md)**；最新独立验收主分支为 `d278f889`（[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45744581862) / [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45745920845)），正式 Release 仍为 v2.8.4。[下一阶段工程路线图](docs/NEXT_PHASE_ROADMAP_20261125.md) · [最新项目状态](docs/PROJECT_STATUS.md) · [按 SHA 的工程验收台账](docs/ENGINEERING_ACCEPTANCE_20261124.md)。
-- **唯一文档导航：[docs/README.md](docs/README.md)**，现行技术说明、旧版本资料和平台宣传包分开维护。[历史 87 分报告](docs/ASSESSMENT_20261124_R2.md) 等仍保留，但不是当前评估结果。
+- **工程复评：** [当前评分与证据](docs/ASSESSMENT.md) · [项目状态及部署门禁](docs/PROJECT_STATUS.md) · [下一阶段路线图](docs/NEXT_PHASE_ROADMAP_20261125.md) · [按 SHA 的工程验收台账](docs/ENGINEERING_ACCEPTANCE_20261124.md)。
+- **仓库优先开发与交接：** [AGENTS.md](AGENTS.md) · [唯一文档导航](docs/README.md)。新任务先读规范，再查询实时 Issue、PR、CI 和 Release，不依赖旧会话。
 - **简历防覆盖修复已验收上线：** [#334](https://github.com/kunlong-luo/pagevela/pull/334) 合并为 `07368d64`，通过 [main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) 与 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45590609387)；[内容完整性说明](docs/RESUME_CONTENT_INTEGRITY_20261125.md)。
 - **完整本地数据清理已验收上线：** [#337](https://github.com/kunlong-luo/pagevela/pull/337) 的异常页/帮助中心清理保护已经通过 `bb347487` 的完整 CI 和 Pages。[本地数据完整清理规范](docs/FULL_LOCAL_DATA_RESET_20261125.md)。**切后台提前保存 [#339](https://github.com/kunlong-luo/pagevela/pull/339) 已合并到 main `f88407d0`，[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45615761703) 与 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45617579641) 均通过：** [保存生命周期说明](docs/BACKGROUND_SAVE_LIFECYCLE_20261125.md)。此功能不在旧 v2.8.4 下载包中。
 - **Quick PDF 大画布安全限制（[#340](https://github.com/kunlong-luo/pagevela/pull/340) 已完成同 SHA CI/Pages 生产验收）：** [渲染内存预算与分页画布复用](docs/QUICK_PDF_MEMORY_GUARD_20261125.md)；超过预算会提示并尝试保留文字的浏览器打印，不静默降低清晰度，未更新正式 v2.8.4 压缩包。
 - **Quick PDF 尾页内容完整性 [#341](https://github.com/kunlong-luo/pagevela/pull/341) 已上线验收：** [逐像素分块验证最后一页](docs/PDF_TRAILING_CONTENT_INTEGRITY_20261125.md)，避免长简历最后细薄的一行被稀疏采样误判为空白；[完整 CI #45622118977](https://github.com/kunlong-luo/pagevela/actions/runs/45622118977) 与 [同 SHA Pages #45624338741](https://github.com/kunlong-luo/pagevela/actions/runs/45624338741) 均通过。
-- **Quick PDF 智能分页完整性 [#342](https://github.com/kunlong-luo/pagevela/pull/342) 已上线：** [全宽分块像素验证](docs/QUICK_PDF_SMART_SPLIT_INTEGRITY_20261126.md)；main `d278f889` ([CI](https://github.com/kunlong-luo/pagevela/actions/runs/45744581862) / [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45745920845)) 均成功。[#343](https://github.com/kunlong-luo/pagevela/pull/343) 引导回归已合并、主分支待验；[#344](https://github.com/kunlong-luo/pagevela/pull/344) 紧急备份上一集成提交已通过 PR CI，现同步最新 main 后重新验收。
+- **近期可靠性优化：** [PDF 智能分页](docs/QUICK_PDF_SMART_SPLIT_INTEGRITY_20261126.md) · [引导及启动恢复](docs/ONBOARDING_REPLAY_STARTUP_RECOVERY_20261125.md) · [紧急备份及本地数据清理](docs/FULL_LOCAL_DATA_RESET_20261125.md)。实时验收以项目状态为准。
 - [贡献指南](CONTRIBUTING.md) · [发布流程](RELEASING.md) · [变更记录](CHANGELOG.md) · [工作区备份迁移](docs/WORKSPACE_TRANSFER.md) · [历史资料索引](docs/history/README.md) · [发布包独立校验设计](docs/RELEASE_ARCHIVE_INTEGRITY_20261125.md)（[独立验收成功 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817)）。
 
 ### 文档目录结构
