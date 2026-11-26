@@ -302,15 +302,18 @@ test.describe('first-run onboarding', () => {
     for (const width of [320, 390, 1280]) {
       test(`replayed tour keeps navigation labels readable: ${language} at ${width}px`, async ({ page }) => {
         await page.setViewportSize({ width, height: width === 320 ? 568 : 800 });
-        await page.addInitScript((lang) => {
+        const before = '# Replay regression fixture\n\nKeep this fictional resume.';
+        await page.addInitScript(({ lang, markdown }) => {
           localStorage.setItem('resume_ui_language', lang);
           localStorage.setItem('resume-onboarding-v1-complete', '1');
-        }, language);
+          localStorage.setItem('resume-markdown', markdown);
+        }, { lang: language, markdown: before });
 
         const pageErrors: string[] = [];
         page.on('pageerror', (error) => pageErrors.push(error.message));
         await page.goto('/?page=editor');
-        const before = await readActiveMarkdown(page);
+        await expect(page.locator('#editor-pane')).toBeVisible();
+        await expect.poll(() => readActiveMarkdown(page)).toBe(before);
         const openReplay = async () => {
           if (width < 768) {
             // Use the visible mobile quick actions sheet.
