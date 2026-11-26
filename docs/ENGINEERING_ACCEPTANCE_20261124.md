@@ -1,6 +1,6 @@
 # Pagevela 工程验收台账 / Engineering acceptance ledger
 
-> **2026-11-25 更新（历史台账名称保留）。** 本文件只记录按提交 SHA 独立核对过的 CI、Pages 与 Release 证据；[项目状态](./PROJECT_STATUS.md) 负责当前摘要，[评分报告](./ASSESSMENT.md) 负责评估。一次 PR 成功 **不能替代**合并后新 main SHA 的完整 CI、同 SHA Pages。
+> **2026-11-26 更新（历史台账名称保留）。** 本文件只记录按提交 SHA 独立核对过的 CI、Pages 与 Release 证据；[项目状态](./PROJECT_STATUS.md) 负责当前摘要，[评分报告](./ASSESSMENT.md) 负责评估。一次 PR 成功 **不能替代**合并后新 main SHA 的完整 CI、同 SHA Pages。
 
 ## 已完成的生产验收 / Verified same-SHA deliveries
 
@@ -18,11 +18,13 @@
 | **[#332](https://github.com/kunlong-luo/pagevela/pull/332) 引导/模块启动恢复** | `0140b2a` | [#45568793140](https://github.com/kunlong-luo/pagevela/actions/runs/45568793140) **success** | [#45570418074](https://github.com/kunlong-luo/pagevela/actions/runs/45570418074) **success** |
 | **[#335 保存回执](https://github.com/kunlong-luo/pagevela/pull/335) + [#338 WebKit 保护](https://github.com/kunlong-luo/pagevela/pull/338)** | `0fea9fc` | [#45584515860](https://github.com/kunlong-luo/pagevela/actions/runs/45584515860) **success** | [#45586651728](https://github.com/kunlong-luo/pagevela/actions/runs/45586651728) **success** |
 | **[#334](https://github.com/kunlong-luo/pagevela/pull/334) 简历内容安全** | `07368d64` | [#45588914443](https://github.com/kunlong-luo/pagevela/actions/runs/45588914443) **success** | [#45590609387](https://github.com/kunlong-luo/pagevela/actions/runs/45590609387) **success** |
-| **[#337](https://github.com/kunlong-luo/pagevela/pull/337) 完整清理及技术文档** | **`bb347487`** | [#45591475788](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) **success** | [#45593665011](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011) **success** |
+| **[#337](https://github.com/kunlong-luo/pagevela/pull/337) 完整清理及技术文档** | `bb347487` | [#45591475788](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) **success** | [#45593665011](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011) **success** |
+| **[#339](https://github.com/kunlong-luo/pagevela/pull/339) 切后台保存** | `f88407d0` | [#45615761703](https://github.com/kunlong-luo/pagevela/actions/runs/45615761703) **success** | [#45617579641](https://github.com/kunlong-luo/pagevela/actions/runs/45617579641) **success** |
+| **[#340](https://github.com/kunlong-luo/pagevela/pull/340) Quick PDF 内存预算** | `0c5c445b` | [CI #45619738725](https://github.com/kunlong-luo/pagevela/actions/runs/45619738725) **success** | [Pages #45620379121](https://github.com/kunlong-luo/pagevela/actions/runs/45620379121) **success** |
+| **[#341](https://github.com/kunlong-luo/pagevela/pull/341) Quick PDF 尾页内容防丢** | **`626729fc`** | [CI #45622118977](https://github.com/kunlong-luo/pagevela/actions/runs/45622118977) **success** | [Pages #45624338741](https://github.com/kunlong-luo/pagevela/actions/runs/45624338741) **success** |
+| **[#342](https://github.com/kunlong-luo/pagevela/pull/342) Quick PDF 智能分页边界** | **`d278f8894534c7599da9060777222d942f64d041`** | [#45744581862](https://github.com/kunlong-luo/pagevela/actions/runs/45744581862) **success** | [#45745920845](https://github.com/kunlong-luo/pagevela/actions/runs/45745920845) **success** |
 
-| **[#339](https://github.com/kunlong-luo/pagevela/pull/339) 切后台保存** | **`f88407d0`** | [#45615761703](https://github.com/kunlong-luo/pagevela/actions/runs/45615761703) **success** | [#45617579641](https://github.com/kunlong-luo/pagevela/actions/runs/45617579641) **success** |
-
-**待验收：** [#340](https://github.com/kunlong-luo/pagevela/pull/340) 的 [PR CI #45616120212](https://github.com/kunlong-luo/pagevela/actions/runs/45616120212) 已全部 success、合并为 `0c5c445`；[新 main CI #45618268263](https://github.com/kunlong-luo/pagevela/actions/runs/45618268263) 和同 SHA Pages 尚待独立确认，故不计入上表。[#341](https://github.com/kunlong-luo/pagevela/pull/341) 尾部栅格检测仍为新的 PR 候选。
+**后续候选：** #343 原 PR CI #45743649244 与 #344 原 PR CI #45743859794 均成功；集成 HEAD、合并及新 main / Pages 仍须独立验收。#342 的 [Release #45746017255](https://github.com/kunlong-luo/pagevela/actions/runs/45746017255) 成功但跳过新 tag、打包及发布步骤；最新正式版本仍为 v2.8.4。
 
 **额外发行证据：** [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) success，annotated tag `v2.8.4` 解引用为 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`；[独立验证 ZIP/TAR.GZ/SHA256 工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **success**，已真实下载、读取归档并复算。
 

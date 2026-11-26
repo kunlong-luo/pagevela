@@ -12,10 +12,13 @@
 | [#337 清理全量本地数据](https://github.com/kunlong-luo/pagevela/pull/337) | **已上线：`bb347487`**。两处确认 UI 共用完整清理、等待写入队列、分阶段显示失败 | [清理专项测试](./FULL_LOCAL_DATA_RESET_20261125.md)；[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) + [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011) success，跨来源数据不删；旧版其他标签页仍需先关闭 |
 | v2.8.4 归档完整性 | 归档独立校验及发布验收文档已统一，重复 PR #333 已关闭 | [归档工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) success；统一 [发布验收报告](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)、[发布手册](../RELEASING.md) 和 [Release Notes](../RELEASE_NOTES.md)；不改动已发布附件 |
 
+**发版前收敛：** #343 引导重播与 #344 剪贴板回退原 HEAD 已通过 PR CI，仍需集成、合并及同 SHA 部署；此后另行走 v2.8.5 正式版本门禁。
+
 ## 下阶段 P1：性能与移动端真实体验
 
 1. **页签生命周期与保存耐久性（[#339](https://github.com/kunlong-luo/pagevela/pull/339) 已通过 main CI/Pages）：** [切后台提前写入专项说明](./BACKGROUND_SAVE_LIFECYCLE_20261125.md)。 检查 `pagehide`、`visibilitychange`、手机杀进程及离线断电：异步 IndexedDB 写入不能在页面终止后得到完成保证。先记录等待写入、失败/恢复与重载回读 E2E，考虑更早的写入触发和离开页面前的状态提示；不伪称「关闭即保证保存」。
-2. **长简历/弱设备 Quick PDF（#340 已合并、新 main 同 SHA 验收待完成）：** [大画布内存限制及分页缓冲复用](./QUICK_PDF_MEMORY_GUARD_20261125.md) 已通过 [PR CI #45616120212](https://github.com/kunlong-luo/pagevela/actions/runs/45616120212)，并入 `0c5c445`；不代替真实设备测量。 [#341 尾部内容完整性](./PDF_TRAILING_CONTENT_INTEGRITY_20261125.md) 是独立 PR 候选：确认 1px 文字/线条不会被稀疏抽样静默略过。后续量化 A4/Letter、1/2/3+ 页图片导出的 Canvas/内存峰值、耗时、取消和失败时草稿保留，优先限制峰值，之后再比较方案。必须包含 PDF 文本/可读性要求，不能用降低分辨率掩盖问题。
+2. **长简历/弱设备 Quick PDF（#340/#341/#342 已上线验收）：** [#340 内存预算与分页缓冲复用](./QUICK_PDF_MEMORY_GUARD_20261125.md) 已通过 [CI #45619738725](https://github.com/kunlong-luo/pagevela/actions/runs/45619738725) / [Pages #45620379121](https://github.com/kunlong-luo/pagevela/actions/runs/45620379121)；[#341 尾页内容完整性](./PDF_TRAILING_CONTENT_INTEGRITY_20261125.md) 已通过 [CI #45622118977](https://github.com/kunlong-luo/pagevela/actions/runs/45622118977) / [Pages #45624338741](https://github.com/kunlong-luo/pagevela/actions/runs/45624338741)。目前 [#342 智能分页白色间隔全宽确认](./QUICK_PDF_SMART_SPLIT_INTEGRITY_20261126.md) 已通过 [完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45744581862) 与 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45745920845)（`d278f889`）。后续量化 A4/Letter、1/2/3/5/8 页的 Canvas 内存峰值、CPU、失败草稿保留与实际打印分页，严禁把静态预算视为 Android 真机实测性能改进。ATS 提交优先保留文字的浏览器打印。
+
 3. **Android 验收矩阵。** 按 [#262](https://github.com/kunlong-luo/pagevela/issues/262) 分别记录微信内置浏览器、Chrome、OEM、安装后 PWA 的 PDF 下载/打印、应用回前台和离线。负责人确认的微信整体成功继续保留，但不扩展到尚未测试的每个分项。
 4. **Auto Fit 收敛与打印。** 按 [#312](https://github.com/kunlong-luo/pagevela/issues/312) 在完整纸型/语言/内容组合中收集实际页面测量和打印结果，保留撤销与字号底线，不承诺任意文档可强制一页。
 

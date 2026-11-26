@@ -2,100 +2,13 @@ import { CSS_PX_PER_MM } from './page-layout';
 import { Language, PaperSize } from '../types';
 import { getPaperSpec } from './paper';
 import { assertRasterCanvasDimensions, assertQuickPdfRasterBudget, requireRasterCanvasContext, assertPdfPageCount } from './pdf-export-validation';
-import { isRasterSliceBlank } from './pdf-raster-scan';
+import { isRasterSliceBlank, findSmartRasterSplitY } from './pdf-raster-scan';
 
 export interface DirectPDFExportOptions {
   filename?: string;
   onProgress?: (status: string) => void;
   paperSize?: PaperSize;
   lang?: Language;
-}
-
-/**
- * Intelligent helper to find a white pixel gap between text lines/sections
- * near the page boundary to prevent slicing text in half across PDF pages.
- */
-function findSmartSplitY(
-  mainCtx: CanvasRenderingContext2D,
-  canvasWidth: number,
-  canvasHeight: number,
-  startY: number,
-  idealPageCanvasHeight: number
-): number {
-  const idealY = startY + idealPageCanvasHeight;
-  if (idealY >= canvasHeight) {
-    return canvasHeight;
-  }
-
-  // Look back up to 180px in canvas coordinates for a blank horizontal gap
-  const minSearchY = Math.max(startY + Math.floor(idealPageCanvasHeight * 0.65), idealY - 180);
-  
-  // Inspect content area columns (from 4% width to 96% width)
-  const startX = Math.floor(canvasWidth * 0.04);
-  const endX = Math.floor(canvasWidth * 0.96);
-  const sampleStep = Math.max(1, Math.floor((endX - startX) / 80));
-
-  let bestGapCenterY = idealY;
-  let inGap = false;
-  let gapBottomY = idealY;
-  let gapTopY = idealY;
-  let maxGapSize = 0;
-
-  for (let y = idealY; y >= minSearchY; y--) {
-    let isRowWhite = true;
-    try {
-      const imgData = mainCtx.getImageData(startX, y, endX - startX, 1);
-      const data = imgData.data;
-
-      for (let i = 0; i < data.length; i += 4 * sampleStep) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-        const a = data[i + 3];
-
-        // If pixel is significantly non-white/dark (text pixel)
-        if (a > 15 && (r < 240 || g < 240 || b < 240)) {
-          isRowWhite = false;
-          break;
-        }
-      }
-    } catch {
-      break;
-    }
-
-    if (isRowWhite) {
-      if (!inGap) {
-        inGap = true;
-        gapBottomY = y;
-      }
-      gapTopY = y;
-    } else {
-      if (inGap) {
-        const gapSize = gapBottomY - gapTopY;
-        if (gapSize > maxGapSize) {
-          maxGapSize = gapSize;
-          bestGapCenterY = Math.floor((gapBottomY + gapTopY) / 2);
-        }
-        inGap = false;
-      }
-    }
-  }
-
-  if (inGap) {
-    const gapSize = gapBottomY - gapTopY;
-    if (gapSize > maxGapSize) {
-      maxGapSize = gapSize;
-      bestGapCenterY = Math.floor((gapBottomY + gapTopY) / 2);
-    }
-  }
-
-  // If a valid white gap was found with at least 4px height, split there!
-  if (maxGapSize >= 4) {
-    return bestGapCenterY;
-  }
-
-  // Fallback if no white gap found: split at idealY
-  return idealY;
 }
 
 /**
@@ -329,7 +242,7 @@ export async function exportDirectPDF(
       if (nextManualBreak) {
         splitY = nextManualBreak;
       } else if (splitY < canvas.height && mainCtx) {
-        splitY = findSmartSplitY(mainCtx, canvas.width, canvas.height, currentY, idealPageCanvasHeight);
+        splitY = findSmartRasterSplitY(mainCtx, canvas.width, canvas.height, currentY, idealPageCanvasHeight);
       }
 
       const sliceHeight = splitY - currentY;

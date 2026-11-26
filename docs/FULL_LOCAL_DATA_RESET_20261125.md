@@ -43,7 +43,7 @@
 清理失败后，异常页的「复制简历文本备份」仍应可用（操作进行中除外），尽可能从尚未丢失的内存状态保存原文；不能因为部分清除失败而禁用最后的备份入口。
 
 
-## 2026-11-26 紧急备份剪贴板回退（待 PR 验收）
+## 2026-11-26 紧急备份剪贴板回退（#344 原 HEAD CI 已通过，集成验收待完成）
 
 源码复核发现 ErrorBoundary 的备份按钮遇到 clipboard API 不存在或拒绝授权时只记录控制台错误，用户看不到失败原因，可能在未备份的情况下重载或删除本地数据。
 
@@ -52,3 +52,5 @@
 - 未取得正文：明确提示暂无可复制文本，不能冒充成功。复制读取期间禁止重复复制及开始清除；原有清除确认、阶段错误和持久化暂停机制不变。手动文本仅为当前简历，不等于完整工作区备份。
 - 在 `e2e/runtime-recovery.e2e.ts` 用虚构简历模拟剪贴板 NotAllowedError，分别验证中英文可见、只读、完整正文、无虚假成功及 IndexedDB 不变；原成功复制用例继续保留。将该文件纳入 PR Firefox/WebKit 关键回归。
 - 本变更需要当前 HEAD 的 quality、完整 Chromium、关键 Firefox/WebKit 与 build-and-test；合并后完整 main CI 和同 SHA Pages 独立核验。当前评分 88/100；未经真实浏览器验收不加分，不宣称所有微信/OEM 剪贴板场景已解决。
+
+**2026-11-26 验收快照：** [原 PR CI #45743859794](https://github.com/kunlong-luo/pagevela/actions/runs/45743859794) 的 quality、Chromium、Firefox/WebKit 关键回归及 build-and-test 全部成功。当前分支已同步通过完整 CI/Pages 的 `d278f889`，新 HEAD 仍须重新测试；未合并，不计入线上能力。

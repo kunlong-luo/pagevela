@@ -1,6 +1,6 @@
 # Quick PDF 末尾内容完整性 / Tail-content preservation — 2026-11-25
 
-> **下一阶段 PR 候选，尚未经过新提交的完整 CI / 主分支同 SHA Pages 验收。** 本文描述 Quick PDF **尾部内容**防静默丢失；不代表 Android 真机打印已通过，不改变正式 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 压缩包。准确结果见 [项目状态](./PROJECT_STATUS.md)。
+> **[PR #341](https://github.com/kunlong-luo/pagevela/pull/341) 已合并为 `626729fc6cd1a4d9cc7a9083b6f81ddc287108ae`，[CI #45622118977](https://github.com/kunlong-luo/pagevela/actions/runs/45622118977) 与 [Pages #45624338741](https://github.com/kunlong-luo/pagevela/actions/runs/45624338741) 均 success，完成线上验收。** 本文描述 Quick PDF **尾部内容**防静默丢失；不代表 Android 真机打印已通过，不改变正式 [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 压缩包。准确结果见 [项目状态](./PROJECT_STATUS.md)。
 
 ## 代码审查发现的风险
 
