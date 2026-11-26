@@ -34,4 +34,4 @@
 [返回文档索引](./README.md) · [项目状态](./PROJECT_STATUS.md)
 
 
-**2026-11-26 后续验收：** [#343](https://github.com/kunlong-luo/pagevela/pull/343) [集成 PR CI #45745901473](https://github.com/kunlong-luo/pagevela/actions/runs/45745901473) 全部必需任务成功，已合并 `54102021093732e0ff2c79be89f03ae4880774d3`；[main CI #45750449141](https://github.com/kunlong-luo/pagevela/actions/runs/45750449141) 与同 SHA Pages 尚待独立验收。此为自动化回归，不等于真机验收。
+**2026-11-26 后续验收：** #343 合并 `54102021093732e0ff2c79be89f03ae4880774d3`，[完整 main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45750449141) 与 [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45751810942) 均成功。此为自动化回归，不等于真机验收。

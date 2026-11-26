@@ -4,6 +4,8 @@ Thanks for helping improve Pagevela. Contributions of all sizes are welcome.
 
 ## Before you start
 
+Read [AGENTS.md](AGENTS.md) for repository-first development, task completion and session handoff. The live repository and current CI evidence take precedence over old chat or status snapshots.
+
 - Search existing issues and pull requests before opening a new one.
 - Use the bug or feature issue form when possible.
 - Keep changes focused. Large unrelated refactors are easier to review as separate pull requests.
@@ -40,7 +42,7 @@ pnpm perf:budget
 3. Make the smallest change that solves the problem.
 4. Add or update tests when behavior changes.
 5. Update the [documentation index](docs/README.md), active guides and versioned evidence when behavior, architecture or release gates change. Keep historical documents factual; do not silently rewrite past release results.
-6. Open a pull request and complete the checklist.
+6. Open a pull request and complete the checklist. Record the handoff in that PR or Issue; verify the exact merged main CI and Pages before closing the task.
 
 Recommended branch names:
 
