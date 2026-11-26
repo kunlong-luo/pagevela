@@ -5,6 +5,7 @@ import { resumeRepository } from '../../lib/resume-repository';
 import { clearPagevelaLocalData, ResumeResetError, type ResumeResetFailureStage } from '../../lib/resume-full-reset';
 import { useResumeStore } from '../../store/useResumeStore';
 import { trackAnalyticsEvent } from '../../lib/analytics';
+import { CustomTextarea } from './CustomTextarea';
 import { en } from '../../i18n/locales/en';
 import { zh } from '../../i18n/locales/zh';
 
@@ -21,6 +22,9 @@ interface State {
   error: Error | null;
   errorInfo: ErrorInfo | null;
   copied: boolean;
+  backupBusy: boolean;
+  backupFallback: string | null;
+  backupUnavailable: boolean;
   confirmReset: boolean;
   resetBusy: boolean;
   resetError: ResumeResetFailureStage | null;
@@ -32,13 +36,16 @@ export class ErrorBoundary extends Component<Props, State> {
     error: null,
     errorInfo: null,
     copied: false,
+    backupBusy: false,
+    backupFallback: null,
+    backupUnavailable: false,
     confirmReset: false,
     resetBusy: false,
     resetError: null,
   };
 
   public static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error, errorInfo: null, copied: false, confirmReset: false, resetBusy: false, resetError: null };
+    return { hasError: true, error, errorInfo: null, copied: false, backupBusy: false, backupFallback: null, backupUnavailable: false, confirmReset: false, resetBusy: false, resetError: null };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -48,6 +55,8 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   private handleCopyBackup = async () => {
+    if (this.state.backupBusy || this.state.resetBusy) return;
+    this.setState({ backupBusy: true, copied: false, backupFallback: null, backupUnavailable: false });
     try {
       // Core draft content moved to IndexedDB. Legacy localStorage alone is
       // insufficient for emergency backup, especially after a successful migration.
@@ -61,13 +70,23 @@ export class ErrorBoundary extends Component<Props, State> {
         }
       }
       const savedMarkdown = markdown || storage.getString(STORAGE_KEYS.MARKDOWN);
-      if (savedMarkdown) {
+      if (!savedMarkdown) {
+        this.setState({ backupUnavailable: true });
+        return;
+      }
+      try {
         await navigator.clipboard.writeText(savedMarkdown);
         this.setState({ copied: true });
         setTimeout(() => this.setState({ copied: false }), 2000);
+      } catch {
+        // Clipboard access is commonly restricted in embedded browsers.
+        // Keep the recovered text in component memory for manual copying.
+        this.setState({ backupFallback: savedMarkdown });
       }
-    } catch (error) {
-      console.error('Failed to copy backup:', error);
+    } catch {
+      this.setState({ backupUnavailable: true });
+    } finally {
+      this.setState({ backupBusy: false });
     }
   };
 
@@ -80,7 +99,7 @@ export class ErrorBoundary extends Component<Props, State> {
   };
 
   private confirmResetData = async () => {
-    if (this.state.resetBusy) return;
+    if (this.state.resetBusy || this.state.backupBusy) return;
     this.setState({ resetBusy: true, resetError: null });
     try {
       await clearPagevelaLocalData();
@@ -114,7 +133,7 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
 
             {/* Error detail */}
-            <div className="bg-slate-950/80 rounded-xl p-4 border border-slate-800 text-xs font-mono overflow-x-auto space-y-2 text-rose-300/90">
+            <div className="bg-slate-950/80 rounded-xl p-4 border border-slate-800 text-xs font-mono overflow-x-auto workspace-scrollbar space-y-2 text-rose-300/90">
               <div className="font-bold text-rose-400">
                 {this.state.error?.name || 'Error'}: {this.state.error?.message || t.title}
               </div>
@@ -129,7 +148,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="space-y-3 pt-2">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button
-                  disabled={this.state.resetBusy}
+                  disabled={this.state.resetBusy || this.state.backupBusy}
                   onClick={this.handleCopyBackup}
                   className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/20 active:translate-y-px"
                 >
@@ -147,11 +166,32 @@ export class ErrorBoundary extends Component<Props, State> {
                 </button>
               </div>
 
+              {this.state.backupUnavailable && (
+                <p role="alert" className="rounded-lg border border-amber-500/50 bg-amber-950/40 p-3 text-xs text-amber-100">
+                  {t.backupUnavailable}
+                </p>
+              )}
+              {this.state.backupFallback !== null && (
+                <div className="space-y-2 rounded-xl border border-amber-500/40 p-3">
+                  <p role="status" className="text-xs text-amber-100">{t.backupManualHint}</p>
+                  <CustomTextarea
+                    aria-label={t.backupManualLabel}
+                    value={this.state.backupFallback}
+                    readOnly
+                    onChange={() => {}}
+                    onFocus={(event) => event.currentTarget.select()}
+                    rows={6}
+                    className="workspace-scrollbar"
+                  />
+                </div>
+              )}
+
               <div className="pt-2 text-center">
                 {!this.state.confirmReset ? (
                   <button
                     type="button"
                     onClick={this.handleReset}
+                    disabled={this.state.backupBusy}
                     className="text-xs text-slate-400 hover:text-slate-200 underline inline-flex items-center gap-1.5 cursor-pointer transition-colors"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
@@ -184,7 +224,7 @@ export class ErrorBoundary extends Component<Props, State> {
                       <button type="button" disabled={this.state.resetBusy} onClick={() => this.setState({ confirmReset: false })} className="rounded-lg border border-slate-600 px-3 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700 disabled:opacity-50">
                         {uiLanguage === 'en' ? 'Cancel' : '取消'}
                       </button>
-                      <button type="button" disabled={this.state.resetBusy || this.state.resetError !== null} onClick={this.confirmResetData} className="rounded-lg bg-rose-600 px-3 py-2 text-xs font-bold text-white hover:bg-rose-500 disabled:opacity-50">
+                      <button type="button" disabled={this.state.resetBusy || this.state.backupBusy || this.state.resetError !== null} onClick={this.confirmResetData} className="rounded-lg bg-rose-600 px-3 py-2 text-xs font-bold text-white hover:bg-rose-500 disabled:opacity-50">
                         {this.state.resetBusy ? (uiLanguage === 'en' ? 'Deleting…' : '正在清除…') : t.reset}
                       </button>
                     </div>

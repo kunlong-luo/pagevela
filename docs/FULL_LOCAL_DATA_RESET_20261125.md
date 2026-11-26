@@ -34,10 +34,23 @@
 
 [#337](https://github.com/kunlong-luo/pagevela/pull/337) 的 typecheck、lint、单元测试、Chromium 全套、Firefox/WebKit 分片、最终 `build-and-test` 已通过；合并后 main `bb347487` 的 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) 和 [Pages build/deploy](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011) 也成功。**不等于**全部 Android 真机或跨标签旧客户端都已验证。
 
-尚未解决：急速关闭页面的 `pagehide` flush 耐久性、长 PDF Canvas 内存、Auto Fit/系统打印、剪贴板权限失败提示、GitHub 私有安全告警与 Android 真实设备矩阵。
+尚未解决：急速关闭页面的 `pagehide` flush 耐久性、长 PDF Canvas 内存、Auto Fit/系统打印、剪贴板权限失败提示（下方为待验收修复候选）、GitHub 私有安全告警与 Android 真实设备矩阵。
 
 [持久化架构](./PERSISTENCE_ARCHITECTURE_20261026.md) · [工作区跨浏览器备份](./WORKSPACE_TRANSFER.md) · [项目状态](./PROJECT_STATUS.md)
 
 ## 故障恢复补充
 
 清理失败后，异常页的「复制简历文本备份」仍应可用（操作进行中除外），尽可能从尚未丢失的内存状态保存原文；不能因为部分清除失败而禁用最后的备份入口。
+
+
+## 2026-11-26 紧急备份剪贴板回退（#344 原 HEAD CI 已通过，集成验收待完成）
+
+源码复核发现 ErrorBoundary 的备份按钮遇到 clipboard API 不存在或拒绝授权时只记录控制台错误，用户看不到失败原因，可能在未备份的情况下重载或删除本地数据。
+
+- 保持活动内存正文 → IndexedDB → 历史本地键的既有恢复顺序。剪贴板写入成功才显示「已复制」。
+- 读取到正文但写入失败：显示中英文失败说明及品牌 CustomTextarea 只读文本，允许用户手动选择复制。临时文本仅在 React 内存中，不上传、不新增持久化记录、不进入统计。
+- 未取得正文：明确提示暂无可复制文本，不能冒充成功。复制读取期间禁止重复复制及开始清除；原有清除确认、阶段错误和持久化暂停机制不变。手动文本仅为当前简历，不等于完整工作区备份。
+- 在 `e2e/runtime-recovery.e2e.ts` 用虚构简历模拟剪贴板 NotAllowedError，分别验证中英文可见、只读、完整正文、无虚假成功及 IndexedDB 不变；原成功复制用例继续保留。将该文件纳入 PR Firefox/WebKit 关键回归。
+- 本变更需要当前 HEAD 的 quality、完整 Chromium、关键 Firefox/WebKit 与 build-and-test；合并后完整 main CI 和同 SHA Pages 独立核验。当前评分 88/100；未经真实浏览器验收不加分，不宣称所有微信/OEM 剪贴板场景已解决。
+
+**2026-11-26 验收快照：** 原 PR CI #45743859794 与 [集成 PR CI #45746913427](https://github.com/kunlong-luo/pagevela/actions/runs/45746913427) 均成功；现同步已合并 #343 的 `54102021093732e0ff2c79be89f03ae4880774d3`，新 HEAD 须重新测试；未合并，不计入线上能力。

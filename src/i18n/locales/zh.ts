@@ -188,6 +188,9 @@ export interface TranslationSchema {
     subtitle: string;
     backupCopy: string;
     backupCopied: string;
+    backupUnavailable: string;
+    backupManualHint: string;
+    backupManualLabel: string;
     reload: string;
     reset: string;
     confirmReset: string;
@@ -384,6 +387,9 @@ export const zh: TranslationSchema = {
     subtitle: '应用已停止异常渲染。若浏览器本地存储仍可读取，可先复制简历文本备份再重试。',
     backupCopy: '复制简历文本备份',
     backupCopied: '已复制简历文本备份',
+    backupUnavailable: '暂无可复制的简历文本，未清除任何数据。',
+    backupManualHint: '剪贴板不可用。请在重新加载或清除数据前，手动选择并复制下方文本。',
+    backupManualLabel: '紧急简历文本备份',
     reload: '刷新页面重试',
     reset: '重置页帆本地简历数据',
     confirmReset: '确定要清空页帆的本地简历数据并重置吗？建议先备份当前简历文本。'

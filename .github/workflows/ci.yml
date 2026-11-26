@@ -224,6 +224,7 @@ jobs:
           e2e/mobile-viewport.e2e.ts
           e2e/help-privacy.e2e.ts
           e2e/onboarding.e2e.ts
+          e2e/runtime-recovery.e2e.ts
           --project=firefox
           --project=webkit
 
