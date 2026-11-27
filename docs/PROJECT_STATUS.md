@@ -22,7 +22,7 @@
 - **[#342](https://github.com/kunlong-luo/pagevela/pull/342) 已上线：** 完整主分支 CI 及同 SHA Pages 均成功，详见 [专项说明](./QUICK_PDF_SMART_SPLIT_INTEGRITY_20261126.md)。
 - **[#343](https://github.com/kunlong-luo/pagevela/pull/343) 已上线验收：** 见上表和 [引导恢复](./ONBOARDING_REPLAY_STARTUP_RECOVERY_20261125.md)。
 - **[#344](https://github.com/kunlong-luo/pagevela/pull/344) 紧急备份：** 已完成同 SHA CI/Pages（见上表），详见 [恢复专项](./FULL_LOCAL_DATA_RESET_20261125.md)。
-- **v2.8.5 版本准备：** [Issue #349](https://github.com/kunlong-luo/pagevela/issues/349) / `release/v2.8.5`，版本 PR 待独立验收、合并后完整 main CI、同 SHA Pages、Release tag/附件及独立下载校验均未完成。#347/#348 依赖更新单独保留。
+- **v2.8.5 版本准备：** [Issue #349](https://github.com/kunlong-luo/pagevela/issues/349) / `release/v2.8.5`，[版本 PR #350](https://github.com/kunlong-luo/pagevela/pull/350) 首次 [CI #45925954837](https://github.com/kunlong-luo/pagevela/actions/runs/45925954837) 因版本一致性单测失败（448/449 通过；浏览器任务跳过）；本次修正双语 README 与 RELEASE_NOTES 的新版本链接和标题，保留待发布边界及原测试。新 HEAD 待完整 CI，合并后完整 main CI、同 SHA Pages、Release tag/附件及独立下载校验均未完成。#347/#348 依赖更新单独保留。
 - **仍未覆盖的风险：** 大画布内存保护和尾页/页间完整性修复尚无低端 Android CPU/内存实测；极快后台强杀仍不保证异步 IndexedDB 落盘；[#262](https://github.com/kunlong-luo/pagevela/issues/262) 的 Android 系统打印、OEM 浏览器、安装 PWA、真实下载单项未各自确认；[#312](https://github.com/kunlong-luo/pagevela/issues/312) 真实打印分页、[#282](https://github.com/kunlong-luo/pagevela/issues/282) 架构/旧客户端冲突与 [#298](https://github.com/kunlong-luo/pagevela/issues/298) 私有安全告警仍待独立审查。
 - **治理清理：** 重复发布归档草稿 [#333](https://github.com/kunlong-luo/pagevela/pull/333) 已关闭、未合并；主分支已包含其可核实的发布证据。旧版已打开的标签页需另行保障兼容。
 

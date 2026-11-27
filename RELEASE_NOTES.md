@@ -1,4 +1,6 @@
-# Pagevela v2.8.5 — release candidate / 待发布
+# Pagevela v2.8.5
+
+**Release preparation / 待发布。** [Expected v2.8.5 release page / 预期发布地址](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.5) is not publication evidence; use the live Release and acceptance records to confirm availability.
 
 **中文名称：页帆 v2.8.5。** This is the version PR's release preparation, not publication evidence. 正式发布、同 SHA CI/Pages、tag 与独立下载归档验收跟踪于 [Issue #349](https://github.com/kunlong-luo/pagevela/issues/349)；现有 v2.8.4 资产不修改。
 
