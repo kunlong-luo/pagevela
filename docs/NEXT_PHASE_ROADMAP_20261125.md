@@ -12,7 +12,7 @@
 | [#337 清理全量本地数据](https://github.com/kunlong-luo/pagevela/pull/337) | **已上线：`bb347487`**。两处确认 UI 共用完整清理、等待写入队列、分阶段显示失败 | [清理专项测试](./FULL_LOCAL_DATA_RESET_20261125.md)；[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) + [Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011) success，跨来源数据不删；旧版其他标签页仍需先关闭 |
 | v2.8.4 归档完整性 | 归档独立校验及发布验收文档已统一，重复 PR #333 已关闭 | [归档工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) success；统一 [发布验收报告](./V2_8_4_RELEASE_ACCEPTANCE_20261124.md)、[发布手册](../RELEASING.md) 和 [Release Notes](../RELEASE_NOTES.md)；不改动已发布附件 |
 
-**发版前收敛：** #343 已上线，#344 已合并、[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45809323743) 与 Pages 待验；#345 仓库交接机制在建。完成上述门禁后另行走 v2.8.5 正式版本流程；状态以 [PROJECT_STATUS](./PROJECT_STATUS.md) 为准。
+**发版前收敛：** #343、#344、#346 已完成同 SHA 生产验收；当前 [Issue #349](https://github.com/kunlong-luo/pagevela/issues/349) 准备 v2.8.5 稳定版，版本 PR、完整 main CI、同 SHA Pages、tag 与独立下载归档仍须验收。#345 已关闭，严格盲测无独立证据；#347/#348 不混入版本 PR。状态以 [PROJECT_STATUS](./PROJECT_STATUS.md) 为准。
 
 ## 下阶段 P1：性能与移动端真实体验
 

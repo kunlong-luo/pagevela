@@ -1,3 +1,26 @@
+# Pagevela v2.8.5 — release candidate / 待发布
+
+**中文名称：页帆 v2.8.5。** This is the version PR's release preparation, not publication evidence. 正式发布、同 SHA CI/Pages、tag 与独立下载归档验收跟踪于 [Issue #349](https://github.com/kunlong-luo/pagevela/issues/349)；现有 v2.8.4 资产不修改。
+
+## Highlights / 更新重点
+
+- **Data integrity / 数据安全：** [#334](https://github.com/kunlong-luo/pagevela/pull/334) protects existing resume content during import and editor-mode changes; [#335](https://github.com/kunlong-luo/pagevela/pull/335) shows Saved only after the latest IndexedDB revision commits; [#336](https://github.com/kunlong-luo/pagevela/pull/336) and [#338](https://github.com/kunlong-luo/pagevela/pull/338) strengthen startup failure recovery. 防止静默覆盖、虚假保存成功与启动读取失败后的误操作。
+- **Recovery / 故障恢复：** [#337](https://github.com/kunlong-luo/pagevela/pull/337) coordinates complete local reset and reports partial failures; [#344](https://github.com/kunlong-luo/pagevela/pull/344) adds a bilingual read-only emergency text backup when clipboard access fails. 清理仅限 Pagevela 数据；纯文本不是完整工作区备份。
+- **Background save / 切后台保存：** [#339](https://github.com/kunlong-luo/pagevela/pull/339) starts queued writes when a tab becomes hidden, with pagehide fallback. 异步写入为尽力而为，不保证系统强杀后仍保存成功。
+- **Quick PDF / 导出保护：** [#340](https://github.com/kunlong-luo/pagevela/pull/340) bounds raster memory and reuses a page canvas; [#341](https://github.com/kunlong-luo/pagevela/pull/341) and [#342](https://github.com/kunlong-luo/pagevela/pull/342) scan full pixel bands to protect trailing and page-gap content. 超出预算时提示使用保留文字的打印方式，不静默降清晰度。
+- **Onboarding / 引导：** [#332](https://github.com/kunlong-luo/pagevela/pull/332) and [#343](https://github.com/kunlong-luo/pagevela/pull/343) strengthen startup recovery, replay and bilingual text regression coverage.
+- **Delivery / 交付：** [#346](https://github.com/kunlong-luo/pagevela/pull/346) establishes AGENTS.md and repository-first handoff. Published archive verification checks SHA256, ZIP CRC, safe paths and ZIP/TAR file equality.
+
+## Compatibility & acceptance / 兼容与验收
+
+Existing IndexedDB, Web Lock, BroadcastChannel and encrypted-share identifiers stay compatible. No new dependencies, native UI or data protocol changes in the version PR. 工作区 JSON 仍为明文；旧标签页、系统强杀、低端 Android 内存峰值、真实打印/OEM/PWA、私有安全告警与严格独立交接盲测未全部验收。自动化通过不等于实机认证；工程评分保持 88/100。
+
+Verified pre-release source baseline: `0f1abfa3529610fa051f5218268829340ad9a757` ([main CI #45813838172](https://github.com/kunlong-luo/pagevela/actions/runs/45813838172) / [Pages #45815666191](https://github.com/kunlong-luo/pagevela/actions/runs/45815666191), success). Expected new release assets: `pagevela-2.8.5.zip`, `pagevela-2.8.5.tar.gz`, `SHA256SUMS.txt`. Do not claim publication until the new version merge's own main CI, same-SHA Pages and GitHub Release complete; independently download and verify the published assets before closing [Issue #349](https://github.com/kunlong-luo/pagevela/issues/349).
+
+[发布指南](./RELEASING.md) · [项目状态](./docs/PROJECT_STATUS.md) · [工程验收](./docs/ENGINEERING_ACCEPTANCE_20261124.md) · [评分](./docs/ASSESSMENT.md)
+
+---
+
 # Pagevela v2.8.4
 
 **中文名称：页帆 v2.8.4。**  

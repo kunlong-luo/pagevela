@@ -7,7 +7,7 @@
 > **2026-11-26 最新核验（仍为 88/100）：** [#343](https://github.com/kunlong-luo/pagevela/pull/343) 已上线，最新独立验收主分支 `54102021093732e0ff2c79be89f03ae4880774d3`（[完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45750449141) / [同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45751810942) 均成功）；[#342](https://github.com/kunlong-luo/pagevela/pull/342) 已验收，历史证据见 [工程台账](./ENGINEERING_ACCEPTANCE_20261124.md)。缺少低端 Android CPU/Canvas 内存峰值和真实打印/PWA/OEM 组合验收，性能仍 **8/10**。
 
 
-> **后续集成：** #344 [最新 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45750538872) 成功，合并 `70ff373294ced7a7f703e013d3019a3b0e7fdf0c`，[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45809323743) 与 Pages 尚未完成独立验收。#345 交接机制建设未取得全新会话盲测，不因新增文档加分。正式版本仍 v2.8.4；实时状态见 [PROJECT_STATUS](./PROJECT_STATUS.md)。
+> **2026-11-27 后续集成：** #344（[main CI #45809323743](https://github.com/kunlong-luo/pagevela/actions/runs/45809323743) / [Pages #45812963200](https://github.com/kunlong-luo/pagevela/actions/runs/45812963200)）和 #346（[main CI #45813838172](https://github.com/kunlong-luo/pagevela/actions/runs/45813838172) / [Pages #45815666191](https://github.com/kunlong-luo/pagevela/actions/runs/45815666191)）均已同 SHA 验收；最新已验证基线 `0f1abfa3529610fa051f5218268829340ad9a757`。#345 已关闭但严格全新会话盲测无独立证据。[Issue #349](https://github.com/kunlong-luo/pagevela/issues/349) 为版本准备；正式 Release 仍 v2.8.4。评分保持 88/100，详见 [PROJECT_STATUS](./PROJECT_STATUS.md)。
 
 ## 已独立验收的基线 / Proven baseline
 
