@@ -1,6 +1,6 @@
 # Pagevela 工程验收台账 / Engineering acceptance ledger
 
-> **2026-11-26 更新（历史台账名称保留）。** 本文件只记录按提交 SHA 独立核对过的 CI、Pages 与 Release 证据；[项目状态](./PROJECT_STATUS.md) 负责当前摘要，[评分报告](./ASSESSMENT.md) 负责评估。一次 PR 成功 **不能替代**合并后新 main SHA 的完整 CI、同 SHA Pages。
+> **2026-11-27 更新（历史台账名称保留）。** 本文件只记录按提交 SHA 独立核对过的 CI、Pages 与 Release 证据；[项目状态](./PROJECT_STATUS.md) 负责当前摘要，[评分报告](./ASSESSMENT.md) 负责评估。一次 PR 成功 **不能替代**合并后新 main SHA 的完整 CI、同 SHA Pages。
 
 ## 已完成的生产验收 / Verified same-SHA deliveries
 
@@ -24,8 +24,10 @@
 | **[#341](https://github.com/kunlong-luo/pagevela/pull/341) Quick PDF 尾页内容防丢** | **`626729fc`** | [CI #45622118977](https://github.com/kunlong-luo/pagevela/actions/runs/45622118977) **success** | [Pages #45624338741](https://github.com/kunlong-luo/pagevela/actions/runs/45624338741) **success** |
 | **[#342](https://github.com/kunlong-luo/pagevela/pull/342) Quick PDF 智能分页边界** | **`d278f8894534c7599da9060777222d942f64d041`** | [#45744581862](https://github.com/kunlong-luo/pagevela/actions/runs/45744581862) **success** | [#45745920845](https://github.com/kunlong-luo/pagevela/actions/runs/45745920845) **success** |
 | **[#343](https://github.com/kunlong-luo/pagevela/pull/343) 引导重播回归** | **`54102021093732e0ff2c79be89f03ae4880774d3`** | [#45750449141](https://github.com/kunlong-luo/pagevela/actions/runs/45750449141) **success** | [#45751810942](https://github.com/kunlong-luo/pagevela/actions/runs/45751810942) **success** |
+| [#344](https://github.com/kunlong-luo/pagevela/pull/344) 紧急备份剪贴板回退 | `70ff373294ced7a7f703e013d3019a3b0e7fdf0c` | [main CI #45809323743](https://github.com/kunlong-luo/pagevela/actions/runs/45809323743) **success** | [Pages #45812963200](https://github.com/kunlong-luo/pagevela/actions/runs/45812963200) **success** |
+| [#346](https://github.com/kunlong-luo/pagevela/pull/346) 仓库优先交接规范 | `0f1abfa3529610fa051f5218268829340ad9a757` | [main CI #45813838172](https://github.com/kunlong-luo/pagevela/actions/runs/45813838172) **success** | [Pages #45815666191](https://github.com/kunlong-luo/pagevela/actions/runs/45815666191) **success** |
 
-**后续验收：** #344 [最新 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45750538872) 成功，已合并 `70ff373294ced7a7f703e013d3019a3b0e7fdf0c`，[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45809323743) 与同 SHA Pages 待验，不列入上表。#342 Release 工作流跳过新 tag 和打包，最新正式版本仍 v2.8.4。
+**版本准备：** [Issue #349](https://github.com/kunlong-luo/pagevela/issues/349)；基线已部署，v2.8.5 自身门禁尚待独立验证。
 
 **额外发行证据：** [Release #45389125140](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) success，annotated tag `v2.8.4` 解引用为 `ea2a65b46c8d8211d22489af1e1abe6c4f4be04a`；[独立验证 ZIP/TAR.GZ/SHA256 工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **success**，已真实下载、读取归档并复算。
 

@@ -64,6 +64,10 @@ docs/
 
 Check local document links with `pnpm run docs:check`. The documentation quality check also runs in CI. The former duplicate `README.en.md` entry was removed: **this README is the canonical English guide**.
 
+## v2.8.5 release preparation
+
+The source version is **v2.8.5**. The [planned v2.8.5 release page](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.5) is the expected destination, not evidence of publication. Follow [release acceptance #349](https://github.com/kunlong-luo/pagevela/issues/349) and [the project status](docs/PROJECT_STATUS.md); use [Latest Release](https://github.com/kunlong-luo/pagevela/releases/latest) for available downloads.
+
 ## v2.8.4 release information
 
 **Pagevela [v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) is published** (2026-11-24). Annotated tag `ea2a65b`; [full main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722), [same-SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) and [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) all succeeded. Assets: `pagevela-2.8.4.zip`, `.tar.gz`, `SHA256SUMS.txt`. Independent archive download and SHA256 verification succeeded in [workflow #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817). [Release notes](RELEASE_NOTES.md) · [acceptance report](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md).

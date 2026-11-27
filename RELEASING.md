@@ -17,7 +17,7 @@
 ## 自动发布顺序
 
 1. 经 PR 审核，将已验证的修复和文档合并到 `main`，待需发布内容准备完毕后，另建正常 PR 把 `package.json` 从旧版本提高到新的稳定版本（例如未来的 `X.Y.Z`）。
-2. **版本 PR** 通过质量、完整 Chromium（含生产 SW 离线导航）、Firefox/WebKit 关键回归、CodeQL 和最终 `build-and-test`，然后合并。
+2. **版本 PR** 同步双语 README、RELEASE_NOTES、CHANGELOG 与项目状态；在新 tag 尚未发布时，将其链接明确标为预期发布地址，保留上一版的历史证据，不得声称新版本已上线。先核对 `src/tests/version-consistency.test.ts` 对标题和版本链接的约束，再运行相关测试。通过质量、完整 Chromium（含生产 SW 离线导航）、Firefox/WebKit 关键回归、CodeQL 和最终 `build-and-test`，然后合并。
 3. **main-push CI** 在版本合并 SHA 上完成：`quality`、Chromium 全量、Firefox/WebKit 全量分片与最终 `build-and-test` 必须均为 success。
 4. 成功的 CI 触发 `Deploy Pages`。它检验 SHA 未被后续 `main` 替代，并实际完成 `build`、预缓存检测和 `deploy`。
 5. **只有成功的 CI-gated Pages 工作流** 才自动触发 `Release`。该工作流再次从 GitHub Actions API 核实当前 `main` 的同 SHA 成功 `CI`（且 `build-and-test` 成功）及 `Deploy Pages`（且 `deploy` 成功），不信任默认分支 `GITHUB_SHA` 代替上游 SHA。

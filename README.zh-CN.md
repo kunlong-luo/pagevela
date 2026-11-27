@@ -64,6 +64,10 @@ docs/
 
 运行 `pnpm run docs:check` 检查本地文档链接，CI 的 quality 阶段也会执行。重复的 `README.en.md` 已移除，**英文统一使用 README.md**。
 
+## v2.8.5 发布准备
+
+当前源码版本为 **v2.8.5**。[计划发布页 v2.8.5](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.5) 是预期发布地址，不代表已发布。验收见 [#349](https://github.com/kunlong-luo/pagevela/issues/349) 和 [项目状态](docs/PROJECT_STATUS.md)；可用下载包请查看 [最新正式 Release](https://github.com/kunlong-luo/pagevela/releases/latest)。
+
 ## v2.8.4 发布信息
 
 **[Pagevela v2.8.4](https://github.com/kunlong-luo/pagevela/releases/tag/v2.8.4) 已正式发布**（2026-11-24），标注 tag `ea2a65b`。[新主分支完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45387428722)、[同 SHA Pages](https://github.com/kunlong-luo/pagevela/actions/runs/45388989138) 与 [Release](https://github.com/kunlong-luo/pagevela/actions/runs/45389125140) 均成功。ZIP、TAR.GZ 与 SHA256SUMS 已上传；[独立下载、解压和 SHA256 校验工作流 #45559458817](https://github.com/kunlong-luo/pagevela/actions/runs/45559458817) **成功**。[发布说明](RELEASE_NOTES.md) · [验收表](docs/V2_8_4_RELEASE_ACCEPTANCE_20261124.md)。

@@ -34,7 +34,7 @@
 
 [#337](https://github.com/kunlong-luo/pagevela/pull/337) 的 typecheck、lint、单元测试、Chromium 全套、Firefox/WebKit 分片、最终 `build-and-test` 已通过；合并后 main `bb347487` 的 [完整 CI](https://github.com/kunlong-luo/pagevela/actions/runs/45591475788) 和 [Pages build/deploy](https://github.com/kunlong-luo/pagevela/actions/runs/45593665011) 也成功。**不等于**全部 Android 真机或跨标签旧客户端都已验证。
 
-尚未解决：急速关闭页面的 `pagehide` flush 耐久性、长 PDF Canvas 内存、Auto Fit/系统打印、剪贴板权限失败提示（下方为待验收修复候选）、GitHub 私有安全告警与 Android 真实设备矩阵。
+尚未解决：急速关闭页面的 `pagehide` flush 耐久性、长 PDF Canvas 内存、Auto Fit/系统打印、Android/OEM 剪贴板实际权限场景（下方自动化修复已验收）、GitHub 私有安全告警与 Android 真实设备矩阵。
 
 [持久化架构](./PERSISTENCE_ARCHITECTURE_20261026.md) · [工作区跨浏览器备份](./WORKSPACE_TRANSFER.md) · [项目状态](./PROJECT_STATUS.md)
 
@@ -43,7 +43,7 @@
 清理失败后，异常页的「复制简历文本备份」仍应可用（操作进行中除外），尽可能从尚未丢失的内存状态保存原文；不能因为部分清除失败而禁用最后的备份入口。
 
 
-## 2026-11-26 紧急备份剪贴板回退（#344 原 HEAD CI 已通过，集成验收待完成）
+## 2026-11-26 紧急备份剪贴板回退（#344 已完成同 SHA 生产验收）
 
 源码复核发现 ErrorBoundary 的备份按钮遇到 clipboard API 不存在或拒绝授权时只记录控制台错误，用户看不到失败原因，可能在未备份的情况下重载或删除本地数据。
 
@@ -53,4 +53,4 @@
 - 在 `e2e/runtime-recovery.e2e.ts` 用虚构简历模拟剪贴板 NotAllowedError，分别验证中英文可见、只读、完整正文、无虚假成功及 IndexedDB 不变；原成功复制用例继续保留。将该文件纳入 PR Firefox/WebKit 关键回归。
 - 本变更需要当前 HEAD 的 quality、完整 Chromium、关键 Firefox/WebKit 与 build-and-test；合并后完整 main CI 和同 SHA Pages 独立核验。当前评分 88/100；未经真实浏览器验收不加分，不宣称所有微信/OEM 剪贴板场景已解决。
 
-**2026-11-26 验收快照：** #344 [最新 PR CI](https://github.com/kunlong-luo/pagevela/actions/runs/45750538872) 成功，已合并 `70ff373294ced7a7f703e013d3019a3b0e7fdf0c`，[main CI](https://github.com/kunlong-luo/pagevela/actions/runs/45809323743) 与同 SHA Pages 待验；不提前计入上线能力。
+**2026-11-27 验收快照：** #344 已合并 `70ff373294ced7a7f703e013d3019a3b0e7fdf0c`，[main CI #45809323743](https://github.com/kunlong-luo/pagevela/actions/runs/45809323743) 和 [Pages #45812963200](https://github.com/kunlong-luo/pagevela/actions/runs/45812963200) 均成功。自动化证据不替代微信/OEM 剪贴板真机验收。
