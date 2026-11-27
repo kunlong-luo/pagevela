@@ -35,7 +35,7 @@
     "html2canvas-pro": "^2.6.4",
     "jspdf": "^4.2.1",
     "libphonenumber-js": "^1.13.17",
-    "lucide-react": "^1.76.0",
+    "lucide-react": "^1.78.0",
     "motion": "^14.14.0",
     "pdfjs-dist": "^6.5.438",
     "react": "^19.3.1",
